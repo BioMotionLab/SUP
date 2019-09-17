@@ -24,134 +24,102 @@ on improving the model and in making it available on more platforms.
 	The class uses the joint-regressor from one for the 'SMPL_jReg_*.json' file to regress to the 
 	updated joint locations for the new mesh shape.
 */
-using UnityEngine;
-using System.Collections;
+
+using System;
 using LightweightMatrixCSharp;
+using SimpleJSON;
+using UnityEngine;
 
-public class SMPLJointCalculator {
-	TextAsset jntsRegr_JSON;
-	int _numberOfJoints;
-	int _numberOfBetas;
-	Matrix[] _template;
-	Matrix[] _jntsRegr;
-	Vector3[] _joints;
-	bool _initialized;
-	string _gender;
-
-	public SMPLJointCalculator(TextAsset jreg, int numJ, int numB)
-	{
-		_numberOfBetas = numB;
-		_numberOfJoints = numJ;
-		jntsRegr_JSON = jreg;
-
-		_initialized = false;
-		_joints = new Vector3[_numberOfJoints];
-
-        _template = new Matrix[3];
-		_jntsRegr = new Matrix[3];
-
-        for (int i=0; i<=2; i++)
-        {
-            _template[i] = new Matrix(_numberOfJoints, 1);
-            _jntsRegr[i] = new Matrix(_numberOfJoints, _numberOfBetas);
-        }
+namespace SMPL.Scripts.mpi {
+	
+	public class SMPLJointCalculator {
 		
-		if (jntsRegr_JSON == null)
+		const string BetasRegressorJSONKey = "betasJ_regr";
+		
+		readonly int       numberOfJoints;
+		readonly int       numberOfBetas;
+		Matrix[]  jointTemplate;
+		Matrix[]  regressor;
+		public Vector3[] Joints;
+
+		public SMPLJointCalculator(TextAsset JSONFile, int numberOfJoints, int numberOfBetas)
 		{
-			throw new System.ArgumentNullException("ERROR: no joint regressor JSON file provided");
+			if (JSONFile == null)
+				throw new System.ArgumentNullException("ERROR: no joint regressor JSON file provided");
+			
+			this.numberOfBetas = numberOfBetas;
+			this.numberOfJoints = numberOfJoints;
+
+			string JSONText = JSONFile.text;
+			JSONNode loadedJSON = JSON.Parse(JSONText);
+
+			SetUpJointMatrices(loadedJSON);
 		}
-		if (! _initRegressorMatrix(ref _template, ref _jntsRegr, ref jntsRegr_JSON))
+
+		void SetUpJointMatrices(JSONNode node) {
+			Joints = new Vector3[numberOfJoints];
+			jointTemplate = new Matrix[3];
+			regressor = new Matrix[3];
+
+			for (int i = 0; i <= 2; i++) {
+				jointTemplate[i] = new Matrix(numberOfJoints, 1);
+				regressor[i] = new Matrix(numberOfJoints, numberOfBetas);
+			}
+
+			// Init matrices
+			for (int i = 0; i < numberOfJoints; i++) {
+				// Init joint template matrix
+				double x = node["template_J"][i][0].AsDouble;
+				double y = node["template_J"][i][1].AsDouble;
+				double z = node["template_J"][i][2].AsDouble;
+
+				(jointTemplate[0])[i, 0] = x;
+				(jointTemplate[1])[i, 0] = y;
+				(jointTemplate[2])[i, 0] = z;
+
+				// Init beta regressor matrix    
+				InitBetaRegressorMatrix(numberOfBetas, i, node);
+			}
+		}
+
+
+		void InitBetaRegressorMatrix(int numberOfBetas, int i, JSONNode node) {
+			for (int j = 0; j < numberOfBetas; j++) {
+				(regressor[0])[i, j] = node[BetasRegressorJSONKey][i][0][j].AsDouble;
+				(regressor[1])[i, j] = node[BetasRegressorJSONKey][i][1][j].AsDouble;
+				(regressor[2])[i, j] = node[BetasRegressorJSONKey][i][2][j].AsDouble;
+			}
+		}
+
+		public void UpdateJointPositions(float[] betas)
 		{
-			throw new System.ArgumentNullException("ERROR: Could not create joint regressor matrix");
+			if (betas.Length != numberOfBetas) {
+				Debug.LogError("ERROR: Invalid beta input value count in baked mesh: need " + numberOfBetas + " but have " + betas.Length);
+				return;
+			}
+
+			Matrix betaMatrix = CreateBetaMatrix(betas);
+
+			// Apply joint regressor to beta matrix to calculate new joint positions
+			Matrix newJointsX = regressor[0] * betaMatrix + jointTemplate[0];
+			Matrix newJointsY = regressor[1] * betaMatrix + jointTemplate[1];
+			Matrix newJointsZ = regressor[2] * betaMatrix + jointTemplate[2];
+
+			// Update joints vector
+			for (int row = 0; row < numberOfJoints; row++) {
+				var rawJointVector = new Vector3((float)newJointsX[row, 0], (float)newJointsY[row, 0], (float)newJointsZ[row, 0]);
+				var jointVector = rawJointVector.ToLeftHandedCoordinateSystem();
+				Joints[row] = jointVector;
+			}
 		}
 
-		_initialized = true;
-		Debug.Log("Joint regressor matrix initialized.");
+		Matrix CreateBetaMatrix(float[] betas) {
+			Matrix betaMatrix = new Matrix(numberOfBetas, 1);
+			for (int row = 0; row < numberOfBetas; row++) {
+				betaMatrix[row, 0] = betas[row];
+				//Debug.Log("beta " + row + ": " + betas[row]);
+			}
+			return betaMatrix;
+		}
 	}
-
-	
-
-	bool _initRegressorMatrix(ref Matrix[] jointTemplate, ref Matrix[] regressor, ref TextAsset ta)
-    {
-        string jsonText = ta.text;
-        SimpleJSON.JSONNode node = SimpleJSON.JSON.Parse(jsonText);
-
-		// Get gender of the joint-regressor being used 
-	 	_gender = node ["gender"];
-
-		// Init matrices
-        for (int i=0; i < _numberOfJoints; i++)
-        {
-            // Init joint template matrix
-            double x = node["template_J"][i][0].AsDouble;
-			double y = node["template_J"][i][1].AsDouble; 
-			double z = node["template_J"][i][2].AsDouble; 
-
-            (jointTemplate[0])[i, 0] = x;
-            (jointTemplate[1])[i, 0] = y;
-            (jointTemplate[2])[i, 0] = z;
-
-            // Init beta regressor matrix    
-            for (int j=0; j< _numberOfBetas; j++)
-            {
-				(regressor[0])[i, j] = node["betasJ_regr"][i][0][j].AsDouble;
-				(regressor[1])[i, j] = node["betasJ_regr"][i][1][j].AsDouble;
-				(regressor[2])[i, j] = node["betasJ_regr"][i][2][j].AsDouble;
-            }
-
-        }
-        return true;
-    }
-
-	public string getGender()
-	{
-		return _gender;
-	}
-
-    public bool calculateJointPositions(float[] betas)
-    {
-        if (! _initialized)
-            return false;
-
-        // Check dimensions of beta values
-        int numCurrentBetas = betas.Length;
-        if (numCurrentBetas != _numberOfBetas)
-        {
-            Debug.LogError("ERROR: Invalid beta input value count in baked mesh: need " + _numberOfBetas + " but have " + numCurrentBetas);
-            return false;
-        }
-
-        // Create beta value matrix
-        Matrix betaMatrix = new Matrix(_numberOfBetas, 1);
-        for (int row = 0; row < _numberOfBetas; row++)
-        {
-            betaMatrix[row, 0] = betas[row];
-            //Debug.Log("beta " + row + ": " + betas[row]);
-        }           
-
-        // Apply joint regressor to beta matrix to calculate new joint positions
-        Matrix[] regressor;
-        Matrix[] jointTemplate;
-        regressor = _jntsRegr;
-        jointTemplate = _template;
-
-        Matrix newJointsX = regressor[0] * betaMatrix + jointTemplate[0];
-        Matrix newJointsY = regressor[1] * betaMatrix + jointTemplate[1];
-        Matrix newJointsZ = regressor[2] * betaMatrix + jointTemplate[2];
-
-        // Update joints vector
-        for (int row = 0; row < _numberOfJoints; row++)
-        {
-            // Convert regressor to Unity's Left-handed coordinate system by negating X value
-            _joints[row] = new Vector3(-(float)newJointsX[row, 0], (float)newJointsY[row, 0], (float)newJointsZ[row, 0]);
-        }
-
-        return true;
-    }
-
-	public Vector3[] getJoints()
-	{
-		return _joints;
-	}
-	
 }

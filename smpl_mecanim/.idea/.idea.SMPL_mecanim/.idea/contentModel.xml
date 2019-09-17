@@ -19,6 +19,8 @@
               <e p="SMPLBoneModifier.cs" t="Include" />
               <e p="SMPLJointCalculator.cs" t="Include" />
               <e p="SMPLOptimalPoseBlends.cs" t="Include" />
+              <e p="TransformBackup.cs" t="Include" />
+              <e p="Vector3Extension.cs" t="Include" />
             </e>
             <e p="thirdparty" t="Include">
               <e p="JSON" t="Include">
