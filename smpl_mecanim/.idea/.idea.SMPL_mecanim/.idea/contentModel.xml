@@ -16,6 +16,7 @@
               <e p="Gender.cs" t="Include" />
               <e p="QuaternionExtension.cs" t="Include" />
               <e p="SMPLBlendshapes.cs" t="Include" />
+              <e p="SMPLBlendshapesNoSplit.cs" t="Include" />
               <e p="SMPLBoneModifier.cs" t="Include" />
               <e p="SMPLJointCalculator.cs" t="Include" />
               <e p="SMPLOptimalPoseBlends.cs" t="Include" />

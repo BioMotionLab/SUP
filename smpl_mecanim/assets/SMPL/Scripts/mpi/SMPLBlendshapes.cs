@@ -224,24 +224,24 @@ namespace SMPL.Scripts.mpi {
 		{
 			for (int i=0; i < NumberOfShapeParameters; i++)
 			{
-				float pos, neg;
+				float positiveBeta, negativeBeta;
 				float beta = shapeParameters[i] / BlendshapeScaleFactor;
 
 				if (beta >= 0) 
 				{
-					pos = beta;
-					neg = 0.0f;
+					positiveBeta = beta;
+					negativeBeta = 0.0f;
 				}
 				else 
 				{
-					pos = 0.0f;
-					neg = -beta;
+					positiveBeta = 0.0f;
+					negativeBeta = -beta;
 				}
 
 				int positiveBlendShapeIndex = i * 2 + 0;
-				skinnedMeshRenderer.SetBlendShapeWeight(positiveBlendShapeIndex, pos * 100.0f); // map [0, 1] space to [0, 100]
+				skinnedMeshRenderer.SetBlendShapeWeight(positiveBlendShapeIndex, positiveBeta * 100.0f); // map [0, 1] space to [0, 100]
 				int negativeBlendShapeIndex = i * 2 + 1;
-				skinnedMeshRenderer.SetBlendShapeWeight(negativeBlendShapeIndex, neg * 100.0f); // map [0, 1] space to [0, 100]
+				skinnedMeshRenderer.SetBlendShapeWeight(negativeBlendShapeIndex, negativeBeta * 100.0f); // map [0, 1] space to [0, 100]
 			}
 
 		}
