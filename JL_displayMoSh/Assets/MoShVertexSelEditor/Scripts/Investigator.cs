@@ -26,9 +26,6 @@ namespace MoShVertexSelectionBuilder {
         void Awake()
         {
             mf = GetComponent<MeshFilter>();
-            //		mesh = mf.mesh;
-
-            //		sm.GetType ();
             verts = new List<Vector3>();
             Mesh sm = mf.sharedMesh;
             sm.GetVertices(verts);
