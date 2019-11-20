@@ -107,7 +107,7 @@ public partial class MoShCharacter : MonoBehaviour {
         activateMesh(anim.Gender);
 
         if (ChangeFrameRate && FrameRate != 0) {
-            anim.FPS = FrameRate;
+            anim.SetDesiredFPS(FrameRate);
         }
 
         moshFrame = 0;

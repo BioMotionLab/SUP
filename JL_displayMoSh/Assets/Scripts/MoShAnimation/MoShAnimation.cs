@@ -57,28 +57,28 @@ public abstract class MoShAnimation {
     /// Gets or sets the fps, upsampling or downsampling if the fps is 
     /// is different from the source fps. 
     /// </summary>
-    /// <value>The new FPS to sample to.</value>
-    public int FPS {
-        set {
-            fps = value;
-            // duration stays constant, but upsampling/downsampling will happen.
-            // Time of start and end keys remains constant, but keys in between are shifted
-            // and more may be added or removed.
-            
-            if (fps != SourceFPS) {
-                ResamplingRequired = true;
-            } else {
-                ResamplingRequired = false;
-            }
-            
-            // have to update length here. 
-            // I think this is the right way to get length.
-            // actually, since the time of the last thisFrameAsDecimal should remain static, 
-            // if the time between frames is a constant, then the time of the last thisFrameAsDecimal cannot
-            // be completely static. 
-            // I think I should still floor the value. 
-            length = Mathf.FloorToInt(fps * duration);
+    /// <value>The new setDesiredFPS to sample to.</value>
+    public void SetDesiredFPS(int value) {
+        
+        fps = value;
+        // duration stays constant, but upsampling/downsampling will happen.
+        // Time of start and end keys remains constant, but keys in between are shifted
+        // and more may be added or removed.
+        
+        if (fps != SourceFPS) {
+            ResamplingRequired = true;
+        } else {
+            ResamplingRequired = false;
         }
+        
+        // have to update length here. 
+        // I think this is the right way to get length.
+        // actually, since the time of the last thisFrameAsDecimal should remain static, 
+        // if the time between frames is a constant, then the time of the last thisFrameAsDecimal cannot
+        // be completely static. 
+        // I think I should still floor the value. 
+        length = Mathf.FloorToInt(fps * duration);
+        
     }
 
 
