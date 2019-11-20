@@ -64,12 +64,13 @@ public abstract class MoShAnimation {
             // duration stays constant, but upsampling/downsampling will happen.
             // Time of start and end keys remains constant, but keys in between are shifted
             // and more may be added or removed.
+            
             if (fps != SourceFPS) {
                 ResamplingRequired = true;
             } else {
                 ResamplingRequired = false;
             }
-            //Debug.Log("changed fps");
+            
             // have to update length here. 
             // I think this is the right way to get length.
             // actually, since the time of the last thisFrame should remain static, 
@@ -198,11 +199,5 @@ public abstract class MoShAnimation {
 
 
     // frameBeforeThis, frameAfterThis - closest frames at original thisFrame rate. 
-
-
-    protected static float ComputeDuration(int len, int cfps) 
-    {
-        float deltaT = 1f / cfps;
-        return len * deltaT;
-    }
+    
 }
