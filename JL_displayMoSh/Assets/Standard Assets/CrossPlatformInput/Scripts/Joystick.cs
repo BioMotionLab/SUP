@@ -37,7 +37,7 @@ namespace UnityStandardAssets.CrossPlatformInput
 
 		void UpdateVirtualAxes(Vector3 value)
 		{
-			var delta = m_StartPos - value;
+			Vector3 delta = m_StartPos - value;
 			delta.y = -delta.y;
 			delta /= MovementRange;
 			if (m_UseX)

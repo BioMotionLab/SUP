@@ -44,7 +44,7 @@ public class PointLightEditor : Editor {
     // used in play mode. 
     void EditorRemovePointLights()
     {
-        var smr = pld.GetComponent<SkinnedMeshRenderer>();
+        SkinnedMeshRenderer smr = pld.GetComponent<SkinnedMeshRenderer>();
         smr.enabled = true;
         Transform root = smr.rootBone;
         MoShUtilities.EditorRemoveFromHierarchyByName(root, "PointLight");

@@ -19,7 +19,7 @@ namespace MoShVertexSelectionBuilder {
             }
 
 
-            var labelRect = new Rect(position);
+            Rect labelRect = new Rect(position);
             labelRect.width *= 0.2f;
 
             // makes newly created markers have the label field in focus for editing. 
@@ -38,9 +38,9 @@ namespace MoShVertexSelectionBuilder {
             //		}
             EditorGUI.PropertyField(labelRect, data.FindPropertyRelative("label"), GUIContent.none);
 
-            var remaining = new Rect(position);
+            Rect remaining = new Rect(position);
             remaining.x = labelRect.xMax;
-            var vertexRect = new Rect(remaining);
+            Rect vertexRect = new Rect(remaining);
 
             vertexRect.width = 75f; // a number can definitely have a fixed width. 
 
@@ -52,7 +52,7 @@ namespace MoShVertexSelectionBuilder {
             //		EditorGUI.PropertyField (colorRect, data.FindPropertyRelative ("displayColor"), GUIContent.none);
             //
             //		remaining.x = colorRect.xMax;
-            var setButtonRect = new Rect(remaining);
+            Rect setButtonRect = new Rect(remaining);
             setButtonRect.width = 80f;
 
             //		if (GUI.Button (setButtonRect, "Mark Vertex")) {
@@ -65,7 +65,7 @@ namespace MoShVertexSelectionBuilder {
             //			}
             //		}
             //		remaining.x = setButtonRect.xMax;
-            var selectBtnRect = new Rect(remaining);
+            Rect selectBtnRect = new Rect(remaining);
             selectBtnRect.width = 100f;
 
             if (GUI.Button(selectBtnRect, "Select")) {

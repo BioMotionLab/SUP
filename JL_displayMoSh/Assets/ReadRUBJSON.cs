@@ -60,7 +60,7 @@ public class ReadRUBJSON : MonoBehaviour {
 
         dcjoints = new Dictionary<string, Transform>();
 
-        foreach (var kvp in nameCounterparts) {
+        foreach (KeyValuePair<string, string> kvp in nameCounterparts) {
             dcjoints[kvp.Key] = Array.Find<Transform>(counterpartJoints,
                                                       (Transform obj) => obj.name == kvp.Value);
         }
@@ -131,7 +131,7 @@ public class ReadRUBJSON : MonoBehaviour {
             // repeat with y offset. 
             float avgdisplacement = 0;
 
-            foreach (var kvp in dcjoints) {
+            foreach (KeyValuePair<string, Transform> kvp in dcjoints) {
 
                 // don't use ones with a weird offset. 
                 if (kvp.Key != "LHJC" && kvp.Key != "RHJC" && kvp.Key != "PELVIS" && kvp.Key != "HEAD") {

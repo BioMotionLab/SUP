@@ -87,7 +87,7 @@ public class MoShAnimationJSON : MoShAnimation {
             x = moshjson["trans"][i][0];
             y = moshjson["trans"][i][1];
             z = moshjson["trans"][i][2];
-            if (zAxisUp) {
+            if (ZAxisUp) {
                 x = -x;
             }
             else {

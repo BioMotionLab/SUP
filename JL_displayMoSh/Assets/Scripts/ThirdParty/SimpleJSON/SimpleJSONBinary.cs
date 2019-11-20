@@ -36,6 +36,7 @@
  * 
  * * * * */
 using System;
+using System.IO;
 
 namespace SimpleJSON
 {
@@ -46,7 +47,7 @@ namespace SimpleJSON
 
         public void SaveToBinaryStream(System.IO.Stream aData)
         {
-            var W = new System.IO.BinaryWriter(aData);
+            BinaryWriter W = new System.IO.BinaryWriter(aData);
             SerializeBinary(W);
         }
 
@@ -100,7 +101,7 @@ namespace SimpleJSON
         public void SaveToBinaryFile(string aFileName)
         {
             System.IO.Directory.CreateDirectory((new System.IO.FileInfo(aFileName)).Directory.FullName);
-            using (var F = System.IO.File.OpenWrite(aFileName))
+            using (FileStream F = System.IO.File.OpenWrite(aFileName))
             {
                 SaveToBinaryStream(F);
             }
@@ -108,7 +109,7 @@ namespace SimpleJSON
 
         public string SaveToBinaryBase64()
         {
-            using (var stream = new System.IO.MemoryStream())
+            using (MemoryStream stream = new System.IO.MemoryStream())
             {
                 SaveToBinaryStream(stream);
                 stream.Position = 0;
@@ -136,7 +137,7 @@ namespace SimpleJSON
                         for (int i = 0; i < count; i++)
                         {
                             string key = aReader.ReadString();
-                            var val = DeserializeBinary(aReader);
+                            JSONNode val = DeserializeBinary(aReader);
                             tmp.Add(key, val);
                         }
                         return tmp;
@@ -203,7 +204,7 @@ namespace SimpleJSON
 
         public static JSONNode LoadFromBinaryStream(System.IO.Stream aData)
         {
-            using (var R = new System.IO.BinaryReader(aData))
+            using (BinaryReader R = new System.IO.BinaryReader(aData))
             {
                 return DeserializeBinary(R);
             }
@@ -211,7 +212,7 @@ namespace SimpleJSON
 
         public static JSONNode LoadFromBinaryFile(string aFileName)
         {
-            using (var F = System.IO.File.OpenRead(aFileName))
+            using (FileStream F = System.IO.File.OpenRead(aFileName))
             {
                 return LoadFromBinaryStream(F);
             }
@@ -219,8 +220,8 @@ namespace SimpleJSON
 
         public static JSONNode LoadFromBinaryBase64(string aBase64)
         {
-            var tmp = System.Convert.FromBase64String(aBase64);
-            var stream = new System.IO.MemoryStream(tmp);
+            byte[] tmp = System.Convert.FromBase64String(aBase64);
+            MemoryStream stream = new System.IO.MemoryStream(tmp);
             stream.Position = 0;
             return LoadFromBinaryStream(stream);
         }

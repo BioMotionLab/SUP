@@ -12,7 +12,7 @@ using System;
 public abstract class MoShAnimation {
 
     // a scale variable is needed in order to calculate the beta values.
-    public float SCALE = 5.0f;
+    const float SCALE = 5.0f;
 
     protected int sourceFPS;
     protected int sourceLength;
@@ -21,110 +21,68 @@ public abstract class MoShAnimation {
     protected Quaternion[,] poses;
     protected float[] betas;
 
-    //private Vector3[] joints = new Vector3[JointCount];
+    bool isReSampling = false;
 
-    protected bool sampling = false;
-
-    protected int fps;
-
-    protected bool zAxisUp = true;
+    protected const bool ZAxisUp = true;
 
     protected JointCalculator jc;
 
     protected int length;
+    
     /// <summary>
     /// Read only. Get the number of frames in the animation. 
     /// </summary>
     /// <value>length of the animation</value>
-    public virtual int Length {
-        get {
-            return length;
-        }
-    }
+    public int Length => length;
 
     protected float duration;
+    
     /// <summary>
     /// Duration of the animation in seconds. 
     /// </summary>
-    public virtual float Duration {
-        get {
-            return duration;
-        }
-    }
+    public virtual float Duration => duration;
 
     protected Genders gender;
-    public virtual Genders Gender {
-        get {
-            return gender;
-        }
-    }
+    public Genders Gender => gender;
 
     /// <summary>
     /// Read only. The raw beta values from the animation file. (See SMPL paper)
     /// </summary>
     /// <value>The betas.</value>
-    public float[] Betas {
-        get {
-            //float[] b = new float[10];
-            //for (int i = 0; i < 10; i++) {
-            //    b[i] = betas[i] / SCALE;
-            //}
-            //return b;
-            return betas;
-        }
-    }
+    public float[] Betas => betas;
 
 
     // these should be fixed to be more consistent. 
     public const int BetaCount = 10;
-    public const int blendCount = shapeBlendCount + poseBlendCount;
-    public int BlendCount {
-        get {
-            return blendCount;
-        }
-    }
-    public const int shapeBlendCount = 2 * BetaCount;
-    public int ShapeBlendCount {
-        get {
-            return shapeBlendCount;
-        }
-    }
+    const int blendCount = shapeBlendCount + poseBlendCount;
+    public int BlendCount => blendCount;
+    const int shapeBlendCount = 2 * BetaCount;
+    public int ShapeBlendCount => shapeBlendCount;
 
 
-    public const int poseBlendCount = 207 * 2;
-    public int PoseBlendCount {
-        get {
-            return poseBlendCount;
-        }
-    }
-
-    //public const int jointCount = 24;
+    const int poseBlendCount = 207 * 2;
+    public int PoseBlendCount => poseBlendCount;
+    
     public const int JointCount = 24;
-    //public int JointCount {
-    //    get {
-    //        return nJoints;
-    //    }
-    //}
 
 
+
+    protected int fps;
     /// <summary>
     /// Gets or sets the fps, upsampling or downsampling if the fps is 
     /// is different from the source fps. 
     /// </summary>
     /// <value>The new FPS to sample to.</value>
-    public virtual int FPS {
-        get {
-            return fps;
-        }
+    public int FPS {
         set {
             fps = value;
             // duration stays constant, but upsampling/downsampling will happen.
             // Time of start and end keys remains constant, but keys in between are shifted
             // and more may be added or removed.
             if (fps != sourceFPS) {
-                sampling = true;
+                isReSampling = true;
             } else {
-                sampling = false;
+                isReSampling = false;
             }
             //Debug.Log("changed fps");
             // have to update length here. 
@@ -138,13 +96,12 @@ public abstract class MoShAnimation {
     }
 
 
-    public virtual Vector3 GetTranslation (int frame) 
+    public Vector3 GetTranslation (int frame) 
     {
         // so the original code flips the translation, if the up axis is equal to z. 
         // I guess I should check on that. 
-        if (sampling) {
-            int f1, f2;
-            float p = InterpParameter(frame, out f1, out f2);
+        if (isReSampling) {
+            float p = InterpolatedParameter(frame, out int f1, out int f2);
             // last frame in animation.
             if (f2 >= sourceLength) { 
                 return translation[f1];
@@ -159,7 +116,7 @@ public abstract class MoShAnimation {
     /// </summary>
     /// <param name="rotations">Array to fill with joint rotations.</param>
     /// <param name="frame">Frame at which to get rotations</param>
-    public virtual void GetPose(Quaternion[] rotations, int frame) 
+    public void GetPose(Quaternion[] rotations, int frame) 
     {
         if (rotations == null) {
             throw new Exception("null array passed to GetPose");
@@ -168,19 +125,17 @@ public abstract class MoShAnimation {
         }
         // ok. Need to spherically interpolate all these quaternions. 
 
-        if (sampling) {
-            Quaternion q1, q2;
+        if (isReSampling) {
             for (int i = 0; i < JointCount; i++) {
-                int f1, f2;
-                float p = InterpParameter(frame, out f1, out f2);
+                float p = InterpolatedParameter(frame, out int f1, out int f2);
 
                 // detect last frame. This might be a slight discontinuity. 
                 if (f2 >= sourceLength) {
                     rotations[i] = poses[f1, i];
                 }
                 else {
-                    q1 = poses[f1, i];
-                    q2 = poses[f2, i];
+                    Quaternion q1 = poses[f1, i];
+                    Quaternion q2 = poses[f2, i];
                     rotations[i] = Quaternion.Slerp(q1, q2, p);
                 }
             }
@@ -216,21 +171,6 @@ public abstract class MoShAnimation {
         }
     }
 
-    //public virtual void GetPoseBlendValues(float[] values, int frame) 
-    //{
-    //    // first bl shape: 0. 
-    //    // last bl shape: 206.
-    //    // Debug.Assert(values.Length > )
-    //    // I need to interpolate for this as well. 
-    //    // actually, I should do this in the MoShAnimPlayer class. 
-    //    float[] rmat;
-    //    for (int i = 0; i < JointCount; i++) {
-    //        rmat = MoShUtilities.Quat_to_3x3Mat(poses[frame, i]);
-    //        // now I have to extract the elements and return them. 
-    //        // won't be very difficult. 
-    //    }
-    //}
-
     /// <summary>
     /// Get the initial joint positions computed using the beta values read from the
     /// animation file.
@@ -244,17 +184,18 @@ public abstract class MoShAnimation {
         return jc.calculateJoints(betas);
     }
 
+    
     // frame - a frame index in the sampled new framerate. 
     // ia, ib - closest frames at original frame rate. 
-    protected float InterpParameter(int frame, out int ia, out int ib)
+    float InterpolatedParameter(int frame, out int ia, out int ib)
     {
         // find the time at which frame occurs.
-        float time = getTimeAtFrame(frame);
+        float time = GetTimeAtFrame(frame);
+        
         // now use source length to find the nearest original frames. 
         float f = sourceFPS * time;
         ia = Mathf.FloorToInt(f);
         ib = Mathf.CeilToInt(f);
-        //Debug.Log("time " + time + " f " + f + " ia " + ia + " ib " + ib);
         return f - ia; // return fractional component of a. 
     }
 
@@ -268,12 +209,9 @@ public abstract class MoShAnimation {
     /// <summary>
     /// Get the time, in seconds since start of animation, at a specified frame.
     /// </summary>
-    protected float getTimeAtFrame(int key) 
+    float GetTimeAtFrame(int key) 
     {
-        // key -> [0, 1] -> [0, duration]
         float p = key / (float)length;
-        //string pstr = string.Format("P = {0}")
-        //Debug.Log("P " + p);
         return p * duration;
     }
 

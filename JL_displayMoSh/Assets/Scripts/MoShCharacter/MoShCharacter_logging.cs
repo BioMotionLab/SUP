@@ -79,7 +79,7 @@ public partial class MoShCharacter : MonoBehaviour {
         JSONNode node = JSON.Parse(jsonstring);
         vertsToLog = new VertexEntry[node.Count];
         int i = 0;
-        foreach (var entry in node) {
+        foreach (KeyValuePair<string, JSONNode> entry in node) {
             vertsToLog[i] = new VertexEntry(entry.Key, entry.Value.AsInt);
         }
     }
@@ -114,7 +114,7 @@ public partial class MoShCharacter : MonoBehaviour {
     public void LogJointHeader() {
         Transform[] bones = boneModifier.getBones();
         JointOutput.Write("frame");
-        foreach (var joint in bones) {
+        foreach (Transform joint in bones) {
             JointOutput.Write("," + joint.name + "_x");
             JointOutput.Write("," + joint.name + "_y");
             JointOutput.Write("," + joint.name + "_z");
@@ -147,7 +147,7 @@ public partial class MoShCharacter : MonoBehaviour {
             vertices = bakeTarget.vertices;
             // write the frame number. 
             VertexOutput.Write(moshFrame);
-            foreach (var v in vertsToLog) {
+            foreach (VertexEntry v in vertsToLog) {
                 // p is in local space ....I think.
                 Vector3 p = vertices[v.index];
                 if (useRelativeCoords_v) {
@@ -167,7 +167,7 @@ public partial class MoShCharacter : MonoBehaviour {
         if (LoggingJoints) {
             Transform[] bones = boneModifier.getBones();
             JointOutput.Write(moshFrame);
-            foreach (var joint in bones) {
+            foreach (Transform joint in bones) {
                 Vector3 t = joint.position; // world space. 
                 // use relative coordinates. 
                 if (useRelativeCoords_j) {

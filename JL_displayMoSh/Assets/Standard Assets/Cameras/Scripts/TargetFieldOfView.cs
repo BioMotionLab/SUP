@@ -53,7 +53,7 @@ namespace UnityStandardAssets.Cameras
             // get the maximum bounds extent of object, including all child renderers,
             // but excluding particles and trails, for FOV zooming effect.
 
-            var renderers = obj.GetComponentsInChildren<Renderer>();
+            Renderer[] renderers = obj.GetComponentsInChildren<Renderer>();
 
             Bounds bounds = new Bounds();
             bool initBounds = false;

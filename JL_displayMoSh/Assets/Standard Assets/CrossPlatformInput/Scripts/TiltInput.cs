@@ -113,11 +113,11 @@ namespace UnityStandardAssets.CrossPlatformInput.Inspector
             float inspectorWidth = position.width;
 
             // Don't make child fields be indented
-            var indent = EditorGUI.indentLevel;
+            int indent = EditorGUI.indentLevel;
             EditorGUI.indentLevel = 0;
 
-            var props = new[] {"type", "axisName"};
-            var widths = new[] {.4f, .6f};
+            string[] props = new[] {"type", "axisName"};
+            float[] widths = new[] {.4f, .6f};
             if (property.FindPropertyRelative("type").enumValueIndex > 0)
             {
                 // hide name if not a named axis

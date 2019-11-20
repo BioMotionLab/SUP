@@ -56,7 +56,7 @@ namespace MoShVertexSelectionBuilder {
             GetComponent<MeshCollider>().sharedMesh = m;
 
             verts = m.vertices;
-            foreach (var marker in Markers) {
+            foreach (Marker marker in Markers) {
                 // not exactly an ideal solution, but I don't want any array out of bounds errors.
                 if (marker.vertex > verts.Length) {
                     marker.vertex = -999;
@@ -78,7 +78,7 @@ namespace MoShVertexSelectionBuilder {
         {
             Vector3 drawposition;
             int mvertex;
-            foreach (var marker in Markers) {
+            foreach (Marker marker in Markers) {
                 mvertex = marker.vertex;
                 if (mvertex >= 0) {
                     drawposition = transform.TransformPoint(verts[mvertex]);

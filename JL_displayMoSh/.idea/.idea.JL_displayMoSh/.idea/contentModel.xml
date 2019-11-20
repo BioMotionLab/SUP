@@ -62,7 +62,6 @@
             <e p="VertexEntry.cs" t="Include" />
           </e>
           <e p="MoShUtilities.cs" t="Include" />
-          <e p="OGMeshes.cs" t="Include" />
           <e p="PointLightDisplay.cs" t="Include" />
           <e p="ThirdParty" t="Include">
             <e p="Matrix" t="Include">

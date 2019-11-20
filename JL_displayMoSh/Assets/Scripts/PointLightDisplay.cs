@@ -34,12 +34,12 @@ public class PointLightDisplay : MonoBehaviour {
     public void InstantiatePointLights()
     {
         // loop through all bones adding a point light representation. 
-        var m = new Material(PLPrefab.GetComponent<MeshRenderer>().sharedMaterial);
+        Material m = new Material(PLPrefab.GetComponent<MeshRenderer>().sharedMaterial);
         m.color = PLcolor;
         //PLs = new List<Transform>();
-        var smr = GetComponent<SkinnedMeshRenderer>();
+        SkinnedMeshRenderer smr = GetComponent<SkinnedMeshRenderer>();
         float scale = 2 * radius;
-        foreach (var bone in smr.bones) {
+        foreach (Transform bone in smr.bones) {
             if (bone == smr.rootBone) { // don't want to add a light to root. 
                 continue;
             }

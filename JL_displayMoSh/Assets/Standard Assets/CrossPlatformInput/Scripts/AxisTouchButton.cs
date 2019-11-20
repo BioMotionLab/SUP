@@ -35,7 +35,7 @@ namespace UnityStandardAssets.CrossPlatformInput
 		{
 			// find the other button witch which this button should be paired
 			// (it should have the same axisName)
-			var otherAxisButtons = FindObjectsOfType(typeof(AxisTouchButton)) as AxisTouchButton[];
+			AxisTouchButton[] otherAxisButtons = FindObjectsOfType(typeof(AxisTouchButton)) as AxisTouchButton[];
 
 			if (otherAxisButtons != null)
 			{

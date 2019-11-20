@@ -194,7 +194,7 @@ namespace MoShVertexSelectionBuilder {
         /// <param name="numColours">Number of colours.</param>
         public static Color IndexColor(int index, int numColours)
         {
-            var H = ((float)index) / numColours;
+            float H = ((float)index) / numColours;
             return Color.HSVToRGB(H, 1f, 1f);
         }
 
@@ -368,7 +368,7 @@ namespace MoShVertexSelectionBuilder {
             JSONNode selected = new JSONObject();
                         
             foreach (JSONNode markerset in settings.JsonTree["markersets"].AsArray.Children) {
-                foreach (var vertex in markerset["indices"]) {
+                foreach (KeyValuePair<string, JSONNode> vertex in markerset["indices"]) {
                     // vertex will be a key value pair. 
                     selected[vertex.Key] = vertex.Value.AsInt;
                 }
@@ -387,7 +387,7 @@ namespace MoShVertexSelectionBuilder {
             foreach (JSONNode markerset in settings.JsonTree["markersets"]) {
                 markerset["indices"] = new JSONObject();
             }
-            foreach (var marker in settings.Markers) {
+            foreach (Marker marker in settings.Markers) {
                 // modified to support a set of selections without labels entered.
                 if (string.IsNullOrEmpty(marker.label)) {
                     marker.label = Convert.ToString(marker.vertex);
@@ -402,7 +402,7 @@ namespace MoShVertexSelectionBuilder {
         //add a Marker to the list, and return a reference to it. 
         Marker addMarker()
         {
-            foreach (var marker in settings.Markers) {
+            foreach (Marker marker in settings.Markers) {
                 marker.justCreated = false;
             }
             Marker newMarker;
