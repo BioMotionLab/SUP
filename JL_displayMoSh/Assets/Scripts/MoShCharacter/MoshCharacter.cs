@@ -1,6 +1,7 @@
 ﻿
 using UnityEngine;
 using System;
+using UnityEngine.Serialization;
 
 /// <summary>
 /// Altered version of loadMoshAnim from MPI. Allows a MoSh animation to be played at any time with a call to PlayAnim,
@@ -9,26 +10,24 @@ using System;
 /// </summary>
 [SelectionBase]
 [RequireComponent(typeof(SkinnedMeshRenderer))]
-public partial class MoShCharacter : MonoBehaviour {
+public class MoshCharacter : MonoBehaviour {
 
     MoshAnimation moshAnimation;
-    public string animFilename;
 
     // A bunch of the following fields can basically be considered internal to the program and should be 
     // read in, rather than entered manually in the editor. 
 
+    [FormerlySerializedAs("smpl_m")]
+    public Mesh SMPLMesh_Male; 
+    
+    [FormerlySerializedAs("smpl_f")]
+    public Mesh SMPLMesh_Female;
+    
+    
     // cloned flags are set when the mesh has been cloned. 
-    public Mesh smpl_m; //references to the mesh assets.
     bool meshCloned_m = false;
-    public Mesh smpl_f;
     bool meshCloned_f = false;
-
-    // not used.
-    //private Mesh OGMesh_m;
-    //private Mesh OGMesh_f;
-
-    //public char upAxis = 'z';
-    char upAxis = 'z';
+    
 
     public bool ChangeFrameRate = false;
     public int FrameRate;
@@ -47,19 +46,16 @@ public partial class MoShCharacter : MonoBehaviour {
     /// Has the current animation finished playing, if one has been loaded.
     /// </summary>
     public bool AnimDone => animLoaded && moshFrame >= moshAnimation.GetResampledTotalFrameCount;
-
-
+    
     void Awake()
     {
-        pose = new Quaternion[MoshAnimation.JointCount];
-        Debug.Assert(smpl_m != null, "male SMPL mesh not provided. Please provide the mesh in the inspector.");
-        Debug.Assert(smpl_f != null, "female SMPL mesh not provided. Please provide the mesh in the inspector.");
-
         meshRenderer = GetComponent<SkinnedMeshRenderer>();
 
+        pose = new Quaternion[SMPLConstants.JointCount];
+        
         //Rotate the FBX model in case up direction is not Y - axis;
         // this seems weird. 
-        if (upAxis == 'z') {
+        if (SMPLConstants.ZAxisUp) {
             transform.parent.Rotate(-90f, 0f, 0f);
         }
 
@@ -73,18 +69,14 @@ public partial class MoShCharacter : MonoBehaviour {
     /// This is the main point of interaction with the load MoSh functionality.
     /// Give it a file, call the method and it will do the whole thing.
     /// </summary>
-    /// <remarks>
-
-    /// </remarks>
-    public void PlayAnim(TextAsset animfile)
+    public void PlayAnim(TextAsset jsonAnimationFile)
     {
         if (moshAnimation != null) {
             Reset();
         }
-        moshAnimation = new MoShAnimationJSON(animfile).Build();
-        animFilename = animfile.name;
+        moshAnimation = new MoShAnimationFromJSON(jsonAnimationFile).Build();
 
-        activateMesh(moshAnimation.Gender);
+        ActivateMesh(moshAnimation.Gender);
 
         if (ChangeFrameRate && FrameRate != 0) {
             moshAnimation.SetDesiredFPS(FrameRate);
@@ -92,7 +84,7 @@ public partial class MoShCharacter : MonoBehaviour {
 
         moshFrame = 0;
         // 4. Set Betas of avg FBX model in the scene to betas from Mosh file
-        float[] blend = new float[20];
+        float[] blend = new float[SMPLConstants.DoubledShapeBlendCount];
         moshAnimation.GetShapeBlendValues(blend);
         SetBetaBlshapeValues(blend);
         // 5. Calculate INITIAL joint-locations from betas & update joints of the FBX model
@@ -125,35 +117,6 @@ public partial class MoShCharacter : MonoBehaviour {
         }
     }
 
-
-    public void PlayNextFrame() {
-        if (animLoaded) {
-            moshFrame++;
-            if (!AnimDone) {
-                Vector3 t = moshAnimation.GetTranslationAtFrame(moshFrame);
-                moshAnimation.GetPose(pose, moshFrame);
-                boneModifier.updateBoneAngles(pose, t);
-                SetPoseBlendValues();
-            }
-        }
-    }
-
-
-    public void JumpToFrame(int frame) {
-        if (animLoaded && 0 <= frame && frame < moshAnimation.GetResampledTotalFrameCount) 
-        {
-            moshFrame = frame;
-            if (!AnimDone) 
-            {
-                Vector3 t = moshAnimation.GetTranslationAtFrame(moshFrame);
-                moshAnimation.GetPose(pose, moshFrame);
-                boneModifier.updateBoneAngles(pose, t);
-                SetPoseBlendValues();
-            }
-        }
-    }
-
-
     void SetPoseBlendValues()
     {
         // start at 1 to skip pelvis. 
@@ -173,8 +136,8 @@ public partial class MoShCharacter : MonoBehaviour {
                     pos = 0.0f;
                     neg = -theta;
                 }
-                meshRenderer.SetBlendShapeWeight(MoshAnimation.DoubledShapeBlendCount + (idx * 2) + elem + 0, pos * 100.0f);
-                meshRenderer.SetBlendShapeWeight(MoshAnimation.DoubledShapeBlendCount + (idx * 2) + elem + 1, neg * 100.0f);
+                meshRenderer.SetBlendShapeWeight(SMPLConstants.DoubledShapeBlendCount + (idx * 2) + elem + 0, pos * 100.0f);
+                meshRenderer.SetBlendShapeWeight(SMPLConstants.DoubledShapeBlendCount + (idx * 2) + elem + 1, neg * 100.0f);
             }
         }
     }
@@ -233,31 +196,35 @@ public partial class MoShCharacter : MonoBehaviour {
     /// skinned mesh renderer. 
     /// The mesh is first cloned if this has not previously been done.
     /// </summary>
-    /// <param name="g">Gender of mesh to swap in</param>
-    void activateMesh(Gender g) 
-    {
-        if (g == Gender.FEMALE) {
-            if (!meshCloned_f) {
-                smpl_f = Instantiate<Mesh>(smpl_f);
-                meshCloned_f = true;
-            }
-            // don't want to do this if using editor functionality, because the 
-            // variable meshRenderer will not have been initialized. 
-            if (Application.isPlaying) {
-                //Debug.Log("is playing. not editor code.");
-                meshRenderer.sharedMesh = smpl_f;
-            }
-        }
+    /// <param name="gender">Gender of mesh to swap in</param>
+    void ActivateMesh(Gender gender) {
+        switch (gender) {
+            case Gender.Female: {
+                if (!meshCloned_f) {
+                    SMPLMesh_Female = Instantiate(SMPLMesh_Female);
+                    meshCloned_f = true;
+                }
+                // don't want to do this if using editor functionality, because the 
+                // variable meshRenderer will not have been initialized. 
+                if (Application.isPlaying) {
+                    //Debug.Log("is playing. not editor code.");
+                    meshRenderer.sharedMesh = SMPLMesh_Female;
+                }
 
-        else {
-            if (!meshCloned_m) {
-                smpl_m = Instantiate<Mesh>(smpl_m);
-                meshCloned_m = true;
+                break;
             }
-            if (Application.isPlaying) {
-                //Debug.Log("is playing. not editor code.");
-                meshRenderer.sharedMesh = smpl_m;
-            }
+            case Gender.MALE:
+                if (!meshCloned_m) {
+                    SMPLMesh_Male = Instantiate(SMPLMesh_Male);
+                    meshCloned_m = true;
+                }
+                if (Application.isPlaying) {
+                    meshRenderer.sharedMesh = SMPLMesh_Male;
+                }
+
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(gender), gender, null);
         }
     }
     

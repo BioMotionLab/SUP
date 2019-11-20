@@ -19,7 +19,7 @@ public class ReadRUBJSON : MonoBehaviour {
     Matrix4x4 M;
 
     //public Transform LeftKneeCounterpart;
-    public GameObject counterpart; // MoShCharacter of counterpart. 
+    public GameObject counterpart; // MoshCharacter of counterpart. 
 
     Dictionary<string, string> nameCounterparts;
     Dictionary<string, Transform> dcjoints; // dictionary counter joints... in washington dc. 

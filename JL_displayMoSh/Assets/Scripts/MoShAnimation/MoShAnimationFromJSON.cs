@@ -9,7 +9,7 @@ using System;
 /// This class can serve as a guide for extending BMLMoShAnimation to other 
 /// data formats in future. 
 /// </summary>
-public class MoShAnimationJSON {
+public class MoShAnimationFromJSON {
 
     const string GenderKey = "gender";
     const string MaleString   = "male";
@@ -26,7 +26,7 @@ public class MoShAnimationJSON {
     Vector3[] translation;
     Quaternion[,] poses;
 
-    public MoShAnimationJSON(TextAsset jsonFile)  {
+    public MoShAnimationFromJSON(TextAsset jsonFile)  {
         if (jsonFile == null) throw new NullReferenceException("Tried to instantiate Animation JSON with null TextAsset");
 
         JSONNode jsonNode = JSON.Parse (jsonFile.text);
@@ -52,7 +52,7 @@ public class MoShAnimationJSON {
 
     void LoadTranslationAndPoses(JSONNode moshJSON, JSONNode transNode, int totalNumberOfFrames) {
         translation = new Vector3[totalNumberOfFrames];
-        poses = new Quaternion[totalNumberOfFrames, MoshAnimation.JointCount];
+        poses = new Quaternion[totalNumberOfFrames, SMPLConstants.JointCount];
         for (int frameIndex = 0; frameIndex < totalNumberOfFrames; frameIndex++) {
             // original code has x flipped, because Unity has it's z axis flipped
             // compared to other software. I don't know why this would require 
@@ -69,7 +69,7 @@ public class MoShAnimationJSON {
             float x = thisTranslation[0];
             float y = thisTranslation[1];
             float z = thisTranslation[2];
-            if (MoshAnimation.ZAxisUp) {
+            if (SMPLConstants.ZAxisUp) {
                 x = -x;
             }
             else {
@@ -80,7 +80,7 @@ public class MoShAnimationJSON {
             translation[frameIndex] = flippedTranslation;
 
             // read the quaternions in. 
-            for (int jointIndex = 0; jointIndex < MoshAnimation.JointCount; jointIndex++) {
+            for (int jointIndex = 0; jointIndex < SMPLConstants.JointCount; jointIndex++) {
                 // Quaternion components must also be flipped. But the original didn't check what the up axis is. 
                 // Arrrggg the error was that it was getting cast to an integer or something because I was multiplying by -1, not -1f.
                 JSONNode posesNode = moshJSON[PosesKey];
@@ -116,7 +116,7 @@ public class MoShAnimationJSON {
         }
         else {
             if (genderNode == FemaleString) {
-                gender = Gender.FEMALE;
+                gender = Gender.Female;
             }
             else {
                 throw new Exception("Unexpected value for gender in JSON file.");

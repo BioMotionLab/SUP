@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System;
 
+
 /// <summary>
 /// This needs to return:
 /// beta values
@@ -11,19 +12,7 @@ using System;
 /// </summary>
 public class MoshAnimation {
 
-    // a scale variable is needed in order to calculate the beta values.
-    const float BetaScalingFactor = 5.0f;
-
-    // these should be fixed to be more consistent. 
-    public const int BetaCount = 10;
-    public const int JointCount = 24;
-    public const int PoseCount = 207;
-    public const  int DoubledShapeBlendCount =  BetaCount * 2;
-    const int DoubledPoseBlendCount = PoseCount * 2;
-    const int DoubledBlendCount = DoubledShapeBlendCount + DoubledPoseBlendCount;
     
-    
-    public const bool ZAxisUp = true;
     readonly int sourceTotalFrameCount;
     readonly Vector3[] translations;
     readonly Quaternion[,] poses;
@@ -55,7 +44,7 @@ public class MoshAnimation {
                     case Gender.MALE:
                     jointCalculator = JointCalculator.Male;
                     break;
-                    case Gender.FEMALE:
+                    case Gender.Female:
                     jointCalculator = JointCalculator.Female;
                     break;
                     default:
@@ -149,10 +138,10 @@ public class MoshAnimation {
     public void GetPose(Quaternion[] rotations, int thisFrameAsDecimal) 
     {
         if (rotations == null) throw new NullReferenceException("null array passed to GetPose");
-        if (rotations.Length != JointCount) throw new IndexOutOfRangeException("array with wrong length passed to get pose");
+        if (rotations.Length != SMPLConstants.JointCount) throw new IndexOutOfRangeException("array with wrong length passed to get pose");
         
         // ok. Need to spherically interpolate all these quaternions. 
-        for (int jointIndex = 0; jointIndex < JointCount; jointIndex++) {
+        for (int jointIndex = 0; jointIndex < SMPLConstants.JointCount; jointIndex++) {
             
             if (!resamplingRequired) {
                 // these local rotations are in the right coordinate system for unity.
@@ -178,16 +167,16 @@ public class MoshAnimation {
     }
 
     /// <summary>
-    /// Get the values for the first 20 blend shapes in Unity, that define the 
+    /// Get the values for shape parameters in Unity, that define the 
     /// shape of the subject. 
-    /// Shape: first 20 blend shapes. Doesn't change over time. 
+    /// Shape: first several blend shapes. Doesn't change over time. 
     /// </summary>
     /// <param name="values">Values.</param>
     public void GetShapeBlendValues (float[] values) 
     {
-        if (values.Length != DoubledShapeBlendCount) throw new Exception($"Array values too small. Must have length {DoubledShapeBlendCount}.");
+        if (values.Length != SMPLConstants.DoubledShapeBlendCount) throw new Exception($"Array values too small. Must have length {SMPLConstants.DoubledShapeBlendCount}.");
         
-        for (int i = 0; i < BetaCount; i++) {
+        for (int i = 0; i < SMPLConstants.BetaCount; i++) {
             float scaledBeta = ScaleBeta(betas[i]);
             
             //Because of pos and neg
@@ -204,7 +193,7 @@ public class MoshAnimation {
     }
 
     float ScaleBeta(float beta) {
-        float scaledBeta = beta * 100f / BetaScalingFactor;
+        float scaledBeta = beta * 100f / SMPLConstants.BetaScalingFactor;
         return scaledBeta;
     }
 

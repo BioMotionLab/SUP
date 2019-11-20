@@ -44,9 +44,9 @@ public class AnimReviewer : MonoBehaviour {
 
     public bool AllowResponseWhilePlaying = true;
 
-    [Tooltip("Drag objects with MoShCharacter components into these " +
+    [Tooltip("Drag objects with MoshCharacter components into these " +
              "fields. Use instances of the MoShViewer prefab.")]
-    public MoShCharacter AnimPlayer1, AnimPlayer2;
+    public MoshCharacter AnimPlayer1, AnimPlayer2;
 
     //SkinnedMeshRenderer renderer1, renderer2;
 

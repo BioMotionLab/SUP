@@ -1,6 +1,6 @@
 ﻿/// <summary>
-/// Enum for MALE and FEMALE.
+/// Enum for MALE and Female.
 /// </summary>
 public enum Gender {
-    MALE, FEMALE
+    MALE, Female
 }
