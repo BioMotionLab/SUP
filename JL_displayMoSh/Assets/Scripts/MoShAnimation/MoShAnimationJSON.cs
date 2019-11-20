@@ -28,31 +28,27 @@ public class MoShAnimationJSON : MoShAnimation {
         betas = new float[10];
         JSONNode jsonNode = JSON.Parse (jsonFile.text);
         LoadAnimationJSON (jsonNode);
-        SetupGender(gender);
     }
-
-
+    
     void LoadAnimationJSON(JSONNode moshJSON)
 	{
 		LoadGender(moshJSON);
-
-        JSONNode fpsNode = moshJSON[FPSKey];
-        if (fpsNode.IsNull) throw new NullReferenceException("JSON has no fps field.");
-        fps = fpsNode;
-        SourceFPS = fps;
+        SetupGender(Gender);
         
-        length = moshJSON[TransKey].Count;
-        SourceLength = length;
-        duration = length / (float)fps;
+        LoadFPS(moshJSON);
+
+        Length = moshJSON[TransKey].Count;
+        SourceLength = Length;
+        duration = Length / (float)FPS;
 
         for (int i = 0; i < 10; i++) {
             
             betas[i] = moshJSON[BetasKey][i];
         }
                 
-        Translation = new Vector3[length];
-        Poses = new Quaternion[length, JointCount];
-        for (int frameIndex = 0; frameIndex < length; frameIndex++) {
+        Translation = new Vector3[Length];
+        Poses = new Quaternion[Length, JointCount];
+        for (int frameIndex = 0; frameIndex < Length; frameIndex++) {
             
             // original code has x flipped, because Unity has it's z axis flipped
             // compared to other software. I don't know why this would require 
@@ -91,16 +87,23 @@ public class MoShAnimationJSON : MoShAnimation {
         }
     }
 
+    void LoadFPS(JSONNode moshJSON) {
+        JSONNode fpsNode = moshJSON[FPSKey];
+        if (fpsNode.IsNull) throw new NullReferenceException("JSON has no fps field.");
+        SourceFPS = fpsNode;
+        SetupFPS(SourceFPS);
+    }
+
     void LoadGender(JSONNode moshJSON) {
         JSONNode genderNode = moshJSON[GenderKey];
         if (genderNode.IsNull) throw new NullReferenceException("File does not contain a gender field.");
 
         if (genderNode == MaleString) {
-            gender = Genders.MALE;
+            Gender = Gender.MALE;
         }
         else {
             if (genderNode == FemaleString) {
-                gender = Genders.FEMALE;
+                Gender = Gender.FEMALE;
             }
             else {
                 throw new Exception("Unexpected value for gender in JSON file.");

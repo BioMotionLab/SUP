@@ -18,7 +18,7 @@ public partial class MoShCharacter : MonoBehaviour
     {
         Debug.Log(meshCloned_m);
         Debug.Log(meshCloned_f);
-        activateMesh(Genders.MALE);
+        activateMesh(Gender.MALE);
         float[] values = new float[20];
         for (int i = 0; i < 10; i++) {
             if (editorBetas[i] >= 0) {
@@ -46,7 +46,7 @@ public partial class MoShCharacter : MonoBehaviour
     {
         Debug.Log(meshCloned_m);
         Debug.Log(meshCloned_f);
-        activateMesh(Genders.FEMALE);
+        activateMesh(Gender.FEMALE);
         float[] values = new float[20];
         for (int i = 0; i < 10; i++) {
             if (editorBetas[i] >= 0) {
@@ -73,7 +73,7 @@ public partial class MoShCharacter : MonoBehaviour
 
     public void EditorSetDefaultBones_female()
     {
-        activateMesh(Genders.FEMALE);
+        activateMesh(Gender.FEMALE);
 
         // floats in general default to 0f
         float[] zerobetas = new float[10];
@@ -90,7 +90,7 @@ public partial class MoShCharacter : MonoBehaviour
     {
         Debug.Log(meshCloned_m);
         Debug.Log(meshCloned_f);
-        activateMesh(Genders.MALE);
+        activateMesh(Gender.MALE);
         // floats default to 0f
         float[] localbetas = new float[10];
         JointCalculator jc = JointCalculator.Male;

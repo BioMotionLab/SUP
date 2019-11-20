@@ -158,7 +158,7 @@ namespace MoShVertexSelectionBuilder {
         /// Loads the mesh for the specified gender.
         /// </summary>
         /// <returns>Mesh from template_male or template_female</returns>
-        /// <param name="g">Gender to load.</param>
+        /// <param name="g">GetGender to load.</param>
         static Mesh loadGenderMesh(Genders g)
         {
 

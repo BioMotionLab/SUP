@@ -115,9 +115,9 @@ public class JointCalculator {
     }
 
 
-    public static Vector3[] GetDefaultJoints(Genders g) {
+    public static Vector3[] GetDefaultJoints(Gender g) {
         JointCalculator jc;
-        if (g == Genders.MALE) {
+        if (g == Gender.MALE) {
             jc = JointCalculator.Male;
         } else {
             jc = JointCalculator.Female;

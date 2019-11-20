@@ -49,7 +49,7 @@
             <e p="MoShCharacterEditor.cs" t="Include" />
             <e p="PointLightEditor.cs" t="Include" />
           </e>
-          <e p="Genders.cs" t="Include" />
+          <e p="Gender.cs" t="Include" />
           <e p="JointCalculator.cs" t="Include" />
           <e p="MoShAnimation" t="Include">
             <e p="MoShAnimation.cs" t="Include" />

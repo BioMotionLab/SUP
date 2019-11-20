@@ -63,7 +63,7 @@ public partial class MoShCharacter : MonoBehaviour {
     /// </summary>
     public bool AnimDone {
         get { 
-            return animLoaded && moshFrame >= anim.Length; 
+            return animLoaded && moshFrame >= anim.GetLength; 
         }
     }
 
@@ -104,7 +104,7 @@ public partial class MoShCharacter : MonoBehaviour {
         anim = new MoShAnimationJSON(animfile);
         animFilename = animfile.name;
 
-        activateMesh(anim.Gender);
+        activateMesh(anim.GetGender);
 
         if (ChangeFrameRate && FrameRate != 0) {
             anim.SetDesiredFPS(FrameRate);
@@ -165,7 +165,7 @@ public partial class MoShCharacter : MonoBehaviour {
 
 
     public void JumpToFrame(int frame) {
-        if (animLoaded && 0 <= frame && frame < anim.Length) 
+        if (animLoaded && 0 <= frame && frame < anim.GetLength) 
         {
             moshFrame = frame;
             if (!AnimDone) 
@@ -248,7 +248,7 @@ public partial class MoShCharacter : MonoBehaviour {
 
         boneModifier.ResetRotations();
         resetBlendShapes();
-        Vector3[] joints = JointCalculator.GetDefaultJoints(anim.Gender);
+        Vector3[] joints = JointCalculator.GetDefaultJoints(anim.GetGender);
         boneModifier.updateBonePositions(joints, true);
         //boneModifier.reset();
         //resetJoints();
@@ -264,7 +264,7 @@ public partial class MoShCharacter : MonoBehaviour {
         //boneModifier.ResetRotations();
         //boneModifier.reset_light();
         // or move this to a method in the model. 
-        Vector3[] joints = JointCalculator.GetDefaultJoints(anim.Gender);
+        Vector3[] joints = JointCalculator.GetDefaultJoints(anim.GetGender);
         boneModifier.updateBonePositions(joints, true);
     }
 
@@ -273,10 +273,10 @@ public partial class MoShCharacter : MonoBehaviour {
     /// skinned mesh renderer. 
     /// The mesh is first cloned if this has not previously been done.
     /// </summary>
-    /// <param name="g">Gender of mesh to swap in</param>
-    void activateMesh(Genders g) 
+    /// <param name="g">GetGender of mesh to swap in</param>
+    void activateMesh(Gender g) 
     {
-        if (g == Genders.FEMALE) {
+        if (g == Gender.FEMALE) {
             if (!meshCloned_f) {
                 smpl_f = Instantiate<Mesh>(smpl_f);
                 meshCloned_f = true;
