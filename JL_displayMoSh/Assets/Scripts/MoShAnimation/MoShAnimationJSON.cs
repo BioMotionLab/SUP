@@ -22,6 +22,7 @@ public class MoShAnimationJSON : MoShAnimation {
 
     Gender gender;
     float[] betas;
+    int sourceFPS;
 
     public MoShAnimationJSON(TextAsset jsonFile)
     {
@@ -31,9 +32,9 @@ public class MoShAnimationJSON : MoShAnimation {
         JSONNode jsonNode = JSON.Parse (jsonFile.text);
         LoadAnimationJSON (jsonNode);
         
-        
         SetupGender(gender);
-        SetupFPS(SourceFPS);
+        SetupSourceFPS(sourceFPS);
+        SetupFPS(sourceFPS);
         SetupBetas(betas);
         SetupResampledFrameCount();
         SetupDuration();
@@ -49,7 +50,6 @@ public class MoShAnimationJSON : MoShAnimation {
         SourceTotalFrameCount = transNode.Count;
 
         LoadBetas(moshJSON);
-
         LoadTranslationAndPoses(moshJSON, transNode, SourceTotalFrameCount);
     }
 
@@ -104,7 +104,7 @@ public class MoShAnimationJSON : MoShAnimation {
     void LoadFPS(JSONNode moshJSON) {
         JSONNode fpsNode = moshJSON[FPSKey];
         if (fpsNode.IsNull) throw new NullReferenceException("JSON has no fps field.");
-        SourceFPS = fpsNode;
+        sourceFPS = fpsNode;
     }
 
     void LoadGender(JSONNode moshJSON) {

@@ -23,7 +23,7 @@ public abstract class MoShAnimation {
     public const int JointCount     = 24;
     
     
-    protected int SourceFPS;
+    int SourceFPS;
     protected int SourceTotalFrameCount;
 
     protected Vector3[] Translation;
@@ -87,6 +87,10 @@ public abstract class MoShAnimation {
 
     protected void SetupDuration() {
         duration = SourceTotalFrameCount / (float)SourceFPS;
+    }
+
+    protected void SetupSourceFPS(int value) {
+        SourceFPS = value;
     }
     
     /// <summary>
