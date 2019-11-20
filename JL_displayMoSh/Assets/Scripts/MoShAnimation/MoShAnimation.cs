@@ -12,7 +12,7 @@ using System;
 public abstract class MoShAnimation {
 
     // a scale variable is needed in order to calculate the beta values.
-    const float SCALE = 5.0f;
+    const float BetaScalingFactor = 5.0f;
 
     protected int SourceFPS;
     protected int SourceLength;
@@ -166,19 +166,26 @@ public abstract class MoShAnimation {
     /// <param name="values">Values.</param>
     public virtual void GetShapeBlendValues (float[] values) 
     {
-        if (values.Length != 20) {
-            throw new Exception("Array values too small. Must have length 20.");
-        }
-        for (int i = 0; i < 10; i++) 
-        {
+        if (values.Length != shapeBlendCount) throw new Exception("Array values too small. Must have length 20.");
+        
+        for (int i = 0; i < BetaCount; i++) {
+            float scaledBeta = ScaleBeta(betas[i]);
+            
+            //Because of pos and neg
+            int doubledIndex = 2 * i;
             if (betas[i] >= 0) {
-                values[2 * i] = betas[i] * 100f / SCALE;
-                values[(2 * i) + 1] = 0f;
+                values[doubledIndex] = scaledBeta;
+                values[doubledIndex + 1] = 0f;
             } else {
-                values[2 * i] = 0f;
-                values[(2 * i) + 1] = -1 * betas[i] * 100f / SCALE;
+                values[doubledIndex] = 0f;
+                values[doubledIndex + 1] = -scaledBeta;
             }
         }
+    }
+
+    float ScaleBeta(float beta) {
+        float scaledBeta = beta * 100f / BetaScalingFactor;
+        return scaledBeta;
     }
 
     /// <summary>
@@ -193,11 +200,5 @@ public abstract class MoShAnimation {
         // but if they are, this function might override values that are depended on. 
         return Jc.calculateJoints(betas);
     }
-
-
-    // thisFrame - a thisFrame index in the sampled new framerate. 
-
-
-    // frameBeforeThis, frameAfterThis - closest frames at original thisFrame rate. 
     
 }
