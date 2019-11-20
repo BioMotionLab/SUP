@@ -49,7 +49,7 @@ public partial class MoShCharacter : MonoBehaviour {
 
     Mesh bakeTarget;
 
-    private Vector3[] vertices;
+    Vector3[] vertices;
     //List<Vector3> vertices;
 
 
@@ -73,7 +73,7 @@ public partial class MoShCharacter : MonoBehaviour {
     }
 
 
-    private void readVertexSelection(string fp) 
+    void readVertexSelection(string fp) 
     {
         string jsonstring = File.ReadAllText(fp);
         JSONNode node = JSON.Parse(jsonstring);

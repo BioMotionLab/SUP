@@ -46,8 +46,8 @@ namespace LightweightMatrixCSharp {
 
         public Matrix L;
         public Matrix U;
-        private int[] pi;
-        private double detOfP = 1;
+        int[] pi;
+        double detOfP = 1;
 
         public Matrix(int iRows, int iCols)         // Matrix Class constructor
         {
@@ -346,7 +346,7 @@ namespace LightweightMatrixCSharp {
             return ret;
         }
 
-        private static void SafeAplusBintoC(Matrix A, int xa, int ya, Matrix B, int xb, int yb, Matrix C, int size)
+        static void SafeAplusBintoC(Matrix A, int xa, int ya, Matrix B, int xb, int yb, Matrix C, int size)
         {
             for (int i = 0; i < size; i++)          // rows
                 for (int j = 0; j < size; j++)     // cols
@@ -357,7 +357,7 @@ namespace LightweightMatrixCSharp {
                 }
         }
 
-        private static void SafeAminusBintoC(Matrix A, int xa, int ya, Matrix B, int xb, int yb, Matrix C, int size)
+        static void SafeAminusBintoC(Matrix A, int xa, int ya, Matrix B, int xb, int yb, Matrix C, int size)
         {
             for (int i = 0; i < size; i++)          // rows
                 for (int j = 0; j < size; j++)     // cols
@@ -368,7 +368,7 @@ namespace LightweightMatrixCSharp {
                 }
         }
 
-        private static void SafeACopytoC(Matrix A, int xa, int ya, Matrix C, int size)
+        static void SafeACopytoC(Matrix A, int xa, int ya, Matrix C, int size)
         {
             for (int i = 0; i < size; i++)          // rows
                 for (int j = 0; j < size; j++)     // cols
@@ -378,26 +378,26 @@ namespace LightweightMatrixCSharp {
                 }
         }
 
-        private static void AplusBintoC(Matrix A, int xa, int ya, Matrix B, int xb, int yb, Matrix C, int size)
+        static void AplusBintoC(Matrix A, int xa, int ya, Matrix B, int xb, int yb, Matrix C, int size)
         {
             for (int i = 0; i < size; i++)          // rows
                 for (int j = 0; j < size; j++) C[i, j] = A[ya + i, xa + j] + B[yb + i, xb + j];
         }
 
-        private static void AminusBintoC(Matrix A, int xa, int ya, Matrix B, int xb, int yb, Matrix C, int size)
+        static void AminusBintoC(Matrix A, int xa, int ya, Matrix B, int xb, int yb, Matrix C, int size)
         {
             for (int i = 0; i < size; i++)          // rows
                 for (int j = 0; j < size; j++) C[i, j] = A[ya + i, xa + j] - B[yb + i, xb + j];
         }
 
-        private static void ACopytoC(Matrix A, int xa, int ya, Matrix C, int size)
+        static void ACopytoC(Matrix A, int xa, int ya, Matrix C, int size)
         {
             for (int i = 0; i < size; i++)          // rows
                 for (int j = 0; j < size; j++) C[i, j] = A[ya + i, xa + j];
         }
 
         // TODO assume matrix 2^N x 2^N and then directly call StrassenMultiplyRun(A,B,?,1,?)
-        private static Matrix StrassenMultiply(Matrix A, Matrix B)                // Smart matrix multiplication
+        static Matrix StrassenMultiply(Matrix A, Matrix B)                // Smart matrix multiplication
         {
             if (A.cols != B.rows) throw new MException("Wrong dimension of matrix!");
 
@@ -478,7 +478,8 @@ namespace LightweightMatrixCSharp {
 
             return R;
         }
-        private static void StrassenMultiplyRun(Matrix A, Matrix B, Matrix C, int l, Matrix[,] f)    // A * B into C, level of recursion, matrix field
+
+        static void StrassenMultiplyRun(Matrix A, Matrix B, Matrix C, int l, Matrix[,] f)    // A * B into C, level of recursion, matrix field
         {
             int size = A.rows;
             int h = size / 2;
@@ -531,7 +532,8 @@ namespace LightweightMatrixCSharp {
                 for (int j = h; j < size; j++)     // cols
                     C[i, j] = f[l, 1 + 1][i - h, j - h] - f[l, 1 + 2][i - h, j - h] + f[l, 1 + 3][i - h, j - h] + f[l, 1 + 6][i - h, j - h];
         }
-        private static Matrix StupidMultiply(Matrix m1, Matrix m2)                  // Stupid matrix multiplication
+
+        static Matrix StupidMultiply(Matrix m1, Matrix m2)                  // Stupid matrix multiplication
         {
             if (m1.cols != m2.rows) throw new MException("Wrong dimensions of matrix!");
 
@@ -543,7 +545,7 @@ namespace LightweightMatrixCSharp {
             return result;
         }
 
-        private static Matrix Multiply(Matrix m1, Matrix m2)                         // Matrix multiplication
+        static Matrix Multiply(Matrix m1, Matrix m2)                         // Matrix multiplication
         {
             if (m1.cols != m2.rows) throw new MException("Wrong dimension of matrix!");
             int msize = Math.Max(Math.Max(m1.rows, m1.cols), Math.Max(m2.rows, m2.cols));
@@ -565,7 +567,8 @@ namespace LightweightMatrixCSharp {
                 return StupidMultiply(m1, m2);
             }
         }
-        private static Matrix Multiply(double n, Matrix m)                          // Multiplication by constant n
+
+        static Matrix Multiply(double n, Matrix m)                          // Multiplication by constant n
         {
             Matrix r = new Matrix(m.rows, m.cols);
             for (int i = 0; i < m.rows; i++)
@@ -573,7 +576,8 @@ namespace LightweightMatrixCSharp {
                     r[i, j] = m[i, j] * n;
             return r;
         }
-        private static Matrix Add(Matrix m1, Matrix m2)         // Sčítání matic
+
+        static Matrix Add(Matrix m1, Matrix m2)         // Sčítání matic
         {
             if (m1.rows != m2.rows || m1.cols != m2.cols) throw new MException("Matrices must have the same dimensions!");
             Matrix r = new Matrix(m1.rows, m1.cols);

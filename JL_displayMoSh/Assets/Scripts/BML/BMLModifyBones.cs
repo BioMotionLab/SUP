@@ -10,26 +10,25 @@ using System.Collections.Generic;
 /// be calculable using the regressors with all betas = 0. 
 /// </summary>
 public class BMLModifyBones {
+    SkinnedMeshRenderer targetRenderer;
 
-    private SkinnedMeshRenderer targetRenderer;
+    Transform[] _bones = null;
 
-    private Transform[] _bones = null;
+    Pose[] backups;
 
-    private Pose[] backups;
+    string _boneNamePrefix;
 
-    private string _boneNamePrefix;
-
-    private Dictionary<string, int> _boneNameToJointIndex;
+    Dictionary<string, int> _boneNameToJointIndex;
 
     //private bool _bonesAreModified = false;
 
-    private Transform _pelvis;
+    Transform _pelvis;
     public Transform Pelvis { get { return _pelvis; } }
 
-    private Vector3[] _bonePositions;
+    Vector3[] _bonePositions;
 
 
-    private Mesh _bakedMesh = null;
+    Mesh _bakedMesh = null;
     public Mesh Baked {
         get {
             return _bakedMesh;
@@ -197,7 +196,7 @@ public class BMLModifyBones {
     }
 
 
-    private void populateBackups()
+    void populateBackups()
     {
         for (int i = 0; i < _bones.Length; i++) {
             Vector3 p = _bones[i].position;
@@ -207,7 +206,7 @@ public class BMLModifyBones {
     }
 
 
-    private void restoreBones2() {
+    void restoreBones2() {
         for (int i = 0; i < _bones.Length; i++) {
             _bones[i].position = backups[i].position;
             _bones[i].rotation = backups[i].rotation;
@@ -221,7 +220,7 @@ public class BMLModifyBones {
     /// Sets the bind pose of the mesh.
     /// </summary>
     /// <param name="bones"></param>
-    private void _setBindPose(Transform[] bones)
+    void _setBindPose(Transform[] bones)
     {
         Matrix4x4[] bindPoses = targetRenderer.sharedMesh.bindposes;
 

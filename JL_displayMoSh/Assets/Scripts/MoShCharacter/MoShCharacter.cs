@@ -38,14 +38,14 @@ public partial class MoShCharacter : MonoBehaviour {
     public bool ChangeFrameRate = false;
     public int FrameRate;
 
-    private SkinnedMeshRenderer meshRenderer;
+    SkinnedMeshRenderer meshRenderer;
 
-    private BMLModifyBones boneModifier;
+    BMLModifyBones boneModifier;
 
-    private int moshFrame = 0;
-    private Quaternion[] pose;
+    int moshFrame = 0;
+    Quaternion[] pose;
 
-    private bool animLoaded = false;
+    bool animLoaded = false;
 
 
     /// <summary>
@@ -230,7 +230,7 @@ public partial class MoShCharacter : MonoBehaviour {
     }
 
 
-    private void resetBlendShapes() {
+    void resetBlendShapes() {
         for (int i = 0; i < meshRenderer.sharedMesh.blendShapeCount; i++) {
             meshRenderer.SetBlendShapeWeight(i, 0f);
         }
@@ -259,7 +259,7 @@ public partial class MoShCharacter : MonoBehaviour {
     /// <summary>
     /// Set the models joints to the default values from the regressor. 
     /// </summary>
-    private void resetJoints()
+    void resetJoints()
     {
         //boneModifier.ResetRotations();
         //boneModifier.reset_light();
@@ -302,7 +302,7 @@ public partial class MoShCharacter : MonoBehaviour {
     }
 
 
-	private void OnApplicationQuit()
+    void OnApplicationQuit()
 	{
         EndLogs();
 	}

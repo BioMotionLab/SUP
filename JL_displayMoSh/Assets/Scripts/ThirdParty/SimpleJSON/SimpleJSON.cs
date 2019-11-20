@@ -145,10 +145,11 @@ namespace SimpleJSON
         #region Enumerators
         public struct Enumerator
         {
-            private enum Type { None, Array, Object }
-            private Type type;
-            private Dictionary<string, JSONNode>.Enumerator m_Object;
-            private List<JSONNode>.Enumerator m_Array;
+            enum Type { None, Array, Object }
+
+            Type type;
+            Dictionary<string, JSONNode>.Enumerator m_Object;
+            List<JSONNode>.Enumerator m_Array;
             public bool IsValid { get { return type != Type.None; } }
             public Enumerator(List<JSONNode>.Enumerator aArrayEnum)
             {
@@ -183,7 +184,7 @@ namespace SimpleJSON
         }
         public struct ValueEnumerator
         {
-            private Enumerator m_Enumerator;
+            Enumerator m_Enumerator;
             public ValueEnumerator(List<JSONNode>.Enumerator aArrayEnum) : this(new Enumerator(aArrayEnum)) { }
             public ValueEnumerator(Dictionary<string, JSONNode>.Enumerator aDictEnum) : this(new Enumerator(aDictEnum)) { }
             public ValueEnumerator(Enumerator aEnumerator) { m_Enumerator = aEnumerator; }
@@ -193,7 +194,7 @@ namespace SimpleJSON
         }
         public struct KeyEnumerator
         {
-            private Enumerator m_Enumerator;
+            Enumerator m_Enumerator;
             public KeyEnumerator(List<JSONNode>.Enumerator aArrayEnum) : this(new Enumerator(aArrayEnum)) { }
             public KeyEnumerator(Dictionary<string, JSONNode>.Enumerator aDictEnum) : this(new Enumerator(aDictEnum)) { }
             public KeyEnumerator(Enumerator aEnumerator) { m_Enumerator = aEnumerator; }
@@ -204,8 +205,8 @@ namespace SimpleJSON
 
         public class LinqEnumerator : IEnumerator<KeyValuePair<string, JSONNode>>, IEnumerable<KeyValuePair<string, JSONNode>>
         {
-            private JSONNode m_Node;
-            private Enumerator m_Enumerator;
+            JSONNode m_Node;
+            Enumerator m_Enumerator;
             internal LinqEnumerator(JSONNode aNode)
             {
                 m_Node = aNode;
@@ -497,7 +498,7 @@ namespace SimpleJSON
         #endregion operators
 
         [ThreadStatic]
-        private static StringBuilder m_EscapeBuilder;
+        static StringBuilder m_EscapeBuilder;
         internal static StringBuilder EscapeBuilder
         {
             get {
@@ -742,8 +743,8 @@ namespace SimpleJSON
 
     public partial class JSONArray : JSONNode
     {
-        private List<JSONNode> m_List = new List<JSONNode>();
-        private bool inline = false;
+        List<JSONNode> m_List = new List<JSONNode>();
+        bool inline = false;
         public override bool Inline
         {
             get { return inline; }
@@ -847,9 +848,9 @@ namespace SimpleJSON
 
     public partial class JSONObject : JSONNode
     {
-        private Dictionary<string, JSONNode> m_Dict = new Dictionary<string, JSONNode>();
+        Dictionary<string, JSONNode> m_Dict = new Dictionary<string, JSONNode>();
 
-        private bool inline = false;
+        bool inline = false;
         public override bool Inline
         {
             get { return inline; }
@@ -995,7 +996,7 @@ namespace SimpleJSON
 
     public partial class JSONString : JSONNode
     {
-        private string m_Data;
+        string m_Data;
 
         public override JSONNodeType Tag { get { return JSONNodeType.String; } }
         public override bool IsString { get { return true; } }
@@ -1042,7 +1043,7 @@ namespace SimpleJSON
 
     public partial class JSONNumber : JSONNode
     {
-        private double m_Data;
+        double m_Data;
 
         public override JSONNodeType Tag { get { return JSONNodeType.Number; } }
         public override bool IsNumber { get { return true; } }
@@ -1084,7 +1085,8 @@ namespace SimpleJSON
         {
             aSB.Append(Value);
         }
-        private static bool IsNumeric(object value)
+
+        static bool IsNumeric(object value)
         {
             return value is int || value is uint
                 || value is float || value is double
@@ -1115,7 +1117,7 @@ namespace SimpleJSON
 
     public partial class JSONBool : JSONNode
     {
-        private bool m_Data;
+        bool m_Data;
 
         public override JSONNodeType Tag { get { return JSONNodeType.Boolean; } }
         public override bool IsBoolean { get { return true; } }
@@ -1176,7 +1178,8 @@ namespace SimpleJSON
                 return m_StaticInstance;
             return new JSONNull();
         }
-        private JSONNull() { }
+
+        JSONNull() { }
 
         public override JSONNodeType Tag { get { return JSONNodeType.NullValue; } }
         public override bool IsNull { get { return true; } }
@@ -1213,8 +1216,8 @@ namespace SimpleJSON
 
     internal partial class JSONLazyCreator : JSONNode
     {
-        private JSONNode m_Node = null;
-        private string m_Key = null;
+        JSONNode m_Node = null;
+        string m_Key = null;
         public override JSONNodeType Tag { get { return JSONNodeType.None; } }
         public override Enumerator GetEnumerator() { return new Enumerator(); }
 
@@ -1230,7 +1233,7 @@ namespace SimpleJSON
             m_Key = aKey;
         }
 
-        private void Set(JSONNode aVal)
+        void Set(JSONNode aVal)
         {
             if (m_Key == null)
             {

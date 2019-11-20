@@ -9,16 +9,16 @@ using LightweightMatrixCSharp;
 public class JointCalculator {
     // Note to self. Use Resources.FindObjectsOfTypeAll to check if there are memory leaks.
 
-    private static JointCalculator male = null;
-    private static JointCalculator female = null;
+    static JointCalculator male = null;
+    static JointCalculator female = null;
 
-    private Matrix[] _template;
-    private Matrix[] _jntsRegr; // doesn't need reset. 
-    private Vector3[] _joints;
+    Matrix[] _template;
+    Matrix[] _jntsRegr; // doesn't need reset. 
+    Vector3[] _joints;
 
-    private int nJoints = MoShAnimation.JointCount;
-    private int _numberOfJoints = MoShAnimation.JointCount;// = 24;
-    private int _numberOfBetas = MoShAnimation.BetaCount;// = 10;
+    int nJoints = MoShAnimation.JointCount;
+    int _numberOfJoints = MoShAnimation.JointCount;// = 24;
+    int _numberOfBetas = MoShAnimation.BetaCount;// = 10;
 
 
     /// <summary>
@@ -60,7 +60,7 @@ public class JointCalculator {
 
 
     // private constructor. 
-    private JointCalculator(TextAsset jsontext) {
+    JointCalculator(TextAsset jsontext) {
         _joints = new Vector3[nJoints];
         _template = new Matrix [3];
         _jntsRegr = new Matrix [3];

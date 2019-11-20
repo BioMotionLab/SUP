@@ -65,9 +65,10 @@ public class MoShAnimationJSON {
             // I'm pretty sure maya is right handed z-up. 
             // Unity is right handed y up? 
 
-            float x = transNode[frameIndex][0];
-            float y = transNode[frameIndex][1];
-            float z = transNode[frameIndex][2];
+            JSONNode thisTranslation = transNode[frameIndex];
+            float x = thisTranslation[0];
+            float y = thisTranslation[1];
+            float z = thisTranslation[2];
             if (MoShAnimation.ZAxisUp) {
                 x = -x;
             }
@@ -75,17 +76,19 @@ public class MoShAnimationJSON {
                 y = -y;
             }
 
-            translation[frameIndex] = new Vector3(x, y, z);
+            Vector3 flippedTranslation = new Vector3(x, y, z);
+            translation[frameIndex] = flippedTranslation;
 
             // read the quaternions in. 
             for (int jointIndex = 0; jointIndex < MoShAnimation.JointCount; jointIndex++) {
                 // Quaternion components must also be flipped. But the original didn't check what the up axis is. 
                 // Arrrggg the error was that it was getting cast to an integer or something because I was multiplying by -1, not -1f.
                 JSONNode posesNode = moshJSON[PosesKey];
-                float qx = -1.0f * posesNode[frameIndex][jointIndex][0];
-                float qy = posesNode[frameIndex][jointIndex][1];
-                float qz = posesNode[frameIndex][jointIndex][2];
-                float qw = -1.0f * posesNode[frameIndex][jointIndex][3];
+                JSONNode thisPose = posesNode[frameIndex][jointIndex];
+                float qx = -1.0f * thisPose[0];
+                float qy = thisPose[1];
+                float qz = thisPose[2];
+                float qw = -1.0f * thisPose[3];
                 poses[frameIndex, jointIndex] = new Quaternion(qx, qy, qz, qw);
             }
         }
