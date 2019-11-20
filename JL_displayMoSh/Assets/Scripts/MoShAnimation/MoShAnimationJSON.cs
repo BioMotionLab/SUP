@@ -51,10 +51,13 @@ public class MoShAnimationJSON : MoShAnimation {
         
         LoadBetas(moshJSON);
 
-        Translation = new Vector3[SourceTotalFrameCount];
-        Poses = new Quaternion[SourceTotalFrameCount, JointCount];
-        for (int frameIndex = 0; frameIndex < SourceTotalFrameCount; frameIndex++) {
-            
+        LoadTranslationAndPoses(moshJSON, transNode, SourceTotalFrameCount);
+    }
+
+    void LoadTranslationAndPoses(JSONNode moshJSON, JSONNode transNode, int totalNumberOfFrames) {
+        Translation = new Vector3[totalNumberOfFrames];
+        Poses = new Quaternion[totalNumberOfFrames, JointCount];
+        for (int frameIndex = 0; frameIndex < totalNumberOfFrames; frameIndex++) {
             // original code has x flipped, because Unity has it's z axis flipped
             // compared to other software. I don't know why this would require 
             // flipping the x axis. This might be an error.
@@ -65,7 +68,7 @@ public class MoShAnimationJSON : MoShAnimation {
 
             // I'm pretty sure maya is right handed z-up. 
             // Unity is right handed y up? 
-            
+
             float x = transNode[frameIndex][0];
             float y = transNode[frameIndex][1];
             float z = transNode[frameIndex][2];
@@ -75,6 +78,7 @@ public class MoShAnimationJSON : MoShAnimation {
             else {
                 y = -y;
             }
+
             Translation[frameIndex] = new Vector3(x, y, z);
 
             // read the quaternions in. 
@@ -87,7 +91,6 @@ public class MoShAnimationJSON : MoShAnimation {
                 float qz = posesNode[frameIndex][jointIndex][2];
                 float qw = -1.0f * posesNode[frameIndex][jointIndex][3];
                 Poses[frameIndex, jointIndex] = new Quaternion(qx, qy, qz, qw);
-
             }
         }
     }
