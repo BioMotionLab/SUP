@@ -15,17 +15,16 @@ public class MoShAnimation {
     const float BetaScalingFactor = 5.0f;
 
     // these should be fixed to be more consistent. 
-    public const int BetaCount       = 10;
-    
-    public const        int ShapeBlendCount = 2 * BetaCount;
-    const int blendCount = ShapeBlendCount + poseBlendCount;
-    const        int poseBlendCount = 207 * 2;
-    public const int JointCount     = 24;
+    public const int BetaCount = 10;
+    public const int JointCount = 24;
+    public const int PoseCount = 207;
+    public const  int DoubledShapeBlendCount =  BetaCount * 2;
+    const int DoubledPoseBlendCount = PoseCount * 2;
+    const int DoubledBlendCount = DoubledShapeBlendCount + DoubledPoseBlendCount;
     
     
     public const bool ZAxisUp = true;
     
-   
     int SourceTotalFrameCount;
 
     Vector3[] translations;
@@ -232,7 +231,7 @@ public class MoShAnimation {
     /// <param name="values">Values.</param>
     public void GetShapeBlendValues (float[] values) 
     {
-        if (values.Length != ShapeBlendCount) throw new Exception($"Array values too small. Must have length {ShapeBlendCount}.");
+        if (values.Length != DoubledShapeBlendCount) throw new Exception($"Array values too small. Must have length {DoubledShapeBlendCount}.");
         
         for (int i = 0; i < BetaCount; i++) {
             float scaledBeta = ScaleBeta(betas[i]);
