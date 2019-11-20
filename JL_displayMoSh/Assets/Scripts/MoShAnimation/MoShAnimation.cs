@@ -25,7 +25,7 @@ public abstract class MoShAnimation {
 
     protected const bool ZAxisUp = true;
 
-    protected JointCalculator Jc;
+    protected JointCalculator JointCalculator;
 
     protected int length;
     
@@ -198,7 +198,7 @@ public abstract class MoShAnimation {
         // a reference to the array stored in JointCalculator. It's probably
         // not good for other things to be referencing the array in JointCalculator,
         // but if they are, this function might override values that are depended on. 
-        return Jc.calculateJoints(betas);
+        return JointCalculator.calculateJoints(betas);
     }
     
 }

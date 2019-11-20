@@ -23,6 +23,8 @@ public class MoShAnimationJSON : MoShAnimation {
 
 	public MoShAnimationJSON(TextAsset jsonFile)
     {
+        if (jsonFile == null) throw new NullReferenceException("Tried to instantiate Animation JSON with null TextAsset");
+        
         betas = new float[10];
         LoadAnimationJSON(jsonFile);
     }
@@ -35,9 +37,7 @@ public class MoShAnimationJSON : MoShAnimation {
     /// <exception cref="Exception"></exception>
     void LoadAnimationJSON (TextAsset jsonFile) 
 	{
-        if (jsonFile == null) throw new NullReferenceException("Tried to instantiate Animation JSON with TextAsset == null");
-        
-		JSONNode jsonNode = JSON.Parse (jsonFile.text);
+        JSONNode jsonNode = JSON.Parse (jsonFile.text);
 		LoadAnimationJSON (jsonNode);
 	}
 
@@ -50,11 +50,11 @@ public class MoShAnimationJSON : MoShAnimation {
         
         if (genderNode == MaleString) {
 			gender = Genders.MALE;
-            Jc = JointCalculator.Male;
+            JointCalculator = JointCalculator.Male;
 		} else {
             if (genderNode == FemaleString) {
                 gender = Genders.FEMALE;
-                Jc = JointCalculator.Female;
+                JointCalculator = JointCalculator.Female;
             } else {
                 throw new Exception ("Unexpected value for gender in JSON file.");
             }
@@ -64,7 +64,6 @@ public class MoShAnimationJSON : MoShAnimation {
         if (fpsNode.IsNull) throw new NullReferenceException("JSON has no fps field.");
         fps = fpsNode;
         SourceFPS = fps;
-
         
         length = moshJSON[TransKey].Count;
         SourceLength = length;
@@ -77,7 +76,7 @@ public class MoShAnimationJSON : MoShAnimation {
                 
         Translation = new Vector3[length];
         Poses = new Quaternion[length, JointCount];
-        for (int i = 0; i < length; i++) {
+        for (int frameIndex = 0; frameIndex < length; frameIndex++) {
             
             // original code has x flipped, because Unity has it's z axis flipped
             // compared to other software. I don't know why this would require 
@@ -90,28 +89,27 @@ public class MoShAnimationJSON : MoShAnimation {
             // I'm pretty sure maya is right handed z-up. 
             // Unity is right handed y up? 
             JSONNode transNode = moshJSON[TransKey];
-            float x = transNode[i][0];
-            float y = transNode[i][1];
-            float z = transNode[i][2];
+            float x = transNode[frameIndex][0];
+            float y = transNode[frameIndex][1];
+            float z = transNode[frameIndex][2];
             if (ZAxisUp) {
                 x = -x;
             }
             else {
                 y = -y;
             }
-            Translation[i] = new Vector3(x, y, z);
+            Translation[frameIndex] = new Vector3(x, y, z);
 
             // read the quaternions in. 
-            for (int j = 0; j < JointCount; j++) {
+            for (int jointIndex = 0; jointIndex < JointCount; jointIndex++) {
                 // Quaternion components must also be flipped. But the original didn't check what the up axis is. 
                 // Arrrggg the error was that it was getting cast to an integer or something because I was multiplying by -1, not -1f.
                 JSONNode posesNode = moshJSON[PosesKey];
-                float qx = -1.0f * posesNode[i][j][0];
-                float qy = posesNode[i][j][1];
-                float qz = posesNode[i][j][2];
-                float qw = -1.0f * posesNode[i][j][3];
-                //Debug.Log("frame " + i + ": qx = " + qx + " qy = " + qy + "qz = " + qz + " qw = " + qw);
-                Poses[i, j] = new Quaternion(qx, qy, qz, qw);
+                float qx = -1.0f * posesNode[frameIndex][jointIndex][0];
+                float qy = posesNode[frameIndex][jointIndex][1];
+                float qz = posesNode[frameIndex][jointIndex][2];
+                float qw = -1.0f * posesNode[frameIndex][jointIndex][3];
+                Poses[frameIndex, jointIndex] = new Quaternion(qx, qy, qz, qw);
 
             }
         }
