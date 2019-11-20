@@ -24,6 +24,7 @@ public class MoShAnimationJSON : MoShAnimation {
     int sourceFPS;
     int sourceTotalFrameCount;
     Vector3[] translation;
+    Quaternion[,] poses;
 
     public MoShAnimationJSON(TextAsset jsonFile)  {
         if (jsonFile == null) throw new NullReferenceException("Tried to instantiate Animation JSON with null TextAsset");
@@ -31,14 +32,7 @@ public class MoShAnimationJSON : MoShAnimation {
         JSONNode jsonNode = JSON.Parse (jsonFile.text);
         LoadAnimationJSON (jsonNode);
         
-        SetupGender(gender);
-        SetupSourceTotalFrameCount(sourceTotalFrameCount);
-        SetupSourceFPS(sourceFPS);
-        SetupFPS(sourceFPS);
-        SetupBetas(betas);
-        SetupTranslation(translation);
-        SetupResampledFrameCount();
-        SetupDuration();
+        Setup(gender, sourceTotalFrameCount, sourceFPS, betas, translation, poses);
     }
     
     void LoadAnimationJSON(JSONNode moshJSON)
@@ -55,7 +49,7 @@ public class MoShAnimationJSON : MoShAnimation {
 
     void LoadTranslationAndPoses(JSONNode moshJSON, JSONNode transNode, int totalNumberOfFrames) {
         translation = new Vector3[totalNumberOfFrames];
-        Poses = new Quaternion[totalNumberOfFrames, JointCount];
+        poses = new Quaternion[totalNumberOfFrames, JointCount];
         for (int frameIndex = 0; frameIndex < totalNumberOfFrames; frameIndex++) {
             // original code has x flipped, because Unity has it's z axis flipped
             // compared to other software. I don't know why this would require 
@@ -89,7 +83,7 @@ public class MoShAnimationJSON : MoShAnimation {
                 float qy = posesNode[frameIndex][jointIndex][1];
                 float qz = posesNode[frameIndex][jointIndex][2];
                 float qw = -1.0f * posesNode[frameIndex][jointIndex][3];
-                Poses[frameIndex, jointIndex] = new Quaternion(qx, qy, qz, qw);
+                poses[frameIndex, jointIndex] = new Quaternion(qx, qy, qz, qw);
             }
         }
     }

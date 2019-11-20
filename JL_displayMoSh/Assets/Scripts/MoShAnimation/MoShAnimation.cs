@@ -9,7 +9,7 @@ using System;
 /// 
 /// Using an abstract base class that can be extended with different backends JSON, a binary format etc. 
 /// </summary>
-public abstract class MoShAnimation {
+public class MoShAnimation {
 
     // a scale variable is needed in order to calculate the beta values.
     const float BetaScalingFactor = 5.0f;
@@ -29,10 +29,8 @@ public abstract class MoShAnimation {
     int SourceTotalFrameCount;
 
     Vector3[] translations;
-    protected Quaternion[,] Poses;
+    Quaternion[,] poses;
     float[] betas;
-
-    
     
     int desiredFPS;
     
@@ -48,7 +46,19 @@ public abstract class MoShAnimation {
     public Gender GetGender => gender;
 
 
-   
+
+    protected void Setup(Gender    thisgender,  int           sourceTotalFrameCount, int sourceFPS, float[] thisbetas,
+                         Vector3[] translation, Quaternion[,] thisposes) {
+        SetupGender(thisgender);
+        SetupSourceTotalFrameCount(sourceTotalFrameCount);
+        SetupSourceFPS(sourceFPS);
+        SetupFPS(sourceFPS);
+        SetupBetas(thisbetas);
+        SetupTranslation(translation);
+        SetupPoses(thisposes);
+        SetupResampledFrameCount();
+        SetupDuration();
+    }
     
     
     JointCalculator jointCalculator;
@@ -56,12 +66,12 @@ public abstract class MoShAnimation {
     int  resampledTotalFrameCount;
     int SourceFPS;
     
-    protected void SetupGender(Gender gender) {
+    void SetupGender(Gender gender) {
         this.gender = gender;
         SetupGenderOfJointCalculator();
     }
     
-    protected void SetupFPS(int setupFPS) {
+    void SetupFPS(int setupFPS) {
         this.desiredFPS = setupFPS;
     }
 
@@ -78,28 +88,32 @@ public abstract class MoShAnimation {
         }
     }
 
-    protected void SetupBetas(float[] setupBetas) {
+    void SetupBetas(float[] setupBetas) {
         betas = setupBetas;
     }
 
-    protected void SetupResampledFrameCount() {
+    void SetupResampledFrameCount() {
         resampledTotalFrameCount = SourceTotalFrameCount;
     }
 
-    protected void SetupDuration() {
+    void SetupDuration() {
         duration = SourceTotalFrameCount / (float)SourceFPS;
     }
 
-    protected void SetupSourceFPS(int value) {
+    void SetupSourceFPS(int value) {
         SourceFPS = value;
     }
 
-    protected void SetupSourceTotalFrameCount(int value) {
+    void SetupSourceTotalFrameCount(int value) {
         SourceTotalFrameCount = value;
     }
 
-    protected void SetupTranslation(Vector3[] value) {
+    void SetupTranslation(Vector3[] value) {
         translations = value;
+    }
+
+    void SetupPoses(Quaternion[,] value) {
+        poses = value;
     }
     
     /// <summary>
@@ -185,7 +199,7 @@ public abstract class MoShAnimation {
             
             if (!resamplingRequired) {
                 // these local rotations are in the right coordinate system for unity.
-                rotations[jointIndex] = Poses[thisFrameAsDecimal, jointIndex];
+                rotations[jointIndex] = poses[thisFrameAsDecimal, jointIndex];
             }
             else {
                 float percentageElapsedBetweenFrames =
@@ -194,11 +208,11 @@ public abstract class MoShAnimation {
 
                 // detect last thisFrameAsDecimal. This might be a slight discontinuity. 
                 if (frameAfterThis >= SourceTotalFrameCount) {
-                    rotations[jointIndex] = Poses[frameBeforeThis, jointIndex];
+                    rotations[jointIndex] = poses[frameBeforeThis, jointIndex];
                 }
                 else {
-                    Quaternion rotationAtFrameBeforeThis = Poses[frameBeforeThis, jointIndex];
-                    Quaternion rotationAtFrameAfterThis = Poses[frameAfterThis, jointIndex];
+                    Quaternion rotationAtFrameBeforeThis = poses[frameBeforeThis, jointIndex];
+                    Quaternion rotationAtFrameAfterThis = poses[frameAfterThis, jointIndex];
                     rotations[jointIndex] = Quaternion.Slerp(rotationAtFrameBeforeThis, rotationAtFrameAfterThis,
                                                              percentageElapsedBetweenFrames);
                 }
