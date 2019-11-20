@@ -42,7 +42,7 @@ public abstract class MoShAnimation {
     /// <value>length of the animation</value>
     public int GetResampledTotalFrameCount => resampledTotalFrameCount;
 
-    protected float duration;
+    float duration;
 
     Gender gender;
     public Gender GetGender => gender;
@@ -85,7 +85,9 @@ public abstract class MoShAnimation {
         resampledTotalFrameCount = SourceTotalFrameCount;
     }
 
-    
+    protected void SetupDuration() {
+        duration = SourceTotalFrameCount / (float)SourceFPS;
+    }
     
     /// <summary>
     /// Gets or sets the fps, upsampling or downsampling if the fps is 

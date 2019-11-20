@@ -23,7 +23,7 @@ public class MoShAnimationJSON : MoShAnimation {
     Gender gender;
     float[] betas;
 
-	public MoShAnimationJSON(TextAsset jsonFile)
+    public MoShAnimationJSON(TextAsset jsonFile)
     {
         if (jsonFile == null) throw new NullReferenceException("Tried to instantiate Animation JSON with null TextAsset");
         
@@ -36,6 +36,7 @@ public class MoShAnimationJSON : MoShAnimation {
         SetupFPS(SourceFPS);
         SetupBetas(betas);
         SetupResampledFrameCount();
+        SetupDuration();
     }
     
     void LoadAnimationJSON(JSONNode moshJSON)
@@ -46,9 +47,7 @@ public class MoShAnimationJSON : MoShAnimation {
         JSONNode transNode = moshJSON[TransKey];
         
         SourceTotalFrameCount = transNode.Count;
-        
-        duration = SourceTotalFrameCount / (float)SourceFPS;
-        
+
         LoadBetas(moshJSON);
 
         LoadTranslationAndPoses(moshJSON, transNode, SourceTotalFrameCount);
