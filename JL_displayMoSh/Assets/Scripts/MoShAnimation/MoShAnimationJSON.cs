@@ -39,7 +39,7 @@ public class MoShAnimationJSON : MoShAnimation {
 
         Length = moshJSON[TransKey].Count;
         SourceLength = Length;
-        duration = Length / (float)FPS;
+        duration = Length / (float)SourceFPS;
 
         for (int i = 0; i < 10; i++) {
             
