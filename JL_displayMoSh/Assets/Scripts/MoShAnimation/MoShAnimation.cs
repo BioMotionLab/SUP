@@ -73,8 +73,8 @@ public abstract class MoShAnimation {
             
             // have to update length here. 
             // I think this is the right way to get length.
-            // actually, since the time of the last thisFrame should remain static, 
-            // if the time between frames is a constant, then the time of the last thisFrame cannot
+            // actually, since the time of the last thisFrameAsDecimal should remain static, 
+            // if the time between frames is a constant, then the time of the last thisFrameAsDecimal cannot
             // be completely static. 
             // I think I should still floor the value. 
             length = Mathf.FloorToInt(fps * duration);
@@ -89,7 +89,7 @@ public abstract class MoShAnimation {
         
         if (!ResamplingRequired) return Translation[thisFrame];
         
-        float percentageElapsedSinceLastFrame = PercentageElapsedSinceLastFrame(thisFrame, out int frameBeforeThis, out int frameAfterThis);
+        float percentageElapsedSinceLastFrame = PercentageElapsedBetweenFrames(thisFrame, out int frameBeforeThis, out int frameAfterThis);
         
         bool lastFrameInAnimation = frameAfterThis >= SourceLength;
         if (lastFrameInAnimation) { 
@@ -100,7 +100,7 @@ public abstract class MoShAnimation {
         return resampledTranslation;
     }
 
-    float PercentageElapsedSinceLastFrame(int thisFrame, out int frameBeforeThis, out int frameAfterThis)
+    float PercentageElapsedBetweenFrames(int thisFrame, out int frameBeforeThis, out int frameAfterThis)
     {
         float timeFrameOccurs = GetTimeAtFrame(thisFrame);
         
@@ -112,7 +112,7 @@ public abstract class MoShAnimation {
     }
 
     /// <summary>
-    /// Get the time, in seconds since start of animation, at a specified thisFrame.
+    /// Get the time, in seconds since start of animation, at a specified thisFrameAsDecimal.
     /// </summary>
     float GetTimeAtFrame(int frame) 
     {
@@ -122,38 +122,37 @@ public abstract class MoShAnimation {
     }
 
     /// <summary>
-    /// Populate an array with rotations of each joint at thisFrame. 
+    /// Populate an array with rotations of each joint at thisFrameAsDecimal. 
     /// </summary>
     /// <param name="rotations">Array to fill with joint rotations.</param>
-    /// <param name="frame">Frame at which to get rotations</param>
-    public void GetPose(Quaternion[] rotations, int frame) 
+    /// <param name="thisFrameAsDecimal">Frame at which to get rotations</param>
+    public void GetPose(Quaternion[] rotations, int thisFrameAsDecimal) 
     {
-        if (rotations == null) {
-            throw new Exception("null array passed to GetPose");
-        } else if (rotations.Length != JointCount) {
-            throw new Exception("array with wrong length passed to get pose");
-        }
+        if (rotations == null) throw new NullReferenceException("null array passed to GetPose");
+        if (rotations.Length != JointCount) throw new IndexOutOfRangeException("array with wrong length passed to get pose");
+        
         // ok. Need to spherically interpolate all these quaternions. 
+        for (int jointIndex = 0; jointIndex < JointCount; jointIndex++) {
+            
+            if (!ResamplingRequired) {
+                // these local rotations are in the right coordinate system for unity.
+                rotations[jointIndex] = Poses[thisFrameAsDecimal, jointIndex];
+            }
+            else {
+                float percentageElapsedBetweenFrames =
+                    PercentageElapsedBetweenFrames(thisFrameAsDecimal, out int frameBeforeThis,
+                                                   out int frameAfterThis);
 
-        if (ResamplingRequired) {
-            for (int i = 0; i < JointCount; i++) {
-                float p = PercentageElapsedSinceLastFrame(frame, out int f1, out int f2);
-
-                // detect last thisFrame. This might be a slight discontinuity. 
-                if (f2 >= SourceLength) {
-                    rotations[i] = Poses[f1, i];
+                // detect last thisFrameAsDecimal. This might be a slight discontinuity. 
+                if (frameAfterThis >= SourceLength) {
+                    rotations[jointIndex] = Poses[frameBeforeThis, jointIndex];
                 }
                 else {
-                    Quaternion q1 = Poses[f1, i];
-                    Quaternion q2 = Poses[f2, i];
-                    rotations[i] = Quaternion.Slerp(q1, q2, p);
+                    Quaternion rotationAtFrameBeforeThis = Poses[frameBeforeThis, jointIndex];
+                    Quaternion rotationAtFrameAfterThis = Poses[frameAfterThis, jointIndex];
+                    rotations[jointIndex] = Quaternion.Slerp(rotationAtFrameBeforeThis, rotationAtFrameAfterThis,
+                                                             percentageElapsedBetweenFrames);
                 }
-            }
-        }
-        else {
-            for (int i = 0; i < JointCount; i++) {
-                // these local rotations are in the right coordinate system for unity.
-                rotations[i] = Poses[frame, i];
             }
         }
     }
@@ -164,7 +163,7 @@ public abstract class MoShAnimation {
     /// Shape: first 20 blend shapes. Doesn't change over time. 
     /// </summary>
     /// <param name="values">Values.</param>
-    public virtual void GetShapeBlendValues (float[] values) 
+    public void GetShapeBlendValues (float[] values) 
     {
         if (values.Length != shapeBlendCount) throw new Exception("Array values too small. Must have length 20.");
         
@@ -176,7 +175,8 @@ public abstract class MoShAnimation {
             if (betas[i] >= 0) {
                 values[doubledIndex] = scaledBeta;
                 values[doubledIndex + 1] = 0f;
-            } else {
+            } 
+            else {
                 values[doubledIndex] = 0f;
                 values[doubledIndex + 1] = -scaledBeta;
             }
