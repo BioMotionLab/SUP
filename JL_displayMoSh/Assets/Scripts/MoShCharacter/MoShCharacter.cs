@@ -104,7 +104,7 @@ public partial class MoShCharacter : MonoBehaviour {
         anim = new MoShAnimationJSON(animfile).Build();
         animFilename = animfile.name;
 
-        activateMesh(anim.GetGender);
+        activateMesh(anim.Gender);
 
         if (ChangeFrameRate && FrameRate != 0) {
             anim.SetDesiredFPS(FrameRate);
@@ -248,7 +248,7 @@ public partial class MoShCharacter : MonoBehaviour {
 
         boneModifier.ResetRotations();
         resetBlendShapes();
-        Vector3[] joints = JointCalculator.GetDefaultJoints(anim.GetGender);
+        Vector3[] joints = JointCalculator.GetDefaultJoints(anim.Gender);
         boneModifier.updateBonePositions(joints, true);
         //boneModifier.reset();
         //resetJoints();
@@ -264,7 +264,7 @@ public partial class MoShCharacter : MonoBehaviour {
         //boneModifier.ResetRotations();
         //boneModifier.reset_light();
         // or move this to a method in the model. 
-        Vector3[] joints = JointCalculator.GetDefaultJoints(anim.GetGender);
+        Vector3[] joints = JointCalculator.GetDefaultJoints(anim.Gender);
         boneModifier.updateBonePositions(joints, true);
     }
 
@@ -273,7 +273,7 @@ public partial class MoShCharacter : MonoBehaviour {
     /// skinned mesh renderer. 
     /// The mesh is first cloned if this has not previously been done.
     /// </summary>
-    /// <param name="g">GetGender of mesh to swap in</param>
+    /// <param name="g">Gender of mesh to swap in</param>
     void activateMesh(Gender g) 
     {
         if (g == Gender.FEMALE) {

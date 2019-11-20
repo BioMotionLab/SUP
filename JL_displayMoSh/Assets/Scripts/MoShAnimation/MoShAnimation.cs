@@ -24,12 +24,10 @@ public class MoShAnimation {
     
     
     public const bool ZAxisUp = true;
-    
-    int SourceTotalFrameCount;
-
-    Vector3[] translations;
-    Quaternion[,] poses;
-    float[] betas;
+    readonly int sourceTotalFrameCount;
+    readonly Vector3[] translations;
+    readonly Quaternion[,] poses;
+    readonly float[] betas;
     
     int desiredFPS;
     
@@ -39,85 +37,41 @@ public class MoShAnimation {
     /// <value>length of the animation</value>
     public int GetResampledTotalFrameCount => resampledTotalFrameCount;
 
-    float duration;
+    readonly float duration;
 
-    Gender gender;
-    public Gender GetGender => gender;
-
+    public Gender Gender { get; }
 
 
-    protected void Setup(Gender    thisgender,  int           sourceTotalFrameCount, int sourceFPS, float[] thisbetas,
-                         Vector3[] translation, Quaternion[,] thisposes) {
-        SetupGender(thisgender);
-        SetupSourceTotalFrameCount(sourceTotalFrameCount);
-        SetupSourceFPS(sourceFPS);
-        SetupFPS(sourceFPS);
-        SetupBetas(thisbetas);
-        SetupTranslation(translation);
-        SetupPoses(thisposes);
-        SetupResampledFrameCount();
-        SetupDuration();
+    readonly JointCalculator jointCalculator;
+    bool            resamplingRequired = false;
+    int             resampledTotalFrameCount;
+    readonly int             sourceFPS;
+
+    
+    public MoShAnimation(Gender gender,  int sourceTotalFrameCount, int sourceFPS, float[] betas,
+                Vector3[] translations, Quaternion[,] poses) {
+                this.Gender = gender;
+                switch (gender) {
+                    case Gender.MALE:
+                    jointCalculator = JointCalculator.Male;
+                    break;
+                    case Gender.FEMALE:
+                    jointCalculator = JointCalculator.Female;
+                    break;
+                    default:
+                    throw new ArgumentOutOfRangeException(nameof(gender), gender, null);
+                }
+                this.sourceTotalFrameCount = sourceTotalFrameCount;
+                this.sourceFPS = sourceFPS;
+                desiredFPS = sourceFPS;
+                resampledTotalFrameCount = sourceTotalFrameCount;
+                duration = this.sourceTotalFrameCount / (float)this.sourceFPS;
+                this.betas = betas;
+                this.translations = translations;
+                this.translations = translations;
+                this.poses = poses;
     }
     
-    
-    JointCalculator jointCalculator;
-    bool resamplingRequired = false;
-    int  resampledTotalFrameCount;
-    int SourceFPS;
-
-    public MoShAnimation(Gender gender1, int sourceTotalFrameCount, int sourceFPS, float[] betas1, Vector3[] translation, Quaternion[,] poses1) {
-        Setup(gender1, sourceTotalFrameCount, sourceFPS, betas1, translation, poses1);
-    }
-
-    void SetupGender(Gender gender) {
-        this.gender = gender;
-        SetupGenderOfJointCalculator();
-    }
-    
-    void SetupFPS(int setupFPS) {
-        this.desiredFPS = setupFPS;
-    }
-
-    void SetupGenderOfJointCalculator() {
-        switch (gender) {
-            case Gender.MALE:
-                jointCalculator = JointCalculator.Male;
-                break;
-            case Gender.FEMALE:
-                jointCalculator = JointCalculator.Female;
-                break;
-            default:
-                throw new Exception("Unexpected value for gender in JSON file.");
-        }
-    }
-
-    void SetupBetas(float[] setupBetas) {
-        betas = setupBetas;
-    }
-
-    void SetupResampledFrameCount() {
-        resampledTotalFrameCount = SourceTotalFrameCount;
-    }
-
-    void SetupDuration() {
-        duration = SourceTotalFrameCount / (float)SourceFPS;
-    }
-
-    void SetupSourceFPS(int value) {
-        SourceFPS = value;
-    }
-
-    void SetupSourceTotalFrameCount(int value) {
-        SourceTotalFrameCount = value;
-    }
-
-    void SetupTranslation(Vector3[] value) {
-        translations = value;
-    }
-
-    void SetupPoses(Quaternion[,] value) {
-        poses = value;
-    }
     
     /// <summary>
     /// Gets or sets the fps, upsampling or downsampling if the fps is 
@@ -131,7 +85,7 @@ public class MoShAnimation {
         // Time of start and end keys remains constant, but keys in between are shifted
         // and more may be added or removed.
         
-        if (desiredFPS != SourceFPS) {
+        if (desiredFPS != sourceFPS) {
             resamplingRequired = true;
         } else {
             resamplingRequired = false;
@@ -150,14 +104,14 @@ public class MoShAnimation {
 
     public Vector3 GetTranslationAtFrame(int thisFrame) 
     {
-        // so the original code flips the translation, if the up axis is equal to z. 
+        // so the original code flips the translations, if the up axis is equal to z. 
         // I guess I should check on that. 
         
         if (!resamplingRequired) return translations[thisFrame];
         
         float percentageElapsedSinceLastFrame = PercentageElapsedBetweenFrames(thisFrame, out int frameBeforeThis, out int frameAfterThis);
         
-        bool lastFrameInAnimation = frameAfterThis >= SourceTotalFrameCount;
+        bool lastFrameInAnimation = frameAfterThis >= sourceTotalFrameCount;
         if (lastFrameInAnimation) { 
             return translations[frameBeforeThis];
         }
@@ -170,7 +124,7 @@ public class MoShAnimation {
     {
         float timeFrameOccurs = GetTimeAtFrame(thisFrame);
         
-        float decimalFrameIndex = SourceFPS * timeFrameOccurs;
+        float decimalFrameIndex = sourceFPS * timeFrameOccurs;
         frameBeforeThis = Mathf.FloorToInt(decimalFrameIndex);
         frameAfterThis = Mathf.CeilToInt(decimalFrameIndex);
         float percentageElapsedSinceLastFrame = decimalFrameIndex - frameBeforeThis;
@@ -210,7 +164,7 @@ public class MoShAnimation {
                                                    out int frameAfterThis);
 
                 // detect last thisFrameAsDecimal. This might be a slight discontinuity. 
-                if (frameAfterThis >= SourceTotalFrameCount) {
+                if (frameAfterThis >= sourceTotalFrameCount) {
                     rotations[jointIndex] = poses[frameBeforeThis, jointIndex];
                 }
                 else {
