@@ -19,36 +19,34 @@ public class MoShAnimationJSON : MoShAnimation {
     const string TransKey = "trans";
     const string BetasKey = "betas";
     const string PosesKey = "poses";
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="jsontext">Jsontext.</param>
-	public MoShAnimationJSON(TextAsset jsontext)
+    
+
+	public MoShAnimationJSON(TextAsset jsonFile)
     {
         betas = new float[10];
-        LoadAnimationJSON(jsontext);
+        LoadAnimationJSON(jsonFile);
     }
 
 
     /// <summary>
     /// Load a new animation from a JSON TextAsset, replacing the values of the previous animation.
     /// </summary>
-    /// <param name="jsontext">Jsontext.</param>
-    public void LoadAnimationJSON (TextAsset jsontext) 
+    /// <param name="jsonFile"></param>
+    /// <exception cref="Exception"></exception>
+    void LoadAnimationJSON (TextAsset jsonFile) 
 	{
-        if (jsontext == null) {
-            throw new Exception("Tried to instantiate Animation JSON with TextAsset == null");
-        }
-		JSONNode moshjson = JSON.Parse (jsontext.text);
-		LoadAnimationJSON (moshjson);
+        if (jsonFile == null) throw new NullReferenceException("Tried to instantiate Animation JSON with TextAsset == null");
+        
+		JSONNode jsonNode = JSON.Parse (jsonFile.text);
+		LoadAnimationJSON (jsonNode);
 	}
 
 
-	public void LoadAnimationJSON(JSONNode moshjson)
+    void LoadAnimationJSON(JSONNode moshJSON)
 	{
 		// set gender. 
-        JSONNode genderNode = moshjson[GenderKey];
-        if (genderNode.IsNull) throw new Exception("File does not contain a gender field.");
+        JSONNode genderNode = moshJSON[GenderKey];
+        if (genderNode.IsNull) throw new NullReferenceException("File does not contain a gender field.");
         
         if (genderNode == MaleString) {
 			gender = Genders.MALE;
@@ -62,19 +60,19 @@ public class MoShAnimationJSON : MoShAnimation {
             }
         }
         
-        JSONNode fpsNode = moshjson[FPSKey];
-        if (fpsNode.IsNull) throw new Exception("JSON has no fps field.");
+        JSONNode fpsNode = moshJSON[FPSKey];
+        if (fpsNode.IsNull) throw new NullReferenceException("JSON has no fps field.");
         fps = fpsNode;
         SourceFPS = fps;
 
         
-        length = moshjson[TransKey].Count;
+        length = moshJSON[TransKey].Count;
         SourceLength = length;
         duration = length / (float)fps;
 
         for (int i = 0; i < 10; i++) {
             
-            betas[i] = moshjson[BetasKey][i];
+            betas[i] = moshJSON[BetasKey][i];
         }
                 
         Translation = new Vector3[length];
@@ -91,7 +89,7 @@ public class MoShAnimationJSON : MoShAnimation {
 
             // I'm pretty sure maya is right handed z-up. 
             // Unity is right handed y up? 
-            JSONNode transNode = moshjson[TransKey];
+            JSONNode transNode = moshJSON[TransKey];
             float x = transNode[i][0];
             float y = transNode[i][1];
             float z = transNode[i][2];
@@ -107,7 +105,7 @@ public class MoShAnimationJSON : MoShAnimation {
             for (int j = 0; j < JointCount; j++) {
                 // Quaternion components must also be flipped. But the original didn't check what the up axis is. 
                 // Arrrggg the error was that it was getting cast to an integer or something because I was multiplying by -1, not -1f.
-                JSONNode posesNode = moshjson[PosesKey];
+                JSONNode posesNode = moshJSON[PosesKey];
                 float qx = -1.0f * posesNode[i][j][0];
                 float qy = posesNode[i][j][1];
                 float qz = posesNode[i][j][2];
