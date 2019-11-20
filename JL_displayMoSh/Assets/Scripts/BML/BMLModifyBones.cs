@@ -27,6 +27,8 @@ public class BMLModifyBones {
     readonly Vector3[] bonePositions;
 
     readonly Mesh bakedMesh = null;
+    Vector3 minBounds;
+    Vector3 maxBounds;
 
     public BMLModifyBones(SkinnedMeshRenderer skinnedMeshRenderer)
     {
@@ -113,11 +115,10 @@ public class BMLModifyBones {
         }
 
         SetBindPose(bones);
+        
         if (feetOnGround) {
-            Vector3 min = new Vector3();
-            Vector3 max = new Vector3();
-            LocalBounds(ref min, ref max);
-            float heightOffset = -min.y;
+            RecomputeLocalBounds();
+            float heightOffset = -minBounds.y;
 
             bones[pelvisIndex].Translate(0.0f, heightOffset, 0.0f);
 
@@ -199,13 +200,14 @@ public class BMLModifyBones {
         }
     }
 
-    // THIS IS WEIRD BECAUSE SHARED MESH RENDERER CAN FIND THE AABB in local space. 
+    
     /// <summary>
-    /// Finds bounding box in local space.
+    /// Finds bounding box in local space. This needs to happen manually since unity doesn't
+    /// automatically recompute bounds of skinned mesh renderer after import.
     /// </summary>
     /// <param name="min">output for minimum corner</param>
     /// <param name="max">max corner</param>
-    void LocalBounds(ref Vector3 min, ref Vector3 max) {
+    void RecomputeLocalBounds() {
         skinnedMeshRenderer.BakeMesh(bakedMesh); // I bet it's necessary to bake the mesh to 
                                              // access vertex data modified by blend shapes!
                                              // vertex coordinates are in local space. 
@@ -220,32 +222,24 @@ public class BMLModifyBones {
         float zMax = Mathf.NegativeInfinity;
 
         for (int i = 0; i < numVertices; i++) {
-            Vector3 v = vertices[i];
-            if (v.x < xMin) {
-                xMin = v.x;
-            }
-            else if (v.x > xMax) {
-                xMax = v.x;
-            }
-            if (v.y < yMin) {
-                yMin = v.y;
-            }
-            else if (v.y > yMax) {
-                yMax = v.y;
-            }
-            if (v.z < zMin) {
-                zMin = v.z;
-            }
-            else if (v.z > zMax) {
-                zMax = v.z;
-            }
+
+            Vector3 vertex = vertices[i];
+            xMin = Mathf.Min(xMin, vertex.x);
+            xMax = Mathf.Max(xMax, vertex.x);
+            
+            yMin = Mathf.Min(yMin, vertex.y);
+            yMax = Mathf.Max(yMax, vertex.y);
+            
+            zMin = Mathf.Min(zMin, vertex.z);
+            zMax = Mathf.Max(zMax, vertex.z);
         }
-        min.x = xMin;
-        min.y = yMin;
-        min.z = zMin;
-        max.x = xMax;
-        max.y = yMax;
-        max.z = zMax;
+        minBounds.x = xMin;
+        minBounds.y = yMin;
+        minBounds.z = zMin;
+        
+        maxBounds.x = xMax;
+        maxBounds.y = yMax;
+        maxBounds.z = zMax;
     }
 
 
