@@ -63,7 +63,7 @@ public partial class MoShCharacter : MonoBehaviour {
     /// </summary>
     public bool AnimDone {
         get { 
-            return animLoaded && moshFrame >= anim.GetTotalFrameCount; 
+            return animLoaded && moshFrame >= anim.GetResampledTotalFrameCount; 
         }
     }
 
@@ -165,7 +165,7 @@ public partial class MoShCharacter : MonoBehaviour {
 
 
     public void JumpToFrame(int frame) {
-        if (animLoaded && 0 <= frame && frame < anim.GetTotalFrameCount) 
+        if (animLoaded && 0 <= frame && frame < anim.GetResampledTotalFrameCount) 
         {
             moshFrame = frame;
             if (!AnimDone) 

@@ -15,7 +15,7 @@ public abstract class MoShAnimation {
     const float BetaScalingFactor = 5.0f;
 
     protected int SourceFPS;
-    protected int SourceLength;
+    protected int SourceTotalFrameCount;
 
     protected Vector3[] Translation;
     protected Quaternion[,] Poses;
@@ -25,14 +25,14 @@ public abstract class MoShAnimation {
 
     protected const bool ZAxisUp = true;
     
-    protected int TotalFrameCount;
+    protected int resampledTotalFrameCount;
     int desiredFPS;
     
     /// <summary>
     /// Read only. Get the number of frames in the animation. 
     /// </summary>
     /// <value>length of the animation</value>
-    public int GetTotalFrameCount => TotalFrameCount;
+    public int GetResampledTotalFrameCount => resampledTotalFrameCount;
 
     protected float duration;
 
@@ -47,17 +47,20 @@ public abstract class MoShAnimation {
     public int ShapeBlendCount => shapeBlendCount;
     const int poseBlendCount = 207 * 2;
     public const int JointCount = 24;
-
-
-
-    protected void SetupGender(Gender gender) {
-        this.gender = gender;
-        SetupGenderOfJointCalculator(gender);
-    }
+    
     
     JointCalculator jointCalculator;
 
-    void SetupGenderOfJointCalculator(Gender gender) {
+    protected void SetupGender(Gender gender) {
+        this.gender = gender;
+        SetupGenderOfJointCalculator();
+    }
+    
+    protected void SetupFPS(int setupFPS) {
+        this.desiredFPS = setupFPS;
+    }
+
+    void SetupGenderOfJointCalculator() {
         switch (gender) {
             case Gender.MALE:
                 jointCalculator = JointCalculator.Male;
@@ -70,9 +73,7 @@ public abstract class MoShAnimation {
         }
     }
 
-    protected void SetupFPS(int setupFPS) {
-        this.desiredFPS = setupFPS;
-    }
+    
     
     /// <summary>
     /// Gets or sets the fps, upsampling or downsampling if the fps is 
@@ -98,7 +99,7 @@ public abstract class MoShAnimation {
         // if the time between frames is a constant, then the time of the last thisFrameAsDecimal cannot
         // be completely static. 
         // I think I should still floor the value. 
-        TotalFrameCount = Mathf.FloorToInt(desiredFPS * duration);
+        resampledTotalFrameCount = Mathf.FloorToInt(desiredFPS * duration);
         
     }
 
@@ -112,7 +113,7 @@ public abstract class MoShAnimation {
         
         float percentageElapsedSinceLastFrame = PercentageElapsedBetweenFrames(thisFrame, out int frameBeforeThis, out int frameAfterThis);
         
-        bool lastFrameInAnimation = frameAfterThis >= SourceLength;
+        bool lastFrameInAnimation = frameAfterThis >= SourceTotalFrameCount;
         if (lastFrameInAnimation) { 
             return Translation[frameBeforeThis];
         }
@@ -137,7 +138,7 @@ public abstract class MoShAnimation {
     /// </summary>
     float GetTimeAtFrame(int frame) 
     {
-        float percentComplete = frame / (float)TotalFrameCount;
+        float percentComplete = frame / (float)resampledTotalFrameCount;
         float timeAtFrame = percentComplete * duration;
         return timeAtFrame;
     }
@@ -165,7 +166,7 @@ public abstract class MoShAnimation {
                                                    out int frameAfterThis);
 
                 // detect last thisFrameAsDecimal. This might be a slight discontinuity. 
-                if (frameAfterThis >= SourceLength) {
+                if (frameAfterThis >= SourceTotalFrameCount) {
                     rotations[jointIndex] = Poses[frameBeforeThis, jointIndex];
                 }
                 else {

@@ -32,27 +32,29 @@ public class MoShAnimationJSON : MoShAnimation {
         
         
         SetupGender(gender);
-        
+        SetupFPS(SourceFPS);
     }
     
     void LoadAnimationJSON(JSONNode moshJSON)
 	{
 		LoadGender(moshJSON);
-        
         LoadFPS(moshJSON);
-
-        TotalFrameCount = moshJSON[TransKey].Count;
-        SourceLength = TotalFrameCount;
-        duration = TotalFrameCount / (float)SourceFPS;
+        
+        JSONNode transNode = moshJSON[TransKey];
+        
+        SourceTotalFrameCount = transNode.Count;
+        resampledTotalFrameCount = SourceTotalFrameCount;
+        
+        duration = SourceTotalFrameCount / (float)SourceFPS;
 
         for (int i = 0; i < 10; i++) {
             
             betas[i] = moshJSON[BetasKey][i];
         }
                 
-        Translation = new Vector3[TotalFrameCount];
-        Poses = new Quaternion[TotalFrameCount, JointCount];
-        for (int frameIndex = 0; frameIndex < TotalFrameCount; frameIndex++) {
+        Translation = new Vector3[SourceTotalFrameCount];
+        Poses = new Quaternion[SourceTotalFrameCount, JointCount];
+        for (int frameIndex = 0; frameIndex < SourceTotalFrameCount; frameIndex++) {
             
             // original code has x flipped, because Unity has it's z axis flipped
             // compared to other software. I don't know why this would require 
@@ -64,7 +66,7 @@ public class MoShAnimationJSON : MoShAnimation {
 
             // I'm pretty sure maya is right handed z-up. 
             // Unity is right handed y up? 
-            JSONNode transNode = moshJSON[TransKey];
+            
             float x = transNode[frameIndex][0];
             float y = transNode[frameIndex][1];
             float z = transNode[frameIndex][2];
@@ -95,7 +97,7 @@ public class MoShAnimationJSON : MoShAnimation {
         JSONNode fpsNode = moshJSON[FPSKey];
         if (fpsNode.IsNull) throw new NullReferenceException("JSON has no fps field.");
         SourceFPS = fpsNode;
-        SetupFPS(SourceFPS);
+        
     }
 
     void LoadGender(JSONNode moshJSON) {
