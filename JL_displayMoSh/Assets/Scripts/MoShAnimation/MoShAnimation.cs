@@ -25,7 +25,7 @@ public abstract class MoShAnimation {
 
     protected const bool ZAxisUp = true;
 
-    protected JointCalculator JointCalculator;
+    JointCalculator jointCalculator;
 
     protected int length;
     
@@ -48,11 +48,25 @@ public abstract class MoShAnimation {
     public int ShapeBlendCount => shapeBlendCount;
     const int poseBlendCount = 207 * 2;
     public const int JointCount = 24;
-
-
-
+    
     protected int fps;
 
+
+    protected void SetupGender(Genders gender) {
+        switch (gender) {
+            case Genders.MALE:
+                jointCalculator = JointCalculator.Male;
+                break;
+            case Genders.FEMALE:
+                jointCalculator = JointCalculator.Female;
+                break;
+            default:
+                throw new Exception("Unexpected value for gender in JSON file.");
+        }
+    }
+    
+    
+    
     /// <summary>
     /// Gets or sets the fps, upsampling or downsampling if the fps is 
     /// is different from the source fps. 
@@ -198,7 +212,7 @@ public abstract class MoShAnimation {
         // a reference to the array stored in JointCalculator. It's probably
         // not good for other things to be referencing the array in JointCalculator,
         // but if they are, this function might override values that are depended on. 
-        return JointCalculator.calculateJoints(betas);
+        return jointCalculator.calculateJoints(betas);
     }
     
 }

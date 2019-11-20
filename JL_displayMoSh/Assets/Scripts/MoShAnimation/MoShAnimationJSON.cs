@@ -26,40 +26,16 @@ public class MoShAnimationJSON : MoShAnimation {
         if (jsonFile == null) throw new NullReferenceException("Tried to instantiate Animation JSON with null TextAsset");
         
         betas = new float[10];
-        LoadAnimationJSON(jsonFile);
-    }
-
-
-    /// <summary>
-    /// Load a new animation from a JSON TextAsset, replacing the values of the previous animation.
-    /// </summary>
-    /// <param name="jsonFile"></param>
-    /// <exception cref="Exception"></exception>
-    void LoadAnimationJSON (TextAsset jsonFile) 
-	{
         JSONNode jsonNode = JSON.Parse (jsonFile.text);
-		LoadAnimationJSON (jsonNode);
-	}
+        LoadAnimationJSON (jsonNode);
+        SetupGender(gender);
+    }
 
 
     void LoadAnimationJSON(JSONNode moshJSON)
 	{
-		// set gender. 
-        JSONNode genderNode = moshJSON[GenderKey];
-        if (genderNode.IsNull) throw new NullReferenceException("File does not contain a gender field.");
-        
-        if (genderNode == MaleString) {
-			gender = Genders.MALE;
-            JointCalculator = JointCalculator.Male;
-		} else {
-            if (genderNode == FemaleString) {
-                gender = Genders.FEMALE;
-                JointCalculator = JointCalculator.Female;
-            } else {
-                throw new Exception ("Unexpected value for gender in JSON file.");
-            }
-        }
-        
+		LoadGender(moshJSON);
+
         JSONNode fpsNode = moshJSON[FPSKey];
         if (fpsNode.IsNull) throw new NullReferenceException("JSON has no fps field.");
         fps = fpsNode;
@@ -115,5 +91,20 @@ public class MoShAnimationJSON : MoShAnimation {
         }
     }
 
+    void LoadGender(JSONNode moshJSON) {
+        JSONNode genderNode = moshJSON[GenderKey];
+        if (genderNode.IsNull) throw new NullReferenceException("File does not contain a gender field.");
 
+        if (genderNode == MaleString) {
+            gender = Genders.MALE;
+        }
+        else {
+            if (genderNode == FemaleString) {
+                gender = Genders.FEMALE;
+            }
+            else {
+                throw new Exception("Unexpected value for gender in JSON file.");
+            }
+        }
+    }
 }
