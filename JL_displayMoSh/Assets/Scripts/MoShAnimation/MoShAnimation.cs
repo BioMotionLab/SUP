@@ -14,6 +14,15 @@ public abstract class MoShAnimation {
     // a scale variable is needed in order to calculate the beta values.
     const float BetaScalingFactor = 5.0f;
 
+    // these should be fixed to be more consistent. 
+    public const int BetaCount       = 10;
+    
+    public const        int ShapeBlendCount = 2 * BetaCount;
+    const int blendCount = ShapeBlendCount + poseBlendCount;
+    const        int poseBlendCount = 207 * 2;
+    public const int JointCount     = 24;
+    
+    
     protected int SourceFPS;
     protected int SourceTotalFrameCount;
 
@@ -21,11 +30,10 @@ public abstract class MoShAnimation {
     protected Quaternion[,] Poses;
     float[] betas;
 
-    bool ResamplingRequired = false;
-
-    protected const bool ZAxisUp = true;
     
-    protected int resampledTotalFrameCount;
+    
+    protected const bool ZAxisUp = true;
+
     int desiredFPS;
     
     /// <summary>
@@ -40,17 +48,13 @@ public abstract class MoShAnimation {
     public Gender GetGender => gender;
 
 
-    // these should be fixed to be more consistent. 
-    public const int BetaCount = 10;
-    const int blendCount = shapeBlendCount + poseBlendCount;
-    const int shapeBlendCount = 2 * BetaCount;
-    public int ShapeBlendCount => shapeBlendCount;
-    const int poseBlendCount = 207 * 2;
-    public const int JointCount = 24;
+   
     
     
     JointCalculator jointCalculator;
-
+    bool resamplingRequired = false;
+    int  resampledTotalFrameCount;
+    
     protected void SetupGender(Gender gender) {
         this.gender = gender;
         SetupGenderOfJointCalculator();
@@ -77,6 +81,10 @@ public abstract class MoShAnimation {
         betas = setupBetas;
     }
 
+    protected void SetupResampledFrameCount() {
+        resampledTotalFrameCount = SourceTotalFrameCount;
+    }
+
     
     
     /// <summary>
@@ -92,9 +100,9 @@ public abstract class MoShAnimation {
         // and more may be added or removed.
         
         if (desiredFPS != SourceFPS) {
-            ResamplingRequired = true;
+            resamplingRequired = true;
         } else {
-            ResamplingRequired = false;
+            resamplingRequired = false;
         }
         
         // have to update length here. 
@@ -113,7 +121,7 @@ public abstract class MoShAnimation {
         // so the original code flips the translation, if the up axis is equal to z. 
         // I guess I should check on that. 
         
-        if (!ResamplingRequired) return Translation[thisFrame];
+        if (!resamplingRequired) return Translation[thisFrame];
         
         float percentageElapsedSinceLastFrame = PercentageElapsedBetweenFrames(thisFrame, out int frameBeforeThis, out int frameAfterThis);
         
@@ -160,7 +168,7 @@ public abstract class MoShAnimation {
         // ok. Need to spherically interpolate all these quaternions. 
         for (int jointIndex = 0; jointIndex < JointCount; jointIndex++) {
             
-            if (!ResamplingRequired) {
+            if (!resamplingRequired) {
                 // these local rotations are in the right coordinate system for unity.
                 rotations[jointIndex] = Poses[thisFrameAsDecimal, jointIndex];
             }
@@ -191,7 +199,7 @@ public abstract class MoShAnimation {
     /// <param name="values">Values.</param>
     public void GetShapeBlendValues (float[] values) 
     {
-        if (values.Length != shapeBlendCount) throw new Exception("Array values too small. Must have length 20.");
+        if (values.Length != ShapeBlendCount) throw new Exception($"Array values too small. Must have length {ShapeBlendCount}.");
         
         for (int i = 0; i < BetaCount; i++) {
             float scaledBeta = ScaleBeta(betas[i]);

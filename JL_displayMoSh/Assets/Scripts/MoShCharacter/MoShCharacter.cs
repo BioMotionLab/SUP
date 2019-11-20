@@ -198,8 +198,8 @@ public partial class MoShCharacter : MonoBehaviour {
                     pos = 0.0f;
                     neg = -theta;
                 }
-                meshRenderer.SetBlendShapeWeight(anim.ShapeBlendCount + (idx * 2) + elem + 0, pos * 100.0f);
-                meshRenderer.SetBlendShapeWeight(anim.ShapeBlendCount + (idx * 2) + elem + 1, neg * 100.0f);
+                meshRenderer.SetBlendShapeWeight(MoShAnimation.ShapeBlendCount + (idx * 2) + elem + 0, pos * 100.0f);
+                meshRenderer.SetBlendShapeWeight(MoShAnimation.ShapeBlendCount + (idx * 2) + elem + 1, neg * 100.0f);
             }
         }
     }

@@ -35,6 +35,7 @@ public class MoShAnimationJSON : MoShAnimation {
         SetupGender(gender);
         SetupFPS(SourceFPS);
         SetupBetas(betas);
+        SetupResampledFrameCount();
     }
     
     void LoadAnimationJSON(JSONNode moshJSON)
@@ -45,7 +46,6 @@ public class MoShAnimationJSON : MoShAnimation {
         JSONNode transNode = moshJSON[TransKey];
         
         SourceTotalFrameCount = transNode.Count;
-        resampledTotalFrameCount = SourceTotalFrameCount;
         
         duration = SourceTotalFrameCount / (float)SourceFPS;
         
