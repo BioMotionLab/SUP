@@ -38,7 +38,7 @@ public class MoshCharacter : MonoBehaviour {
     public BMLModifyBones boneModifier;
 
     int currentFrame = 0;
-    Quaternion[] poses;
+    
 
     Mesh smplMeshClone;
 
@@ -50,12 +50,10 @@ public class MoshCharacter : MonoBehaviour {
     void Awake()
     {
         meshRenderer = GetComponent<SkinnedMeshRenderer>();
-
-        poses = new Quaternion[SMPLConstants.JointCount];
         
         //Rotate the FBX model in case up direction is not Y - axis;
         // this seems weird. 
-        if (SMPLConstants.ZAxisUp) {
+        if (SMPL.ZAxisUp) {
             transform.parent.Rotate(-90f, 0f, 0f);
         }
 
@@ -83,10 +81,10 @@ public class MoshCharacter : MonoBehaviour {
         }
 
         currentFrame = 0;
-        // 4. Set Betas of avg FBX model in the scene to betas from Mosh file
-        SetBetaBlshapeValues(moshAnimation.GetDoubledBetas());
+        // 4. Set Betas of avg FBX model in the scene to shapeBetas from Mosh file
+        SetMeshShapeBetas(moshAnimation.GetDoubledBetas());
         
-        // 5. Calculate INITIAL joint-locations from betas & update joints of the FBX model
+        // 5. Calculate INITIAL joint-locations from shapeBetas & update joints of the FBX model
         CalculateJoints();
 
     
@@ -107,15 +105,16 @@ public class MoshCharacter : MonoBehaviour {
         
         if (!AnimDone) {
             Vector3 t = moshAnimation.GetTranslationAtFrame(currentFrame);
-            moshAnimation.GetPose(poses, currentFrame);
+            
+            Quaternion[] poses = moshAnimation.GetPose(currentFrame);
             boneModifier.updateBoneAngles(poses, t);
-            SetPoseBlendValues();
+            SetPoseBlendValues(poses);
             currentFrame++;
         }
         
     }
 
-    void SetPoseBlendValues()
+    void SetPoseBlendValues(Quaternion[] poses)
     {
         // start at 1 to skip pelvis. 
         // pelvis has a rotation, but doesn't seem to have associated blend shapes.
@@ -136,8 +135,8 @@ public class MoshCharacter : MonoBehaviour {
                 }
 
                 int doubledIndex = index * 2;
-                meshRenderer.SetBlendShapeWeight(SMPLConstants.DoubledShapeBlendCount + doubledIndex + rotationMatrixElementIndex + 0, pos * 100.0f);
-                meshRenderer.SetBlendShapeWeight(SMPLConstants.DoubledShapeBlendCount + doubledIndex + rotationMatrixElementIndex + 1, neg * 100.0f);
+                meshRenderer.SetBlendShapeWeight(SMPL.DoubledShapeBetaCount + doubledIndex + rotationMatrixElementIndex + 0, pos * 100.0f);
+                meshRenderer.SetBlendShapeWeight(SMPL.DoubledShapeBetaCount + doubledIndex + rotationMatrixElementIndex + 1, neg * 100.0f);
             }
         }
     }
@@ -157,12 +156,12 @@ public class MoshCharacter : MonoBehaviour {
     /// Set the values of the first 20 blendshapes in the skinned 
     /// mesh renderer, defining body shape. 
     /// </summary>
-    /// <param name="bweights">Values assigned to blendshapes.</param>
-    void SetBetaBlshapeValues(float[] bweights) 
+    /// <param name="shapeBetas">Values assigned to blendshapes.</param>
+    void SetMeshShapeBetas(float[] shapeBetas) 
     {
-        //!!!! float beta = betas[i] / SCALE; <- this was in original. It's important!!!
-        for (int shapeIndex = 0; shapeIndex < SMPLConstants.DoubledShapeBlendCount; shapeIndex++) {
-            meshRenderer.SetBlendShapeWeight(shapeIndex, bweights[shapeIndex]);
+        //!!!! float beta = shapeBetas[i] / SCALE; <- this was in original. It's important!!!
+        for (int betaIndex = 0; betaIndex < SMPL.DoubledShapeBetaCount; betaIndex++) {
+            meshRenderer.SetBlendShapeWeight(betaIndex, shapeBetas[betaIndex]);
         }
     }
 

@@ -16,9 +16,9 @@ public class JointCalculator {
     Matrix[] _jntsRegr; // doesn't need reset. 
     Vector3[] _joints;
 
-    int nJoints = SMPLConstants.JointCount;
-    int _numberOfJoints = SMPLConstants.JointCount;
-    int _numberOfBetas = SMPLConstants.BetaCount;
+    int nJoints = SMPL.JointCount;
+    int _numberOfJoints = SMPL.JointCount;
+    int _numberOfBetas = SMPL.ShapeBetaCount;
 
 
     /// <summary>

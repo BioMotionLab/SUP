@@ -135,17 +135,19 @@ public class MoshAnimation {
     /// </summary>
     /// <param name="rotations">Array to fill with joint rotations.</param>
     /// <param name="thisFrameAsDecimal">Frame at which to get rotations</param>
-    public void GetPose(Quaternion[] rotations, int thisFrameAsDecimal) 
+    public Quaternion[] GetPose(int thisFrameAsDecimal) 
     {
-        if (rotations == null) throw new NullReferenceException("null array passed to GetPose");
-        if (rotations.Length != SMPLConstants.JointCount) throw new IndexOutOfRangeException("array with wrong length passed to get pose");
+        Quaternion[] posesThisFrame = new Quaternion[SMPL.JointCount];
+        
+        if (posesThisFrame == null) throw new NullReferenceException("null array passed to GetPose");
+        if (posesThisFrame.Length != SMPL.JointCount) throw new IndexOutOfRangeException("array with wrong length passed to get pose");
         
         // ok. Need to spherically interpolate all these quaternions. 
-        for (int jointIndex = 0; jointIndex < SMPLConstants.JointCount; jointIndex++) {
+        for (int jointIndex = 0; jointIndex < SMPL.JointCount; jointIndex++) {
             
             if (!resamplingRequired) {
                 // these local rotations are in the right coordinate system for unity.
-                rotations[jointIndex] = poses[thisFrameAsDecimal, jointIndex];
+                posesThisFrame[jointIndex] = poses[thisFrameAsDecimal, jointIndex];
             }
             else {
                 float percentageElapsedBetweenFrames =
@@ -154,16 +156,18 @@ public class MoshAnimation {
 
                 // detect last thisFrameAsDecimal. This might be a slight discontinuity. 
                 if (frameAfterThis >= sourceTotalFrameCount) {
-                    rotations[jointIndex] = poses[frameBeforeThis, jointIndex];
+                    posesThisFrame[jointIndex] = poses[frameBeforeThis, jointIndex];
                 }
                 else {
                     Quaternion rotationAtFrameBeforeThis = poses[frameBeforeThis, jointIndex];
                     Quaternion rotationAtFrameAfterThis = poses[frameAfterThis, jointIndex];
-                    rotations[jointIndex] = Quaternion.Slerp(rotationAtFrameBeforeThis, rotationAtFrameAfterThis,
+                    posesThisFrame[jointIndex] = Quaternion.Slerp(rotationAtFrameBeforeThis, rotationAtFrameAfterThis,
                                                              percentageElapsedBetweenFrames);
                 }
             }
         }
+
+        return posesThisFrame;
     }
 
     /// <summary>
@@ -172,9 +176,9 @@ public class MoshAnimation {
     /// Shape: first several blend shapes. Doesn't change over time. 
     /// </summary>
     [Obsolete] public float[] GetDoubledBetas () {
-        float[] values = new float[SMPLConstants.DoubledShapeBlendCount];
+        float[] values = new float[SMPL.DoubledShapeBetaCount];
         
-        for (int i = 0; i < SMPLConstants.BetaCount; i++) {
+        for (int i = 0; i < SMPL.ShapeBetaCount; i++) {
             float scaledBeta = ScaleBeta(betas[i]);
             //Because of pos and neg
             int doubledIndex = 2 * i;
@@ -191,7 +195,7 @@ public class MoshAnimation {
     }
 
     float ScaleBeta(float beta) {
-        float scaledBeta = beta * 100f / SMPLConstants.BetaScalingFactor;
+        float scaledBeta = beta * 100f / SMPL.BetaScalingFactor;
         return scaledBeta;
     }
 
