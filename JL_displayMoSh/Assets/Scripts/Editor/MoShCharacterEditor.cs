@@ -135,41 +135,31 @@ public class MoShCharacterEditor : Editor {
         }
 #endif
 
-        if (!player.LoggingJoints) {
-            if (GUILayout.Button("Enable Joint Logging")) {
-                player.LoggingJoints = true;
-            }
+        
+        //GUILayout.BeginHorizontal();
+        //EditorGUILayout.PropertyField(p_jlogPath);
+        //if (GUILayout.Button("Select...", GUILayout.ExpandWidth(false))) {
+        //    p_jlogPath.stringValue = EditorUtility.OpenFolderPanel("Log output folder", "", "");
+        //}
+        //GUILayout.EndHorizontal();
+
+        GUILayout.BeginHorizontal();
+        EditorGUILayout.PropertyField(p_jlogPath);
+        if (GUILayout.Button("Select...", GUILayout.ExpandWidth(false))) {
+            
+            EditorApplication.delayCall += () => {
+                string s = EditorUtility.OpenFolderPanel("Log output folder", "", "");
+                if (s != string.Empty) {
+                    s = MoShUtilities.PathRelativeOrAbsolute(s);
+                    p_jlogPath.stringValue = s;
+                    serializedObject.ApplyModifiedProperties();
+                }
+            };
         }
-        else {
-            if (GUILayout.Button("Disable Joint Logging")) {
-                player.LoggingJoints = false;
-            }
-
-
-            //GUILayout.BeginHorizontal();
-            //EditorGUILayout.PropertyField(p_jlogPath);
-            //if (GUILayout.Button("Select...", GUILayout.ExpandWidth(false))) {
-            //    p_jlogPath.stringValue = EditorUtility.OpenFolderPanel("Log output folder", "", "");
-            //}
-            //GUILayout.EndHorizontal();
-
-            GUILayout.BeginHorizontal();
-            EditorGUILayout.PropertyField(p_jlogPath);
-            if (GUILayout.Button("Select...", GUILayout.ExpandWidth(false))) {
-                
-                EditorApplication.delayCall += () => {
-                    string s = EditorUtility.OpenFolderPanel("Log output folder", "", "");
-                    if (s != string.Empty) {
-                        s = MoShUtilities.PathRelativeOrAbsolute(s);
-                        p_jlogPath.stringValue = s;
-                        serializedObject.ApplyModifiedProperties();
-                    }
-                };
-            }
-            GUILayout.EndHorizontal();
-            EditorGUILayout.PropertyField(p_jointsRelativeTo, new GUIContent("Relative To"));
-            //EditorGUILayout.PropertyField()
-        }
+        GUILayout.EndHorizontal();
+        EditorGUILayout.PropertyField(p_jointsRelativeTo, new GUIContent("Relative To"));
+        //EditorGUILayout.PropertyField()
+        
         serializedObject.ApplyModifiedProperties();
     }
 }

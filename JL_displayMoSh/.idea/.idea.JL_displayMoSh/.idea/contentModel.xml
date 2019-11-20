@@ -57,9 +57,6 @@
           </e>
           <e p="MoShCharacter" t="Include">
             <e p="MoShCharacter.cs" t="Include" />
-            <e p="MoShCharacter_editMode.cs" t="Include" />
-            <e p="MoShCharacter_logging.cs" t="Include" />
-            <e p="VertexEntry.cs" t="Include" />
           </e>
           <e p="MoShUtilities.cs" t="Include" />
           <e p="PointLightDisplay.cs" t="Include" />

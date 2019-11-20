@@ -5,7 +5,7 @@ using System;
 
 
 /// <summary>
-/// Subclass of MoShAnimation for specific data format (JSON).
+/// Subclass of MoshAnimation for specific data format (JSON).
 /// This class can serve as a guide for extending BMLMoShAnimation to other 
 /// data formats in future. 
 /// </summary>
@@ -33,8 +33,8 @@ public class MoShAnimationJSON {
         LoadAnimationJSON (jsonNode);
     }
 
-    public MoShAnimation Build() {
-        MoShAnimation animation = new MoShAnimation(gender, sourceTotalFrameCount, sourceFPS, betas, translation, poses);
+    public MoshAnimation Build() {
+        MoshAnimation animation = new MoshAnimation(gender, sourceTotalFrameCount, sourceFPS, betas, translation, poses);
         return animation;
     }
     
@@ -52,7 +52,7 @@ public class MoShAnimationJSON {
 
     void LoadTranslationAndPoses(JSONNode moshJSON, JSONNode transNode, int totalNumberOfFrames) {
         translation = new Vector3[totalNumberOfFrames];
-        poses = new Quaternion[totalNumberOfFrames, MoShAnimation.JointCount];
+        poses = new Quaternion[totalNumberOfFrames, MoshAnimation.JointCount];
         for (int frameIndex = 0; frameIndex < totalNumberOfFrames; frameIndex++) {
             // original code has x flipped, because Unity has it's z axis flipped
             // compared to other software. I don't know why this would require 
@@ -69,7 +69,7 @@ public class MoShAnimationJSON {
             float x = thisTranslation[0];
             float y = thisTranslation[1];
             float z = thisTranslation[2];
-            if (MoShAnimation.ZAxisUp) {
+            if (MoshAnimation.ZAxisUp) {
                 x = -x;
             }
             else {
@@ -80,7 +80,7 @@ public class MoShAnimationJSON {
             translation[frameIndex] = flippedTranslation;
 
             // read the quaternions in. 
-            for (int jointIndex = 0; jointIndex < MoShAnimation.JointCount; jointIndex++) {
+            for (int jointIndex = 0; jointIndex < MoshAnimation.JointCount; jointIndex++) {
                 // Quaternion components must also be flipped. But the original didn't check what the up axis is. 
                 // Arrrggg the error was that it was getting cast to an integer or something because I was multiplying by -1, not -1f.
                 JSONNode posesNode = moshJSON[PosesKey];

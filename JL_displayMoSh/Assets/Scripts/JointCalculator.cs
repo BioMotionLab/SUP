@@ -16,9 +16,9 @@ public class JointCalculator {
     Matrix[] _jntsRegr; // doesn't need reset. 
     Vector3[] _joints;
 
-    int nJoints = MoShAnimation.JointCount;
-    int _numberOfJoints = MoShAnimation.JointCount;// = 24;
-    int _numberOfBetas = MoShAnimation.BetaCount;// = 10;
+    int nJoints = MoshAnimation.JointCount;
+    int _numberOfJoints = MoshAnimation.JointCount;// = 24;
+    int _numberOfBetas = MoshAnimation.BetaCount;// = 10;
 
 
     /// <summary>

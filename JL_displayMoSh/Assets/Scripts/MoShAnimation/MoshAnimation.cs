@@ -9,7 +9,7 @@ using System;
 /// 
 /// Using an abstract base class that can be extended with different backends JSON, a binary format etc. 
 /// </summary>
-public class MoShAnimation {
+public class MoshAnimation {
 
     // a scale variable is needed in order to calculate the beta values.
     const float BetaScalingFactor = 5.0f;
@@ -48,7 +48,7 @@ public class MoShAnimation {
     readonly int             sourceFPS;
 
     
-    public MoShAnimation(Gender gender,  int sourceTotalFrameCount, int sourceFPS, float[] betas,
+    public MoshAnimation(Gender gender,  int sourceTotalFrameCount, int sourceFPS, float[] betas,
                 Vector3[] translations, Quaternion[,] poses) {
                 this.Gender = gender;
                 switch (gender) {
