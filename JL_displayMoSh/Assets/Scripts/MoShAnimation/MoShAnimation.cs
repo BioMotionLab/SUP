@@ -23,8 +23,10 @@ public abstract class MoShAnimation {
     public const int JointCount     = 24;
     
     
-    int SourceFPS;
-    protected int SourceTotalFrameCount;
+    public const bool ZAxisUp = true;
+    
+   
+    int SourceTotalFrameCount;
 
     protected Vector3[] Translation;
     protected Quaternion[,] Poses;
@@ -32,7 +34,7 @@ public abstract class MoShAnimation {
 
     
     
-    protected const bool ZAxisUp = true;
+    
 
     int desiredFPS;
     
@@ -54,6 +56,7 @@ public abstract class MoShAnimation {
     JointCalculator jointCalculator;
     bool resamplingRequired = false;
     int  resampledTotalFrameCount;
+    int SourceFPS;
     
     protected void SetupGender(Gender gender) {
         this.gender = gender;
@@ -91,6 +94,10 @@ public abstract class MoShAnimation {
 
     protected void SetupSourceFPS(int value) {
         SourceFPS = value;
+    }
+
+    protected void SetupSourceTotalFrameCount(int value) {
+        SourceTotalFrameCount = value;
     }
     
     /// <summary>

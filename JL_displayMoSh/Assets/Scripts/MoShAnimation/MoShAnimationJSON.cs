@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿
 using UnityEngine;
 using SimpleJSON;
 using System;
@@ -23,16 +22,17 @@ public class MoShAnimationJSON : MoShAnimation {
     Gender gender;
     float[] betas;
     int sourceFPS;
+    int sourceTotalFrameCount;
 
     public MoShAnimationJSON(TextAsset jsonFile)
     {
         if (jsonFile == null) throw new NullReferenceException("Tried to instantiate Animation JSON with null TextAsset");
-        
-        
+
         JSONNode jsonNode = JSON.Parse (jsonFile.text);
         LoadAnimationJSON (jsonNode);
         
         SetupGender(gender);
+        SetupSourceTotalFrameCount(sourceTotalFrameCount);
         SetupSourceFPS(sourceFPS);
         SetupFPS(sourceFPS);
         SetupBetas(betas);
@@ -46,11 +46,10 @@ public class MoShAnimationJSON : MoShAnimation {
         LoadFPS(moshJSON);
         
         JSONNode transNode = moshJSON[TransKey];
-        
-        SourceTotalFrameCount = transNode.Count;
+        sourceTotalFrameCount = transNode.Count;
 
         LoadBetas(moshJSON);
-        LoadTranslationAndPoses(moshJSON, transNode, SourceTotalFrameCount);
+        LoadTranslationAndPoses(moshJSON, transNode, sourceTotalFrameCount);
     }
 
     void LoadTranslationAndPoses(JSONNode moshJSON, JSONNode transNode, int totalNumberOfFrames) {
