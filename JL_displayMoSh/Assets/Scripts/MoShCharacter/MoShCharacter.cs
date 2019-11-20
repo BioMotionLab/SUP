@@ -101,7 +101,7 @@ public partial class MoShCharacter : MonoBehaviour {
         if (anim != null) {
             reset();
         }
-        anim = new MoShAnimationJSON(animfile);
+        anim = new MoShAnimationJSON(animfile).Build();
         animFilename = animfile.name;
 
         activateMesh(anim.GetGender);

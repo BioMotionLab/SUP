@@ -65,7 +65,11 @@ public class MoShAnimation {
     bool resamplingRequired = false;
     int  resampledTotalFrameCount;
     int SourceFPS;
-    
+
+    public MoShAnimation(Gender gender1, int sourceTotalFrameCount, int sourceFPS, float[] betas1, Vector3[] translation, Quaternion[,] poses1) {
+        Setup(gender1, sourceTotalFrameCount, sourceFPS, betas1, translation, poses1);
+    }
+
     void SetupGender(Gender gender) {
         this.gender = gender;
         SetupGenderOfJointCalculator();
