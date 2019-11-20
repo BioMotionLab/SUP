@@ -21,12 +21,13 @@ public class MoShAnimationJSON : MoShAnimation {
     const string PosesKey = "poses";
 
     Gender gender;
+    float[] betas;
 
 	public MoShAnimationJSON(TextAsset jsonFile)
     {
         if (jsonFile == null) throw new NullReferenceException("Tried to instantiate Animation JSON with null TextAsset");
         
-        betas = new float[10];
+        
         JSONNode jsonNode = JSON.Parse (jsonFile.text);
         LoadAnimationJSON (jsonNode);
         
@@ -46,12 +47,9 @@ public class MoShAnimationJSON : MoShAnimation {
         resampledTotalFrameCount = SourceTotalFrameCount;
         
         duration = SourceTotalFrameCount / (float)SourceFPS;
+        
+        LoadBetas(moshJSON);
 
-        for (int i = 0; i < 10; i++) {
-            
-            betas[i] = moshJSON[BetasKey][i];
-        }
-                
         Translation = new Vector3[SourceTotalFrameCount];
         Poses = new Quaternion[SourceTotalFrameCount, JointCount];
         for (int frameIndex = 0; frameIndex < SourceTotalFrameCount; frameIndex++) {
@@ -93,11 +91,18 @@ public class MoShAnimationJSON : MoShAnimation {
         }
     }
 
+    void LoadBetas(JSONNode moshJSON) {
+        betas = new float[10];
+        for (int i = 0; i < 10; i++) {
+            betas[i] = moshJSON[BetasKey][i];
+        }
+        SetupBetas(betas);
+    }
+
     void LoadFPS(JSONNode moshJSON) {
         JSONNode fpsNode = moshJSON[FPSKey];
         if (fpsNode.IsNull) throw new NullReferenceException("JSON has no fps field.");
         SourceFPS = fpsNode;
-        
     }
 
     void LoadGender(JSONNode moshJSON) {

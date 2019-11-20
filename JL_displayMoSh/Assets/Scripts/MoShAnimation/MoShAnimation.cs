@@ -19,7 +19,7 @@ public abstract class MoShAnimation {
 
     protected Vector3[] Translation;
     protected Quaternion[,] Poses;
-    protected float[] betas;
+    float[] betas;
 
     bool ResamplingRequired = false;
 
@@ -71,6 +71,10 @@ public abstract class MoShAnimation {
             default:
                 throw new Exception("Unexpected value for gender in JSON file.");
         }
+    }
+
+    protected void SetupBetas(float[] setupBetas) {
+        betas = setupBetas;
     }
 
     
