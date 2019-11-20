@@ -138,7 +138,7 @@ public partial class MoShCharacter : MonoBehaviour {
     public void PlayCurrentFrame() {
         if (animLoaded) {
             if (!AnimDone) {
-                Vector3 t = anim.GetTranslation(moshFrame);
+                Vector3 t = anim.GetTranslationAtFrame(moshFrame);
                 anim.GetPose(pose, moshFrame);
                 boneModifier.updateBoneAngles(pose, t);
                 setPoseBlendValues();
@@ -155,7 +155,7 @@ public partial class MoShCharacter : MonoBehaviour {
         if (animLoaded) {
             moshFrame++;
             if (!AnimDone) {
-                Vector3 t = anim.GetTranslation(moshFrame);
+                Vector3 t = anim.GetTranslationAtFrame(moshFrame);
                 anim.GetPose(pose, moshFrame);
                 boneModifier.updateBoneAngles(pose, t);
                 setPoseBlendValues();
@@ -170,7 +170,7 @@ public partial class MoShCharacter : MonoBehaviour {
             moshFrame = frame;
             if (!AnimDone) 
             {
-                Vector3 t = anim.GetTranslation(moshFrame);
+                Vector3 t = anim.GetTranslationAtFrame(moshFrame);
                 anim.GetPose(pose, moshFrame);
                 boneModifier.updateBoneAngles(pose, t);
                 setPoseBlendValues();

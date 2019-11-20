@@ -14,18 +14,18 @@ public abstract class MoShAnimation {
     // a scale variable is needed in order to calculate the beta values.
     const float SCALE = 5.0f;
 
-    protected int sourceFPS;
-    protected int sourceLength;
+    protected int SourceFPS;
+    protected int SourceLength;
 
-    protected Vector3[] translation;
-    protected Quaternion[,] poses;
+    protected Vector3[] Translation;
+    protected Quaternion[,] Poses;
     protected float[] betas;
 
-    bool isReSampling = false;
+    bool ResamplingRequired = false;
 
     protected const bool ZAxisUp = true;
 
-    protected JointCalculator jc;
+    protected JointCalculator Jc;
 
     protected int length;
     
@@ -36,38 +36,23 @@ public abstract class MoShAnimation {
     public int Length => length;
 
     protected float duration;
-    
-    /// <summary>
-    /// Duration of the animation in seconds. 
-    /// </summary>
-    public virtual float Duration => duration;
 
     protected Genders gender;
     public Genders Gender => gender;
-
-    /// <summary>
-    /// Read only. The raw beta values from the animation file. (See SMPL paper)
-    /// </summary>
-    /// <value>The betas.</value>
-    public float[] Betas => betas;
 
 
     // these should be fixed to be more consistent. 
     public const int BetaCount = 10;
     const int blendCount = shapeBlendCount + poseBlendCount;
-    public int BlendCount => blendCount;
     const int shapeBlendCount = 2 * BetaCount;
     public int ShapeBlendCount => shapeBlendCount;
-
-
     const int poseBlendCount = 207 * 2;
-    public int PoseBlendCount => poseBlendCount;
-    
     public const int JointCount = 24;
 
 
 
     protected int fps;
+
     /// <summary>
     /// Gets or sets the fps, upsampling or downsampling if the fps is 
     /// is different from the source fps. 
@@ -79,16 +64,16 @@ public abstract class MoShAnimation {
             // duration stays constant, but upsampling/downsampling will happen.
             // Time of start and end keys remains constant, but keys in between are shifted
             // and more may be added or removed.
-            if (fps != sourceFPS) {
-                isReSampling = true;
+            if (fps != SourceFPS) {
+                ResamplingRequired = true;
             } else {
-                isReSampling = false;
+                ResamplingRequired = false;
             }
             //Debug.Log("changed fps");
             // have to update length here. 
             // I think this is the right way to get length.
-            // actually, since the time of the last frame should remain static, 
-            // if the time between frames is a constant, then the time of the last frame cannot
+            // actually, since the time of the last thisFrame should remain static, 
+            // if the time between frames is a constant, then the time of the last thisFrame cannot
             // be completely static. 
             // I think I should still floor the value. 
             length = Mathf.FloorToInt(fps * duration);
@@ -96,23 +81,47 @@ public abstract class MoShAnimation {
     }
 
 
-    public Vector3 GetTranslation (int frame) 
+    public Vector3 GetTranslationAtFrame(int thisFrame) 
     {
         // so the original code flips the translation, if the up axis is equal to z. 
         // I guess I should check on that. 
-        if (isReSampling) {
-            float p = InterpolatedParameter(frame, out int f1, out int f2);
-            // last frame in animation.
-            if (f2 >= sourceLength) { 
-                return translation[f1];
-            }
-            return Vector3.Lerp(translation[f1], translation[f2], p);
+        
+        if (!ResamplingRequired) return Translation[thisFrame];
+        
+        float percentageElapsedSinceLastFrame = PercentageElapsedSinceLastFrame(thisFrame, out int frameBeforeThis, out int frameAfterThis);
+        
+        bool lastFrameInAnimation = frameAfterThis >= SourceLength;
+        if (lastFrameInAnimation) { 
+            return Translation[frameBeforeThis];
         }
-        return translation[frame];
+
+        Vector3 resampledTranslation = Vector3.Lerp(Translation[frameBeforeThis], Translation[frameAfterThis], percentageElapsedSinceLastFrame);
+        return resampledTranslation;
+    }
+
+    float PercentageElapsedSinceLastFrame(int thisFrame, out int frameBeforeThis, out int frameAfterThis)
+    {
+        float timeFrameOccurs = GetTimeAtFrame(thisFrame);
+        
+        float decimalFrameIndex = SourceFPS * timeFrameOccurs;
+        frameBeforeThis = Mathf.FloorToInt(decimalFrameIndex);
+        frameAfterThis = Mathf.CeilToInt(decimalFrameIndex);
+        float percentageElapsedSinceLastFrame = decimalFrameIndex - frameBeforeThis;
+        return percentageElapsedSinceLastFrame;
     }
 
     /// <summary>
-    /// Populate an array with rotations of each joint at frame. 
+    /// Get the time, in seconds since start of animation, at a specified thisFrame.
+    /// </summary>
+    float GetTimeAtFrame(int frame) 
+    {
+        float percentComplete = frame / (float)length;
+        float timeAtFrame = percentComplete * duration;
+        return timeAtFrame;
+    }
+
+    /// <summary>
+    /// Populate an array with rotations of each joint at thisFrame. 
     /// </summary>
     /// <param name="rotations">Array to fill with joint rotations.</param>
     /// <param name="frame">Frame at which to get rotations</param>
@@ -125,17 +134,17 @@ public abstract class MoShAnimation {
         }
         // ok. Need to spherically interpolate all these quaternions. 
 
-        if (isReSampling) {
+        if (ResamplingRequired) {
             for (int i = 0; i < JointCount; i++) {
-                float p = InterpolatedParameter(frame, out int f1, out int f2);
+                float p = PercentageElapsedSinceLastFrame(frame, out int f1, out int f2);
 
-                // detect last frame. This might be a slight discontinuity. 
-                if (f2 >= sourceLength) {
-                    rotations[i] = poses[f1, i];
+                // detect last thisFrame. This might be a slight discontinuity. 
+                if (f2 >= SourceLength) {
+                    rotations[i] = Poses[f1, i];
                 }
                 else {
-                    Quaternion q1 = poses[f1, i];
-                    Quaternion q2 = poses[f2, i];
+                    Quaternion q1 = Poses[f1, i];
+                    Quaternion q2 = Poses[f2, i];
                     rotations[i] = Quaternion.Slerp(q1, q2, p);
                 }
             }
@@ -143,7 +152,7 @@ public abstract class MoShAnimation {
         else {
             for (int i = 0; i < JointCount; i++) {
                 // these local rotations are in the right coordinate system for unity.
-                rotations[i] = poses[frame, i];
+                rotations[i] = Poses[frame, i];
             }
         }
     }
@@ -181,23 +190,14 @@ public abstract class MoShAnimation {
         // a reference to the array stored in JointCalculator. It's probably
         // not good for other things to be referencing the array in JointCalculator,
         // but if they are, this function might override values that are depended on. 
-        return jc.calculateJoints(betas);
+        return Jc.calculateJoints(betas);
     }
 
-    
-    // frame - a frame index in the sampled new framerate. 
-    // ia, ib - closest frames at original frame rate. 
-    float InterpolatedParameter(int frame, out int ia, out int ib)
-    {
-        // find the time at which frame occurs.
-        float time = GetTimeAtFrame(frame);
-        
-        // now use source length to find the nearest original frames. 
-        float f = sourceFPS * time;
-        ia = Mathf.FloorToInt(f);
-        ib = Mathf.CeilToInt(f);
-        return f - ia; // return fractional component of a. 
-    }
+
+    // thisFrame - a thisFrame index in the sampled new framerate. 
+
+
+    // frameBeforeThis, frameAfterThis - closest frames at original thisFrame rate. 
 
 
     protected static float ComputeDuration(int len, int cfps) 
@@ -205,14 +205,4 @@ public abstract class MoShAnimation {
         float deltaT = 1f / cfps;
         return len * deltaT;
     }
-
-    /// <summary>
-    /// Get the time, in seconds since start of animation, at a specified frame.
-    /// </summary>
-    float GetTimeAtFrame(int key) 
-    {
-        float p = key / (float)length;
-        return p * duration;
-    }
-
 }
