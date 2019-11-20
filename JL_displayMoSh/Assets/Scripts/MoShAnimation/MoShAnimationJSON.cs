@@ -34,6 +34,7 @@ public class MoShAnimationJSON : MoShAnimation {
         
         SetupGender(gender);
         SetupFPS(SourceFPS);
+        SetupBetas(betas);
     }
     
     void LoadAnimationJSON(JSONNode moshJSON)
@@ -96,7 +97,6 @@ public class MoShAnimationJSON : MoShAnimation {
         for (int i = 0; i < 10; i++) {
             betas[i] = moshJSON[BetasKey][i];
         }
-        SetupBetas(betas);
     }
 
     void LoadFPS(JSONNode moshJSON) {
