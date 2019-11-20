@@ -25,19 +25,19 @@ public abstract class MoShAnimation {
 
     protected const bool ZAxisUp = true;
     
-    protected int Length;
-    protected int FPS;
+    protected int TotalFrameCount;
+    int desiredFPS;
     
     /// <summary>
     /// Read only. Get the number of frames in the animation. 
     /// </summary>
     /// <value>length of the animation</value>
-    public int GetLength => Length;
+    public int GetTotalFrameCount => TotalFrameCount;
 
     protected float duration;
 
-    protected Gender Gender;
-    public Gender GetGender => Gender;
+    Gender gender;
+    public Gender GetGender => gender;
 
 
     // these should be fixed to be more consistent. 
@@ -47,12 +47,17 @@ public abstract class MoShAnimation {
     public int ShapeBlendCount => shapeBlendCount;
     const int poseBlendCount = 207 * 2;
     public const int JointCount = 24;
-    
-    
 
-    JointCalculator jointCalculator;
+
 
     protected void SetupGender(Gender gender) {
+        this.gender = gender;
+        SetupGenderOfJointCalculator(gender);
+    }
+    
+    JointCalculator jointCalculator;
+
+    void SetupGenderOfJointCalculator(Gender gender) {
         switch (gender) {
             case Gender.MALE:
                 jointCalculator = JointCalculator.Male;
@@ -66,7 +71,7 @@ public abstract class MoShAnimation {
     }
 
     protected void SetupFPS(int setupFPS) {
-        this.FPS = setupFPS;
+        this.desiredFPS = setupFPS;
     }
     
     /// <summary>
@@ -76,12 +81,12 @@ public abstract class MoShAnimation {
     /// <value>The new setDesiredFPS to sample to.</value>
     public void SetDesiredFPS(int value) {
         
-        FPS = value;
+        desiredFPS = value;
         // duration stays constant, but upsampling/downsampling will happen.
         // Time of start and end keys remains constant, but keys in between are shifted
         // and more may be added or removed.
         
-        if (FPS != SourceFPS) {
+        if (desiredFPS != SourceFPS) {
             ResamplingRequired = true;
         } else {
             ResamplingRequired = false;
@@ -93,7 +98,7 @@ public abstract class MoShAnimation {
         // if the time between frames is a constant, then the time of the last thisFrameAsDecimal cannot
         // be completely static. 
         // I think I should still floor the value. 
-        Length = Mathf.FloorToInt(FPS * duration);
+        TotalFrameCount = Mathf.FloorToInt(desiredFPS * duration);
         
     }
 
@@ -132,7 +137,7 @@ public abstract class MoShAnimation {
     /// </summary>
     float GetTimeAtFrame(int frame) 
     {
-        float percentComplete = frame / (float)Length;
+        float percentComplete = frame / (float)TotalFrameCount;
         float timeAtFrame = percentComplete * duration;
         return timeAtFrame;
     }

@@ -19,7 +19,8 @@ public class MoShAnimationJSON : MoShAnimation {
     const string TransKey = "trans";
     const string BetasKey = "betas";
     const string PosesKey = "poses";
-    
+
+    Gender gender;
 
 	public MoShAnimationJSON(TextAsset jsonFile)
     {
@@ -28,27 +29,30 @@ public class MoShAnimationJSON : MoShAnimation {
         betas = new float[10];
         JSONNode jsonNode = JSON.Parse (jsonFile.text);
         LoadAnimationJSON (jsonNode);
+        
+        
+        SetupGender(gender);
+        
     }
     
     void LoadAnimationJSON(JSONNode moshJSON)
 	{
 		LoadGender(moshJSON);
-        SetupGender(Gender);
         
         LoadFPS(moshJSON);
 
-        Length = moshJSON[TransKey].Count;
-        SourceLength = Length;
-        duration = Length / (float)SourceFPS;
+        TotalFrameCount = moshJSON[TransKey].Count;
+        SourceLength = TotalFrameCount;
+        duration = TotalFrameCount / (float)SourceFPS;
 
         for (int i = 0; i < 10; i++) {
             
             betas[i] = moshJSON[BetasKey][i];
         }
                 
-        Translation = new Vector3[Length];
-        Poses = new Quaternion[Length, JointCount];
-        for (int frameIndex = 0; frameIndex < Length; frameIndex++) {
+        Translation = new Vector3[TotalFrameCount];
+        Poses = new Quaternion[TotalFrameCount, JointCount];
+        for (int frameIndex = 0; frameIndex < TotalFrameCount; frameIndex++) {
             
             // original code has x flipped, because Unity has it's z axis flipped
             // compared to other software. I don't know why this would require 
@@ -99,11 +103,11 @@ public class MoShAnimationJSON : MoShAnimation {
         if (genderNode.IsNull) throw new NullReferenceException("File does not contain a gender field.");
 
         if (genderNode == MaleString) {
-            Gender = Gender.MALE;
+            gender = Gender.MALE;
         }
         else {
             if (genderNode == FemaleString) {
-                Gender = Gender.FEMALE;
+                gender = Gender.FEMALE;
             }
             else {
                 throw new Exception("Unexpected value for gender in JSON file.");
