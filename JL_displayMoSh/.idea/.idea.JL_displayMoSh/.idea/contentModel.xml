@@ -29,8 +29,6 @@
           </e>
           <e p="Editor" t="Include">
             <e p="AnimReviewerEditor.cs" t="Include" />
-            <e p="BakeJSONWindow.cs" t="Include" />
-            <e p="PointLightEditor.cs" t="Include" />
           </e>
           <e p="Gender.cs" t="Include" />
           <e p="JointCalculator.cs" t="Include" />
