@@ -23,9 +23,9 @@ public class MoShAnimationJSON : MoShAnimation {
     float[] betas;
     int sourceFPS;
     int sourceTotalFrameCount;
+    Vector3[] translation;
 
-    public MoShAnimationJSON(TextAsset jsonFile)
-    {
+    public MoShAnimationJSON(TextAsset jsonFile)  {
         if (jsonFile == null) throw new NullReferenceException("Tried to instantiate Animation JSON with null TextAsset");
 
         JSONNode jsonNode = JSON.Parse (jsonFile.text);
@@ -36,6 +36,7 @@ public class MoShAnimationJSON : MoShAnimation {
         SetupSourceFPS(sourceFPS);
         SetupFPS(sourceFPS);
         SetupBetas(betas);
+        SetupTranslation(translation);
         SetupResampledFrameCount();
         SetupDuration();
     }
@@ -53,7 +54,7 @@ public class MoShAnimationJSON : MoShAnimation {
     }
 
     void LoadTranslationAndPoses(JSONNode moshJSON, JSONNode transNode, int totalNumberOfFrames) {
-        Translation = new Vector3[totalNumberOfFrames];
+        translation = new Vector3[totalNumberOfFrames];
         Poses = new Quaternion[totalNumberOfFrames, JointCount];
         for (int frameIndex = 0; frameIndex < totalNumberOfFrames; frameIndex++) {
             // original code has x flipped, because Unity has it's z axis flipped
@@ -77,7 +78,7 @@ public class MoShAnimationJSON : MoShAnimation {
                 y = -y;
             }
 
-            Translation[frameIndex] = new Vector3(x, y, z);
+            translation[frameIndex] = new Vector3(x, y, z);
 
             // read the quaternions in. 
             for (int jointIndex = 0; jointIndex < JointCount; jointIndex++) {

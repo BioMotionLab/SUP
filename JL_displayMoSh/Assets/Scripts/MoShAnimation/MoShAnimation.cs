@@ -28,14 +28,12 @@ public abstract class MoShAnimation {
    
     int SourceTotalFrameCount;
 
-    protected Vector3[] Translation;
+    Vector3[] translations;
     protected Quaternion[,] Poses;
     float[] betas;
 
     
     
-    
-
     int desiredFPS;
     
     /// <summary>
@@ -99,6 +97,10 @@ public abstract class MoShAnimation {
     protected void SetupSourceTotalFrameCount(int value) {
         SourceTotalFrameCount = value;
     }
+
+    protected void SetupTranslation(Vector3[] value) {
+        translations = value;
+    }
     
     /// <summary>
     /// Gets or sets the fps, upsampling or downsampling if the fps is 
@@ -134,16 +136,16 @@ public abstract class MoShAnimation {
         // so the original code flips the translation, if the up axis is equal to z. 
         // I guess I should check on that. 
         
-        if (!resamplingRequired) return Translation[thisFrame];
+        if (!resamplingRequired) return translations[thisFrame];
         
         float percentageElapsedSinceLastFrame = PercentageElapsedBetweenFrames(thisFrame, out int frameBeforeThis, out int frameAfterThis);
         
         bool lastFrameInAnimation = frameAfterThis >= SourceTotalFrameCount;
         if (lastFrameInAnimation) { 
-            return Translation[frameBeforeThis];
+            return translations[frameBeforeThis];
         }
 
-        Vector3 resampledTranslation = Vector3.Lerp(Translation[frameBeforeThis], Translation[frameAfterThis], percentageElapsedSinceLastFrame);
+        Vector3 resampledTranslation = Vector3.Lerp(translations[frameBeforeThis], translations[frameAfterThis], percentageElapsedSinceLastFrame);
         return resampledTranslation;
     }
 
