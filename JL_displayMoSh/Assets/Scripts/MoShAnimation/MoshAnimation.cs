@@ -171,14 +171,11 @@ public class MoshAnimation {
     /// shape of the subject. 
     /// Shape: first several blend shapes. Doesn't change over time. 
     /// </summary>
-    /// <param name="values">Values.</param>
-    public void GetShapeBlendValues (float[] values) 
-    {
-        if (values.Length != SMPLConstants.DoubledShapeBlendCount) throw new Exception($"Array values too small. Must have length {SMPLConstants.DoubledShapeBlendCount}.");
+    [Obsolete] public float[] GetDoubledBetas () {
+        float[] values = new float[SMPLConstants.DoubledShapeBlendCount];
         
         for (int i = 0; i < SMPLConstants.BetaCount; i++) {
             float scaledBeta = ScaleBeta(betas[i]);
-            
             //Because of pos and neg
             int doubledIndex = 2 * i;
             if (betas[i] >= 0) {
@@ -190,6 +187,7 @@ public class MoshAnimation {
                 values[doubledIndex + 1] = -scaledBeta;
             }
         }
+        return values;
     }
 
     float ScaleBeta(float beta) {

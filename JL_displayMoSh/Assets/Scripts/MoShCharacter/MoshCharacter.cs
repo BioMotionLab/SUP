@@ -84,9 +84,8 @@ public class MoshCharacter : MonoBehaviour {
 
         currentFrame = 0;
         // 4. Set Betas of avg FBX model in the scene to betas from Mosh file
-        float[] blend = new float[SMPLConstants.DoubledShapeBlendCount];
-        moshAnimation.GetShapeBlendValues(blend);
-        SetBetaBlshapeValues(blend);
+        SetBetaBlshapeValues(moshAnimation.GetDoubledBetas());
+        
         // 5. Calculate INITIAL joint-locations from betas & update joints of the FBX model
         CalculateJoints();
 
@@ -162,7 +161,6 @@ public class MoshCharacter : MonoBehaviour {
     void SetBetaBlshapeValues(float[] bweights) 
     {
         //!!!! float beta = betas[i] / SCALE; <- this was in original. It's important!!!
-        Debug.Assert(bweights.Length == SMPLConstants.DoubledShapeBlendCount, "bweights array too small.");
         for (int shapeIndex = 0; shapeIndex < SMPLConstants.DoubledShapeBlendCount; shapeIndex++) {
             meshRenderer.SetBlendShapeWeight(shapeIndex, bweights[shapeIndex]);
         }
@@ -170,8 +168,8 @@ public class MoshCharacter : MonoBehaviour {
 
 
     void ResetBlendShapes() {
-        for (int i = 0; i < meshRenderer.sharedMesh.blendShapeCount; i++) {
-            meshRenderer.SetBlendShapeWeight(i, 0f);
+        for (int blendShapeIndex = 0; blendShapeIndex < meshRenderer.sharedMesh.blendShapeCount; blendShapeIndex++) {
+            meshRenderer.SetBlendShapeWeight(blendShapeIndex, 0f);
         }
     }
 
