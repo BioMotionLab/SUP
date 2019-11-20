@@ -135,11 +135,11 @@ public class MoshAnimation {
     /// </summary>
     /// <param name="rotations">Array to fill with joint rotations.</param>
     /// <param name="thisFrameAsDecimal">Frame at which to get rotations</param>
-    public Quaternion[] GetPose(int thisFrameAsDecimal) 
+    public Quaternion[] GetPoseAtFrame(int thisFrameAsDecimal) 
     {
         Quaternion[] posesThisFrame = new Quaternion[SMPL.JointCount];
         
-        if (posesThisFrame == null) throw new NullReferenceException("null array passed to GetPose");
+        if (posesThisFrame == null) throw new NullReferenceException("null array passed to GetPoseAtFrame");
         if (posesThisFrame.Length != SMPL.JointCount) throw new IndexOutOfRangeException("array with wrong length passed to get pose");
         
         // ok. Need to spherically interpolate all these quaternions. 

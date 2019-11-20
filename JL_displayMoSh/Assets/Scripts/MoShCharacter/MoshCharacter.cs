@@ -89,12 +89,7 @@ public class MoshCharacter : MonoBehaviour {
 
     
     }
-
-    // should be added. Passing a text file into this isn't a great design.     
-    //public void PlayAnim(MoshAnimation moshanim) {
-    //    throw new NotImplementedException("");
-    //}
-
+    
 
     void Update() {
         PlayCurrentFrame();
@@ -105,17 +100,15 @@ public class MoshCharacter : MonoBehaviour {
         
         if (!AnimDone) {
             Vector3 t = moshAnimation.GetTranslationAtFrame(currentFrame);
-            
-            Quaternion[] poses = moshAnimation.GetPose(currentFrame);
-            boneModifier.updateBoneAngles(poses, t);
-            SetPoseBlendValues(poses);
+            Quaternion[] poses = moshAnimation.GetPoseAtFrame(currentFrame);
+            boneModifier.UpdateBoneAngles(poses, t);
+            SetPoseAsCurrentFrame(poses);
             currentFrame++;
         }
         
     }
 
-    void SetPoseBlendValues(Quaternion[] poses)
-    {
+    void SetPoseAsCurrentFrame( Quaternion[] poses) {
         // start at 1 to skip pelvis. 
         // pelvis has a rotation, but doesn't seem to have associated blend shapes.
         for (int poseIndex = 1; poseIndex < poses.Length; poseIndex++) {
@@ -149,7 +142,7 @@ public class MoshCharacter : MonoBehaviour {
     void CalculateJoints()
     {
         Vector3[] joints = moshAnimation.GetJoints();
-        boneModifier.updateBonePositions(joints, true);
+        boneModifier.UpdateBonePositions(joints, true);
     }
 
     /// <summary>
@@ -181,7 +174,7 @@ public class MoshCharacter : MonoBehaviour {
         boneModifier.ResetRotations();
         ResetBlendShapes();
         Vector3[] joints = JointCalculator.GetDefaultJoints(moshAnimation.Gender);
-        boneModifier.updateBonePositions(joints, true);
+        boneModifier.UpdateBonePositions(joints, true);
     }
 
 
