@@ -5,48 +5,37 @@ using UnityEditor;
 
 public static class MoShUtilities {
 
-
-	// from: https://answers.unity.com/questions/682932/using-generic-list-with-serializedproperty-inspect.html
-	public static void LogProperties(SerializedObject so, bool includeChildren = true) {
-		// Shows all the properties in the serialized object with name and type
-		// You can use this to learn the structure
-		so.Update();
-		SerializedProperty propertyLogger = so.GetIterator();
-		while(true) {
-			Debug.Log("name = " + propertyLogger.name + " type = " + propertyLogger.type);
-			if(!propertyLogger.Next(includeChildren)) break;
-		}
-	}
+    
 
     /// <summary>
     /// Convert rotation Quaternion to 3x3 rotation matrix, converted to RHS so blend shapes work correctly.
     /// </summary>
-    /// <param name="quat">Quaternion to convert to a matrix.</param>
+    /// <param name="quaternion">Quaternion to convert to a matrix.</param>
     /// <returns></returns>
-    public static float[] Quat_to_3x3Mat(Quaternion quat)
+    public static float[] QuaternionTo3X3Matrix(Quaternion quaternion)
     {
         // Blasted left-handed coordinate system -- Converting quaternions from LHS to RHS so that pose blendshapes get the correct values
 
         // if the difference is just handedness, I would have thought only 1 axis would need to be flipped. But these are quaternions, and 
         // pretty much no one understands quaternions. It like - violates labor laws or something.
-        float qx = quat.x * -1.0f;
-        float qy = quat.z * -1.0f;
-        float qz = quat.y * 1.0f;
-        float qw = quat.w * -1.0f;
-        float[] rot3x3 = new float[9];
-        rot3x3[0] = 1 - (2 * qy * qy) - (2 * qz * qz) - 1;
-        rot3x3[1] = (2 * qx * qy) - (2 * qz * qw);
-        rot3x3[2] = (2 * qx * qz) + (2 * qy * qw);
+        float qx = quaternion.x * -1.0f;
+        float qy = quaternion.z * -1.0f;
+        float qz = quaternion.y * 1.0f;
+        float qw = quaternion.w * -1.0f;
+        float[] rot3X3 = new float[9];
+        rot3X3[0] = (2 * qy * qy) - (2 * qz * qz);
+        rot3X3[1] = (2 * qx * qy) - (2 * qz * qw);
+        rot3X3[2] = (2 * qx * qz) + (2 * qy * qw);
 
-        rot3x3[3] = (2 * qx * qy) + (2 * qz * qw);
-        rot3x3[4] = 1 - (2 * qx * qx) - (2 * qz * qz) - 1;
-        rot3x3[5] = (2 * qy * qz) - (2 * qx * qw);
+        rot3X3[3] = (2 * qx * qy) + (2 * qz * qw);
+        rot3X3[4] = (2 * qx * qx) - (2 * qz * qz);
+        rot3X3[5] = (2 * qy * qz) - (2 * qx * qw);
 
-        rot3x3[6] = (2 * qx * qz) - (2 * qy * qw);
-        rot3x3[7] = (2 * qy * qz) + (2 * qx * qw);
-        rot3x3[8] = 1 - (2 * qx * qx) - (2 * qy * qy) - 1;
+        rot3X3[6] = (2 * qx * qz) - (2 * qy * qw);
+        rot3X3[7] = (2 * qy * qz) + (2 * qx * qw);
+        rot3X3[8] = (2 * qx * qx) - (2 * qy * qy);
 
-        return rot3x3;
+        return rot3X3;
     }
 
     /// <summary>
@@ -73,40 +62,5 @@ public static class MoShUtilities {
         return path;
     }
 
-    /// <summary>
-    /// Editors the name of the remove from hierarchy by.
-    /// </summary>
-    /// <param name="root">Root.</param>
-    /// <param name="name">Name.</param>
-    public static void EditorRemoveFromHierarchyByName(Transform root, string name)
-    {
-        Transform matching = root.Find(name);
-        if (matching != null) {
-            Object.DestroyImmediate(matching.gameObject);
-        }
-        if (root.childCount != 0) {
-            foreach (Transform c in root) {
-                EditorRemoveFromHierarchyByName(c, name);
-            }
-        }
-    }
-
-    /// <summary>
-    /// Recursively traverse a transform hierarchy and remove all children with <paramref name="name"/>
-    /// </summary>
-    /// <param name="root">Root.</param>
-    /// <param name="name">Name.</param>
-    public static void RemoveFromHierarchyByName(Transform root, string name)
-    {
-        Transform matching = root.Find(name);
-        if (matching != null) {
-            Object.Destroy(matching.gameObject);
-        }
-        if (root.childCount != 0) {
-            foreach (Transform c in root) {
-                RemoveFromHierarchyByName(c, name);
-            }
-        }
-    }
 	
 }

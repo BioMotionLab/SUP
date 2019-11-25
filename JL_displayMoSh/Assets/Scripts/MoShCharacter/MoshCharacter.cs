@@ -17,13 +17,15 @@ public class MoshCharacter : MonoBehaviour {
     // A bunch of the following fields can basically be considered internal to the program and should be 
     // read in, rather than entered manually in the editor. 
 
+    [FormerlySerializedAs("SMPLMesh_Male_Prefab")]
     [FormerlySerializedAs("SMPLMesh_Male")]
     [FormerlySerializedAs("smpl_m")]
-    public Mesh SMPLMesh_Male_Prefab;
+    public Mesh SMPLMeshMalePrefab;
      
+    [FormerlySerializedAs("SMPLMesh_Female_Prefab")]
     [FormerlySerializedAs("SMPLMesh_Female")]
     [FormerlySerializedAs("smpl_f")]
-    public Mesh SMPLMesh_Female_Prefab;
+    public Mesh SMPLMeshFemalePrefab;
     
     
     
@@ -33,13 +35,14 @@ public class MoshCharacter : MonoBehaviour {
     [FormerlySerializedAs("FrameRate")]
     public int DesiredFrameRate;
 
-    public SkinnedMeshRenderer meshRenderer;
+    [FormerlySerializedAs("meshRenderer")]
+    public SkinnedMeshRenderer MeshRenderer;
 
-    public BMLModifyBones boneModifier;
+    [FormerlySerializedAs("boneModifier")]
+    public BMLModifyBones BoneModifier;
 
     int currentFrame = 0;
     
-
     Mesh smplMeshClone;
 
     /// <summary>
@@ -49,7 +52,7 @@ public class MoshCharacter : MonoBehaviour {
     
     void Awake()
     {
-        meshRenderer = GetComponent<SkinnedMeshRenderer>();
+        MeshRenderer = GetComponent<SkinnedMeshRenderer>();
         
         //Rotate the FBX model in case up direction is not Y - axis;
         // this seems weird. 
@@ -57,7 +60,7 @@ public class MoshCharacter : MonoBehaviour {
             transform.parent.Rotate(-90f, 0f, 0f);
         }
 
-        boneModifier = new BMLModifyBones(meshRenderer);
+        BoneModifier = new BMLModifyBones(MeshRenderer);
         
     }
 
@@ -101,7 +104,7 @@ public class MoshCharacter : MonoBehaviour {
         if (!AnimDone) {
             Vector3 t = moshAnimation.GetTranslationAtFrame(currentFrame);
             Quaternion[] poses = moshAnimation.GetPoseAtFrame(currentFrame);
-            boneModifier.UpdateBoneAngles(poses, t);
+            BoneModifier.UpdateBoneAngles(poses, t);
             SetPoseAsCurrentFrame(poses);
             currentFrame++;
         }
@@ -114,7 +117,7 @@ public class MoshCharacter : MonoBehaviour {
         for (int poseIndex = 1; poseIndex < poses.Length; poseIndex++) {
             // i is equivalent to index for the other version. 
             Quaternion currentPose = poses[poseIndex];
-            float[] rot3x3 = MoShUtilities.Quat_to_3x3Mat(currentPose);
+            float[] rot3x3 = MoShUtilities.QuaternionTo3X3Matrix(currentPose);
             int index = (poseIndex - 1) * 9;
             for (int rotationMatrixElementIndex = 0; rotationMatrixElementIndex < 9; rotationMatrixElementIndex++) {
                 float pos, neg;
@@ -128,8 +131,8 @@ public class MoshCharacter : MonoBehaviour {
                 }
 
                 int doubledIndex = index * 2;
-                meshRenderer.SetBlendShapeWeight(SMPL.DoubledShapeBetaCount + doubledIndex + rotationMatrixElementIndex + 0, pos * 100.0f);
-                meshRenderer.SetBlendShapeWeight(SMPL.DoubledShapeBetaCount + doubledIndex + rotationMatrixElementIndex + 1, neg * 100.0f);
+                MeshRenderer.SetBlendShapeWeight(SMPL.DoubledShapeBetaCount + doubledIndex + rotationMatrixElementIndex + 0, pos * 100.0f);
+                MeshRenderer.SetBlendShapeWeight(SMPL.DoubledShapeBetaCount + doubledIndex + rotationMatrixElementIndex + 1, neg * 100.0f);
             }
         }
     }
@@ -142,7 +145,7 @@ public class MoshCharacter : MonoBehaviour {
     void CalculateJoints()
     {
         Vector3[] joints = moshAnimation.GetJoints();
-        boneModifier.UpdateBonePositions(joints, true);
+        BoneModifier.UpdateBonePositions(joints, true);
     }
 
     /// <summary>
@@ -154,14 +157,14 @@ public class MoshCharacter : MonoBehaviour {
     {
         //!!!! float beta = shapeBetas[i] / SCALE; <- this was in original. It's important!!!
         for (int betaIndex = 0; betaIndex < SMPL.DoubledShapeBetaCount; betaIndex++) {
-            meshRenderer.SetBlendShapeWeight(betaIndex, shapeBetas[betaIndex]);
+            MeshRenderer.SetBlendShapeWeight(betaIndex, shapeBetas[betaIndex]);
         }
     }
 
 
     void ResetBlendShapes() {
-        for (int blendShapeIndex = 0; blendShapeIndex < meshRenderer.sharedMesh.blendShapeCount; blendShapeIndex++) {
-            meshRenderer.SetBlendShapeWeight(blendShapeIndex, 0f);
+        for (int blendShapeIndex = 0; blendShapeIndex < MeshRenderer.sharedMesh.blendShapeCount; blendShapeIndex++) {
+            MeshRenderer.SetBlendShapeWeight(blendShapeIndex, 0f);
         }
     }
 
@@ -171,10 +174,10 @@ public class MoshCharacter : MonoBehaviour {
     /// </summary>
     public void Reset()
     {
-        boneModifier.ResetRotations();
+        BoneModifier.ResetRotations();
         ResetBlendShapes();
         Vector3[] joints = JointCalculator.GetDefaultJoints(moshAnimation.Gender);
-        boneModifier.UpdateBonePositions(joints, true);
+        BoneModifier.UpdateBonePositions(joints, true);
     }
 
 
@@ -187,17 +190,17 @@ public class MoshCharacter : MonoBehaviour {
     void ActivateMesh(Gender gender) {
         switch (gender) {
             case Gender.Female: {
-                smplMeshClone = Instantiate(SMPLMesh_Female_Prefab);
+                smplMeshClone = Instantiate(SMPLMeshFemalePrefab);
                 break;
             }
             case Gender.MALE:
-                smplMeshClone = Instantiate(SMPLMesh_Male_Prefab);
+                smplMeshClone = Instantiate(SMPLMeshMalePrefab);
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(gender), gender, null);
         }
         
-        meshRenderer.sharedMesh = smplMeshClone;
+        MeshRenderer.sharedMesh = smplMeshClone;
     }
     
 
