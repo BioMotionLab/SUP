@@ -17,17 +17,8 @@ public class MoshCharacter : MonoBehaviour {
     // A bunch of the following fields can basically be considered internal to the program and should be 
     // read in, rather than entered manually in the editor. 
 
-    [FormerlySerializedAs("SMPLMesh_Male_Prefab")]
-    [FormerlySerializedAs("SMPLMesh_Male")]
-    [FormerlySerializedAs("smpl_m")]
-    public Mesh SMPLMeshMalePrefab;
-     
-    [FormerlySerializedAs("SMPLMesh_Female_Prefab")]
-    [FormerlySerializedAs("SMPLMesh_Female")]
-    [FormerlySerializedAs("smpl_f")]
-    public Mesh SMPLMeshFemalePrefab;
-    
-    
+    [SerializeField]
+    SMPLSettings Settings;
     
 
     public bool ChangeFrameRate = false;
@@ -49,6 +40,8 @@ public class MoshCharacter : MonoBehaviour {
     /// Has the current animation finished playing, if one has been loaded.
     /// </summary>
     public bool AnimDone => currentFrame >= moshAnimation.GetResampledTotalFrameCount;
+    
+    
     
     void Awake()
     {
@@ -188,20 +181,33 @@ public class MoshCharacter : MonoBehaviour {
     /// </summary>
     /// <param name="gender">Gender of mesh to swap in</param>
     void ActivateMesh(Gender gender) {
+        MeshRenderer.sharedMesh = Settings.GetMesh(gender);
+    }
+    
+
+}
+
+[CreateAssetMenu]
+public class SMPLSettings : ScriptableObject {
+
+    public Mesh MaleMeshPrefab;
+    public Mesh FemaleMeshPrefab;
+
+
+    public Mesh GetMesh(Gender gender) {
+        Mesh newMeshClone;
         switch (gender) {
             case Gender.Female: {
-                smplMeshClone = Instantiate(SMPLMeshFemalePrefab);
+                newMeshClone = Instantiate(FemaleMeshPrefab);
                 break;
             }
             case Gender.MALE:
-                smplMeshClone = Instantiate(SMPLMeshMalePrefab);
+                newMeshClone = Instantiate(MaleMeshPrefab);
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(gender), gender, null);
         }
-        
-        MeshRenderer.sharedMesh = smplMeshClone;
-    }
-    
 
+        return newMeshClone;
+    }
 }

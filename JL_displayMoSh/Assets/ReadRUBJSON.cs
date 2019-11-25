@@ -97,37 +97,7 @@ public class ReadRUBJSON : MonoBehaviour {
         
         if (frame < length) {
 
-            //// find the average offset in z axis.
-            //float avgdisplacement = 0;
-
-            //foreach (var kvp in dcjoints) {
-            //    float rubZ = transform.Find(kvp.Key).position.z;
-            //    float moshz = kvp.Value.position.z;
-
-            //    avgdisplacement += moshz - rubZ;
-            //}
-            //avgdisplacement = avgdisplacement / dcjoints.Count;
-
-            //sumOfAvg += avgdisplacement;
-
-            //float currentAvgOfAvg = sumOfAvg / (frame + 1); // frame is zero based. 
-            // lets reduce the noise. L_Knee and R_knee should be the most stable. 
-            //Transform LK = transform.Find("LKJC");
-            //Transform RK = transform.Find("RKJC");
-
-            //Transform mRK = dcjoints["RKJC"];
-            //Transform mLK = dcjoints["LKJC"]; // martin luther king?
-            //avgdisplacement += mLK.position.z - LK.position.z;
-            //avgdisplacement += mRK.position.z - RK.position.z;
-            //avgdisplacement = avgdisplacement / 2;
-            // just knees seem less stable. 
-
-            //Debug.Log(avgdisplacement + ", " + currentAvgOfAvg);
-
-            // average over all frames is:
-            // deltaZ = -0.2139508
-            // take this number BACK and put it into the matrix. 
-
+      
             // repeat with y offset. 
             float avgdisplacement = 0;
 
@@ -149,7 +119,6 @@ public class ReadRUBJSON : MonoBehaviour {
 
             float currentAvgOfAvg = sumOfAvg / (frame + 1); // frame is zero based. 
 
-            //Debug.Log(avgdisplacement + ", " + currentAvgOfAvg);
 
             foreach (Transform child in transform) {
                 Vector3 t = n[child.name][frame].ReadVector3(Vector3.positiveInfinity);
@@ -166,7 +135,4 @@ public class ReadRUBJSON : MonoBehaviour {
 	}
 
 
-    Transform findCounterBone(string rubname) {
-        return null;
-    }
 }

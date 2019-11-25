@@ -15,8 +15,7 @@ public class AnimReviewer : MonoBehaviour {
 
 	/* Since this should be buffered, I think we can write to it whenever we want
      * without performance penalty after opening it once. */
-	//Private is apparently the default access modifier in c# and can be omitted
-	StreamWriter responseWriter;
+    StreamWriter responseWriter;
 
 
     [Tooltip("Path to file with list of animation file names")]
@@ -59,6 +58,8 @@ public class AnimReviewer : MonoBehaviour {
 		// read the list of filenames.
 		animLines = File.ReadAllLines(animListPath);
 
+        
+        
         Debug.Log(AnimFolder);
         // Resources.Load requires that the pathname be in a folder called Resources. If the path entered is not relative to resources,
         // the whole thing will fail. This is confusing and finicky, so I'm testing for it, and allowing paths to be entered
@@ -93,6 +94,8 @@ public class AnimReviewer : MonoBehaviour {
                 AnimFolder = AnimFolder + "/";
         }
 
+        
+        
         if (RecordResponses) {
             
             responseWriter = new StreamWriter(responseFilePath, !overwrite);
