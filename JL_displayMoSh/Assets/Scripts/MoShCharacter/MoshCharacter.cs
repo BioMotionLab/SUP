@@ -62,8 +62,10 @@ public class MoshCharacter : MonoBehaviour {
     /// This is the main point of interaction with the load MoSh functionality.
     /// Give it a file, call the method and it will do the whole thing.
     /// </summary>
-    public void PlayAnim(String jsonAnimationFileWholeString)
+    public void StartAnimation(String jsonAnimationFileWholeString)
     {
+        transform.parent.gameObject.SetActive(true);
+        
         if (moshAnimation != null) {
             Reset();
         }
@@ -82,7 +84,6 @@ public class MoshCharacter : MonoBehaviour {
         // 5. Calculate INITIAL joint-locations from shapeBetas & update joints of the FBX model
         CalculateJoints();
 
-    
     }
     
 
@@ -99,6 +100,9 @@ public class MoshCharacter : MonoBehaviour {
             BoneModifier.UpdateBoneAngles(poses, t);
             SetPoseAsCurrentFrame(poses);
             currentFrame++;
+        }
+        else {
+            if (Settings.HideMeshWhenFinished) transform.parent.gameObject.SetActive(false);
         }
         
     }
@@ -177,27 +181,4 @@ public class MoshCharacter : MonoBehaviour {
         MeshRenderer.sharedMesh = Instantiate(Settings.GetMeshPrefab(gender));
     }
     
-
-}
-
-[CreateAssetMenu]
-public class SMPLSettings : ScriptableObject {
-
-    [SerializeField]
-    Mesh MaleMeshPrefab = default;
-    
-    [SerializeField]
-    Mesh FemaleMeshPrefab = default;
-    
-    public Mesh GetMeshPrefab(Gender gender) {
-        switch (gender) {
-            case Gender.Female: 
-                return FemaleMeshPrefab;
-            case Gender.MALE:
-                return MaleMeshPrefab;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(gender), gender, null);
-        }
-        
-    }
 }

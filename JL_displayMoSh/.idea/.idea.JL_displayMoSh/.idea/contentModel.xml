@@ -36,6 +36,7 @@
           </e>
           <e p="MoShCharacter" t="Include">
             <e p="MoShCharacter.cs" t="Include" />
+            <e p="SMPLSettings.cs" t="Include" />
           </e>
           <e p="MoShUtilities.cs" t="Include" />
           <e p="PointLightDisplay.cs" t="Include" />
