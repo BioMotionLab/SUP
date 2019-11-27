@@ -15,9 +15,7 @@ public class MoshCharacter : MonoBehaviour {
     
     MoshAnimation moshAnimation;
     Mesh smplMeshClone;
-
-   
-
+    
     public bool ChangeFrameRate = false;
     
     [FormerlySerializedAs("FrameRate")]
@@ -29,30 +27,26 @@ public class MoshCharacter : MonoBehaviour {
     [FormerlySerializedAs("boneModifier")]
     public BMLModifyBones BoneModifier;
 
-    int currentFrame = 0;
     
     [SerializeField]
     SMPLSettings Settings = default;
 
-
-    /// <summary>
-    /// Has the current animation finished playing, if one has been loaded.
-    /// </summary>
-    public bool AnimDone => currentFrame >= moshAnimation.GetResampledTotalFrameCount;
-    
-    
     void Awake()
     {
         MeshRenderer = GetComponent<SkinnedMeshRenderer>();
         
-        //Rotate the FBX model in case up direction is not Y - axis;
-        // this seems weird. 
-        if (SMPL.ZAxisUp) {
-            transform.parent.Rotate(-90f, 0f, 0f);
-        }
+        RotateToUnityCoordinatesIfNeeded();
 
         BoneModifier = new BMLModifyBones(MeshRenderer);
         
+    }
+
+    void RotateToUnityCoordinatesIfNeeded() {
+        //Rotate the FBX model in case up direction is not Y - axis;
+        // this seems weird. 
+        if (SMPL.ZAxisUpInOriginalFiles) {
+            transform.parent.Rotate(-90f, 0f, 0f);
+        }
     }
 
 
@@ -64,61 +58,21 @@ public class MoshCharacter : MonoBehaviour {
     public void StartAnimation(String jsonAnimationFileWholeString)
     {
         transform.parent.gameObject.SetActive(true);
-        
-        if (moshAnimation != null) {
-            Reset();
-        }
-        
         moshAnimation = new MoShAnimationFromJSON(jsonAnimationFileWholeString).Build();
         moshAnimation.AttachAnimationToMoshCharacter(this);
-        
-        currentFrame = 0;
-
     }
     
 
     void Update() {
-        PlayCurrentFrame();
+        if (moshAnimation.Finished) return;
+        moshAnimation.PlayCurrentFrame();
     }
-
-
-    void PlayCurrentFrame() {
-        
-        if (!AnimDone) {
-            Vector3 t = moshAnimation.GetTranslationAtFrame(currentFrame);
-            Quaternion[] poses = moshAnimation.GetPoseAtFrame(currentFrame);
-            BoneModifier.UpdateBoneAngles(poses, t);
-            moshAnimation.SetPoseAsCurrentFrame(poses);
-            currentFrame++;
-        }
-        else {
-            if (Settings.HideMeshWhenFinished) transform.parent.gameObject.SetActive(false);
-        }
-        
-    }
-
-    
-    void ResetBlendShapes() {
-        for (int blendShapeIndex = 0; blendShapeIndex < MeshRenderer.sharedMesh.blendShapeCount; blendShapeIndex++) {
-            MeshRenderer.SetBlendShapeWeight(blendShapeIndex, 0f);
-        }
-    }
-
-
-    /// <summary>
-    /// Called by PlayAnim to reset the skeleton before playing another animation.
-    /// </summary>
-    public void Reset()
-    {
-        BoneModifier.ResetRotations();
-        ResetBlendShapes();
-        Vector3[] joints = JointCalculator.GetDefaultJoints(moshAnimation.Gender);
-        BoneModifier.UpdateBonePositions(joints, true);
-    }
-
     
     public void ActivateMesh(Gender gender) {
         MeshRenderer.sharedMesh = Instantiate(Settings.GetMeshPrefab(gender));
     }
-    
+
+    public void AnimationCompleted() {
+        if (Settings.HideMeshWhenFinished) transform.parent.gameObject.SetActive(false);
+    }
 }

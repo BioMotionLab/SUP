@@ -34,6 +34,12 @@ public class MoshAnimation {
     readonly int             sourceFPS;
     MoshCharacter moshCharacter;
 
+    int currentFrame = 0;
+    
+    /// <summary>
+    /// Has the current animation finished playing, if one has been loaded.
+    /// </summary>
+    public bool Finished => currentFrame >= GetResampledTotalFrameCount;
 
     public MoshAnimation(Gender gender,  int sourceTotalFrameCount, int sourceFPS, float[] betas,
                 Vector3[] translations, Quaternion[,] poses) {
@@ -57,6 +63,7 @@ public class MoshAnimation {
                 this.translations = translations;
                 this.translations = translations;
                 this.poses = poses;
+                currentFrame = 0;
                 
     }
 
@@ -205,13 +212,13 @@ public class MoshAnimation {
         return values;
     }
 
-    float ScaleBeta(float beta) {
+    static float ScaleBeta(float beta) {
         float scaledBeta = beta * 100f / SMPL.BetaScalingFactor;
         return scaledBeta;
     }
 
 
-    public void SetPoseAsCurrentFrame( Quaternion[] poses) {
+    void SetPoseAsCurrentFrame( Quaternion[] poses) {
         // start at 1 to skip pelvis. 
         // pelvis has a rotation, but doesn't seem to have associated blend shapes.
         for (int poseIndex = 1; poseIndex < poses.Length; poseIndex++) {
@@ -237,6 +244,39 @@ public class MoshAnimation {
         }
     }
     
+    
+    public void PlayCurrentFrame() {
+        
+        
+        Vector3 translationAtFrame = GetTranslationAtFrame(currentFrame);
+        Quaternion[] poses = GetPoseAtFrame(currentFrame);
+        moshCharacter.BoneModifier.UpdateBoneAngles(poses, translationAtFrame);
+        SetPoseAsCurrentFrame(poses);
+        currentFrame++;
+
+        if (Finished) {
+            Reset();
+            moshCharacter.AnimationCompleted();
+        }
+
+    }
+    
+    
+    /// <summary>
+    /// Called by PlayAnim to reset the skeleton before playing another animation.
+    /// </summary>
+    void Reset() {
+        moshCharacter.BoneModifier.ResetRotations();
+        ResetBlendShapes();
+        Vector3[] joints = JointCalculator.GetDefaultJoints(Gender);
+        moshCharacter.BoneModifier.UpdateBonePositions(joints, true);
+    }
+    
+    void ResetBlendShapes() {
+        for (int blendShapeIndex = 0; blendShapeIndex < moshCharacter.MeshRenderer.sharedMesh.blendShapeCount; blendShapeIndex++) {
+            moshCharacter.MeshRenderer.SetBlendShapeWeight(blendShapeIndex, 0f);
+        }
+    }
     
     /// <summary>
     /// Set the values of the first 20 blendshapes in the skinned 

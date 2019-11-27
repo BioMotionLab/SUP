@@ -62,7 +62,7 @@ public class MoShAnimationFromJSON {
             float x = thisTranslation[0];
             float y = thisTranslation[1];
             float z = thisTranslation[2];
-            if (SMPL.ZAxisUp) {
+            if (SMPL.ZAxisUpInOriginalFiles) {
                 x = -x;
             }
             else {

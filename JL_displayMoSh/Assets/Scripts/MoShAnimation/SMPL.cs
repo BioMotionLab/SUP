@@ -10,7 +10,7 @@ public static class SMPL {
     const        int DoubledPoseBlendCount  = PoseCount * 2;
     const        int DoubledBlendCount      = DoubledShapeBetaCount + DoubledPoseBlendCount;
     
-    public const bool ZAxisUp = true;
+    public const bool ZAxisUpInOriginalFiles = true;
 
     public class JSONKeys {
      
