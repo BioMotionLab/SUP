@@ -290,7 +290,7 @@ public class MoshAnimation {
     /// </summary>
     void CalculateJoints()
     {
-        Vector3[] joints = jointCalculator.calculateJoints(betas);
+        Vector3[] joints = jointCalculator.CalculateJoints(betas);
         boneModifier.UpdateBonePositions(joints, true);
     }
     

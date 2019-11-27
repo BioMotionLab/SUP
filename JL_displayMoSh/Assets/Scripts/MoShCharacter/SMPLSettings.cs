@@ -16,11 +16,11 @@ public class SMPLSettings : ScriptableObject {
     [SerializeField]
     TextAsset MaleJointRegressorFile = default;
 
-    public JointCalculator MaleJointCalculator => new JointCalculator(MaleJointRegressorFile, this);
+    public JointCalculator MaleJointCalculator => new JointCalculatorFromJSON(MaleJointRegressorFile).BuildWithSettings(this);
 
     [SerializeField]
     TextAsset FemaleJointRegressorFile = default;
-    public JointCalculator FemaleJointCalculator => new JointCalculator(FemaleJointRegressorFile, this);
+    public JointCalculator FemaleJointCalculator => new JointCalculatorFromJSON(FemaleJointRegressorFile).BuildWithSettings(this);
 
     [SerializeField]
     public bool HideMeshWhenFinished = true;
@@ -34,6 +34,11 @@ public class SMPLSettings : ScriptableObject {
             default:
                 throw new ArgumentOutOfRangeException(nameof(gender), gender, null);
         }
-        
+    }
+
+    public MoshCharacter CreateNewCharacter() {
+        GameObject newCharacter = Instantiate(CharacterPrefab);
+        MoshCharacter newMoshCharacter = newCharacter.GetComponent<MoshCharacter>();
+        return newMoshCharacter;
     }
 }

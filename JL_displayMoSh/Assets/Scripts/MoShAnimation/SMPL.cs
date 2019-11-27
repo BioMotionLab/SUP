@@ -11,7 +11,8 @@ public static class SMPL {
     const        int DoubledBlendCount      = DoubledShapeBetaCount + DoubledPoseBlendCount;
     
     public const bool ZAxisUpInOriginalFiles = true;
-
+    public const int JointDimensions = 3;
+    
     public class JSONKeys {
      
         public const string Gender    = "gender";
@@ -21,6 +22,9 @@ public static class SMPL {
         public const string Trans     = "trans";
         public const string Betas     = "betas";
         public const string Poses     = "poses";
+
+        public const string Templates = "template_J";
+        public const string BetaJointRegressors = "betasJ_regr";
     }
 
 }

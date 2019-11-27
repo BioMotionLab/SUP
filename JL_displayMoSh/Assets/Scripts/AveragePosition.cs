@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class AveragePosition : MonoBehaviour {
 
     public Transform p1;
@@ -9,8 +10,8 @@ public class AveragePosition : MonoBehaviour {
 
 	void LateUpdate()
 	{
-
-        transform.position = (p1.position + p2.position) / 2;
+		//TODO Not super sure what this is used for. Maybe the FreeLookCamera? so it has something to target?
+        //transform.position = (p1.position + p2.position) / 2;
 
 	}
 }

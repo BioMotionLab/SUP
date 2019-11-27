@@ -25,17 +25,8 @@ public class AnimReviewer : MonoBehaviour {
     [HideInInspector]
     [SerializeField] 
 	public string AnimFolder = DefaultSelectPathText;
-	
-	
-	[FormerlySerializedAs("AnimPlayer1")]
-    [SerializeField] 
-    public MoshCharacter Character1;
 
-    [FormerlySerializedAs("AnimPlayer2")]
-    [SerializeField] 
-    public MoshCharacter Character2;
-	
-    int animIndex = 0;
+	int animIndex = 0;
 	
 	[SerializeField]
 	SMPLSettings Settings = default;
@@ -83,8 +74,10 @@ public class AnimReviewer : MonoBehaviour {
 	void StartAnimation(int animationIndex) {
 		MoshAnimation[] animationSet = animations[animationIndex];
 		Debug.Log($"Playing animation number {animationIndex}, {animationSet.Length} animations in set");
-		Character1.StartAnimation(animationSet[0]);
-		Character2.StartAnimation(animationSet[1]);
+		foreach (MoshAnimation moshAnimation in animationSet) {
+			MoshCharacter character = Settings.CreateNewCharacter();
+			character.StartAnimation(moshAnimation);
+		}
 	}
 
 	string LoadAnimFileAsString(string filename) {
