@@ -26,16 +26,16 @@ public class MoshCharacter : MonoBehaviour {
     [SerializeField]
     SMPLSettings Settings = default;
 
-    void Awake()
-    {
+    void Awake() {
         skinnedMeshRenderer = GetComponent<SkinnedMeshRenderer>();
-        
         RotateToUnityCoordinatesIfNeeded();
     }
 
+    /// <summary>
+    /// Rotate the FBX model in case up direction is not Y - axis;
+    /// this seems weird. 
+    /// </summary>
     void RotateToUnityCoordinatesIfNeeded() {
-        //Rotate the FBX model in case up direction is not Y - axis;
-        // this seems weird. 
         if (SMPL.ZAxisUpInOriginalFiles) {
             transform.parent.Rotate(-90f, 0f, 0f);
         }
@@ -46,10 +46,9 @@ public class MoshCharacter : MonoBehaviour {
     /// This is the main point of interaction with the load MoSh functionality.
     /// Give it a file, call the method and it will do the whole thing.
     /// </summary>
-    public void StartAnimation(String jsonAnimationFileWholeString)
-    {
+    public void StartAnimation(MoshAnimation animationToStart) {
+        moshAnimation = animationToStart;
         transform.parent.gameObject.SetActive(true);
-        moshAnimation = new MoShAnimationFromJSON(jsonAnimationFileWholeString).Build();
         ActivateMesh(moshAnimation.Gender);
         moshAnimation.AttachAnimationToMoshCharacter(skinnedMeshRenderer);
         if (ChangeFrameRate) moshAnimation.AdjustFrameRate(DesiredFrameRate);
@@ -57,6 +56,11 @@ public class MoshCharacter : MonoBehaviour {
     
 
     void Update() {
+        UpdateAnimation();
+    }
+
+    void UpdateAnimation() {
+        if (moshAnimation == null) return;
         if (moshAnimation.Finished) {
             AnimationCompleted();
             return;
@@ -64,7 +68,7 @@ public class MoshCharacter : MonoBehaviour {
 
         moshAnimation.PlayCurrentFrame();
     }
-    
+
     void ActivateMesh(Gender gender) {
         skinnedMeshRenderer.sharedMesh = Instantiate(Settings.GetMeshPrefab(gender));
     }

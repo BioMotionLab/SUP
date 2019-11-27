@@ -83,21 +83,21 @@ public class AnimReviewer : MonoBehaviour {
 	/// <param name="animationIndex"></param>
 	void StartAnimation(int animationIndex) 
     {
-		string[] animationFileStrings = GetAnimationFiles(animationIndex);
-		
-		Character1.StartAnimation(animationFileStrings[0]);
-		Character2.StartAnimation(animationFileStrings[1]);
+		MoshAnimation[] animations = GetAnimationsFromFile(animationIndex);
+		Character1.StartAnimation(animations[0]);
+		Character2.StartAnimation(animations[1]);
 	}
 
-	string[] GetAnimationFiles(int animationIndex) {
+	MoshAnimation[] GetAnimationsFromFile(int animationIndex) {
 		//TODO maybe better way to store list of animations? Needs to be MatLab-friendly for Niko.
 		string[] fileNames = animLines[animationIndex].Split (' '); //Space delimited
-		string[] animationFileStrings = new string[fileNames.Length];
+		MoshAnimation[] animations = new MoshAnimation[fileNames.Length];
 		for (int index = 0; index < fileNames.Length; index++) {
 			string filename = fileNames[index];
-			animationFileStrings[index] =  LoadAnimFileAsString(filename);
+			string animationFileString = LoadAnimFileAsString(filename);
+			animations[index] = new MoShAnimationFromJSON(animationFileString).Build();
 		}
-		return animationFileStrings;
+		return animations;
 	}
 
 	string LoadAnimFileAsString(string filename) {
