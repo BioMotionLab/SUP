@@ -72,7 +72,7 @@ public class MoshAnimation {
         Reset();
         
         //Set Betas of avg FBX model in the scene to shapeBetas from Mosh file
-        SetMeshShapeBetas();
+        UpdateBlendShapes();
         //Calculate INITIAL joint-locations from shapeBetas & update joints of the FBX model
         CalculateJoints();
         
@@ -214,6 +214,7 @@ public class MoshAnimation {
     }
 
 
+    [Obsolete]
     void SetPoseAsCurrentFrame( Quaternion[] poses) {
         // start at 1 to skip pelvis. 
         // pelvis has a rotation, but doesn't seem to have associated blend shapes.
@@ -265,22 +266,16 @@ public class MoshAnimation {
     }
     
     
+    void UpdateBlendShapes() {
+        float[] shapeBetas = GetDoubledBetas();
+        for (int betaIndex = 0; betaIndex < SMPL.DoubledShapeBetaCount; betaIndex++) {
+            meshRenderer.SetBlendShapeWeight(betaIndex, shapeBetas[betaIndex]);
+        }
+    }
+        
     void ResetBlendShapes() {
         for (int blendShapeIndex = 0; blendShapeIndex < meshRenderer.sharedMesh.blendShapeCount; blendShapeIndex++) {
             meshRenderer.SetBlendShapeWeight(blendShapeIndex, 0f);
-        }
-    }
-    
-    /// <summary>
-    /// Set the values of the first 20 blendshapes in the skinned 
-    /// mesh renderer, defining body shape. 
-    /// </summary>
-    /// <param name="shapeBetas">Values assigned to blendshapes.</param>
-    void SetMeshShapeBetas() {
-        float[] shapeBetas = GetDoubledBetas();
-        //!!!! float beta = shapeBetas[i] / SCALE; <- this was in original. It's important!!!
-        for (int betaIndex = 0; betaIndex < SMPL.DoubledShapeBetaCount; betaIndex++) {
-            meshRenderer.SetBlendShapeWeight(betaIndex, shapeBetas[betaIndex]);
         }
     }
     

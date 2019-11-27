@@ -1,66 +1,6 @@
 ﻿using System;
 using UnityEngine;
 using LightweightMatrixCSharp;
-using SimpleJSON;
-
-
-public class JointCalculatorFromJSON {
-    Matrix[] jointsRegressor;
-    Vector3[] joints;
-    Matrix[] template;
-
-
-    public JointCalculatorFromJSON(TextAsset jsonText) {
-        joints = new Vector3[SMPL.JointCount];
-        template = new Matrix [SMPL.JointDimensions];
-        jointsRegressor = new Matrix [SMPL.JointDimensions];
-
-        JSONNode mainNode = JSON.Parse(jsonText.text);
-        
-        ParseTemplatesFromJSON(mainNode);
-        ParseJointRegressorsFromJSON(mainNode);
-    }
-    
-    void ParseJointRegressorsFromJSON(JSONNode node) {
-        JSONNode betasJointRegressorNode = node[SMPL.JSONKeys.BetaJointRegressors];
-        for (int dimensionIndex = 0; dimensionIndex < SMPL.JointDimensions; dimensionIndex++) {
-            jointsRegressor[dimensionIndex] = new Matrix(SMPL.JointCount, SMPL.ShapeBetaCount);
-        }
-
-        for (int jointIndex = 0; jointIndex < SMPL.JointCount; jointIndex++) {
-            // Init joint template matrix
-            // Init beta regressor matrix    
-            for (int shapeBetaIndex = 0; shapeBetaIndex < SMPL.ShapeBetaCount; shapeBetaIndex++) {
-                for (int dimensionIndex = 0; dimensionIndex < SMPL.JointDimensions; dimensionIndex++) {
-                    Matrix jointRegressorMatrix = jointsRegressor[dimensionIndex];
-                    jointRegressorMatrix[jointIndex, shapeBetaIndex] =
-                        betasJointRegressorNode[jointIndex][dimensionIndex][shapeBetaIndex].AsDouble;
-                }
-            }
-        }
-    }
-
-    void ParseTemplatesFromJSON(JSONNode node) {
-        JSONNode templateNode = node[SMPL.JSONKeys.Templates];
-        for (int dimensionIndex = 0; dimensionIndex < SMPL.JointDimensions; dimensionIndex++) {
-            template[dimensionIndex] = new Matrix(SMPL.JointCount, 1);
-        }
-
-        for (int jointIndex = 0; jointIndex < SMPL.JointCount; jointIndex++) {
-            // Init joint template matrix
-
-            for (int dimensionIndex = 0; dimensionIndex < SMPL.JointDimensions; dimensionIndex++) {
-                double x = templateNode[jointIndex][dimensionIndex].AsDouble;
-                Matrix templateMatrix = template[dimensionIndex];
-                templateMatrix[jointIndex, 0] = x;
-            }
-        }
-    }
-
-    public JointCalculator BuildWithSettings(SMPLSettings settings) {
-        return new JointCalculator(template, jointsRegressor, joints, settings);
-    }
-}
 
 
 public class JointCalculator {
@@ -100,18 +40,23 @@ public class JointCalculator {
         // Update joints vector
         for (int jointIndex = 0; jointIndex < SMPL.JointCount; jointIndex++) {
             
-            joints[jointIndex] = ConvertFromMayaCoordinateSystem(jointIndex, newJointsX, newJointsY, newJointsZ);
+            Vector3 convertFromMaya = new Vector3(
+                                                  (float)newJointsX[jointIndex, 0], 
+                                                  (float)newJointsY[jointIndex, 0], 
+                                                  (float)newJointsZ[jointIndex, 0]);
+            
+            joints[jointIndex] = ConvertFromMayaCoordinateSystem(convertFromMaya);
         }
         return joints;
     }
 
-    static Vector3 ConvertFromMayaCoordinateSystem(int rowIndex, Matrix newJointsX, Matrix newJointsY, Matrix newJointsZ) {
+    static Vector3 ConvertFromMayaCoordinateSystem(Vector3 inMayaCoordinates) {
         // Convert Maya regressor to Unity coordinate system by negating X value
-        Vector3 convertFromMaya = new Vector3(
-                                          -(float)newJointsX[rowIndex, 0], 
-                                          (float)newJointsY[rowIndex, 0], 
-                                          (float)newJointsZ[rowIndex, 0]);
-        return convertFromMaya;
+        Vector3 inUnityCoordinates = new Vector3(
+                                          -inMayaCoordinates.x, 
+                                          inMayaCoordinates.y,
+                                          inMayaCoordinates.z);
+        return inUnityCoordinates;
     }
     
 

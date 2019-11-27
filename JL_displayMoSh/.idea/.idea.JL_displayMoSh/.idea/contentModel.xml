@@ -28,6 +28,7 @@
           </e>
           <e p="Gender.cs" t="Include" />
           <e p="JointCalculator.cs" t="Include" />
+          <e p="JointCalculatorFromJSON.cs" t="Include" />
           <e p="MoShAnimation" t="Include">
             <e p="AnimationDyad.cs" t="Include" />
             <e p="MoShAnimation.cs" t="Include" />

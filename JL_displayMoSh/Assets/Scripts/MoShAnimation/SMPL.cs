@@ -13,7 +13,7 @@ public static class SMPL {
     public const bool ZAxisUpInOriginalFiles = true;
     public const int JointDimensions = 3;
     
-    public class JSONKeys {
+    public static class JSONKeys {
      
         public const string Gender    = "gender";
         public const string Male   = "male";
