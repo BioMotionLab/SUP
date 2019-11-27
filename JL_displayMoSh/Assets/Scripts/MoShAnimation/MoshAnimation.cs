@@ -209,6 +209,33 @@ public class MoshAnimation {
         float scaledBeta = beta * 100f / SMPL.BetaScalingFactor;
         return scaledBeta;
     }
+
+
+    public void SetPoseAsCurrentFrame( Quaternion[] poses) {
+        // start at 1 to skip pelvis. 
+        // pelvis has a rotation, but doesn't seem to have associated blend shapes.
+        for (int poseIndex = 1; poseIndex < poses.Length; poseIndex++) {
+            // i is equivalent to index for the other version. 
+            Quaternion currentPose = poses[poseIndex];
+            float[] rot3x3 = MoShUtilities.QuaternionTo3X3Matrix(currentPose);
+            int index = (poseIndex - 1) * 9;
+            for (int rotationMatrixElementIndex = 0; rotationMatrixElementIndex < 9; rotationMatrixElementIndex++) {
+                float pos, neg;
+                float theta = rot3x3[rotationMatrixElementIndex];
+                if (theta >= 0) {
+                    pos = theta;
+                    neg = 0f;
+                } else {
+                    pos = 0.0f;
+                    neg = -theta;
+                }
+
+                int doubledIndex = index * 2;
+                moshCharacter.MeshRenderer.SetBlendShapeWeight(SMPL.DoubledShapeBetaCount + doubledIndex + rotationMatrixElementIndex + 0, pos * 100.0f);
+                moshCharacter.MeshRenderer.SetBlendShapeWeight(SMPL.DoubledShapeBetaCount + doubledIndex + rotationMatrixElementIndex + 1, neg * 100.0f);
+            }
+        }
+    }
     
     
     /// <summary>

@@ -88,7 +88,7 @@ public class MoshCharacter : MonoBehaviour {
             Vector3 t = moshAnimation.GetTranslationAtFrame(currentFrame);
             Quaternion[] poses = moshAnimation.GetPoseAtFrame(currentFrame);
             BoneModifier.UpdateBoneAngles(poses, t);
-            SetPoseAsCurrentFrame(poses);
+            moshAnimation.SetPoseAsCurrentFrame(poses);
             currentFrame++;
         }
         else {
@@ -97,35 +97,7 @@ public class MoshCharacter : MonoBehaviour {
         
     }
 
-    void SetPoseAsCurrentFrame( Quaternion[] poses) {
-        // start at 1 to skip pelvis. 
-        // pelvis has a rotation, but doesn't seem to have associated blend shapes.
-        for (int poseIndex = 1; poseIndex < poses.Length; poseIndex++) {
-            // i is equivalent to index for the other version. 
-            Quaternion currentPose = poses[poseIndex];
-            float[] rot3x3 = MoShUtilities.QuaternionTo3X3Matrix(currentPose);
-            int index = (poseIndex - 1) * 9;
-            for (int rotationMatrixElementIndex = 0; rotationMatrixElementIndex < 9; rotationMatrixElementIndex++) {
-                float pos, neg;
-                float theta = rot3x3[rotationMatrixElementIndex];
-                if (theta >= 0) {
-                    pos = theta;
-                    neg = 0f;
-                } else {
-                    pos = 0.0f;
-                    neg = -theta;
-                }
-
-                int doubledIndex = index * 2;
-                MeshRenderer.SetBlendShapeWeight(SMPL.DoubledShapeBetaCount + doubledIndex + rotationMatrixElementIndex + 0, pos * 100.0f);
-                MeshRenderer.SetBlendShapeWeight(SMPL.DoubledShapeBetaCount + doubledIndex + rotationMatrixElementIndex + 1, neg * 100.0f);
-            }
-        }
-    }
-
-
-
-
+    
     void ResetBlendShapes() {
         for (int blendShapeIndex = 0; blendShapeIndex < MeshRenderer.sharedMesh.blendShapeCount; blendShapeIndex++) {
             MeshRenderer.SetBlendShapeWeight(blendShapeIndex, 0f);
