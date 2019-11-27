@@ -26,8 +26,8 @@ public class MoShAnimationFromJSON {
         LoadAnimationJSON (jsonNode);
     }
 
-    public MoshAnimation Build() {
-        MoshAnimation animation = new MoshAnimation(gender, sourceTotalFrameCount, sourceFPS, betas, translation, poses);
+    public MoshAnimation BuildWithSettings(SMPLSettings settings) {
+        MoshAnimation animation = new MoshAnimation(gender, sourceTotalFrameCount, sourceFPS, betas, translation, poses, settings);
         return animation;
     }
     

@@ -37,6 +37,9 @@ public class AnimReviewer : MonoBehaviour {
 	
     int animIndex = 0;
 	
+	[SerializeField]
+	SMPLSettings Settings = default;
+
 	void Start () {
 		if (!File.Exists(AnimListPath)) throw new IOException($"Can't find List of Animations file {AnimListPath}");
 		string[] animLines = File.ReadAllLines(AnimListPath);
@@ -55,7 +58,7 @@ public class AnimReviewer : MonoBehaviour {
 			string filename = fileNames[index];
 			string animationFileString = LoadAnimFileAsString(filename);
 			Debug.Log(filename);
-			animations[index] = new MoShAnimationFromJSON(animationFileString).Build();
+			animations[index] = new MoShAnimationFromJSON(animationFileString).BuildWithSettings(Settings);
 		}
 		return animations;
 	}

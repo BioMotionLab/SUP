@@ -19,18 +19,13 @@ public class MoshAnimation {
 
     int desiredFPS;
 
-    /// <summary>
-    /// Read only. Get the number of frames in the animation. 
-    /// </summary>
-    /// <value>length of the animation</value>
-    public int GetResampledTotalFrameCount => resampledTotalFrameCount;
+    int GetResampledTotalFrameCount { get; set; }
 
     readonly float  duration;
     public   Gender Gender { get; }
 
     readonly JointCalculator jointCalculator;
     bool                     resamplingRequired = false;
-    int                      resampledTotalFrameCount;
     readonly int             sourceFPS;
     BMLModifyBones           boneModifier;
 
@@ -43,15 +38,15 @@ public class MoshAnimation {
     public bool Finished => currentFrame >= GetResampledTotalFrameCount;
     
 
-    public MoshAnimation(Gender    gender,       int           sourceTotalFrameCount, int sourceFPS, float[] betas,
-                         Vector3[] translations, Quaternion[,] poses) {
+    public MoshAnimation(Gender    gender, int sourceTotalFrameCount, int sourceFPS, float[] betas,
+                         Vector3[] translations, Quaternion[,] poses, SMPLSettings settings) {
         this.Gender = gender;
         switch (gender) {
             case Gender.MALE:
-                jointCalculator = JointCalculator.Male;
+                jointCalculator = settings.MaleJointCalculator;
                 break;
             case Gender.Female:
-                jointCalculator = JointCalculator.Female;
+                jointCalculator = settings.FemaleJointCalculator;
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(gender), gender, null);
@@ -60,10 +55,9 @@ public class MoshAnimation {
         this.sourceTotalFrameCount = sourceTotalFrameCount;
         this.sourceFPS = sourceFPS;
         desiredFPS = sourceFPS;
-        resampledTotalFrameCount = sourceTotalFrameCount;
+        GetResampledTotalFrameCount = sourceTotalFrameCount;
         duration = this.sourceTotalFrameCount / (float) this.sourceFPS;
         this.betas = betas;
-        this.translations = translations;
         this.translations = translations;
         this.poses = poses;
         currentFrame = 0;
@@ -93,8 +87,7 @@ public class MoshAnimation {
     }
 
 
-
-/// <summary>
+    /// <summary>
     /// Gets or sets the fps, upsampling or downsampling if the fps is 
     /// is different from the source fps. 
     /// </summary>
@@ -114,7 +107,7 @@ public class MoshAnimation {
         // if the time between frames is a constant, then the time of the last thisFrameAsDecimal cannot
         // be completely static. 
         // I think I should still floor the value. 
-        resampledTotalFrameCount = Mathf.FloorToInt(desiredFPS * duration);
+        GetResampledTotalFrameCount = Mathf.FloorToInt(desiredFPS * duration);
         
     }
 
@@ -149,9 +142,8 @@ public class MoshAnimation {
     /// <summary>
     /// Get the time, in seconds since start of animation, at a specified thisFrameAsDecimal.
     /// </summary>
-    float GetTimeAtFrame(int frame) 
-    {
-        float percentComplete = frame / (float)resampledTotalFrameCount;
+    float GetTimeAtFrame(int frame) {
+        float percentComplete = frame / (float)GetResampledTotalFrameCount;
         float timeAtFrame = percentComplete * duration;
         return timeAtFrame;
     }
@@ -164,9 +156,6 @@ public class MoshAnimation {
     Quaternion[] GetPoseAtFrame(int thisFrameAsDecimal) 
     {
         Quaternion[] posesThisFrame = new Quaternion[SMPL.JointCount];
-        
-        if (posesThisFrame == null) throw new NullReferenceException("null array passed to GetPoseAtFrame");
-        if (posesThisFrame.Length != SMPL.JointCount) throw new IndexOutOfRangeException("array with wrong length passed to get pose");
         
         // ok. Need to spherically interpolate all these quaternions. 
         for (int jointIndex = 0; jointIndex < SMPL.JointCount; jointIndex++) {
@@ -199,7 +188,6 @@ public class MoshAnimation {
     /// <summary>
     /// Get the values for shape parameters in Unity, that define the 
     /// shape of the subject. 
-    /// Shape: first several blend shapes. Doesn't change over time. 
     /// </summary>
     [Obsolete] float[] GetDoubledBetas () {
         float[] values = new float[SMPL.DoubledShapeBetaCount];
@@ -263,7 +251,6 @@ public class MoshAnimation {
         if (Finished) {
             Reset();
         }
-
     }
     
     /// <summary>
@@ -273,7 +260,7 @@ public class MoshAnimation {
         if (!Finished) Debug.Log("Resetting but not finished");
         boneModifier.ResetRotations();
         ResetBlendShapes();
-        Vector3[] joints = JointCalculator.GetDefaultJoints(Gender);
+        Vector3[] joints = jointCalculator.GetDefaultJoints(Gender);
         boneModifier.UpdateBonePositions(joints, true);
     }
     

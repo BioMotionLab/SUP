@@ -14,6 +14,15 @@ public class SMPLSettings : ScriptableObject {
     Mesh FemaleMeshPrefab = default;
 
     [SerializeField]
+    TextAsset MaleJointRegressorFile = default;
+
+    public JointCalculator MaleJointCalculator => new JointCalculator(MaleJointRegressorFile, this);
+
+    [SerializeField]
+    TextAsset FemaleJointRegressorFile = default;
+    public JointCalculator FemaleJointCalculator => new JointCalculator(FemaleJointRegressorFile, this);
+
+    [SerializeField]
     public bool HideMeshWhenFinished = true;
 
     public Mesh GetMeshPrefab(Gender gender) {

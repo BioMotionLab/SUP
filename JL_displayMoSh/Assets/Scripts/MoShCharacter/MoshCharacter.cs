@@ -56,7 +56,6 @@ public class MoshCharacter : MonoBehaviour {
         Debug.Log($"started animation for {name}");
     }
     
-
     void Update() {
         UpdateAnimation();
     }
@@ -67,7 +66,6 @@ public class MoshCharacter : MonoBehaviour {
             AnimationCompleted();
             return;
         }
-
         moshAnimation.PlayCurrentFrame();
     }
 
