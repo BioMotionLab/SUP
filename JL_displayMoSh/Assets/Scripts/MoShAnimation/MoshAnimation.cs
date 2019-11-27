@@ -64,6 +64,8 @@ public class MoshAnimation {
         this.moshCharacter = moshCharacter;
         //Set Betas of avg FBX model in the scene to shapeBetas from Mosh file
         SetMeshShapeBetas();
+        //Calculate INITIAL joint-locations from shapeBetas & update joints of the FBX model
+        CalculateJoints();
 
     }
     
@@ -204,19 +206,7 @@ public class MoshAnimation {
         float scaledBeta = beta * 100f / SMPL.BetaScalingFactor;
         return scaledBeta;
     }
-
-    /// <summary>
-    /// Get the initial joint positions computed using the beta values read from the
-    /// animation file.
-    /// </summary>
-    /// <returns>The joints.</returns>
-    public Vector3[] GetJoints() {
-        // It may be a good idea to clone this array or something. This will be 
-        // a reference to the array stored in JointCalculator. It's probably
-        // not good for other things to be referencing the array in JointCalculator,
-        // but if they are, this function might override values that are depended on. 
-        return jointCalculator.calculateJoints(betas);
-    }
+    
     
     /// <summary>
     /// Set the values of the first 20 blendshapes in the skinned 
@@ -229,6 +219,16 @@ public class MoshAnimation {
         for (int betaIndex = 0; betaIndex < SMPL.DoubledShapeBetaCount; betaIndex++) {
             moshCharacter.MeshRenderer.SetBlendShapeWeight(betaIndex, shapeBetas[betaIndex]);
         }
+    }
+    
+    /// <summary>
+    /// Gets the new joint positions from the animation.
+    /// Passes them to the boneModifier. 
+    /// </summary>
+    void CalculateJoints()
+    {
+        Vector3[] joints = jointCalculator.calculateJoints(betas);
+        moshCharacter.BoneModifier.UpdateBonePositions(joints, true);
     }
     
 }

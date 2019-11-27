@@ -54,8 +54,6 @@ public class AnimReviewer : MonoBehaviour {
 	
 	void Start () {
 		
-		
-		
 		// read the list of fileNames.
 		animLines = File.ReadAllLines(AnimListPath);
         

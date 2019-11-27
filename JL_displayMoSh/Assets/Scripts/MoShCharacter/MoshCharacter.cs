@@ -80,9 +80,6 @@ public class MoshCharacter : MonoBehaviour {
         moshAnimation.AttachAnimationToMoshCharacter(this);
         
         currentFrame = 0;
-        
-        //Calculate INITIAL joint-locations from shapeBetas & update joints of the FBX model
-        CalculateJoints();
 
     }
     
@@ -134,17 +131,6 @@ public class MoshCharacter : MonoBehaviour {
     }
 
 
-    /// <summary>
-    /// Gets the new joint positions from the animation.
-    /// Passes them to the boneModifier. 
-    /// </summary>
-    void CalculateJoints()
-    {
-        Vector3[] joints = moshAnimation.GetJoints();
-        BoneModifier.UpdateBonePositions(joints, true);
-    }
-
-    
 
 
     void ResetBlendShapes() {
