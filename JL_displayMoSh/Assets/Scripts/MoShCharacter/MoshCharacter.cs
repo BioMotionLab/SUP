@@ -70,13 +70,6 @@ public class MoshCharacter : MonoBehaviour {
         }
         
         moshAnimation = new MoShAnimationFromJSON(jsonAnimationFileWholeString).Build();
-
-        ActivateMesh(moshAnimation.Gender);
-
-        if (ChangeFrameRate && DesiredFrameRate != 0) {
-            moshAnimation.SetDesiredFPS(DesiredFrameRate);
-        }
-
         moshAnimation.AttachAnimationToMoshCharacter(this);
         
         currentFrame = 0;
@@ -152,7 +145,7 @@ public class MoshCharacter : MonoBehaviour {
     }
 
     
-    void ActivateMesh(Gender gender) {
+    public void ActivateMesh(Gender gender) {
         MeshRenderer.sharedMesh = Instantiate(Settings.GetMeshPrefab(gender));
     }
     

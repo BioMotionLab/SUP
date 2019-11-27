@@ -62,6 +62,13 @@ public class MoshAnimation {
 
     public void AttachAnimationToMoshCharacter(MoshCharacter moshCharacter) {
         this.moshCharacter = moshCharacter;
+        
+        moshCharacter.ActivateMesh(Gender);
+
+        if (moshCharacter.ChangeFrameRate && moshCharacter.DesiredFrameRate != 0) {
+            SetDesiredFPS(moshCharacter.DesiredFrameRate);
+        }
+        
         //Set Betas of avg FBX model in the scene to shapeBetas from Mosh file
         SetMeshShapeBetas();
         //Calculate INITIAL joint-locations from shapeBetas & update joints of the FBX model
@@ -82,11 +89,7 @@ public class MoshAnimation {
         // Time of start and end keys remains constant, but keys in between are shifted
         // and more may be added or removed.
         
-        if (desiredFPS != sourceFPS) {
-            resamplingRequired = true;
-        } else {
-            resamplingRequired = false;
-        }
+        resamplingRequired = desiredFPS != sourceFPS;
         
         // have to update length here. 
         // I think this is the right way to get length.
@@ -230,5 +233,7 @@ public class MoshAnimation {
         Vector3[] joints = jointCalculator.calculateJoints(betas);
         moshCharacter.BoneModifier.UpdateBonePositions(joints, true);
     }
+    
+    
     
 }
