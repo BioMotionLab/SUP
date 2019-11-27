@@ -38,29 +38,6 @@ public static class MoShUtilities {
         return rot3X3;
     }
 
-    /// <summary>
-    /// Check if a path is relative to the project, or an absolute path. 
-    /// If it can be made relative, it's made relative. Otherwise the absolute
-    /// path is returned. 
-    /// </summary>
-    /// <returns>The relative or absolute.</returns>
-    /// <param name="path">Path.</param>
-    public static string PathRelativeOrAbsolute(string path)
-    {
-        // in editor this will be path to Assets folder. 
-        string appDataPath = Application.dataPath;
-        // if path of the form .../Assets/Resources/x...
-        // -> return Assets/Resources/x... relative path. 
-        // else 
-        // -> return path. Absolute path.
-        if (path.StartsWith(appDataPath)) {
-            // then I can safely cut everything up to assets. 
-            // I'm focusing on editor functionality anyway.
-            int i = path.IndexOf("Assets");
-            return path.Substring(i);
-        }
-        return path;
-    }
-
+  
 	
 }

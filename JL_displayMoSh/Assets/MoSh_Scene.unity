@@ -278,6 +278,17 @@ PrefabInstance:
       propertyPath: FrameRate
       value: 90
       objectReference: {fileID: 0}
+    - target: {fileID: 114167664547997736, guid: a833c934eda954cb68ede3ef16f14025,
+        type: 3}
+      propertyPath: Settings
+      value: 
+      objectReference: {fileID: 11400000, guid: d64a89ff11c156441b87abe450598356,
+        type: 2}
+    - target: {fileID: 114167664547997736, guid: a833c934eda954cb68ede3ef16f14025,
+        type: 3}
+      propertyPath: DesiredFrameRate
+      value: 90
+      objectReference: {fileID: 0}
     - target: {fileID: 137089382010696524, guid: a833c934eda954cb68ede3ef16f14025,
         type: 3}
       propertyPath: m_BlendShapeWeights.Array.size
@@ -598,7 +609,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2000000, guid: 49a0e923d39ec3c4c8bb97699e2f2903, type: 3}
       propertyPath: m_ClearFlags
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2000000, guid: 49a0e923d39ec3c4c8bb97699e2f2903, type: 3}
       propertyPath: m_BackGroundColor.r
@@ -692,6 +703,17 @@ PrefabInstance:
         type: 3}
       propertyPath: JointLogPath
       value: /Users/josephlandy/Documents/biomotion/joints_log
+      objectReference: {fileID: 0}
+    - target: {fileID: 114167664547997736, guid: a833c934eda954cb68ede3ef16f14025,
+        type: 3}
+      propertyPath: Settings
+      value: 
+      objectReference: {fileID: 11400000, guid: d64a89ff11c156441b87abe450598356,
+        type: 2}
+    - target: {fileID: 114167664547997736, guid: a833c934eda954cb68ede3ef16f14025,
+        type: 3}
+      propertyPath: DesiredFrameRate
+      value: 120
       objectReference: {fileID: 0}
     - target: {fileID: 137089382010696524, guid: a833c934eda954cb68ede3ef16f14025,
         type: 3}

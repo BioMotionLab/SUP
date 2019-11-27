@@ -9,11 +9,7 @@
       <e p="Assembly-CSharp-firstpass.csproj" t="IncludeRecursive" />
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
-        <e p="ReadRUBJSON.cs" t="Include" />
         <e p="Resources" t="Include">
-          <e p="analyzing_rub5_move17" t="Include">
-            <e p="rub005test.txt" t="Include" />
-          </e>
           <e p="mixed_single_pairs.txt" t="Include" />
           <e p="pairs.txt" t="Include" />
           <e p="pairs_all.txt" t="Include" />
@@ -33,6 +29,7 @@
           <e p="Gender.cs" t="Include" />
           <e p="JointCalculator.cs" t="Include" />
           <e p="MoShAnimation" t="Include">
+            <e p="AnimationDyad.cs" t="Include" />
             <e p="MoShAnimation.cs" t="Include" />
             <e p="MoShAnimationFromJSON.cs" t="Include" />
             <e p="SMPL.cs" t="Include" />

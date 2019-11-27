@@ -12,14 +12,12 @@ using UnityEngine.Serialization;
 [RequireComponent(typeof(SkinnedMeshRenderer))]
 public class MoshCharacter : MonoBehaviour {
 
-    MoshAnimation moshAnimation;
-
-    // A bunch of the following fields can basically be considered internal to the program and should be 
-    // read in, rather than entered manually in the editor. 
-
-    [SerializeField]
-    SMPLSettings Settings;
     
+    
+    MoshAnimation moshAnimation;
+    Mesh smplMeshClone;
+
+   
 
     public bool ChangeFrameRate = false;
     
@@ -34,13 +32,14 @@ public class MoshCharacter : MonoBehaviour {
 
     int currentFrame = 0;
     
-    Mesh smplMeshClone;
+    [SerializeField]
+    SMPLSettings Settings = default;
+
 
     /// <summary>
     /// Has the current animation finished playing, if one has been loaded.
     /// </summary>
     public bool AnimDone => currentFrame >= moshAnimation.GetResampledTotalFrameCount;
-    
     
     
     void Awake()
@@ -63,12 +62,12 @@ public class MoshCharacter : MonoBehaviour {
     /// This is the main point of interaction with the load MoSh functionality.
     /// Give it a file, call the method and it will do the whole thing.
     /// </summary>
-    public void PlayAnim(TextAsset jsonAnimationFile)
+    public void PlayAnim(String jsonAnimationFileWholeString)
     {
         if (moshAnimation != null) {
             Reset();
         }
-        moshAnimation = new MoShAnimationFromJSON(jsonAnimationFile).Build();
+        moshAnimation = new MoShAnimationFromJSON(jsonAnimationFileWholeString).Build();
 
         ActivateMesh(moshAnimation.Gender);
 
@@ -173,15 +172,9 @@ public class MoshCharacter : MonoBehaviour {
         BoneModifier.UpdateBonePositions(joints, true);
     }
 
-
-    /// <summary>
-    /// Activate the mesh for the specific gender and assigns it to the 
-    /// skinned mesh renderer. 
-    /// The mesh is first cloned if this has not previously been done.
-    /// </summary>
-    /// <param name="gender">Gender of mesh to swap in</param>
+    
     void ActivateMesh(Gender gender) {
-        MeshRenderer.sharedMesh = Settings.GetMesh(gender);
+        MeshRenderer.sharedMesh = Instantiate(Settings.GetMeshPrefab(gender));
     }
     
 
@@ -190,24 +183,21 @@ public class MoshCharacter : MonoBehaviour {
 [CreateAssetMenu]
 public class SMPLSettings : ScriptableObject {
 
-    public Mesh MaleMeshPrefab;
-    public Mesh FemaleMeshPrefab;
-
-
-    public Mesh GetMesh(Gender gender) {
-        Mesh newMeshClone;
+    [SerializeField]
+    Mesh MaleMeshPrefab = default;
+    
+    [SerializeField]
+    Mesh FemaleMeshPrefab = default;
+    
+    public Mesh GetMeshPrefab(Gender gender) {
         switch (gender) {
-            case Gender.Female: {
-                newMeshClone = Instantiate(FemaleMeshPrefab);
-                break;
-            }
+            case Gender.Female: 
+                return FemaleMeshPrefab;
             case Gender.MALE:
-                newMeshClone = Instantiate(MaleMeshPrefab);
-                break;
+                return MaleMeshPrefab;
             default:
                 throw new ArgumentOutOfRangeException(nameof(gender), gender, null);
         }
-
-        return newMeshClone;
+        
     }
 }

@@ -1,108 +1,79 @@
 ﻿using UnityEngine;
 using System.IO;
 using System;
+using UnityEngine.Serialization;
 
 /// <summary>
 /// View a sequence of MoSh animations read from a file, and record right or left.
 /// </summary>
 public class AnimReviewer : MonoBehaviour {
 
-
+    const string DefaultSelectPathText = "Select...";
 	string[] animLines;
 
     public string[][] files;
-
 
 	/* Since this should be buffered, I think we can write to it whenever we want
      * without performance penalty after opening it once. */
     StreamWriter responseWriter;
 
 
+    [FormerlySerializedAs("animListPath")]
     [Tooltip("Path to file with list of animation file names")]
     [HideInInspector]
-    public string animListPath = "Assets/Resources/test.txt";
-	//public string animListPath;
+    [SerializeField] 
+    public string AnimListPath = DefaultSelectPathText;
+
 
 	[Tooltip("Folder containing MoSh anims")]
     [HideInInspector]
-	public string AnimFolder = "Assets/Resources/Animations/";
+    [SerializeField] 
+	public string AnimFolder = DefaultSelectPathText;
 
-	[Tooltip("Path to output file for saving responses")]
+	[FormerlySerializedAs("responseFilePath")]
+    [Tooltip("Path to output file for saving responses")]
     [HideInInspector]
-	public string responseFilePath = "Assets/responses.csv";
+    [SerializeField] 
+	public string ResponseFilePath = "Assets/responses.csv";
 
+    [FormerlySerializedAs("overwrite")]
     [Tooltip("Overwrite or append to the response file.")]
-    public bool overwrite = true;
+    [SerializeField] 
+    public bool Overwrite = true;
 
+    [FormerlySerializedAs("hideWhenFinished")]
     [Tooltip("Only show mesh when anim is playing")]
-    public bool hideWhenFinished;
+    [SerializeField] 
+    public bool HideWhenFinished;
 
+    [SerializeField] 
     public bool RecordResponses;
-
-    //public bool RecordResponseTime;
-
+    
+    [SerializeField] 
     public bool AllowResponseWhilePlaying = true;
 
+    
+    [FormerlySerializedAs("AnimPlayer1")]
     [Tooltip("Drag objects with MoshCharacter components into these " +
              "fields. Use instances of the MoShViewer prefab.")]
-    public MoshCharacter AnimPlayer1, AnimPlayer2;
+    [SerializeField] 
+    public MoshCharacter Character1;
 
-    //SkinnedMeshRenderer renderer1, renderer2;
+    [FormerlySerializedAs("AnimPlayer2")]
+    [Tooltip("Drag objects with MoshCharacter components into these " +
+             "fields. Use instances of the MoShViewer prefab.")]
+    [SerializeField] 
+    public MoshCharacter Character2;
+
 
     int animIndex = 0;
-
-
-
+    
 
 	void Start () {
 		// read the list of filenames.
-		animLines = File.ReadAllLines(animListPath);
-
+		animLines = File.ReadAllLines(AnimListPath);
         
-        
-        Debug.Log(AnimFolder);
-        // Resources.Load requires that the pathname be in a folder called Resources. If the path entered is not relative to resources,
-        // the whole thing will fail. This is confusing and finicky, so I'm testing for it, and allowing paths to be entered
-        // relative to the Resources folder, or relative to the project because I will never remember which one is expected.
-        // paths relative to root also seem to work. That's cool. 
-
-        // Ok, so I think the path needs to not contain resources.
-
-        // so first, check if the path isn't empty. If the path is empty, we can just use it as is. 
-        if (AnimFolder == "Assets/Resources" || AnimFolder == "Assets/Resources/") {
-            AnimFolder = "";
-        } else {
-            if (!Directory.Exists(AnimFolder)) {
-                Debug.LogError("Anim Folder does not exist");
-            }
-
-            int substringIndex = AnimFolder.IndexOf("Resources/");
-
-            if (substringIndex >= 0) {
-                //resources/ is 10 characters.
-                if (substringIndex + 10 < AnimFolder.Length) {
-                    AnimFolder = AnimFolder.Substring(substringIndex + 10);
-                }
-                else {
-                    // if there are just a bunch of animation files in the resources 
-                    // folder, leave it as the empty string.
-                    AnimFolder = "";
-                }
-            }
-
-            if (AnimFolder[AnimFolder.Length - 1] != '/')
-                AnimFolder = AnimFolder + "/";
-        }
-
-        
-        
-        if (RecordResponses) {
-            
-            responseWriter = new StreamWriter(responseFilePath, !overwrite);
-            WriteHeader();
-        }
-		
-		playAnim(animIndex); //play the first animation!
+        playAnim(animIndex); //play the first animation!
 	}
 
 
@@ -119,11 +90,11 @@ public class AnimReviewer : MonoBehaviour {
 
 	void Update () {
 
-		if (hideWhenFinished) {
-			if (AnimPlayer1.AnimDone)
-                AnimPlayer1.transform.parent.gameObject.SetActive(false);
-			if (AnimPlayer2.AnimDone)
-                AnimPlayer2.transform.parent.gameObject.SetActive(false);
+		if (HideWhenFinished) {
+			if (Character1.AnimDone)
+                Character1.transform.parent.gameObject.SetActive(false);
+			if (Character2.AnimDone)
+                Character2.transform.parent.gameObject.SetActive(false);
 		}
 
         // Controls to step through the animation. 
@@ -157,7 +128,7 @@ public class AnimReviewer : MonoBehaviour {
 
         else if (RecordResponses) {
             
-            if (AllowResponseWhilePlaying || (AnimPlayer1.AnimDone && AnimPlayer2.AnimDone)) {
+            if (AllowResponseWhilePlaying || (Character1.AnimDone && Character2.AnimDone)) {
                 
                 if (Input.GetKeyDown(KeyCode.LeftArrow)) {
                     // record left. Play Next
@@ -205,40 +176,29 @@ public class AnimReviewer : MonoBehaviour {
         }
         
         // space delimited.
-		string[] filenames = animLines [index].Split (' ');
-
+		string[] filenames = animLines[index].Split (' ');
+        Debug.Log($"filenames = {filenames[0]}, {filenames[1]}");
         // see how many animations are on the specified line and play them. 
         // Supports one or two animations. 
-        if (filenames.Length == 2 && filenames[1] != string.Empty) {
+        
 
-            if (hideWhenFinished) {
-                AnimPlayer1.transform.parent.gameObject.SetActive(true);
-            }
-            AnimPlayer2.transform.parent.gameObject.SetActive(true);
+        //TODO Assumes dyad at the moment. Make viewer for single files
+        Character1.transform.parent.gameObject.SetActive(true);
+        Character2.transform.parent.gameObject.SetActive(true);
 
-            string fpath1 = AnimFolder + filenames[0];
-            string fpath2 = AnimFolder + filenames[1];
+        string fpath1 = Path.Combine(AnimFolder, filenames[0]);
+        string fpath2 = Path.Combine(AnimFolder, filenames[1]);
 
-            //for some reason, extensions must be ommitted.
-            TextAsset animText1 = (TextAsset)Resources.Load(fpath1.Substring(0, fpath1.Length - 5));
-            TextAsset animText2 = (TextAsset)Resources.Load(fpath2.Substring(0, fpath2.Length - 5));
+        //for some reason, extensions must be ommitted.
+        string animText1 = File.ReadAllText(fpath1);
+        string animText2 = File.ReadAllText(fpath2);
 
-            AnimPlayer1.PlayAnim(animText1);
-            AnimPlayer2.PlayAnim(animText2);
-        }
-        else {
-            
-            if (hideWhenFinished) {
-                AnimPlayer1.transform.parent.gameObject.SetActive(true);
-            }
-            AnimPlayer2.transform.parent.gameObject.SetActive(false);
-
-            string fpath1 = AnimFolder + filenames[0];
-
-            TextAsset animText1 = (TextAsset)Resources.Load(fpath1.Substring(0, fpath1.Length - 5)); 
-            AnimPlayer1.PlayAnim(animText1);
-        }
+        Character1.PlayAnim(animText1);
+        Character2.PlayAnim(animText2);
+        
 	}
+
+    
 
 
 	void OnApplicationQuit() {
@@ -247,4 +207,6 @@ public class AnimReviewer : MonoBehaviour {
         }
 	}
 
+ 
+    
 }

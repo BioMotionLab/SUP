@@ -19,10 +19,10 @@ public class MoShAnimationFromJSON {
     Vector3[] translation;
     Quaternion[,] poses;
 
-    public MoShAnimationFromJSON(TextAsset jsonFile)  {
-        if (jsonFile == null) throw new NullReferenceException("Tried to instantiate Animation JSON with null TextAsset");
+    public MoShAnimationFromJSON(string jsonFileWholeString)  {
+        if (jsonFileWholeString == null) throw new NullReferenceException("Tried to instantiate Animation JSON with null TextAsset");
 
-        JSONNode jsonNode = JSON.Parse (jsonFile.text);
+        JSONNode jsonNode = JSON.Parse(jsonFileWholeString);
         LoadAnimationJSON (jsonNode);
     }
 
