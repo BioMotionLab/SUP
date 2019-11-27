@@ -53,6 +53,9 @@ public class AnimReviewer : MonoBehaviour {
     int animIndex = 0;
 	
 	void Start () {
+		
+		
+		
 		// read the list of fileNames.
 		animLines = File.ReadAllLines(AnimListPath);
         
@@ -61,24 +64,20 @@ public class AnimReviewer : MonoBehaviour {
 
 
 	void Update () {
-		
-        // Controls to step through the animation. 
+		if (AllAnimsComplete) return;
+		// Controls to step through the animation. 
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.RightBracket)) {
             // skip to next animation.
             animIndex++;
-            if (animIndex >= animLines.Length) {
-                animIndex = animLines.Length - 1;
-            }
-            else {
-                
-                if (animIndex < 0 || animIndex >= animLines.Length) {
-                    return; // if there are no animations left in the specified direction. 
-                }
-                StartAnimation(animIndex);
-            }
-        }
+			//TODO make this happen before increment. Problem is something is initialized in Start that breaks when played first here. Right now it starts at anim 1, after 0 starts during Start function.
+
+			if (AllAnimsComplete) return;
+			StartAnimation(animIndex);
+		}
 	}
 
+	bool AllAnimsComplete => animIndex >= animLines.Length;
+	
 
 	/// <summary>
 	/// Play the animation for both characters at specified position in sequence of files.
@@ -90,7 +89,6 @@ public class AnimReviewer : MonoBehaviour {
 		
 		Character1.StartAnimation(animationFileStrings[0]);
 		Character2.StartAnimation(animationFileStrings[1]);
-		
 	}
 
 	string[] GetAnimationFiles(int animationIndex) {

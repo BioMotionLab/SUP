@@ -13,7 +13,6 @@ using UnityEngine.Serialization;
 public class MoshCharacter : MonoBehaviour {
 
     
-    
     MoshAnimation moshAnimation;
     Mesh smplMeshClone;
 
@@ -69,6 +68,7 @@ public class MoshCharacter : MonoBehaviour {
         if (moshAnimation != null) {
             Reset();
         }
+        
         moshAnimation = new MoShAnimationFromJSON(jsonAnimationFileWholeString).Build();
 
         ActivateMesh(moshAnimation.Gender);
@@ -77,11 +77,11 @@ public class MoshCharacter : MonoBehaviour {
             moshAnimation.SetDesiredFPS(DesiredFrameRate);
         }
 
-        currentFrame = 0;
-        // 4. Set Betas of avg FBX model in the scene to shapeBetas from Mosh file
-        SetMeshShapeBetas(moshAnimation.GetDoubledBetas());
+        moshAnimation.AttachAnimationToMoshCharacter(this);
         
-        // 5. Calculate INITIAL joint-locations from shapeBetas & update joints of the FBX model
+        currentFrame = 0;
+        
+        //Calculate INITIAL joint-locations from shapeBetas & update joints of the FBX model
         CalculateJoints();
 
     }
@@ -144,18 +144,7 @@ public class MoshCharacter : MonoBehaviour {
         BoneModifier.UpdateBonePositions(joints, true);
     }
 
-    /// <summary>
-    /// Set the values of the first 20 blendshapes in the skinned 
-    /// mesh renderer, defining body shape. 
-    /// </summary>
-    /// <param name="shapeBetas">Values assigned to blendshapes.</param>
-    void SetMeshShapeBetas(float[] shapeBetas) 
-    {
-        //!!!! float beta = shapeBetas[i] / SCALE; <- this was in original. It's important!!!
-        for (int betaIndex = 0; betaIndex < SMPL.DoubledShapeBetaCount; betaIndex++) {
-            MeshRenderer.SetBlendShapeWeight(betaIndex, shapeBetas[betaIndex]);
-        }
-    }
+    
 
 
     void ResetBlendShapes() {

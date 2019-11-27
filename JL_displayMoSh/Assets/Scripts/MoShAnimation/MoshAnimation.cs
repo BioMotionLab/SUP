@@ -12,7 +12,6 @@ using System;
 /// </summary>
 public class MoshAnimation {
 
-    
     readonly int sourceTotalFrameCount;
     readonly Vector3[] translations;
     readonly Quaternion[,] poses;
@@ -27,16 +26,15 @@ public class MoshAnimation {
     public int GetResampledTotalFrameCount => resampledTotalFrameCount;
 
     readonly float duration;
-
     public Gender Gender { get; }
-
-
+    
     readonly JointCalculator jointCalculator;
     bool            resamplingRequired = false;
     int             resampledTotalFrameCount;
     readonly int             sourceFPS;
+    MoshCharacter moshCharacter;
 
-    
+
     public MoshAnimation(Gender gender,  int sourceTotalFrameCount, int sourceFPS, float[] betas,
                 Vector3[] translations, Quaternion[,] poses) {
                 this.Gender = gender;
@@ -59,6 +57,14 @@ public class MoshAnimation {
                 this.translations = translations;
                 this.translations = translations;
                 this.poses = poses;
+                
+    }
+
+    public void AttachAnimationToMoshCharacter(MoshCharacter moshCharacter) {
+        this.moshCharacter = moshCharacter;
+        //Set Betas of avg FBX model in the scene to shapeBetas from Mosh file
+        SetMeshShapeBetas();
+
     }
     
     
@@ -210,6 +216,19 @@ public class MoshAnimation {
         // not good for other things to be referencing the array in JointCalculator,
         // but if they are, this function might override values that are depended on. 
         return jointCalculator.calculateJoints(betas);
+    }
+    
+    /// <summary>
+    /// Set the values of the first 20 blendshapes in the skinned 
+    /// mesh renderer, defining body shape. 
+    /// </summary>
+    /// <param name="shapeBetas">Values assigned to blendshapes.</param>
+    void SetMeshShapeBetas() {
+        float[] shapeBetas = GetDoubledBetas();
+        //!!!! float beta = shapeBetas[i] / SCALE; <- this was in original. It's important!!!
+        for (int betaIndex = 0; betaIndex < SMPL.DoubledShapeBetaCount; betaIndex++) {
+            moshCharacter.MeshRenderer.SetBlendShapeWeight(betaIndex, shapeBetas[betaIndex]);
+        }
     }
     
 }
