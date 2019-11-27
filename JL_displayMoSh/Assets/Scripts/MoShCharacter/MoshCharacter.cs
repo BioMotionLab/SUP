@@ -22,7 +22,6 @@ public class MoshCharacter : MonoBehaviour {
 
     SkinnedMeshRenderer skinnedMeshRenderer;
     
-    
     [SerializeField]
     SMPLSettings Settings = default;
 
@@ -33,7 +32,7 @@ public class MoshCharacter : MonoBehaviour {
 
     /// <summary>
     /// Rotate the FBX model in case up direction is not Y - axis;
-    /// this seems weird. 
+    /// JL: this seems weird. 
     /// </summary>
     void RotateToUnityCoordinatesIfNeeded() {
         if (SMPL.ZAxisUpInOriginalFiles) {
@@ -43,8 +42,6 @@ public class MoshCharacter : MonoBehaviour {
     
     /// <summary>
     /// Sets up and plays a mosh animation.
-    /// This is the main point of interaction with the load MoSh functionality.
-    /// Give it a file, call the method and it will do the whole thing.
     /// </summary>
     public void StartAnimation(MoshAnimation animationToStart) {
         moshAnimation = animationToStart;
