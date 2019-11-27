@@ -10,8 +10,7 @@ using UnityEngine.Serialization;
 public class AnimReviewer : MonoBehaviour {
 
     const string DefaultSelectPathText = "Select...";
-
-
+	
 	readonly List<MoshAnimation[]> animations = new List<MoshAnimation[]>();
 	
 	bool AllAnimsComplete => animIndex >= animations.Count;
@@ -26,33 +25,20 @@ public class AnimReviewer : MonoBehaviour {
     [HideInInspector]
     [SerializeField] 
 	public string AnimFolder = DefaultSelectPathText;
-
-	[FormerlySerializedAs("responseFilePath")]
-    [Tooltip("Path to output file for saving responses")]
-    [HideInInspector]
-    [SerializeField] 
-	public string ResponseFilePath = "Assets/responses.csv";
-
-    [FormerlySerializedAs("overwrite")]
-    [Tooltip("Overwrite or append to the response file.")]
-    [SerializeField] 
-    public bool Overwrite = true;
+	
 	
 	[FormerlySerializedAs("AnimPlayer1")]
-    [Tooltip("Drag objects with MoshCharacter components into these " +
-             "fields. Use instances of the MoShViewer prefab.")]
     [SerializeField] 
     public MoshCharacter Character1;
 
     [FormerlySerializedAs("AnimPlayer2")]
-    [Tooltip("Drag objects with MoshCharacter components into these " +
-             "fields. Use instances of the MoShViewer prefab.")]
     [SerializeField] 
     public MoshCharacter Character2;
 	
     int animIndex = 0;
 	
 	void Start () {
+		if (!File.Exists(AnimListPath)) throw new IOException($"Can't find List of Animations file {AnimListPath}");
 		string[] animLines = File.ReadAllLines(AnimListPath);
 		foreach (string line in animLines) {
 			MoshAnimation[] allAnimationsInThisLine = GetAnimationsFromLine(line);
@@ -68,6 +54,7 @@ public class AnimReviewer : MonoBehaviour {
 		for (int index = 0; index < fileNames.Length; index++) {
 			string filename = fileNames[index];
 			string animationFileString = LoadAnimFileAsString(filename);
+			Debug.Log(filename);
 			animations[index] = new MoShAnimationFromJSON(animationFileString).Build();
 		}
 		return animations;
@@ -92,6 +79,7 @@ public class AnimReviewer : MonoBehaviour {
 	/// <param name="animationIndex"></param>
 	void StartAnimation(int animationIndex) {
 		MoshAnimation[] animationSet = animations[animationIndex];
+		Debug.Log($"Playing animation number {animationIndex}, {animationSet.Length} animations in set");
 		Character1.StartAnimation(animationSet[0]);
 		Character2.StartAnimation(animationSet[1]);
 	}

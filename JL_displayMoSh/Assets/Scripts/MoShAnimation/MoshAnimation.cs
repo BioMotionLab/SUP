@@ -41,6 +41,7 @@ public class MoshAnimation {
     /// Has the current animation finished playing, if one has been loaded.
     /// </summary>
     public bool Finished => currentFrame >= GetResampledTotalFrameCount;
+    
 
     public MoshAnimation(Gender    gender,       int           sourceTotalFrameCount, int sourceFPS, float[] betas,
                          Vector3[] translations, Quaternion[,] poses) {
@@ -81,6 +82,7 @@ public class MoshAnimation {
         //Calculate INITIAL joint-locations from shapeBetas & update joints of the FBX model
         CalculateJoints();
         
+
     }
 
 
@@ -117,8 +119,7 @@ public class MoshAnimation {
     }
 
 
-    public Vector3 GetTranslationAtFrame(int thisFrame) 
-    {
+    Vector3 GetTranslationAtFrame(int thisFrame) {
         // so the original code flips the translations, if the up axis is equal to z. 
         // I guess I should check on that. 
         
@@ -135,8 +136,7 @@ public class MoshAnimation {
         return resampledTranslation;
     }
 
-    float PercentageElapsedBetweenFrames(int thisFrame, out int frameBeforeThis, out int frameAfterThis)
-    {
+    float PercentageElapsedBetweenFrames(int thisFrame, out int frameBeforeThis, out int frameAfterThis) {
         float timeFrameOccurs = GetTimeAtFrame(thisFrame);
         
         float decimalFrameIndex = sourceFPS * timeFrameOccurs;
@@ -201,7 +201,7 @@ public class MoshAnimation {
     /// shape of the subject. 
     /// Shape: first several blend shapes. Doesn't change over time. 
     /// </summary>
-    [Obsolete] public float[] GetDoubledBetas () {
+    [Obsolete] float[] GetDoubledBetas () {
         float[] values = new float[SMPL.DoubledShapeBetaCount];
         
         for (int i = 0; i < SMPL.ShapeBetaCount; i++) {
@@ -270,6 +270,7 @@ public class MoshAnimation {
     /// Called by PlayAnim to reset the skeleton before playing another animation.
     /// </summary>
     void Reset() {
+        if (!Finished) Debug.Log("Resetting but not finished");
         boneModifier.ResetRotations();
         ResetBlendShapes();
         Vector3[] joints = JointCalculator.GetDefaultJoints(Gender);

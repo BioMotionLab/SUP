@@ -9,7 +9,6 @@ using UnityEngine.Serialization;
 /// This is setup to handle loading a MoSh animation without prior knowledge of gender, swapping in the correct SMPL model.
 /// </summary>
 [SelectionBase]
-[RequireComponent(typeof(SkinnedMeshRenderer))]
 public class MoshCharacter : MonoBehaviour {
     
     MoshAnimation moshAnimation;
@@ -21,12 +20,15 @@ public class MoshCharacter : MonoBehaviour {
     public int DesiredFrameRate;
 
     SkinnedMeshRenderer skinnedMeshRenderer;
-    
+    [FormerlySerializedAs("moshMesh")]
+    [SerializeField]
+    MoshMesh MoshMesh = default;
     [SerializeField]
     SMPLSettings Settings = default;
 
     void Awake() {
-        skinnedMeshRenderer = GetComponent<SkinnedMeshRenderer>();
+        skinnedMeshRenderer = MoshMesh.GetComponent<SkinnedMeshRenderer>();
+        if (skinnedMeshRenderer ==  null) throw new NullReferenceException("Can't find skinnedMeshRenderer in awake");
         RotateToUnityCoordinatesIfNeeded();
     }
 
@@ -36,7 +38,7 @@ public class MoshCharacter : MonoBehaviour {
     /// </summary>
     void RotateToUnityCoordinatesIfNeeded() {
         if (SMPL.ZAxisUpInOriginalFiles) {
-            transform.parent.Rotate(-90f, 0f, 0f);
+            transform.Rotate(-90f, 0f, 0f);
         }
     }
     
@@ -44,11 +46,14 @@ public class MoshCharacter : MonoBehaviour {
     /// Sets up and plays a mosh animation.
     /// </summary>
     public void StartAnimation(MoshAnimation animationToStart) {
+        Debug.Log($"starting animation for {name}");
         moshAnimation = animationToStart;
-        transform.parent.gameObject.SetActive(true);
         ActivateMesh(moshAnimation.Gender);
+        
+        gameObject.SetActive(true);
         moshAnimation.AttachAnimationToMoshCharacter(skinnedMeshRenderer);
         if (ChangeFrameRate) moshAnimation.AdjustFrameRate(DesiredFrameRate);
+        Debug.Log($"started animation for {name}");
     }
     
 
@@ -71,6 +76,7 @@ public class MoshCharacter : MonoBehaviour {
     }
 
     void AnimationCompleted() {
-        if (Settings.HideMeshWhenFinished) transform.parent.gameObject.SetActive(false);
+        Debug.Log("animation complete");
+        if (Settings.HideMeshWhenFinished) gameObject.SetActive(false);
     }
 }

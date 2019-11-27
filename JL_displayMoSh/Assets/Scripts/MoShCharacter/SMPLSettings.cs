@@ -5,6 +5,9 @@ using UnityEngine;
 public class SMPLSettings : ScriptableObject {
 
     [SerializeField]
+    GameObject CharacterPrefab = default;
+        
+    [SerializeField]
     Mesh MaleMeshPrefab = default;
     
     [SerializeField]

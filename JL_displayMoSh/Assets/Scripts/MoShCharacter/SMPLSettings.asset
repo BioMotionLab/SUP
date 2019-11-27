@@ -9,8 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 1f062b4b4922425a8e6f25d4e51fc515, type: 3}
   m_Name: SMPLSettings
-  m_EditorClassIdentifier: Assembly-CSharp::SMPLSettings
+  m_EditorClassIdentifier: 
+  CharacterPrefab: {fileID: 0}
   MaleMeshPrefab: {fileID: 4300000, guid: 1da5acd816b374e5c8ca003861f525f1, type: 3}
   FemaleMeshPrefab: {fileID: 4300000, guid: 14fac0f706c5441fea9a66055bda6333, type: 3}
+  HideMeshWhenFinished: 1
