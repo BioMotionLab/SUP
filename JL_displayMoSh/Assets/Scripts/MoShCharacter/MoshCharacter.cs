@@ -20,8 +20,7 @@ public class MoshCharacter : MonoBehaviour {
     [FormerlySerializedAs("FrameRate")]
     public int DesiredFrameRate;
 
-    [FormerlySerializedAs("meshRenderer")]
-    public SkinnedMeshRenderer MeshRenderer;
+    SkinnedMeshRenderer skinnedMeshRenderer;
     
     
     [SerializeField]
@@ -29,7 +28,7 @@ public class MoshCharacter : MonoBehaviour {
 
     void Awake()
     {
-        MeshRenderer = GetComponent<SkinnedMeshRenderer>();
+        skinnedMeshRenderer = GetComponent<SkinnedMeshRenderer>();
         
         RotateToUnityCoordinatesIfNeeded();
     }
@@ -51,20 +50,26 @@ public class MoshCharacter : MonoBehaviour {
     {
         transform.parent.gameObject.SetActive(true);
         moshAnimation = new MoShAnimationFromJSON(jsonAnimationFileWholeString).Build();
-        moshAnimation.AttachAnimationToMoshCharacter(this);
+        ActivateMesh(moshAnimation.Gender);
+        moshAnimation.AttachAnimationToMoshCharacter(skinnedMeshRenderer);
+        if (ChangeFrameRate) moshAnimation.AdjustFrameRate(DesiredFrameRate);
     }
     
 
     void Update() {
-        if (moshAnimation.Finished) return;
+        if (moshAnimation.Finished) {
+            AnimationCompleted();
+            return;
+        }
+
         moshAnimation.PlayCurrentFrame();
     }
     
-    public void ActivateMesh(Gender gender) {
-        MeshRenderer.sharedMesh = Instantiate(Settings.GetMeshPrefab(gender));
+    void ActivateMesh(Gender gender) {
+        skinnedMeshRenderer.sharedMesh = Instantiate(Settings.GetMeshPrefab(gender));
     }
 
-    public void AnimationCompleted() {
+    void AnimationCompleted() {
         if (Settings.HideMeshWhenFinished) transform.parent.gameObject.SetActive(false);
     }
 }

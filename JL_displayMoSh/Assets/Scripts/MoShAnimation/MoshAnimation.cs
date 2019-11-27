@@ -12,30 +12,29 @@ using System;
 /// </summary>
 public class MoshAnimation {
 
-    readonly int sourceTotalFrameCount;
-    readonly Vector3[] translations;
+    readonly int           sourceTotalFrameCount;
+    readonly Vector3[]     translations;
     readonly Quaternion[,] poses;
-    readonly float[] betas;
-    
+    readonly float[]       betas;
+
     int desiredFPS;
-    
+
     /// <summary>
     /// Read only. Get the number of frames in the animation. 
     /// </summary>
     /// <value>length of the animation</value>
     public int GetResampledTotalFrameCount => resampledTotalFrameCount;
 
-    readonly float duration;
-    public Gender Gender { get; }
-    
-    readonly JointCalculator jointCalculator;
-    bool            resamplingRequired = false;
-    int             resampledTotalFrameCount;
-    readonly int             sourceFPS;
-    MoshCharacter moshCharacter;
-    BMLModifyBones boneModifier;
+    readonly float  duration;
+    public   Gender Gender { get; }
 
-    int currentFrame = 0;
+    readonly JointCalculator jointCalculator;
+    bool                     resamplingRequired = false;
+    int                      resampledTotalFrameCount;
+    readonly int             sourceFPS;
+    BMLModifyBones           boneModifier;
+
+    int                 currentFrame = 0;
     SkinnedMeshRenderer meshRenderer;
 
     /// <summary>
@@ -43,51 +42,57 @@ public class MoshAnimation {
     /// </summary>
     public bool Finished => currentFrame >= GetResampledTotalFrameCount;
 
-    public MoshAnimation(Gender gender,  int sourceTotalFrameCount, int sourceFPS, float[] betas,
-                Vector3[] translations, Quaternion[,] poses) {
-                this.Gender = gender;
-                switch (gender) {
-                    case Gender.MALE:
-                    jointCalculator = JointCalculator.Male;
-                    break;
-                    case Gender.Female:
-                    jointCalculator = JointCalculator.Female;
-                    break;
-                    default:
-                    throw new ArgumentOutOfRangeException(nameof(gender), gender, null);
-                }
-                this.sourceTotalFrameCount = sourceTotalFrameCount;
-                this.sourceFPS = sourceFPS;
-                desiredFPS = sourceFPS;
-                resampledTotalFrameCount = sourceTotalFrameCount;
-                duration = this.sourceTotalFrameCount / (float)this.sourceFPS;
-                this.betas = betas;
-                this.translations = translations;
-                this.translations = translations;
-                this.poses = poses;
-                currentFrame = 0;
-                
+    public MoshAnimation(Gender    gender,       int           sourceTotalFrameCount, int sourceFPS, float[] betas,
+                         Vector3[] translations, Quaternion[,] poses) {
+        this.Gender = gender;
+        switch (gender) {
+            case Gender.MALE:
+                jointCalculator = JointCalculator.Male;
+                break;
+            case Gender.Female:
+                jointCalculator = JointCalculator.Female;
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(gender), gender, null);
+        }
+
+        this.sourceTotalFrameCount = sourceTotalFrameCount;
+        this.sourceFPS = sourceFPS;
+        desiredFPS = sourceFPS;
+        resampledTotalFrameCount = sourceTotalFrameCount;
+        duration = this.sourceTotalFrameCount / (float) this.sourceFPS;
+        this.betas = betas;
+        this.translations = translations;
+        this.translations = translations;
+        this.poses = poses;
+        currentFrame = 0;
+
     }
 
-    public void AttachAnimationToMoshCharacter(MoshCharacter moshCharacter) {
-        this.moshCharacter = moshCharacter;
-        this.meshRenderer = moshCharacter.MeshRenderer;
+    public void AttachAnimationToMoshCharacter(SkinnedMeshRenderer meshRendererToAttach) {
+        this.meshRenderer = meshRendererToAttach;
         boneModifier = new BMLModifyBones(meshRenderer);
-        moshCharacter.ActivateMesh(Gender);
-
-        if (moshCharacter.ChangeFrameRate && moshCharacter.DesiredFrameRate != 0) {
-            SetDesiredFPS(moshCharacter.DesiredFrameRate);
-        }
+        
+        //TODO make it reset AFTERWARDS, not before.
+        Reset();
         
         //Set Betas of avg FBX model in the scene to shapeBetas from Mosh file
         SetMeshShapeBetas();
         //Calculate INITIAL joint-locations from shapeBetas & update joints of the FBX model
         CalculateJoints();
-
+        
     }
-    
-    
-    /// <summary>
+
+
+    public void AdjustFrameRate(int desiredFrameRate) {
+        if (desiredFrameRate != 0) {
+            SetDesiredFPS(desiredFrameRate);
+        }
+    }
+
+
+
+/// <summary>
     /// Gets or sets the fps, upsampling or downsampling if the fps is 
     /// is different from the source fps. 
     /// </summary>
@@ -156,7 +161,7 @@ public class MoshAnimation {
     /// </summary>
     /// <param name="rotations">Array to fill with joint rotations.</param>
     /// <param name="thisFrameAsDecimal">Frame at which to get rotations</param>
-    public Quaternion[] GetPoseAtFrame(int thisFrameAsDecimal) 
+    Quaternion[] GetPoseAtFrame(int thisFrameAsDecimal) 
     {
         Quaternion[] posesThisFrame = new Quaternion[SMPL.JointCount];
         
@@ -241,8 +246,8 @@ public class MoshAnimation {
                 }
 
                 int doubledIndex = index * 2;
-                moshCharacter.MeshRenderer.SetBlendShapeWeight(SMPL.DoubledShapeBetaCount + doubledIndex + rotationMatrixElementIndex + 0, pos * 100.0f);
-                moshCharacter.MeshRenderer.SetBlendShapeWeight(SMPL.DoubledShapeBetaCount + doubledIndex + rotationMatrixElementIndex + 1, neg * 100.0f);
+                meshRenderer.SetBlendShapeWeight(SMPL.DoubledShapeBetaCount + doubledIndex + rotationMatrixElementIndex + 0, pos * 100.0f);
+                meshRenderer.SetBlendShapeWeight(SMPL.DoubledShapeBetaCount + doubledIndex + rotationMatrixElementIndex + 1, neg * 100.0f);
             }
         }
     }
@@ -257,7 +262,6 @@ public class MoshAnimation {
 
         if (Finished) {
             Reset();
-            moshCharacter.AnimationCompleted();
         }
 
     }
@@ -274,8 +278,8 @@ public class MoshAnimation {
     
     
     void ResetBlendShapes() {
-        for (int blendShapeIndex = 0; blendShapeIndex < moshCharacter.MeshRenderer.sharedMesh.blendShapeCount; blendShapeIndex++) {
-            moshCharacter.MeshRenderer.SetBlendShapeWeight(blendShapeIndex, 0f);
+        for (int blendShapeIndex = 0; blendShapeIndex < meshRenderer.sharedMesh.blendShapeCount; blendShapeIndex++) {
+            meshRenderer.SetBlendShapeWeight(blendShapeIndex, 0f);
         }
     }
     
@@ -288,7 +292,7 @@ public class MoshAnimation {
         float[] shapeBetas = GetDoubledBetas();
         //!!!! float beta = shapeBetas[i] / SCALE; <- this was in original. It's important!!!
         for (int betaIndex = 0; betaIndex < SMPL.DoubledShapeBetaCount; betaIndex++) {
-            moshCharacter.MeshRenderer.SetBlendShapeWeight(betaIndex, shapeBetas[betaIndex]);
+            meshRenderer.SetBlendShapeWeight(betaIndex, shapeBetas[betaIndex]);
         }
     }
     
