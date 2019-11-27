@@ -11,7 +11,6 @@ using UnityEngine.Serialization;
 [SelectionBase]
 [RequireComponent(typeof(SkinnedMeshRenderer))]
 public class MoshCharacter : MonoBehaviour {
-
     
     MoshAnimation moshAnimation;
     Mesh smplMeshClone;
@@ -23,10 +22,7 @@ public class MoshCharacter : MonoBehaviour {
 
     [FormerlySerializedAs("meshRenderer")]
     public SkinnedMeshRenderer MeshRenderer;
-
-    [FormerlySerializedAs("boneModifier")]
-    public BMLModifyBones BoneModifier;
-
+    
     
     [SerializeField]
     SMPLSettings Settings = default;
@@ -36,9 +32,6 @@ public class MoshCharacter : MonoBehaviour {
         MeshRenderer = GetComponent<SkinnedMeshRenderer>();
         
         RotateToUnityCoordinatesIfNeeded();
-
-        BoneModifier = new BMLModifyBones(MeshRenderer);
-        
     }
 
     void RotateToUnityCoordinatesIfNeeded() {
@@ -48,8 +41,7 @@ public class MoshCharacter : MonoBehaviour {
             transform.parent.Rotate(-90f, 0f, 0f);
         }
     }
-
-
+    
     /// <summary>
     /// Sets up and plays a mosh animation.
     /// This is the main point of interaction with the load MoSh functionality.

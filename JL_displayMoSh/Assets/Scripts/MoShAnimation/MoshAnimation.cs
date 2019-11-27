@@ -33,9 +33,11 @@ public class MoshAnimation {
     int             resampledTotalFrameCount;
     readonly int             sourceFPS;
     MoshCharacter moshCharacter;
+    BMLModifyBones boneModifier;
 
     int currentFrame = 0;
-    
+    SkinnedMeshRenderer meshRenderer;
+
     /// <summary>
     /// Has the current animation finished playing, if one has been loaded.
     /// </summary>
@@ -69,7 +71,8 @@ public class MoshAnimation {
 
     public void AttachAnimationToMoshCharacter(MoshCharacter moshCharacter) {
         this.moshCharacter = moshCharacter;
-        
+        this.meshRenderer = moshCharacter.MeshRenderer;
+        boneModifier = new BMLModifyBones(meshRenderer);
         moshCharacter.ActivateMesh(Gender);
 
         if (moshCharacter.ChangeFrameRate && moshCharacter.DesiredFrameRate != 0) {
@@ -246,11 +249,9 @@ public class MoshAnimation {
     
     
     public void PlayCurrentFrame() {
-        
-        
         Vector3 translationAtFrame = GetTranslationAtFrame(currentFrame);
         Quaternion[] poses = GetPoseAtFrame(currentFrame);
-        moshCharacter.BoneModifier.UpdateBoneAngles(poses, translationAtFrame);
+        boneModifier.UpdateBoneAngles(poses, translationAtFrame);
         SetPoseAsCurrentFrame(poses);
         currentFrame++;
 
@@ -261,16 +262,16 @@ public class MoshAnimation {
 
     }
     
-    
     /// <summary>
     /// Called by PlayAnim to reset the skeleton before playing another animation.
     /// </summary>
     void Reset() {
-        moshCharacter.BoneModifier.ResetRotations();
+        boneModifier.ResetRotations();
         ResetBlendShapes();
         Vector3[] joints = JointCalculator.GetDefaultJoints(Gender);
-        moshCharacter.BoneModifier.UpdateBonePositions(joints, true);
+        boneModifier.UpdateBonePositions(joints, true);
     }
+    
     
     void ResetBlendShapes() {
         for (int blendShapeIndex = 0; blendShapeIndex < moshCharacter.MeshRenderer.sharedMesh.blendShapeCount; blendShapeIndex++) {
@@ -298,7 +299,7 @@ public class MoshAnimation {
     void CalculateJoints()
     {
         Vector3[] joints = jointCalculator.calculateJoints(betas);
-        moshCharacter.BoneModifier.UpdateBonePositions(joints, true);
+        boneModifier.UpdateBonePositions(joints, true);
     }
     
     
