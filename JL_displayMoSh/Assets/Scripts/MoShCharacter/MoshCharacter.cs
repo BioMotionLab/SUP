@@ -75,6 +75,10 @@ public class MoshCharacter : MonoBehaviour {
 
     void AnimationCompleted() {
         Debug.Log("animation complete");
+        StopAnimation();
+    }
+
+    public void StopAnimation() {
         Destroy(gameObject);
     }
 }

@@ -31,6 +31,8 @@ public class AnimReviewer : MonoBehaviour {
 	[SerializeField]
 	SMPLSettings Settings = default;
 
+	List<MoshCharacter> currentCharacters;
+	
 	void Start () {
 		if (!File.Exists(AnimListPath)) throw new IOException($"Can't find List of Animations file {AnimListPath}");
 		string[] animLines = File.ReadAllLines(AnimListPath);
@@ -38,7 +40,7 @@ public class AnimReviewer : MonoBehaviour {
 			MoshAnimation[] allAnimationsInThisLine = GetAnimationsFromLine(line);
 			animations.Add(allAnimationsInThisLine);
 		}
-		StartAnimation(animIndex); //play the first animation!
+		currentCharacters = StartAnimation(animIndex); //play the first animation!
 	}
 	
 	MoshAnimation[] GetAnimationsFromLine(string line) {
@@ -58,26 +60,39 @@ public class AnimReviewer : MonoBehaviour {
 		if (AllAnimsComplete) return;
 		// Controls to step through the animation. 
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.RightBracket)) {
+			StopCurrentAnimation();
+		
             // skip to next animation.
             animIndex++;
 			//TODO make this happen before increment. Problem is something is initialized in Start that breaks when played first here. Right now it starts at anim 1, after 0 starts during Start function.
 
 			if (AllAnimsComplete) return;
-			StartAnimation(animIndex);
+			currentCharacters = StartAnimation(animIndex);
+		}
+
+	void StopCurrentAnimation() {
+		foreach (MoshCharacter character in currentCharacters) {
+			character.StopAnimation();
 		}
 	}
+}
 
 	/// <summary>
 	/// Play the animation for both characters at specified position in sequence of files.
 	/// </summary>
 	/// <param name="animationIndex"></param>
-	void StartAnimation(int animationIndex) {
+	List<MoshCharacter> StartAnimation(int animationIndex) {
 		MoshAnimation[] animationSet = animations[animationIndex];
 		Debug.Log($"Playing animation number {animationIndex}, {animationSet.Length} animations in set");
+		
+		List<MoshCharacter> newCharacters = new List<MoshCharacter>();
 		foreach (MoshAnimation moshAnimation in animationSet) {
 			MoshCharacter character = Settings.CreateNewCharacter();
+			newCharacters.Add(character);
 			character.StartAnimation(moshAnimation);
 		}
+
+		return newCharacters;
 	}
 
 	string LoadAnimFileAsString(string filename) {

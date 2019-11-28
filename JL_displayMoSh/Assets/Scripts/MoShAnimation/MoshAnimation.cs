@@ -190,66 +190,40 @@ public class MoshAnimation {
     /// Get the values for shape parameters in Unity, that define the 
     /// shape of the subject. 
     /// </summary>
-    [Obsolete] float[] GetDoubledBetas () {
-        float[] values = new float[SMPL.DoubledShapeBetaCount];
-        
+    [Obsolete] float[] GetBetas () {
+        float[] values = new float[SMPL.ShapeBetaCount];
+
         for (int i = 0; i < SMPL.ShapeBetaCount; i++) {
-            float scaledBeta = ScaleBeta(betas[i]);
-            //Because of pos and neg
-            int doubledIndex = 2 * i;
-            if (betas[i] >= 0) {
-                values[doubledIndex] = scaledBeta;
-                values[doubledIndex + 1] = 0f;
-            } 
-            else {
-                values[doubledIndex] = 0f;
-                values[doubledIndex + 1] = -scaledBeta;
-            }
+            float scaledBeta = ScaleBetaFromBlenderToUnity(betas[i]);
+            values[i] = scaledBeta;
         }
         return values;
     }
 
-    static float ScaleBeta(float beta) {
+    static float ScaleBetaFromBlenderToUnity(float beta) {
         float scaledBeta = beta * 100f / SMPL.BetaScalingFactor;
         return scaledBeta;
     }
 
-
-    [Obsolete]
+    
     void SetPoseDependentBlendShapesForCurrentFrame(Quaternion[] poses) {
         // start at 1 to skip pelvis. 
         // pelvis has a rotation, but doesn't seem to have associated blend shapes.
-        StringBuilder sb = new StringBuilder();
         const int FirstJointAfterPelvis = 1;
-        for (int jointPoseIndex = FirstJointAfterPelvis; jointPoseIndex < SMPL.JointCount; jointPoseIndex++) {
+        for (int jointPoseIndexAfterPelvis = FirstJointAfterPelvis; jointPoseIndexAfterPelvis < SMPL.JointCount; jointPoseIndexAfterPelvis++) {
             // i is equivalent to index for the other version. 
-            Quaternion currentPose = poses[jointPoseIndex];
+            Quaternion currentPose = poses[jointPoseIndexAfterPelvis];
             float[] rot3x3 = MoShUtilities.QuaternionTo3X3Matrix(currentPose);
-            int correctedJointPoseIndexFromPelvisExclusion = (jointPoseIndex - 1);
-            for (int rotationMatrixElementIndex = 0; rotationMatrixElementIndex < 9; rotationMatrixElementIndex++) {
+            
+            int jointPoseIndexAfterPelvisExcluded = jointPoseIndexAfterPelvis - 1;
+            for (int rotationMatrixElementIndex = 0; rotationMatrixElementIndex < SMPL.RotationMatrixElementCount; rotationMatrixElementIndex++) {
                 float pos, neg;
                 float theta = rot3x3[rotationMatrixElementIndex];
-                theta *= 100f/5f; // scale -1,1 to -100,100 for unity blendshapes
-                sb.Append($"pose: {jointPoseIndex}, theta: {theta}");
-                if (theta >= 0) {
-                    pos = theta;
-                    neg = 0f;
-                } else {
-                    pos = 0.0f;
-                    neg = -theta;
-                }
-
-                int posIndex = SMPL.DoubledShapeBetaCount + correctedJointPoseIndexFromPelvisExclusion*9*2 + rotationMatrixElementIndex*2 + 0;
-                sb.Append($" posIndex = {posIndex}");
-                meshRenderer.SetBlendShapeWeight(posIndex, pos);
-                int negIndex = SMPL.DoubledShapeBetaCount + correctedJointPoseIndexFromPelvisExclusion*9*2 + rotationMatrixElementIndex*2 + 1;
-                sb.Append($" negIndex = {negIndex}");
-                meshRenderer.SetBlendShapeWeight(negIndex, neg);
-                sb.Append("\n");
+                float scaledTheta = ScaleBetaFromBlenderToUnity(theta); 
+                int index = SMPL.ShapeBetaCount + jointPoseIndexAfterPelvisExcluded * SMPL.RotationMatrixElementCount + rotationMatrixElementIndex;
+                meshRenderer.SetBlendShapeWeight(index, scaledTheta);
             }
         }
-        Debug.Log(sb.ToString());
-        Debug.Log("***END***");
     }
     
     
@@ -278,8 +252,8 @@ public class MoshAnimation {
     
     
     void UpdateBlendShapes() {
-        float[] shapeBetas = GetDoubledBetas();
-        for (int betaIndex = 0; betaIndex < SMPL.DoubledShapeBetaCount; betaIndex++) {
+        float[] shapeBetas = GetBetas();
+        for (int betaIndex = 0; betaIndex < SMPL.ShapeBetaCount; betaIndex++) {
             meshRenderer.SetBlendShapeWeight(betaIndex, shapeBetas[betaIndex]);
         }
     }

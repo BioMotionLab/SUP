@@ -6,16 +6,15 @@ public static class SMPL {
     public const int ShapeBetaCount         = 10;
     public const int JointCount             = 24;
     public const int PoseCount              = 207;
-    public const int DoubledShapeBetaCount  = ShapeBetaCount * 2;
-    const        int DoubledPoseBlendCount  = PoseCount * 2;
-    const        int DoubledBlendCount      = DoubledShapeBetaCount + DoubledPoseBlendCount;
-    
+
     public const bool ZAxisUpInOriginalFiles = true;
     
     /// <summary>
     /// Represents the 3 dimensions of a vector3 (X, Y, Z) for looping purposes
     /// </summary>
     public const int DimensionsOfAVector3 = 3;
+
+    public const int RotationMatrixElementCount = 9;
     
     public static class JSONKeys {
      
