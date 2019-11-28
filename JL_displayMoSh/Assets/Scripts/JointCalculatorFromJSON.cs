@@ -5,11 +5,9 @@ using UnityEngine;
 public class JointCalculatorFromJSON {
     
     readonly Matrix[]  jointsRegressor;
-    readonly Vector3[] joints;
     readonly Matrix[]  template;
     
     public JointCalculatorFromJSON(TextAsset jsonText) {
-        joints = new Vector3[SMPL.JointCount];
         template = new Matrix [SMPL.JointDimensions];
         jointsRegressor = new Matrix [SMPL.JointDimensions];
 
@@ -39,13 +37,11 @@ public class JointCalculatorFromJSON {
 
     void ParseTemplatesFromJSON(JSONNode node) {
         JSONNode templateNode = node[SMPL.JSONKeys.Templates];
-        for (int dimensionIndex = 0; dimensionIndex < SMPL.JointDimensions; dimensionIndex++) {
-            template[dimensionIndex] = new Matrix(SMPL.JointCount, 1);
+        for (int dimension = 0; dimension < SMPL.JointDimensions; dimension++) {
+            template[dimension] = new Matrix(SMPL.JointCount, 1);
         }
 
         for (int jointIndex = 0; jointIndex < SMPL.JointCount; jointIndex++) {
-            // Init joint template matrix
-
             for (int dimensionIndex = 0; dimensionIndex < SMPL.JointDimensions; dimensionIndex++) {
                 double x = templateNode[jointIndex][dimensionIndex].AsDouble;
                 Matrix templateMatrix = template[dimensionIndex];
@@ -55,6 +51,6 @@ public class JointCalculatorFromJSON {
     }
 
     public JointCalculator BuildWithSettings(SMPLSettings settings) {
-        return new JointCalculator(template, jointsRegressor, joints, settings);
+        return new JointCalculator(template, jointsRegressor, settings);
     }
 }

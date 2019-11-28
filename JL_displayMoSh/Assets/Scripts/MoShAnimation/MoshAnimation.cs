@@ -40,7 +40,7 @@ public class MoshAnimation {
 
     public MoshAnimation(Gender    gender, int sourceTotalFrameCount, int sourceFPS, float[] betas,
                          Vector3[] translations, Quaternion[,] poses, SMPLSettings settings) {
-        this.Gender = gender;
+        Gender = gender;
         switch (gender) {
             case Gender.MALE:
                 jointCalculator = settings.MaleJointCalculator;
@@ -261,7 +261,7 @@ public class MoshAnimation {
         if (!Finished) Debug.Log("Resetting but not finished");
         boneModifier.ResetRotations();
         ResetBlendShapes();
-        Vector3[] joints = jointCalculator.GetDefaultJoints(Gender);
+        Vector3[] joints = jointCalculator.CalculateJointsAtZeroedBetas();
         boneModifier.UpdateBonePositions(joints, true);
     }
     
