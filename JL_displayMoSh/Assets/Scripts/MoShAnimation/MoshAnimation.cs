@@ -14,7 +14,7 @@ public class MoshAnimation {
 
     readonly int           sourceTotalFrameCount;
     readonly Vector3[]     translations;
-    readonly Quaternion[,] poses;
+    readonly Quaternion[,] allPoses;
     readonly float[]       betas;
 
     int desiredFPS;
@@ -39,7 +39,7 @@ public class MoshAnimation {
     
 
     public MoshAnimation(Gender    gender, int sourceTotalFrameCount, int sourceFPS, float[] betas,
-                         Vector3[] translations, Quaternion[,] poses, SMPLSettings settings) {
+                         Vector3[] translations, Quaternion[,] allPoses, SMPLSettings settings) {
         Gender = gender;
         switch (gender) {
             case Gender.MALE:
@@ -59,7 +59,7 @@ public class MoshAnimation {
         duration = this.sourceTotalFrameCount / (float) this.sourceFPS;
         this.betas = betas;
         this.translations = translations;
-        this.poses = poses;
+        this.allPoses = allPoses;
         currentFrame = 0;
 
     }
@@ -155,14 +155,14 @@ public class MoshAnimation {
     /// <param name="thisFrameAsDecimal">Frame at which to get rotations</param>
     Quaternion[] GetPoseAtFrame(int thisFrameAsDecimal) 
     {
-        Quaternion[] posesThisFrame = new Quaternion[SMPL.JointCount];
+        Quaternion[] thisFramePoses = new Quaternion[SMPL.JointCount];
         
         // ok. Need to spherically interpolate all these quaternions. 
         for (int jointIndex = 0; jointIndex < SMPL.JointCount; jointIndex++) {
             
             if (!resamplingRequired) {
                 // these local rotations are in the right coordinate system for unity.
-                posesThisFrame[jointIndex] = poses[thisFrameAsDecimal, jointIndex];
+                thisFramePoses[jointIndex] = allPoses[thisFrameAsDecimal, jointIndex];
             }
             else {
                 float percentageElapsedBetweenFrames =
@@ -171,18 +171,18 @@ public class MoshAnimation {
 
                 // detect last thisFrameAsDecimal. This might be a slight discontinuity. 
                 if (frameAfterThis >= sourceTotalFrameCount) {
-                    posesThisFrame[jointIndex] = poses[frameBeforeThis, jointIndex];
+                    thisFramePoses[jointIndex] = allPoses[frameBeforeThis, jointIndex];
                 }
                 else {
-                    Quaternion rotationAtFrameBeforeThis = poses[frameBeforeThis, jointIndex];
-                    Quaternion rotationAtFrameAfterThis = poses[frameAfterThis, jointIndex];
-                    posesThisFrame[jointIndex] = Quaternion.Slerp(rotationAtFrameBeforeThis, rotationAtFrameAfterThis,
+                    Quaternion rotationAtFrameBeforeThis = allPoses[frameBeforeThis, jointIndex];
+                    Quaternion rotationAtFrameAfterThis = allPoses[frameAfterThis, jointIndex];
+                    thisFramePoses[jointIndex] = Quaternion.Slerp(rotationAtFrameBeforeThis, rotationAtFrameAfterThis,
                                                              percentageElapsedBetweenFrames);
                 }
             }
         }
 
-        return posesThisFrame;
+        return thisFramePoses;
     }
 
     /// <summary>
@@ -262,7 +262,7 @@ public class MoshAnimation {
         boneModifier.ResetRotations();
         ResetBlendShapes();
         Vector3[] joints = jointCalculator.CalculateJointsAtZeroedBetas();
-        boneModifier.UpdateBonePositions(joints, true);
+        boneModifier.UpdateBonePositions(joints);
     }
     
     
@@ -286,7 +286,7 @@ public class MoshAnimation {
     void CalculateJoints()
     {
         Vector3[] joints = jointCalculator.CalculateJoints(betas);
-        boneModifier.UpdateBonePositions(joints, true);
+        boneModifier.UpdateBonePositions(joints);
     }
     
     

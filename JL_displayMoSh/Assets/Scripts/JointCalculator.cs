@@ -38,10 +38,10 @@ public class JointCalculator {
 
     Matrix[] RunJointsThroughRegressor(float[] betas) {
         Matrix betaMatrix = CopyBetaArrayToVector(betas);
-        Matrix[] newJoints = new Matrix[SMPL.JointDimensions]; //stores x,y,z joint values as dimensions
+        Matrix[] newJoints = new Matrix[SMPL.DimensionsOfAVector3]; //stores x,y,z joint values as dimensions
 
-        for (int dimension = 0; dimension < SMPL.JointDimensions; dimension++) {
-            newJoints[dimension] = jointsRegressor[dimension] * betaMatrix + template[dimension];
+        for (int vector3Dimension = 0; vector3Dimension < SMPL.DimensionsOfAVector3; vector3Dimension++) {
+            newJoints[vector3Dimension] = jointsRegressor[vector3Dimension] * betaMatrix + template[vector3Dimension];
         }
 
         return newJoints;
@@ -78,17 +78,14 @@ public class JointCalculator {
     }
 
     static Vector3 ConvertFromMayaToUnityCoordinateSystem(Vector3 inMayaCoordinates) {
-        // Convert Maya regressor to Unity coordinate system by negating X value
-        Vector3 inUnityCoordinates = new Vector3(
-                                          -inMayaCoordinates.x, 
-                                          inMayaCoordinates.y,
-                                          inMayaCoordinates.z);
+        Vector3 inUnityCoordinates = new Vector3(-inMayaCoordinates.x,
+                                                 inMayaCoordinates.y,
+                                                 inMayaCoordinates.z);
         return inUnityCoordinates;
     }
-    
+
     public Vector3[] CalculateJointsAtZeroedBetas() {
         float[] zeroedBetas = new float[SMPL.ShapeBetaCount];
         return CalculateJoints(zeroedBetas);
     }
-    
 }

@@ -11,7 +11,11 @@ public static class SMPL {
     const        int DoubledBlendCount      = DoubledShapeBetaCount + DoubledPoseBlendCount;
     
     public const bool ZAxisUpInOriginalFiles = true;
-    public const int JointDimensions = 3;
+    
+    /// <summary>
+    /// Represents the 3 dimensions of a vector3 (X, Y, Z) for looping purposes
+    /// </summary>
+    public const int DimensionsOfAVector3 = 3;
     
     public static class JSONKeys {
      

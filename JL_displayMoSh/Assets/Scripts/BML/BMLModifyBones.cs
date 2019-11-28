@@ -10,22 +10,16 @@ using System.Collections.Generic;
 /// be calculable using the regressors with all betas = 0. 
 /// </summary>
 public class BMLModifyBones {
-    SkinnedMeshRenderer skinnedMeshRenderer;
-
-    readonly Transform[] bones = null;
-
+    
+    
+    readonly SkinnedMeshRenderer skinnedMeshRenderer;
+    readonly Transform[] bones;
     readonly Pose[] backups;
-
     readonly string boneNamePrefix;
-
     readonly Dictionary<string, int> boneNameToJointIndex;
-
     //private bool _bonesAreModified = false;
-
     readonly Transform pelvis;
-
     readonly Vector3[] bonePositions;
-
     readonly Mesh bakedMesh = null;
     Vector3 minBounds;
     Vector3 maxBounds;
@@ -34,6 +28,7 @@ public class BMLModifyBones {
     {
         this.skinnedMeshRenderer = skinnedMeshRenderer;
         boneNamePrefix = "";
+        
         boneNameToJointIndex = new Dictionary<string, int>();
         boneNameToJointIndex.Add("Pelvis", 0);
         boneNameToJointIndex.Add("L_Hip", 1);
