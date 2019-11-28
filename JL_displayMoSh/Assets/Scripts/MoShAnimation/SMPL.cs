@@ -27,7 +27,7 @@ public static class SMPL {
         public const string Betas     = "betas";
         public const string Poses     = "poses";
 
-        public const string Templates = "template_J";
+        public const string JointTemplates = "template_J";
         public const string BetaJointRegressors = "betasJ_regr";
     }
 

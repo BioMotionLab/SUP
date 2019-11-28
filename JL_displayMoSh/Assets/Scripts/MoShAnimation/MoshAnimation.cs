@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System;
+using System.Text;
 
 
 /// <summary>
@@ -65,7 +66,7 @@ public class MoshAnimation {
     }
 
     public void AttachAnimationToMoshCharacter(SkinnedMeshRenderer meshRendererToAttach) {
-        this.meshRenderer = meshRendererToAttach;
+        meshRenderer = meshRendererToAttach;
         boneModifier = new BMLModifyBones(meshRenderer);
         
         //TODO make it reset AFTERWARDS, not before.
@@ -215,17 +216,21 @@ public class MoshAnimation {
 
 
     [Obsolete]
-    void SetPoseAsCurrentFrame( Quaternion[] poses) {
+    void SetPoseDependentBlendShapesForCurrentFrame(Quaternion[] poses) {
         // start at 1 to skip pelvis. 
         // pelvis has a rotation, but doesn't seem to have associated blend shapes.
-        for (int poseIndex = 1; poseIndex < poses.Length; poseIndex++) {
+        StringBuilder sb = new StringBuilder();
+        const int FirstJointAfterPelvis = 1;
+        for (int jointPoseIndex = FirstJointAfterPelvis; jointPoseIndex < SMPL.JointCount; jointPoseIndex++) {
             // i is equivalent to index for the other version. 
-            Quaternion currentPose = poses[poseIndex];
+            Quaternion currentPose = poses[jointPoseIndex];
             float[] rot3x3 = MoShUtilities.QuaternionTo3X3Matrix(currentPose);
-            int index = (poseIndex - 1) * 9;
+            int correctedJointPoseIndexFromPelvisExclusion = (jointPoseIndex - 1);
             for (int rotationMatrixElementIndex = 0; rotationMatrixElementIndex < 9; rotationMatrixElementIndex++) {
                 float pos, neg;
                 float theta = rot3x3[rotationMatrixElementIndex];
+                theta *= 100f/5f; // scale -1,1 to -100,100 for unity blendshapes
+                sb.Append($"pose: {jointPoseIndex}, theta: {theta}");
                 if (theta >= 0) {
                     pos = theta;
                     neg = 0f;
@@ -234,11 +239,17 @@ public class MoshAnimation {
                     neg = -theta;
                 }
 
-                int doubledIndex = index * 2;
-                meshRenderer.SetBlendShapeWeight(SMPL.DoubledShapeBetaCount + doubledIndex + rotationMatrixElementIndex + 0, pos * 100.0f);
-                meshRenderer.SetBlendShapeWeight(SMPL.DoubledShapeBetaCount + doubledIndex + rotationMatrixElementIndex + 1, neg * 100.0f);
+                int posIndex = SMPL.DoubledShapeBetaCount + correctedJointPoseIndexFromPelvisExclusion*9*2 + rotationMatrixElementIndex*2 + 0;
+                sb.Append($" posIndex = {posIndex}");
+                meshRenderer.SetBlendShapeWeight(posIndex, pos);
+                int negIndex = SMPL.DoubledShapeBetaCount + correctedJointPoseIndexFromPelvisExclusion*9*2 + rotationMatrixElementIndex*2 + 1;
+                sb.Append($" negIndex = {negIndex}");
+                meshRenderer.SetBlendShapeWeight(negIndex, neg);
+                sb.Append("\n");
             }
         }
+        Debug.Log(sb.ToString());
+        Debug.Log("***END***");
     }
     
     
@@ -246,7 +257,7 @@ public class MoshAnimation {
         Vector3 translationAtFrame = GetTranslationAtFrame(currentFrame);
         Quaternion[] poses = GetPoseAtFrame(currentFrame);
         boneModifier.UpdateBoneAngles(poses, translationAtFrame);
-        SetPoseAsCurrentFrame(poses);
+        SetPoseDependentBlendShapesForCurrentFrame(poses);
         currentFrame++;
 
         if (Finished) {
@@ -285,7 +296,7 @@ public class MoshAnimation {
     /// </summary>
     void CalculateJoints()
     {
-        Vector3[] joints = jointCalculator.CalculateJoints(betas);
+        Vector3[] joints = jointCalculator.CalculateJointPositions(betas);
         boneModifier.UpdateBonePositions(joints);
     }
     

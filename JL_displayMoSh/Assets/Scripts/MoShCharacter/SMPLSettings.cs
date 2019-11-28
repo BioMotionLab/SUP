@@ -16,11 +16,11 @@ public class SMPLSettings : ScriptableObject {
     [SerializeField]
     TextAsset MaleJointRegressorFile = default;
 
-    public JointCalculator MaleJointCalculator => new JointCalculatorFromJSON(MaleJointRegressorFile).BuildWithSettings(this);
+    public JointCalculator MaleJointCalculator => new JointCalculatorFromJSON(MaleJointRegressorFile).Build();
 
     [SerializeField]
     TextAsset FemaleJointRegressorFile = default;
-    public JointCalculator FemaleJointCalculator => new JointCalculatorFromJSON(FemaleJointRegressorFile).BuildWithSettings(this);
+    public JointCalculator FemaleJointCalculator => new JointCalculatorFromJSON(FemaleJointRegressorFile).Build();
 
     [SerializeField]
     public bool HideMeshWhenFinished = true;

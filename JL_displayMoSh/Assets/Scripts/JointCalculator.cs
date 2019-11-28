@@ -7,20 +7,18 @@ public class JointCalculator {
 
     readonly Matrix[] template;
     readonly Matrix[] jointsRegressor; // doesn't need reset. 
-    readonly SMPLSettings settings;
     
     // private constructor. 
-    public JointCalculator(Matrix[] template, Matrix[] jointsRegressor, SMPLSettings settings) {
+    public JointCalculator(Matrix[] template, Matrix[] jointsRegressor) {
         this.template = template;
         this.jointsRegressor = jointsRegressor;
-        this.settings = settings;
     }
 
     /// <summary>
     /// Calculate initial joint positions from betas. 
     /// </summary>
     /// <returns>The joints.</returns>
-    public Vector3[] CalculateJoints(float[] betas) {
+    public Vector3[] CalculateJointPositions(float[] betas) {
         Matrix[] newRegressedJoints = RunJointsThroughRegressor(betas);
         Vector3[] updatedJoints = ConvertJointMatrixToArray(newRegressedJoints);
         return updatedJoints;
@@ -86,6 +84,6 @@ public class JointCalculator {
 
     public Vector3[] CalculateJointsAtZeroedBetas() {
         float[] zeroedBetas = new float[SMPL.ShapeBetaCount];
-        return CalculateJoints(zeroedBetas);
+        return CalculateJointPositions(zeroedBetas);
     }
 }

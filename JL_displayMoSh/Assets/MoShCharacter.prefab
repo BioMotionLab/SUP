@@ -548,7 +548,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 0a729dc5505f54612a81fe568b58456e, type: 2}
+  - {fileID: 2100000, guid: c84c1539a57a94d498b8ea52d4412272, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -663,9 +663,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4bef531201814b14a2ab676b4f1769a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ChangeFrameRate: 0
-  DesiredFrameRate: 90
-  moshMesh: {fileID: 6673239947000848347}
+  ChangeFrameRate: 1
+  DesiredFrameRate: 480
+  MoshMesh: {fileID: 6673239947000848347}
   Settings: {fileID: 11400000, guid: 2313800435c61b84ea16a728169d71c1, type: 2}
 --- !u!1 &1442229265983086
 GameObject:

@@ -37,7 +37,7 @@ public class JointCalculatorFromJSON {
     }
 
     void ParseTemplatesFromJSON(JSONNode node) {
-        JSONNode templateNode = node[SMPL.JSONKeys.Templates];
+        JSONNode templateNode = node[SMPL.JSONKeys.JointTemplates];
         for (int dimensionOfVector3 = 0; dimensionOfVector3 < SMPL.DimensionsOfAVector3; dimensionOfVector3++) {
             template[dimensionOfVector3] = new Matrix(SMPL.JointCount, 1);
         }
@@ -51,7 +51,7 @@ public class JointCalculatorFromJSON {
         }
     }
 
-    public JointCalculator BuildWithSettings(SMPLSettings settings) {
-        return new JointCalculator(template, jointsRegressor, settings);
+    public JointCalculator Build() {
+        return new JointCalculator(template, jointsRegressor);
     }
 }

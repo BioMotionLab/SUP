@@ -75,6 +75,6 @@ public class MoshCharacter : MonoBehaviour {
 
     void AnimationCompleted() {
         Debug.Log("animation complete");
-        if (Settings.HideMeshWhenFinished) gameObject.SetActive(false);
+        Destroy(gameObject);
     }
 }
