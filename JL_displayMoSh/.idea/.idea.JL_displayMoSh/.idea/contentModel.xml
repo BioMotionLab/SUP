@@ -15,7 +15,7 @@
             <e p="BML" t="Include">
               <e p="BoneModifier.cs" t="Include" />
               <e p="Editor" t="Include">
-                <e p="AnimReviewerEditor.cs" t="Include" />
+                <e p="MoshViewerEditor.cs" t="Include" />
               </e>
               <e p="Gender.cs" t="Include" />
               <e p="JointCalculator.cs" t="Include" />
@@ -26,7 +26,8 @@
               <e p="MoShCharacter.cs" t="Include" />
               <e p="MoshMesh.cs" t="Include" />
               <e p="MoshViewerComponent.cs" t="Include" />
-              <e p="SMPL.cs" t="Include" />
+              <e p="ResampledFrame.cs" t="Include" />
+              <e p="SMPLConstants.cs" t="Include" />
               <e p="SMPLSettings.cs" t="Include" />
             </e>
             <e p="PointLightDisplay.cs" t="Include" />
@@ -41,7 +42,8 @@
               </e>
             </e>
             <e p="Utilities" t="Include">
-              <e p="MoShUtilities.cs" t="Include" />
+              <e p="QuaternionExtensions.cs" t="Include" />
+              <e p="Vector3Extensions.cs" t="Include" />
             </e>
           </e>
         </e>

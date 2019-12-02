@@ -510,7 +510,7 @@ GameObject:
   - component: {fileID: 137089382010696524}
   - component: {fileID: 6673239947000848347}
   m_Layer: 0
-  m_Name: MoShMesh
+  m_Name: MoshMesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -629,7 +629,7 @@ GameObject:
   - component: {fileID: 4877181732305178}
   - component: {fileID: 2660309976308242465}
   m_Layer: 0
-  m_Name: MoShCharacter
+  m_Name: MoshCharacter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

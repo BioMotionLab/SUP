@@ -22,4 +22,4 @@ MonoBehaviour:
     type: 3}
   FemaleJointRegressorFile: {fileID: 4900000, guid: 2f7e42425abf6bc47aaf3989432907e9,
     type: 3}
-  HideMeshWhenFinished: 1
+  CharacterFeetSnapToGround: 1

@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace MoshPlayer.Scripts.BML {
     [CreateAssetMenu]
@@ -22,15 +23,15 @@ namespace MoshPlayer.Scripts.BML {
         [SerializeField]
         TextAsset FemaleJointRegressorFile = default;
         public JointCalculator FemaleJointCalculator => new JointCalculatorFromJSON(FemaleJointRegressorFile).Build();
-
+        
         [SerializeField]
-        public bool HideMeshWhenFinished = true;
-
+        public bool CharacterFeetSnapToGround = true;
+        
         public Mesh GetMeshPrefab(Gender gender) {
             switch (gender) {
                 case Gender.Female: 
                     return FemaleMeshPrefab;
-                case Gender.MALE:
+                case Gender.Male:
                     return MaleMeshPrefab;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(gender), gender, null);

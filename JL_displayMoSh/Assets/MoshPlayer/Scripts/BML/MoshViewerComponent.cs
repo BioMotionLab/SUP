@@ -26,7 +26,7 @@ namespace MoshPlayer.Scripts.BML {
 
 		[FormerlySerializedAs("NextTrialKey")]
 		[SerializeField]
-		KeyCode[] NextTrialKeys;
+		KeyCode[] NextTrialKeys = default;
 
 		void Awake() {
 			if (!File.Exists(AnimationsToPlayFile)) throw new IOException($"Can't find List of Animations file {AnimationsToPlayFile}");
@@ -51,7 +51,7 @@ namespace MoshPlayer.Scripts.BML {
 			for (int index = 0; index < fileNames.Length; index++) {
 				string filename = fileNames[index];
 				string animationFileString = LoadAnimFileAsString(filename);
-				animations[index] = new MoShAnimationFromJSON(animationFileString).BuildWithSettings(Settings);
+				animations[index] = new MoshAnimationFromJSON(animationFileString).BuildWithSettings(Settings);
 			}
 			return animations;
 		}

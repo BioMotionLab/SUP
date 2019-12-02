@@ -1,8 +1,8 @@
 ﻿namespace MoshPlayer.Scripts.BML {
     /// <summary>
-    /// Enum for MALE and Female.
+    /// Enum for Male and Female.
     /// </summary>
     public enum Gender {
-        MALE, Female
+        Male, Female
     }
 }

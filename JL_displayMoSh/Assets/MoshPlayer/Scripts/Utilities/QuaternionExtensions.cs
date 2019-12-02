@@ -1,19 +1,17 @@
 ﻿using UnityEngine;
 
 namespace MoshPlayer.Scripts.Utilities {
-    public static class MoShUtilities {
-
-    
+    public static class QuaternionExtensions {
 
         /// <summary>
         /// Convert rotation Quaternion to 3x3 rotation matrix, converted to RHS so blend shapes work correctly.
         /// </summary>
         /// <param name="quaternion">Quaternion to convert to a matrix.</param>
         /// <returns></returns>
-        public static float[] QuaternionTo3X3Matrix(Quaternion quaternion)
+        public static float[] To3X3Matrix(this Quaternion quaternion)
         {
             //convert to from unity back to MPI's maya coordinate system
-            Quaternion rightHandedQuaternion = ToRightHandedQuaternion(quaternion);
+            Quaternion rightHandedQuaternion = quaternion.ToRightHanded();
 
             float X = rightHandedQuaternion.x;
             float Y = rightHandedQuaternion.y;
@@ -45,13 +43,13 @@ namespace MoshPlayer.Scripts.Utilities {
 
             return rot3X3;
         }
-
+        
         /// <summary>
         /// From https://www.gamedev.net/forums/topic/654682-quaternions-convert-between-left-right-handed-without-using-euler/
         /// </summary>
         /// <param name="leftHandedQuaternion"></param>
         /// <returns></returns>
-        static Quaternion ToRightHandedQuaternion(Quaternion leftHandedQuaternion) {
+        public static Quaternion ToRightHanded(this Quaternion leftHandedQuaternion) {
             // Blasted left-handed coordinate system -- Converting quaternions from LHS to RHS so that pose blendshapes get the correct values
 
             // if the difference is just handedness, I would have thought only 1 axis would need to be flipped. But these are quaternions, and 
@@ -63,7 +61,16 @@ namespace MoshPlayer.Scripts.Utilities {
                                                                -leftHandedQuaternion.w);
             return rightHandedQuaternion;
         }
-    
-	
+        
+        public static Quaternion ToLeftHanded(this Quaternion inMayaCoords) {
+            float x = -inMayaCoords.x;
+            float y = inMayaCoords.y;
+            float z = inMayaCoords.z;
+            float w = -inMayaCoords.w;
+            Quaternion inUnityCoords = new Quaternion(x, y, z, w);
+            return inUnityCoords;
+        }
+
+
     }
 }

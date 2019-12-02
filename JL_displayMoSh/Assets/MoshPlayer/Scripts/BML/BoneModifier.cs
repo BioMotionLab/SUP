@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 namespace MoshPlayer.Scripts.BML {
@@ -22,10 +23,13 @@ namespace MoshPlayer.Scripts.BML {
         Vector3            minBounds;
         Vector3            maxBounds;
         Transform moshCharacterTransform;
+        readonly SMPLSettings settings;
 
-        public BoneModifier(SkinnedMeshRenderer skinnedMeshRenderer)
+        public BoneModifier(SkinnedMeshRenderer skinnedMeshRenderer, SMPLSettings settings)
         {
+            
             this.skinnedMeshRenderer = skinnedMeshRenderer;
+            this.settings = settings;
             bones = skinnedMeshRenderer.bones;
             
             boneNameToJointIndex = new Dictionary<string, int> {
@@ -58,15 +62,12 @@ namespace MoshPlayer.Scripts.BML {
         }
 
 
-        public void UpdateBonePositions(Vector3[] newPositions, bool feetOnGround = true) {
-            
+        public void UpdateBonePositions(Vector3[] newPositions) {
             SetBonePositions(newPositions);
             SetBindPoses();
-        
-            if (feetOnGround) {
+            if (settings.CharacterFeetSnapToGround) {
                 SetFeetOnGround();
             }
-
         }
 
         void SetFeetOnGround() {
@@ -95,7 +96,6 @@ namespace MoshPlayer.Scripts.BML {
         /// <param name="newBonePosition"></param>
         /// <returns></returns>
         Vector3 WorldPositionToMoshCharactersSpace(Vector3 newBonePosition) {
-            
             moshCharacterTransform = skinnedMeshRenderer.transform.parent;
             Vector3 transformedPoint = moshCharacterTransform.TransformPoint(newBonePosition);
             return transformedPoint;

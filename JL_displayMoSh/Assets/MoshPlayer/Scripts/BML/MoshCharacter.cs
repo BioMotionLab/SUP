@@ -6,7 +6,7 @@ namespace MoshPlayer.Scripts.BML {
     /// <summary>
     /// Altered version of loadMoshAnim from MPI. Allows a MoSh animation to be played at any time with a call to PlayAnim,
     /// rather than running on initialization of the script in the start method (requiring instantiating a new prefab.
-    /// This is setup to handle loading a MoSh animation without prior knowledge of gender, swapping in the correct SMPL model.
+    /// This is setup to handle loading a MoSh animation without prior knowledge of gender, swapping in the correct SMPLConstants model.
     /// </summary>
     [SelectionBase]
     public class MoshCharacter : MonoBehaviour {
@@ -20,6 +20,7 @@ namespace MoshPlayer.Scripts.BML {
         public int DesiredFrameRate;
 
         SkinnedMeshRenderer skinnedMeshRenderer;
+        [FormerlySerializedAs("MoshMesh2")]
         [FormerlySerializedAs("moshMesh")]
         [SerializeField]
         MoshMesh MoshMesh = default;
@@ -37,7 +38,7 @@ namespace MoshPlayer.Scripts.BML {
         /// JL: this seems weird. 
         /// </summary>
         void RotateToUnityCoordinatesIfNeeded() {
-            if (SMPL.ZAxisUpInOriginalFiles) {
+            if (SMPLConstants.ZAxisUpInOriginalFiles) {
                 transform.Rotate(-90f, 0f, 0f);
             }
         }
@@ -50,7 +51,7 @@ namespace MoshPlayer.Scripts.BML {
             ActivateMesh(moshAnimation.Gender);
         
             gameObject.SetActive(true);
-            moshAnimation.AttachAnimationToMoshCharacter(skinnedMeshRenderer);
+            moshAnimation.AttachAnimationToMoshCharacter(skinnedMeshRenderer, Settings);
             if (ChangeFrameRate) moshAnimation.AdjustFrameRate(DesiredFrameRate);
         }
     

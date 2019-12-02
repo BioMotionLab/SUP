@@ -6,7 +6,7 @@ using UnityEditor;
 
 
 [CustomEditor(typeof(MoshViewerComponent))]
-public class AnimReviewerEditor : Editor {
+public class MoshViewerEditor : Editor {
 
     SerializedProperty animListPath;
     SerializedProperty animFolder;

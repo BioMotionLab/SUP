@@ -1,4 +1,5 @@
 ﻿using MoshPlayer.Scripts.ThirdParty.Matrix;
+using MoshPlayer.Scripts.Utilities;
 using UnityEngine;
 
 namespace MoshPlayer.Scripts.BML {
@@ -20,15 +21,15 @@ namespace MoshPlayer.Scripts.BML {
         /// <returns>The joints.</returns>
         public Vector3[] CalculateJointPositions(float[] betas) {
             Matrix[] newRegressedJoints = RunJointsThroughRegressor(betas);
-            Vector3[] updatedJoints = ConvertJointMatrixToArray(newRegressedJoints);
-            return updatedJoints;
+            Vector3[] updatedJointPositions = ConvertJointMatrixToArray(newRegressedJoints);
+            return updatedJointPositions;
         }
 
         Vector3[] ConvertJointMatrixToArray(Matrix[] newRegressedJoints) {
-            Vector3[] updatedJointArray = new Vector3[SMPL.JointCount];
-            for (int jointIndex = 0; jointIndex < SMPL.JointCount; jointIndex++) {
+            Vector3[] updatedJointArray = new Vector3[SMPLConstants.JointCount];
+            for (int jointIndex = 0; jointIndex < SMPLConstants.JointCount; jointIndex++) {
                 Vector3 jointVectorInMayaCoords = RetrieveJointsFromMatrixAsVector3(newRegressedJoints, jointIndex);
-                Vector3 finalJointVector = ConvertFromMayaToUnityCoordinateSystem(jointVectorInMayaCoords);
+                Vector3 finalJointVector = jointVectorInMayaCoords.ToLeftHanded();
                 updatedJointArray[jointIndex] = finalJointVector;
             }
             return updatedJointArray;
@@ -36,9 +37,9 @@ namespace MoshPlayer.Scripts.BML {
 
         Matrix[] RunJointsThroughRegressor(float[] betas) {
             Matrix betaMatrix = CopyBetaArrayToVector(betas);
-            Matrix[] newJoints = new Matrix[SMPL.DimensionsOfAVector3]; //stores x,y,z joint values as dimensions
+            Matrix[] newJoints = new Matrix[SMPLConstants.DimensionsOfAVector3]; //stores x,y,z joint values as dimensions
 
-            for (int vector3Dimension = 0; vector3Dimension < SMPL.DimensionsOfAVector3; vector3Dimension++) {
+            for (int vector3Dimension = 0; vector3Dimension < SMPLConstants.DimensionsOfAVector3; vector3Dimension++) {
                 newJoints[vector3Dimension] = jointsRegressor[vector3Dimension] * betaMatrix + template[vector3Dimension];
             }
 
@@ -68,22 +69,15 @@ namespace MoshPlayer.Scripts.BML {
         /// <param name="betas"></param>
         /// <returns></returns>
         static Matrix CopyBetaArrayToVector(float[] betas) {
-            Matrix betaMatrix = new Matrix(SMPL.ShapeBetaCount, 1); // column vector.
-            for (int betaIndex = 0; betaIndex < SMPL.ShapeBetaCount; betaIndex++) {
+            Matrix betaMatrix = new Matrix(SMPLConstants.ShapeBetaCount, 1); // column vector.
+            for (int betaIndex = 0; betaIndex < SMPLConstants.ShapeBetaCount; betaIndex++) {
                 betaMatrix[betaIndex, FirstMatrixColumn] = betas[betaIndex];
             }
             return betaMatrix;
         }
 
-        static Vector3 ConvertFromMayaToUnityCoordinateSystem(Vector3 inMayaCoordinates) {
-            Vector3 inUnityCoordinates = new Vector3(-inMayaCoordinates.x,
-                                                     inMayaCoordinates.y,
-                                                     inMayaCoordinates.z);
-            return inUnityCoordinates;
-        }
-
         public Vector3[] CalculateJointsAtZeroedBetas() {
-            float[] zeroedBetas = new float[SMPL.ShapeBetaCount];
+            float[] zeroedBetas = new float[SMPLConstants.ShapeBetaCount];
             return CalculateJointPositions(zeroedBetas);
         }
     }

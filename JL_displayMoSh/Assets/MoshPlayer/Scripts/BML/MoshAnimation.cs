@@ -3,24 +3,18 @@ using MoshPlayer.Scripts.Utilities;
 using UnityEngine;
 
 namespace MoshPlayer.Scripts.BML {
-    /// <summary>
-    /// This needs to return:
-    /// beta values
-    /// joint rotations
-    /// initial joint positions etc.
-    /// 
-    /// Using an abstract base class that can be extended with different backends JSON, a binary format etc. 
-    /// </summary>
+    
     public class MoshAnimation {
 
         readonly int           sourceTotalFrameCount;
         readonly Vector3[]     translations;
         readonly Quaternion[,] allPoses;
         readonly float[]       betas;
+        const int FirstJointAfterPelvis = 1;
 
         int desiredFPS;
 
-        int GetResampledTotalFrameCount { get; set; }
+        int resampledTotalFrameCount;
 
         readonly float  duration;
         public   Gender Gender { get; }
@@ -32,18 +26,16 @@ namespace MoshPlayer.Scripts.BML {
 
         int                 currentFrame = 0;
         SkinnedMeshRenderer meshRenderer;
-
-        /// <summary>
-        /// Has the current animation finished playing, if one has been loaded.
-        /// </summary>
-        public bool Finished => currentFrame >= GetResampledTotalFrameCount;
+        
+        
+        public bool Finished => currentFrame >= resampledTotalFrameCount;
     
 
         public MoshAnimation(Gender    gender,       int           sourceTotalFrameCount, int          sourceFPS, float[] betas,
                              Vector3[] translations, Quaternion[,] allPoses,              SMPLSettings settings) {
             Gender = gender;
             switch (gender) {
-                case Gender.MALE:
+                case Gender.Male:
                     jointCalculator = settings.MaleJointCalculator;
                     break;
                 case Gender.Female:
@@ -56,7 +48,7 @@ namespace MoshPlayer.Scripts.BML {
             this.sourceTotalFrameCount = sourceTotalFrameCount;
             this.sourceFPS = sourceFPS;
             desiredFPS = sourceFPS;
-            GetResampledTotalFrameCount = sourceTotalFrameCount;
+            resampledTotalFrameCount = sourceTotalFrameCount;
             duration = this.sourceTotalFrameCount / (float) this.sourceFPS;
             this.betas = betas;
             this.translations = translations;
@@ -65,9 +57,10 @@ namespace MoshPlayer.Scripts.BML {
 
         }
 
-        public void AttachAnimationToMoshCharacter(SkinnedMeshRenderer meshRendererToAttach) {
+        public void AttachAnimationToMoshCharacter(SkinnedMeshRenderer meshRendererToAttach, SMPLSettings settings) {
+            
             meshRenderer = meshRendererToAttach;
-            boneModifier = new BoneModifier(meshRenderer);
+            boneModifier = new BoneModifier(meshRenderer, settings);
         
             //TODO make it reset AFTERWARDS, not before.
             Reset();
@@ -93,7 +86,7 @@ namespace MoshPlayer.Scripts.BML {
         /// is different from the source fps. 
         /// </summary>
         /// <value>The new setDesiredFPS to sample to.</value>
-        public void SetDesiredFPS(int value) {
+        void SetDesiredFPS(int value) {
         
             desiredFPS = value;
             // duration stays constant, but upsampling/downsampling will happen.
@@ -104,131 +97,111 @@ namespace MoshPlayer.Scripts.BML {
         
             // have to update length here. 
             // I think this is the right way to get length.
-            // actually, since the time of the last thisFrameAsDecimal should remain static, 
-            // if the time between frames is a constant, then the time of the last thisFrameAsDecimal cannot
+            // actually, since the time of the last thisFrame should remain static, 
+            // if the time between frames is a constant, then the time of the last thisFrame cannot
             // be completely static. 
             // I think I should still floor the value. 
-            GetResampledTotalFrameCount = Mathf.FloorToInt(desiredFPS * duration);
+            resampledTotalFrameCount = Mathf.FloorToInt(desiredFPS * duration);
         
         }
 
 
         Vector3 GetTranslationAtFrame(int thisFrame) {
-            // so the original code flips the translations, if the up axis is equal to z. 
-            // I guess I should check on that. 
-        
             if (!resamplingRequired) return translations[thisFrame];
         
-            float percentageElapsedSinceLastFrame = PercentageElapsedBetweenFrames(thisFrame, out int frameBeforeThis, out int frameAfterThis);
-        
-            bool lastFrameInAnimation = frameAfterThis >= sourceTotalFrameCount;
-            if (lastFrameInAnimation) { 
-                return translations[frameBeforeThis];
-            }
-
-            Vector3 resampledTranslation = Vector3.Lerp(translations[frameBeforeThis], translations[frameAfterThis], percentageElapsedSinceLastFrame);
+            ResampledFrame resampledFrame = new ResampledFrame(thisFrame, sourceFPS, resampledTotalFrameCount, duration);
+            Vector3 translationAtFrameBeforeThis = translations[resampledFrame.FrameBeforeThis];
+            
+            bool isLastFrame = resampledFrame.FrameAfterThis >= sourceTotalFrameCount;
+            if (isLastFrame) return translationAtFrameBeforeThis;
+            
+            Vector3 translationAtFrameAfterThis = translations[resampledFrame.FrameAfterThis];
+            
+            Vector3 resampledTranslation = Vector3.Lerp(translationAtFrameBeforeThis, 
+                                                        translationAtFrameAfterThis, 
+                                                        resampledFrame.PercentageElapsedSinceLastFrame);
             return resampledTranslation;
         }
 
-        float PercentageElapsedBetweenFrames(int thisFrame, out int frameBeforeThis, out int frameAfterThis) {
-            float timeFrameOccurs = GetTimeAtFrame(thisFrame);
-        
-            float decimalFrameIndex = sourceFPS * timeFrameOccurs;
-            frameBeforeThis = Mathf.FloorToInt(decimalFrameIndex);
-            frameAfterThis = Mathf.CeilToInt(decimalFrameIndex);
-            float percentageElapsedSinceLastFrame = decimalFrameIndex - frameBeforeThis;
-            return percentageElapsedSinceLastFrame;
-        }
+      
 
         /// <summary>
-        /// Get the time, in seconds since start of animation, at a specified thisFrameAsDecimal.
+        /// Populate an array with rotations of each joint at thisFrame. 
         /// </summary>
-        float GetTimeAtFrame(int frame) {
-            float percentComplete = frame / (float)GetResampledTotalFrameCount;
-            float timeAtFrame = percentComplete * duration;
-            return timeAtFrame;
-        }
-
-        /// <summary>
-        /// Populate an array with rotations of each joint at thisFrameAsDecimal. 
-        /// </summary>
-        /// <param name="rotations">Array to fill with joint rotations.</param>
-        /// <param name="thisFrameAsDecimal">Frame at which to get rotations</param>
-        Quaternion[] GetPoseAtFrame(int thisFrameAsDecimal) 
+        /// <param name="thisFrame">Frame at which to get rotations</param>
+        Quaternion[] GetPosesAtFrame(int thisFrame) 
         {
-            Quaternion[] thisFramePoses = new Quaternion[SMPL.JointCount];
-        
-            // ok. Need to spherically interpolate all these quaternions. 
-            for (int jointIndex = 0; jointIndex < SMPL.JointCount; jointIndex++) {
-            
-                if (!resamplingRequired) {
-                    // these local rotations are in the right coordinate system for unity.
-                    thisFramePoses[jointIndex] = allPoses[thisFrameAsDecimal, jointIndex];
-                }
-                else {
-                    float percentageElapsedBetweenFrames =
-                        PercentageElapsedBetweenFrames(thisFrameAsDecimal, out int frameBeforeThis,
-                                                       out int frameAfterThis);
+            Quaternion[] posesThisFrame = new Quaternion[SMPLConstants.JointCount];
 
-                    // detect last thisFrameAsDecimal. This might be a slight discontinuity. 
-                    if (frameAfterThis >= sourceTotalFrameCount) {
-                        thisFramePoses[jointIndex] = allPoses[frameBeforeThis, jointIndex];
-                    }
-                    else {
-                        Quaternion rotationAtFrameBeforeThis = allPoses[frameBeforeThis, jointIndex];
-                        Quaternion rotationAtFrameAfterThis = allPoses[frameAfterThis, jointIndex];
-                        thisFramePoses[jointIndex] = Quaternion.Slerp(rotationAtFrameBeforeThis, rotationAtFrameAfterThis,
-                                                                      percentageElapsedBetweenFrames);
-                    }
+            if (!resamplingRequired) {
+                for (int jointIndex = 0; jointIndex < SMPLConstants.JointCount; jointIndex++) {
+                    posesThisFrame[jointIndex] = allPoses[thisFrame, jointIndex];
                 }
             }
+            else {
+                GetResampledPosesAtFrame(thisFrame, posesThisFrame);
+            }
+            return posesThisFrame;
+        }
 
-            return thisFramePoses;
+        void GetResampledPosesAtFrame(int thisFrame, Quaternion[] posesThisFrame) {
+            for (int jointIndex = 0; jointIndex < SMPLConstants.JointCount; jointIndex++) {
+                ResampledFrame resampledFrame = new ResampledFrame(thisFrame, sourceFPS, resampledTotalFrameCount, duration);
+                if (resampledFrame.FrameAfterThis >= sourceTotalFrameCount) {
+                    posesThisFrame[jointIndex] = allPoses[resampledFrame.FrameBeforeThis, jointIndex];
+                }
+                else {
+                    Quaternion rotationAtFrameBeforeThis = allPoses[resampledFrame.FrameBeforeThis, jointIndex];
+                    Quaternion rotationAtFrameAfterThis = allPoses[resampledFrame.FrameAfterThis, jointIndex];
+                    posesThisFrame[jointIndex] = Quaternion.Slerp(rotationAtFrameBeforeThis, rotationAtFrameAfterThis,
+                                                                  resampledFrame.PercentageElapsedSinceLastFrame);
+                }
+            }
         }
 
         /// <summary>
         /// Get the values for shape parameters in Unity, that define the 
         /// shape of the subject. 
         /// </summary>
-        [Obsolete] float[] GetBetas () {
-            float[] values = new float[SMPL.ShapeBetaCount];
+        float[] GetBetas () {
+            float[] values = new float[SMPLConstants.ShapeBetaCount];
 
-            for (int i = 0; i < SMPL.ShapeBetaCount; i++) {
-                float scaledBeta = ScaleBetaFromBlenderToUnity(betas[i]);
+            for (int i = 0; i < SMPLConstants.ShapeBetaCount; i++) {
+                float scaledBeta = ScaleBlendshapeWeightFromBlenderToUnity(betas[i]);
                 values[i] = scaledBeta;
             }
             return values;
         }
 
-        static float ScaleBetaFromBlenderToUnity(float beta) {
-            float scaledBeta = beta * 100f / SMPL.BetaScalingFactor;
-            return scaledBeta;
+        static float ScaleBlendshapeWeightFromBlenderToUnity(float rawWeight) {
+            float scaledWeight = rawWeight * 100f / SMPLConstants.BetaScalingFactor;
+            return scaledWeight;
         }
 
-    
+
         void SetPoseDependentBlendShapesForCurrentFrame(Quaternion[] poses) {
             // start at 1 to skip pelvis. 
             // pelvis has a rotation, but doesn't seem to have associated blend shapes.
-            const int FirstJointAfterPelvis = 1;
-            for (int jointPoseIndexAfterPelvis = FirstJointAfterPelvis; jointPoseIndexAfterPelvis < SMPL.JointCount; jointPoseIndexAfterPelvis++) {
+            
+            for (int jointPoseIndexAfterPelvis = FirstJointAfterPelvis; jointPoseIndexAfterPelvis < SMPLConstants.JointCount; jointPoseIndexAfterPelvis++) {
                 // i is equivalent to index for the other version. 
                 Quaternion currentPose = poses[jointPoseIndexAfterPelvis];
-                float[] rot3X3 = MoShUtilities.QuaternionTo3X3Matrix(currentPose);
+                float[] rotationMatrix3X3 = currentPose.To3X3Matrix();
             
                 int jointPoseIndexAfterPelvisExcluded = jointPoseIndexAfterPelvis - 1;
-                for (int rotationMatrixElementIndex = 0; rotationMatrixElementIndex < SMPL.RotationMatrixElementCount; rotationMatrixElementIndex++) {
-                    float theta = rot3X3[rotationMatrixElementIndex];
-                    float scaledTheta = ScaleBetaFromBlenderToUnity(theta); 
-                    int index = SMPL.ShapeBetaCount + jointPoseIndexAfterPelvisExcluded * SMPL.RotationMatrixElementCount + rotationMatrixElementIndex;
-                    meshRenderer.SetBlendShapeWeight(index, scaledTheta);
+                for (int rotationMatrixElement = 0; rotationMatrixElement < SMPLConstants.RotationMatrixElementCount; rotationMatrixElement++) {
+                    float theta = rotationMatrix3X3[rotationMatrixElement];
+                    float scaledTheta = ScaleBlendshapeWeightFromBlenderToUnity(theta); 
+                    int blendShapeIndex = SMPLConstants.ShapeBetaCount + jointPoseIndexAfterPelvisExcluded * SMPLConstants.RotationMatrixElementCount + rotationMatrixElement;
+                    meshRenderer.SetBlendShapeWeight(blendShapeIndex, scaledTheta);
                 }
             }
         }
-    
-    
+
+
         public void PlayCurrentFrame() {
             Vector3 translationAtFrame = GetTranslationAtFrame(currentFrame);
-            Quaternion[] poses = GetPoseAtFrame(currentFrame);
+            Quaternion[] poses = GetPosesAtFrame(currentFrame);
             boneModifier.UpdateBoneAngles(poses, translationAtFrame);
             SetPoseDependentBlendShapesForCurrentFrame(poses);
             currentFrame++;
@@ -237,31 +210,29 @@ namespace MoshPlayer.Scripts.BML {
                 Reset();
             }
         }
-    
-        /// <summary>
-        /// Called by PlayAnim to reset the skeleton before playing another animation.
-        /// </summary>
+        
         void Reset() {
             boneModifier.ResetRotations();
             ResetBlendShapes();
             Vector3[] joints = jointCalculator.CalculateJointsAtZeroedBetas();
             boneModifier.UpdateBonePositions(joints);
         }
-    
-    
+
+
         void UpdateBlendShapes() {
             float[] shapeBetas = GetBetas();
-            for (int betaIndex = 0; betaIndex < SMPL.ShapeBetaCount; betaIndex++) {
+            for (int betaIndex = 0; betaIndex < SMPLConstants.ShapeBetaCount; betaIndex++) {
                 meshRenderer.SetBlendShapeWeight(betaIndex, shapeBetas[betaIndex]);
             }
         }
-        
+
         void ResetBlendShapes() {
             for (int blendShapeIndex = 0; blendShapeIndex < meshRenderer.sharedMesh.blendShapeCount; blendShapeIndex++) {
                 meshRenderer.SetBlendShapeWeight(blendShapeIndex, 0f);
             }
         }
-    
+
+        
         /// <summary>
         /// Gets the new joint positions from the animation.
         /// Passes them to the boneModifier. 
@@ -271,8 +242,6 @@ namespace MoshPlayer.Scripts.BML {
             Vector3[] joints = jointCalculator.CalculateJointPositions(betas);
             boneModifier.UpdateBonePositions(joints);
         }
-    
-    
-    
+        
     }
 }
