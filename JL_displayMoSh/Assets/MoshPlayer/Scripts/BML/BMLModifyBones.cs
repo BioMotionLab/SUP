@@ -15,64 +15,58 @@ namespace MoshPlayer.Scripts.BML {
         readonly SkinnedMeshRenderer     skinnedMeshRenderer;
         readonly Transform[]             bones;
         readonly Pose[]                  backups;
-        readonly string                  boneNamePrefix;
         readonly Dictionary<string, int> boneNameToJointIndex;
-        //private bool _bonesAreModified = false;
+        
         readonly Transform pelvis;
         readonly Vector3[] bonePositions;
         readonly Mesh      bakedMesh = null;
         Vector3            minBounds;
         Vector3            maxBounds;
+        Transform MoshCharacterTransform;
 
         public BMLModifyBones(SkinnedMeshRenderer skinnedMeshRenderer)
         {
             this.skinnedMeshRenderer = skinnedMeshRenderer;
-            boneNamePrefix = "";
-        
-            boneNameToJointIndex = new Dictionary<string, int>();
-            boneNameToJointIndex.Add("Pelvis", 0);
-            boneNameToJointIndex.Add("L_Hip", 1);
-            boneNameToJointIndex.Add("R_Hip", 2);
-            boneNameToJointIndex.Add("Spine1", 3);
-            boneNameToJointIndex.Add("L_Knee", 4);
-            boneNameToJointIndex.Add("R_Knee", 5);
-            boneNameToJointIndex.Add("Spine2", 6);
-            boneNameToJointIndex.Add("L_Ankle", 7);
-            boneNameToJointIndex.Add("R_Ankle", 8);
-            boneNameToJointIndex.Add("Spine3", 9);
-            boneNameToJointIndex.Add("L_Foot", 10);
-            boneNameToJointIndex.Add("R_Foot", 11);
-            boneNameToJointIndex.Add("Neck", 12);
-            boneNameToJointIndex.Add("L_Collar", 13);
-            boneNameToJointIndex.Add("R_Collar", 14);
-            boneNameToJointIndex.Add("Head", 15);
-            boneNameToJointIndex.Add("L_Shoulder", 16);
-            boneNameToJointIndex.Add("R_Shoulder", 17);
-            boneNameToJointIndex.Add("L_Elbow", 18);
-            boneNameToJointIndex.Add("R_Elbow", 19);
-            boneNameToJointIndex.Add("L_Wrist", 20);
-            boneNameToJointIndex.Add("R_Wrist", 21);
-            boneNameToJointIndex.Add("L_Hand", 22);
-            boneNameToJointIndex.Add("R_Hand", 23);
+            bones = skinnedMeshRenderer.bones;
+            
+            boneNameToJointIndex = new Dictionary<string, int> {
+                                                                   {"Pelvis", 0},
+                                                                   {"L_Hip", 1},
+                                                                   {"R_Hip", 2},
+                                                                   {"Spine1", 3},
+                                                                   {"L_Knee", 4},
+                                                                   {"R_Knee", 5},
+                                                                   {"Spine2", 6},
+                                                                   {"L_Ankle", 7},
+                                                                   {"R_Ankle", 8},
+                                                                   {"Spine3", 9},
+                                                                   {"L_Foot", 10},
+                                                                   {"R_Foot", 11},
+                                                                   {"Neck", 12},
+                                                                   {"L_Collar", 13},
+                                                                   {"R_Collar", 14},
+                                                                   {"Head", 15},
+                                                                   {"L_Shoulder", 16},
+                                                                   {"R_Shoulder", 17},
+                                                                   {"L_Elbow", 18},
+                                                                   {"R_Elbow", 19},
+                                                                   {"L_Wrist", 20},
+                                                                   {"R_Wrist", 21},
+                                                                   {"L_Hand", 22},
+                                                                   {"R_Hand", 23}
+                                                               };
             bakedMesh = new Mesh();
 
-            bones = skinnedMeshRenderer.bones;
+            
             bonePositions = new Vector3[bones.Length];
 
             backups = new Pose[bones.Length];
             PopulateBackups();
 
-            // Determine bone name prefix
-            foreach (Transform bone in bones) {
-                if (bone.name.EndsWith("root")) {
-                    int index = bone.name.IndexOf("root");
-                    boneNamePrefix = bone.name.Substring(0, index);
-                    break;
-                }
-            }
+          
             // Determine pelvis node
             foreach (Transform bone in bones) {
-                if (bone.name.EndsWith("Pelvis")) {
+                if (bone.name == "Pelvis") {
                     pelvis = bone;
                     break;
                 }
@@ -80,36 +74,25 @@ namespace MoshPlayer.Scripts.BML {
         }
 
 
-        public void UpdateBonePositions(Vector3[] newPositions, bool feetOnGround = true)
-        {
+        public void UpdateBonePositions(Vector3[] newPositions, bool feetOnGround = true) {
+
             int pelvisIndex = -1;
-            for (int i = 0; i < bones.Length; i++) {
-                int index;
-                string boneName = bones[i].name;
-                // Remove f_avg/m_avg prefix
-                if (boneNamePrefix != "") {
-                    boneName = boneName.Replace(boneNamePrefix, "");
-                }
+            for (int boneIndex = 0; boneIndex < bones.Length; boneIndex++) {
 
-                if (boneName == "root")
-                    continue;
+                string boneName = bones[boneIndex].name;
+                if (boneName == "root") continue;
+                if (boneName == "Pelvis") pelvisIndex = boneIndex;
+                
+                int boneJointIndex = boneNameToJointIndex[boneName];
+                
+                Vector3 newBonePositionInWorldSpace = newPositions[boneJointIndex];
+                var transformedPositionInLocalSpace = WorldPositionToMoshCharactersSpace(newBonePositionInWorldSpace);
+                bones[boneIndex].position = transformedPositionInLocalSpace;
+                bonePositions[boneIndex] = bones[boneIndex].position;
 
-                if (boneName == "Pelvis")
-                    pelvisIndex = i;
-
-                Transform avatarTransform = skinnedMeshRenderer.transform.parent;
-                if (boneNameToJointIndex.TryGetValue(boneName, out index)) {
-                    // Incoming new positions from joint calculation are centered at origin in world space
-                    // Transform to avatar position+orientation for correct world space position
-                    bones[i].position = avatarTransform.TransformPoint(newPositions[index]);
-                    bonePositions[i] = bones[i].position;
-                }
-                else {
-                    Debug.LogError("ERROR: No joint index for given bone name: " + boneName);
-                }
             }
-
-            SetBindPose(bones);
+            
+            SetBindPoses();
         
             if (feetOnGround) {
                 RecomputeLocalBounds();
@@ -122,20 +105,29 @@ namespace MoshPlayer.Scripts.BML {
                     bonePositions[i] = bones[i].position;
                 }
             }
+
         }
 
+        /// <summary>
+        /// Incoming new positions from joint calculation are centered at origin in world space
+        /// Transform to avatar position+orientation for correct world space position
+        /// </summary>
+        /// <param name="newBonePosition"></param>
+        /// <returns></returns>
+        Vector3 WorldPositionToMoshCharactersSpace(Vector3 newBonePosition) {
+            
+            MoshCharacterTransform = skinnedMeshRenderer.transform.parent;
+            Vector3 transformedPoint = MoshCharacterTransform.TransformPoint(newBonePosition);
+            return transformedPoint;
+        }
+
+       
 
         public void UpdateBoneAngles(Quaternion[] pose, Vector3 trans)  {
             int pelvisIndex = -1;
 
             for (int i = 0; i < bones.Length; i++) {
                 string boneName = bones[i].name;
-
-                // Remove f_avg/m_avg prefix
-                if (boneNamePrefix != string.Empty) {
-                    boneName = boneName.Replace(boneNamePrefix, "");
-                
-                }
 
                 if (boneName == "root") continue;
                 if (boneName == "Pelvis") pelvisIndex = i;
@@ -161,30 +153,21 @@ namespace MoshPlayer.Scripts.BML {
             }
         }
 
-
-        // the bind pose property is actually just an array of matrices. one for each joint. The matrices are 
-        // inverse transformations.
+        
         /// <summary>
-        /// Sets the bind pose of the mesh.
+        /// the bind pose property is actually just an array of matrices. one for each joint. The matrices are inverse transformations.
+        /// Sets the bind poses of the mesh.
+        /// JL: the following two comments are copied from unity documentation. The bind pose is bone's inverse transformation matrix.
+        /// Make this matrix relative to the avatar root so that we can move the root game object around freely.
+        /// I'm pretty sure this means that the bind pose values are all in the same coordinate system. or maybe not. 
         /// </summary>
-        /// <param name="bones"></param>
-        void SetBindPose(Transform[] bones) {
-            Matrix4x4[] bindPoses = skinnedMeshRenderer.sharedMesh.bindposes;
-
-            Transform avatarRootTransform = skinnedMeshRenderer.transform.parent;
-
-            for (int i = 0; i < bones.Length; i++) {
-                // JL: the following two comments are copied from unity documentation. 
-                // The bind pose is bone's inverse transformation matrix.
-                // Make this matrix relative to the avatar root so that we can move the root game object around freely.            
-                // I'm pretty sure this means that the bind pose values are all in the same coordinate system. 
-                // or maybe not. 
-                bindPoses[i] = bones[i].worldToLocalMatrix * avatarRootTransform.localToWorldMatrix;
-            }
-
-            skinnedMeshRenderer.bones = bones;
+        void SetBindPoses() {
             Mesh sharedMesh = skinnedMeshRenderer.sharedMesh;
-            sharedMesh.bindposes = bindPoses;
+            Matrix4x4[] newBindPoses = sharedMesh.bindposes;
+            for (int i = 0; i < bones.Length; i++) {
+                newBindPoses[i] = bones[i].worldToLocalMatrix * MoshCharacterTransform.localToWorldMatrix;
+            }
+            sharedMesh.bindposes = newBindPoses;
             skinnedMeshRenderer.sharedMesh = sharedMesh;
         }
 
@@ -199,12 +182,11 @@ namespace MoshPlayer.Scripts.BML {
         /// <summary>
         /// Finds bounding box in local space. This needs to happen manually since unity doesn't
         /// automatically recompute bounds of skinned mesh renderer after import.
+        /// JL: I bet it's necessary to bake the mesh to access vertex data modified by blend shapes.
         /// </summary>
-        /// <param name="min">output for minimum corner</param>
-        /// <param name="max">max corner</param>
         void RecomputeLocalBounds() {
-            skinnedMeshRenderer.BakeMesh(bakedMesh); // I bet it's necessary to bake the mesh to 
-            // access vertex data modified by blend shapes!
+            skinnedMeshRenderer.BakeMesh(bakedMesh); 
+            
             // vertex coordinates are in local space. 
             Vector3[] vertices = bakedMesh.vertices;
             int numVertices = vertices.Length;
@@ -216,25 +198,17 @@ namespace MoshPlayer.Scripts.BML {
             float zMin = Mathf.Infinity;
             float zMax = Mathf.NegativeInfinity;
 
-            for (int i = 0; i < numVertices; i++) {
-
-                Vector3 vertex = vertices[i];
+            foreach (Vector3 vertex in bakedMesh.vertices) {
                 xMin = Mathf.Min(xMin, vertex.x);
-                xMax = Mathf.Max(xMax, vertex.x);
-            
                 yMin = Mathf.Min(yMin, vertex.y);
-                yMax = Mathf.Max(yMax, vertex.y);
-            
                 zMin = Mathf.Min(zMin, vertex.z);
+                
+                xMax = Mathf.Max(xMax, vertex.x);
+                yMax = Mathf.Max(yMax, vertex.y);
                 zMax = Mathf.Max(zMax, vertex.z);
             }
-            minBounds.x = xMin;
-            minBounds.y = yMin;
-            minBounds.z = zMin;
-        
-            maxBounds.x = xMax;
-            maxBounds.y = yMax;
-            maxBounds.z = zMax;
+            minBounds = new Vector3(xMin, yMin, zMin);
+            maxBounds = new Vector3(xMax, yMax, zMax);
         }
 
 
