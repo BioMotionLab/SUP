@@ -13,7 +13,7 @@
           <e p="Scripts" t="Include">
             <e p="AveragePosition.cs" t="Include" />
             <e p="BML" t="Include">
-              <e p="BMLModifyBones.cs" t="Include" />
+              <e p="BoneModifier.cs" t="Include" />
               <e p="Editor" t="Include">
                 <e p="AnimReviewerEditor.cs" t="Include" />
               </e>

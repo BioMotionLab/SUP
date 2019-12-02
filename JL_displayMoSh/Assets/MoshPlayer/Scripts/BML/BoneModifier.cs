@@ -6,25 +6,24 @@ namespace MoshPlayer.Scripts.BML {
     /// Slightly modified version of SMPLModifyBones from MPI.
     /// Primarily just adds a reset method. 
     /// 
-    /// I'm pretty sure we don't need a bones backup method, because the bone positions should
-    /// be calculable using the regressors with all betas = 0. 
     /// </summary>
-    public class BMLModifyBones {
+    public class BoneModifier {
     
     
+        const int PelvisIndex = 1;
+        const int FirstBoneIndexAfterRoot = 1;
+
         readonly SkinnedMeshRenderer     skinnedMeshRenderer;
         readonly Transform[]             bones;
-        readonly Pose[]                  backups;
         readonly Dictionary<string, int> boneNameToJointIndex;
         
         readonly Transform pelvis;
-        readonly Vector3[] bonePositions;
         readonly Mesh      bakedMesh = null;
         Vector3            minBounds;
         Vector3            maxBounds;
-        Transform MoshCharacterTransform;
+        Transform moshCharacterTransform;
 
-        public BMLModifyBones(SkinnedMeshRenderer skinnedMeshRenderer)
+        public BoneModifier(SkinnedMeshRenderer skinnedMeshRenderer)
         {
             this.skinnedMeshRenderer = skinnedMeshRenderer;
             bones = skinnedMeshRenderer.bones;
@@ -56,56 +55,37 @@ namespace MoshPlayer.Scripts.BML {
                                                                    {"R_Hand", 23}
                                                                };
             bakedMesh = new Mesh();
-
-            
-            bonePositions = new Vector3[bones.Length];
-
-            backups = new Pose[bones.Length];
-            PopulateBackups();
-
-          
-            // Determine pelvis node
-            foreach (Transform bone in bones) {
-                if (bone.name == "Pelvis") {
-                    pelvis = bone;
-                    break;
-                }
-            }
         }
 
 
         public void UpdateBonePositions(Vector3[] newPositions, bool feetOnGround = true) {
-
-            int pelvisIndex = -1;
-            for (int boneIndex = 0; boneIndex < bones.Length; boneIndex++) {
-
-                string boneName = bones[boneIndex].name;
-                if (boneName == "root") continue;
-                if (boneName == "Pelvis") pelvisIndex = boneIndex;
-                
-                int boneJointIndex = boneNameToJointIndex[boneName];
-                
-                Vector3 newBonePositionInWorldSpace = newPositions[boneJointIndex];
-                var transformedPositionInLocalSpace = WorldPositionToMoshCharactersSpace(newBonePositionInWorldSpace);
-                bones[boneIndex].position = transformedPositionInLocalSpace;
-                bonePositions[boneIndex] = bones[boneIndex].position;
-
-            }
             
+            SetBonePositions(newPositions);
             SetBindPoses();
         
             if (feetOnGround) {
-                RecomputeLocalBounds();
-                float heightOffset = -minBounds.y;
-
-                bones[pelvisIndex].Translate(0.0f, heightOffset, 0.0f);
-
-                // Update bone positions to reflect new pelvis position
-                for (int i = 0; i < bones.Length; i++) {
-                    bonePositions[i] = bones[i].position;
-                }
+                SetFeetOnGround();
             }
 
+        }
+
+        void SetFeetOnGround() {
+            
+            RecomputeLocalBounds();
+            float heightOffset = -minBounds.y;
+            bones[PelvisIndex].Translate(0.0f, heightOffset, 0.0f);
+            
+        }
+
+        void SetBonePositions(Vector3[] newPositions) {
+            for (int boneIndex = FirstBoneIndexAfterRoot; boneIndex < bones.Length; boneIndex++) {
+                string boneName = bones[boneIndex].name;
+                int boneJointIndex = boneNameToJointIndex[boneName];
+
+                Vector3 newBonePositionInWorldSpace = newPositions[boneJointIndex];
+                var transformedPositionInLocalSpace = WorldPositionToMoshCharactersSpace(newBonePositionInWorldSpace);
+                bones[boneIndex].position = transformedPositionInLocalSpace;
+            }
         }
 
         /// <summary>
@@ -116,42 +96,20 @@ namespace MoshPlayer.Scripts.BML {
         /// <returns></returns>
         Vector3 WorldPositionToMoshCharactersSpace(Vector3 newBonePosition) {
             
-            MoshCharacterTransform = skinnedMeshRenderer.transform.parent;
-            Vector3 transformedPoint = MoshCharacterTransform.TransformPoint(newBonePosition);
+            moshCharacterTransform = skinnedMeshRenderer.transform.parent;
+            Vector3 transformedPoint = moshCharacterTransform.TransformPoint(newBonePosition);
             return transformedPoint;
         }
 
-       
-
         public void UpdateBoneAngles(Quaternion[] pose, Vector3 trans)  {
-            int pelvisIndex = -1;
-
-            for (int i = 0; i < bones.Length; i++) {
-                string boneName = bones[i].name;
-
-                if (boneName == "root") continue;
-                if (boneName == "Pelvis") pelvisIndex = i;
-
-                if (boneNameToJointIndex.TryGetValue(boneName, out int index)) 
-                {
-                    bones[i].localRotation = pose[index];
-                }
-                else {
-                    Debug.LogError("ERROR: No joint index for given bone name: " + boneName);
-                }
+            for (int boneIndex = FirstBoneIndexAfterRoot; boneIndex < bones.Length; boneIndex++) {
+                string boneName = bones[boneIndex].name;
+                int poseIndex = boneNameToJointIndex[boneName];
+                bones[boneIndex].localRotation = pose[poseIndex];
             }
-
-            bones[pelvisIndex].localPosition = trans;
+            bones[PelvisIndex].localPosition = trans;
         }
 
-
-        void PopulateBackups() {
-            for (int i = 0; i < bones.Length; i++) {
-                Vector3 p = bones[i].position;
-                Quaternion r = bones[i].rotation;
-                backups[i] = new Pose(p, r);
-            }
-        }
 
         
         /// <summary>
@@ -165,7 +123,7 @@ namespace MoshPlayer.Scripts.BML {
             Mesh sharedMesh = skinnedMeshRenderer.sharedMesh;
             Matrix4x4[] newBindPoses = sharedMesh.bindposes;
             for (int i = 0; i < bones.Length; i++) {
-                newBindPoses[i] = bones[i].worldToLocalMatrix * MoshCharacterTransform.localToWorldMatrix;
+                newBindPoses[i] = bones[i].worldToLocalMatrix * moshCharacterTransform.localToWorldMatrix;
             }
             sharedMesh.bindposes = newBindPoses;
             skinnedMeshRenderer.sharedMesh = sharedMesh;

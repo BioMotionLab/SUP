@@ -28,7 +28,7 @@ namespace MoshPlayer.Scripts.BML {
         readonly JointCalculator jointCalculator;
         bool                     resamplingRequired = false;
         readonly int             sourceFPS;
-        BMLModifyBones           boneModifier;
+        BoneModifier           boneModifier;
 
         int                 currentFrame = 0;
         SkinnedMeshRenderer meshRenderer;
@@ -67,7 +67,7 @@ namespace MoshPlayer.Scripts.BML {
 
         public void AttachAnimationToMoshCharacter(SkinnedMeshRenderer meshRendererToAttach) {
             meshRenderer = meshRendererToAttach;
-            boneModifier = new BMLModifyBones(meshRenderer);
+            boneModifier = new BoneModifier(meshRenderer);
         
             //TODO make it reset AFTERWARDS, not before.
             Reset();
