@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using BML;
 using UnityEngine;
 using UnityEditor;
 
 
-[CustomEditor(typeof(AnimReviewer))]
+[CustomEditor(typeof(MoshViewerComponent))]
 public class AnimReviewerEditor : Editor {
 
     SerializedProperty animListPath;
@@ -12,8 +13,8 @@ public class AnimReviewerEditor : Editor {
     SerializedProperty responseFilePath;
 
 	void OnEnable() {
-        animListPath = serializedObject.FindProperty(nameof(AnimReviewer.AnimListPath));
-        animFolder = serializedObject.FindProperty(nameof(AnimReviewer.AnimFolder));
+        animListPath = serializedObject.FindProperty(nameof(MoshViewerComponent.AnimationsToPlayFile));
+        animFolder = serializedObject.FindProperty(nameof(MoshViewerComponent.AnimFolder));
 	}
 
 	public override void OnInspectorGUI() 
