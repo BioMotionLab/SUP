@@ -11,9 +11,8 @@ namespace MoshPlayer.Scripts.BML.Display {
 
         SMPLSettings settings;
     
-        void Awake()
-        {
-            lineRenderer = GetComponent<LineRenderer>();
+        void Awake() {
+            lineRenderer = GetComponent<LineRenderer>(); //starts disabled to avoid artifacts the first frame.
         }
 
         public void Init(Transform boneParent, Transform boneChild, SMPLSettings settingsFile) {
@@ -22,9 +21,7 @@ namespace MoshPlayer.Scripts.BML.Display {
             settings = settingsFile;
         }
 
-        // Update is called once per frame
-        void Update()
-        {
+        void Update() {
             Vector3[] positions = {child.position, parent.position};
             lineRenderer.SetPositions(positions);
             lineRenderer.startWidth = settings.DisplaySettings.BoneWidth;
@@ -40,6 +37,9 @@ namespace MoshPlayer.Scripts.BML.Display {
                 lineRenderer.material = settings.DisplaySettings.RightSideMaterial;
             }
 
+            if (!lineRenderer.enabled) {
+                lineRenderer.enabled = true;
+            }
         }
     
     }

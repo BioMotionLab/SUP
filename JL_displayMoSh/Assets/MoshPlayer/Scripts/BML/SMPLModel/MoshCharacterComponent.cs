@@ -57,6 +57,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             gameObject.SetActive(true);
             moshAnimation.AttachAnimationToMoshCharacter(skinnedMeshRenderer, settings);
             if (ChangeFrameRate) moshAnimation.AdjustFrameRate(DesiredFrameRate);
+            UpdateAnimation();
         }
     
         void Update() {
@@ -69,7 +70,6 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
                 StopAnimation();
                 return;
             }
-
             moshAnimation.PlayCurrentFrame();
         }
 

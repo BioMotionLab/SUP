@@ -29,9 +29,12 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             this.displayMesh = displayMesh;
             this.animationSequence = animationSequence;
             this.settings = settings;
+        }
+
+
+        public void StartPlaying() {
             currentCharacters = StartAnimation(); //play the first animation!
         }
-        
 
         void StopCurrentAnimations() {
             foreach (MoshCharacterComponent character in currentCharacters) {

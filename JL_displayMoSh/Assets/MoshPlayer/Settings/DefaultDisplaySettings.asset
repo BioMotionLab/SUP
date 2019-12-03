@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 6600d75e7590476a820607bc288f1f6f, type: 3}
   m_Name: DefaultDisplaySettings
   m_EditorClassIdentifier: Assembly-CSharp:MoshPlayer.Scripts.BML:SMPLDisplaySettings
   DrawSidesDifferentColors: 1

@@ -27,6 +27,7 @@
                 <e p="MoShAnimationFromJSON.cs" t="Include" />
               </e>
               <e p="SMPLModel" t="Include">
+                <e p="AnimationLoader.cs" t="Include" />
                 <e p="BoneModifier.cs" t="Include" />
                 <e p="Gender.cs" t="Include" />
                 <e p="JointCalculator.cs" t="Include" />
