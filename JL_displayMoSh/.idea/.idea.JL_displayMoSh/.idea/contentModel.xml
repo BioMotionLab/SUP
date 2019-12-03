@@ -4,33 +4,44 @@
     <e p="C:\Users\BioMotion\.Rider2019.2\system\extResources" t="IncludeRecursive" />
     <e p="C:\Users\BioMotion\.Rider2019.2\system\resharper-host\local\Transient\ReSharperHost\v192\SolutionCaches\_JL_displayMoSh.-1911016634.00" t="ExcludeRecursive" />
     <e p="C:\Users\BioMotion\Documents\GitHub\UpdatingMoshAndSMPL\JL_displayMoSh" t="IncludeRecursive">
-      <e p="Assembly-CSharp-Editor-firstpass.csproj" t="IncludeRecursive" />
       <e p="Assembly-CSharp-Editor.csproj" t="IncludeRecursive" />
-      <e p="Assembly-CSharp-firstpass.csproj" t="IncludeRecursive" />
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
         <e p="MoshPlayer" t="Include">
           <e p="Scripts" t="Include">
             <e p="AveragePosition.cs" t="Include" />
             <e p="BML" t="Include">
-              <e p="BoneModifier.cs" t="Include" />
+              <e p="Display" t="Include">
+                <e p="BoneRenderer.cs" t="Include" />
+                <e p="DisplayBones.cs" t="Include" />
+                <e p="DisplayMesh.cs" t="Include" />
+                <e p="DisplayPointLights.cs" t="Include" />
+                <e p="DisplaySMPLBones.cs" t="Include" />
+                <e p="PointLightRenderer.cs" t="Include" />
+                <e p="SMPLDisplaySettings.cs" t="Include" />
+              </e>
               <e p="Editor" t="Include">
                 <e p="MoshViewerEditor.cs" t="Include" />
               </e>
-              <e p="Gender.cs" t="Include" />
-              <e p="JointCalculator.cs" t="Include" />
-              <e p="JointCalculatorFromJSON.cs" t="Include" />
-              <e p="MoShAnimation.cs" t="Include" />
-              <e p="MoShAnimationFromJSON.cs" t="Include" />
-              <e p="MoshAnimationPlayer.cs" t="Include" />
-              <e p="MoShCharacter.cs" t="Include" />
-              <e p="MoshMesh.cs" t="Include" />
-              <e p="MoshViewerComponent.cs" t="Include" />
-              <e p="ResampledFrame.cs" t="Include" />
-              <e p="SMPLConstants.cs" t="Include" />
-              <e p="SMPLSettings.cs" t="Include" />
+              <e p="FileLoaders" t="Include">
+                <e p="JointCalculatorFromJSON.cs" t="Include" />
+                <e p="MoShAnimationFromJSON.cs" t="Include" />
+              </e>
+              <e p="SMPLModel" t="Include">
+                <e p="BoneModifier.cs" t="Include" />
+                <e p="Gender.cs" t="Include" />
+                <e p="JointCalculator.cs" t="Include" />
+                <e p="MoShAnimation.cs" t="Include" />
+                <e p="MoshAnimationPlayer.cs" t="Include" />
+                <e p="MoShCharacter.cs" t="Include" />
+                <e p="MoshCharacterComponent.cs" t="Include" />
+                <e p="MoshMesh.cs" t="Include" />
+                <e p="MoshViewerComponent.cs" t="Include" />
+                <e p="ResampledFrame.cs" t="Include" />
+                <e p="SMPLConstants.cs" t="Include" />
+                <e p="SMPLSettings.cs" t="Include" />
+              </e>
             </e>
-            <e p="PointLightDisplay.cs" t="Include" />
             <e p="ThirdParty" t="Include">
               <e p="Matrix" t="Include">
                 <e p="Matrix.cs" t="Include" />
@@ -53,49 +64,6 @@
           <e p="pairs_all.txt" t="Include" />
           <e p="single.txt" t="Include" />
           <e p="test.txt" t="Include" />
-        </e>
-        <e p="Standard Assets" t="Include">
-          <e p="Cameras" t="Include">
-            <e p="CameraGuidelines.txt" t="Include" />
-            <e p="Scripts" t="Include">
-              <e p="AbstractTargetFollower.cs" t="Include" />
-              <e p="AutoCam.cs" t="Include" />
-              <e p="FreeLookCam.cs" t="Include" />
-              <e p="HandHeldCam.cs" t="Include" />
-              <e p="LookatTarget.cs" t="Include" />
-              <e p="PivotBasedCameraRig.cs" t="Include" />
-              <e p="ProtectCameraFromWallClip.cs" t="Include" />
-              <e p="TargetFieldOfView.cs" t="Include" />
-            </e>
-          </e>
-          <e p="CrossPlatformInput" t="Include">
-            <e p="CrossPlatformInputGuidelines.txt" t="Include" />
-            <e p="Scripts" t="Include">
-              <e p="AxisTouchButton.cs" t="Include" />
-              <e p="ButtonHandler.cs" t="Include" />
-              <e p="CrossPlatformInputManager.cs" t="Include" />
-              <e p="InputAxisScrollbar.cs" t="Include" />
-              <e p="Joystick.cs" t="Include" />
-              <e p="MobileControlRig.cs" t="Include" />
-              <e p="PlatformSpecific" t="Include">
-                <e p="MobileInput.cs" t="Include" />
-                <e p="StandaloneInput.cs" t="Include" />
-              </e>
-              <e p="TiltInput.cs" t="Include" />
-              <e p="TouchPad.cs" t="Include" />
-              <e p="VirtualInput.cs" t="Include" />
-            </e>
-          </e>
-          <e p="Editor" t="Include">
-            <e p="CrossPlatformInput" t="Include">
-              <e p="CrossPlatformInputInitialize.cs" t="Include" />
-            </e>
-          </e>
-          <e p="Fonts" t="Include">
-            <e p="OpenSans" t="Include">
-              <e p="License!.txt" t="Include" />
-            </e>
-          </e>
         </e>
       </e>
       <e p="JL_displayMoSh.sln" t="IncludeFlat" />

@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f062b4b4922425a8e6f25d4e51fc515, type: 3}
+  m_Name: DefaultMainSettings
+  m_EditorClassIdentifier: 
+  CharacterPrefab: {fileID: 1422993857495300, guid: a833c934eda954cb68ede3ef16f14025,
+    type: 3}
+  MaleMeshPrefab: {fileID: -6776866857465904403, guid: 7101835e7cddc9c4b96ba9039b9228ff,
+    type: 3}
+  FemaleMeshPrefab: {fileID: 3226173293770572294, guid: 81d5aef25ec81274f93605c5b6a6afa0,
+    type: 3}
+  MaleJointRegressorFile: {fileID: 4900000, guid: 5316b038f0a47b14ba9765cdddea10a6,
+    type: 3}
+  FemaleJointRegressorFile: {fileID: 4900000, guid: 2f7e42425abf6bc47aaf3989432907e9,
+    type: 3}
+  DisplaySettings: {fileID: 11400000, guid: 87c6acc71617edb48b1dc7a2e4b4fc23, type: 2}
+  CharacterFeetSnapToGround: 1
