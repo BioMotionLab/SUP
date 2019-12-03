@@ -1,8 +1,7 @@
 ﻿using System;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-namespace MoshPlayer.Scripts.BML {
+namespace MoshPlayer.Scripts.BML.SMPLModel {
     /// <summary>
     /// Altered version of loadMoshAnim from MPI. Allows a MoSh animation to be played at any time with a call to PlayAnim,
     /// rather than running on initialization of the script in the start method (requiring instantiating a new prefab.
@@ -23,6 +22,7 @@ namespace MoshPlayer.Scripts.BML {
         MoshMesh MoshMesh = default;
 
         [SerializeField]
+        // ReSharper disable once InconsistentNaming
         SMPLSettings settings = default;
 
         // ReSharper disable once ConvertToAutoPropertyWhenPossible

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using JetBrains.Annotations;
+using UnityEngine;
 
 namespace MoshPlayer.Scripts.Utilities {
     public static class QuaternionExtensions {
@@ -8,25 +9,26 @@ namespace MoshPlayer.Scripts.Utilities {
         /// </summary>
         /// <param name="quaternion">Quaternion to convert to a matrix.</param>
         /// <returns></returns>
+        [PublicAPI]
         public static float[] To3X3Matrix(this Quaternion quaternion)
         {
             //convert to from unity back to MPI's maya coordinate system
             Quaternion rightHandedQuaternion = quaternion.ToRightHanded();
 
-            float X = rightHandedQuaternion.x;
-            float Y = rightHandedQuaternion.y;
-            float Z = rightHandedQuaternion.z;
-            float W = rightHandedQuaternion.w ;
+            float x = rightHandedQuaternion.x;
+            float y = rightHandedQuaternion.y;
+            float z = rightHandedQuaternion.z;
+            float w = rightHandedQuaternion.w ;
 
-            float xx      = X * X;
-            float xy      = X * Y;
-            float xz      = X * Z;
-            float xw      = X * W;
-            float yy      = Y * Y;
-            float yz      = Y * Z;
-            float yw      = Y * W;
-            float zz      = Z * Z;
-            float zw      = Z * W;
+            float xx      = x * x;
+            float xy      = x * y;
+            float xz      = x * z;
+            float xw      = x * w;
+            float yy      = y * y;
+            float yz      = y * z;
+            float yw      = y * w;
+            float zz      = z * z;
+            float zw      = z * w;
         
             float[] rot3X3 = new float[9];
             rot3X3[0] = 1 - 2 * ( yy + zz );
@@ -49,6 +51,7 @@ namespace MoshPlayer.Scripts.Utilities {
         /// </summary>
         /// <param name="leftHandedQuaternion"></param>
         /// <returns></returns>
+        [PublicAPI]
         public static Quaternion ToRightHanded(this Quaternion leftHandedQuaternion) {
             // Blasted left-handed coordinate system -- Converting quaternions from LHS to RHS so that pose blendshapes get the correct values
 
@@ -62,6 +65,7 @@ namespace MoshPlayer.Scripts.Utilities {
             return rightHandedQuaternion;
         }
         
+        [PublicAPI]
         public static Quaternion ToLeftHanded(this Quaternion inMayaCoords) {
             float x = -inMayaCoords.x;
             float y = inMayaCoords.y;

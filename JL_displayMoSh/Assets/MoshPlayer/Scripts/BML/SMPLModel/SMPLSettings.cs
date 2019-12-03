@@ -1,9 +1,9 @@
 using System;
+using MoshPlayer.Scripts.BML.Display;
+using MoshPlayer.Scripts.BML.FileLoaders;
 using UnityEngine;
-using UnityEngine.Serialization;
-using Object = UnityEngine.Object;
 
-namespace MoshPlayer.Scripts.BML {
+namespace MoshPlayer.Scripts.BML.SMPLModel {
     [CreateAssetMenu]
     public class SMPLSettings : ScriptableObject {
 

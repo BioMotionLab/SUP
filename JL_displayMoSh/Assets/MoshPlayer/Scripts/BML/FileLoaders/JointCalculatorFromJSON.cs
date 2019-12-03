@@ -1,8 +1,9 @@
+using MoshPlayer.Scripts.BML.SMPLModel;
 using MoshPlayer.Scripts.ThirdParty.Matrix;
 using MoshPlayer.Scripts.ThirdParty.SimpleJSON;
 using UnityEngine;
 
-namespace MoshPlayer.Scripts.BML {
+namespace MoshPlayer.Scripts.BML.FileLoaders {
     public class JointCalculatorFromJSON {
     
         readonly Matrix[] jointsRegressor;

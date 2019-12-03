@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
-namespace MoshPlayer.Scripts.BML {
+namespace MoshPlayer.Scripts.BML.SMPLModel {
     /// <summary>
     /// Slightly modified version of SMPLModifyBones from MPI.
     /// Primarily just adds a reset method. 
@@ -21,7 +20,6 @@ namespace MoshPlayer.Scripts.BML {
         readonly Transform pelvis;
         readonly Mesh      bakedMesh = null;
         Vector3            minBounds;
-        Vector3            maxBounds;
         Transform moshCharacterTransform;
         readonly SMPLSettings settings;
 
@@ -141,14 +139,13 @@ namespace MoshPlayer.Scripts.BML {
         /// Finds bounding box in local space. This needs to happen manually since unity doesn't
         /// automatically recompute bounds of skinned mesh renderer after import.
         /// JL: I bet it's necessary to bake the mesh to access vertex data modified by blend shapes.
+        /// 
+        /// Vertex coordinates are in local space. 
         /// </summary>
         void RecomputeLocalBounds() {
             skinnedMeshRenderer.BakeMesh(bakedMesh); 
             
-            // vertex coordinates are in local space. 
-            Vector3[] vertices = bakedMesh.vertices;
-            int numVertices = vertices.Length;
-
+            
             float xMin = Mathf.Infinity;
             float xMax = Mathf.NegativeInfinity;
             float yMin = Mathf.Infinity;
@@ -166,7 +163,7 @@ namespace MoshPlayer.Scripts.BML {
                 zMax = Mathf.Max(zMax, vertex.z);
             }
             minBounds = new Vector3(xMin, yMin, zMin);
-            maxBounds = new Vector3(xMax, yMax, zMax);
+            //maxBounds = new Vector3(xMax, yMax, zMax);
         }
 
 

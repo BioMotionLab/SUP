@@ -664,7 +664,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ChangeFrameRate: 1
-  DesiredFrameRate: 240
+  DesiredFrameRate: 90
   MoshMesh: {fileID: 6673239947000848347}
   settings: {fileID: 11400000, guid: 2313800435c61b84ea16a728169d71c1, type: 2}
 --- !u!1 &1442229265983086

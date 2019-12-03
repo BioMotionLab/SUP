@@ -1,4 +1,4 @@
-namespace MoshPlayer.Scripts.BML {
+namespace MoshPlayer.Scripts.BML.SMPLModel {
     public static class SMPLConstants {
         // a scale variable is needed in order to calculate the beta values.
         public const float BetaScalingFactor = 5.0f;

@@ -1,7 +1,8 @@
 using System.Collections.Generic;
+using MoshPlayer.Scripts.BML.Display;
 using UnityEngine;
 
-namespace MoshPlayer.Scripts.BML {
+namespace MoshPlayer.Scripts.BML.SMPLModel {
     /// <summary>
     /// View a sequence of MoSh animationSequence read from a file, and record right or left.
     /// </summary>

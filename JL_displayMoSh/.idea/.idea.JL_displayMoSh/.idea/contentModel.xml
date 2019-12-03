@@ -9,7 +9,6 @@
       <e p="Assets" t="Include">
         <e p="MoshPlayer" t="Include">
           <e p="Scripts" t="Include">
-            <e p="AveragePosition.cs" t="Include" />
             <e p="BML" t="Include">
               <e p="Display" t="Include">
                 <e p="BoneRenderer.cs" t="Include" />

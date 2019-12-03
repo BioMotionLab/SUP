@@ -2,7 +2,7 @@
 using MoshPlayer.Scripts.Utilities;
 using UnityEngine;
 
-namespace MoshPlayer.Scripts.BML {
+namespace MoshPlayer.Scripts.BML.SMPLModel {
     
     public class MoshAnimation {
 
@@ -198,10 +198,6 @@ namespace MoshPlayer.Scripts.BML {
             boneModifier.UpdateBoneAngles(posesThisFrame, translationAtFrame);
             SetPoseDependentBlendShapesForCurrentFrame(posesThisFrame);
             currentFrame++;
-
-            if (Finished) {
-                Reset();
-            }
         }
         
         void Reset() {

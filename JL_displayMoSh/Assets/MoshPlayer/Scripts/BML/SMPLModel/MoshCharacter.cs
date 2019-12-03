@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace MoshPlayer.Scripts.BML {
+namespace MoshPlayer.Scripts.BML.SMPLModel {
     public interface MoshCharacter {
         SkinnedMeshRenderer SkinnedMeshRender { get; }
         

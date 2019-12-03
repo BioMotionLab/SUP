@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace MoshPlayer.Scripts.BML {
+namespace MoshPlayer.Scripts.BML.SMPLModel {
     public class ResampledFrame {
         public readonly int   FrameBeforeThis;
         public readonly int   FrameAfterThis;

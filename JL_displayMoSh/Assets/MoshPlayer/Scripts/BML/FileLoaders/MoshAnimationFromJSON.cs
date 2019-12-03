@@ -1,9 +1,10 @@
 ﻿using System;
+using MoshPlayer.Scripts.BML.SMPLModel;
 using MoshPlayer.Scripts.ThirdParty.SimpleJSON;
 using MoshPlayer.Scripts.Utilities;
 using UnityEngine;
 
-namespace MoshPlayer.Scripts.BML {
+namespace MoshPlayer.Scripts.BML.FileLoaders {
     /// <summary>
     /// Subclass of MoshAnimation for specific data format (JSON).
     /// This class can serve as a guide for extending BMLMoShAnimation to other 
@@ -13,7 +14,7 @@ namespace MoshPlayer.Scripts.BML {
 
         Gender        gender;
         float[]       betas;
-        int           FPS;
+        int           fps;
         int           frameCount;
         Vector3[]     translations;
         Quaternion[,] poses;
@@ -26,7 +27,7 @@ namespace MoshPlayer.Scripts.BML {
         }
 
         public MoshAnimation BuildWithSettings(SMPLSettings settings) {
-            MoshAnimation animation = new MoshAnimation(gender, frameCount, FPS, betas, translations, poses, settings);
+            MoshAnimation animation = new MoshAnimation(gender, frameCount, fps, betas, translations, poses, settings);
             return animation;
         }
     
@@ -81,7 +82,7 @@ namespace MoshPlayer.Scripts.BML {
         void LoadFPS(JSONNode moshJSON) {
             JSONNode fpsNode = moshJSON[SMPLConstants.JSONKeys.FPS];
             if (fpsNode.IsNull) throw new NullReferenceException("JSON has no fps field.");
-            FPS = fpsNode;
+            fps = fpsNode;
         }
 
         void LoadGender(JSONNode moshJSON) {

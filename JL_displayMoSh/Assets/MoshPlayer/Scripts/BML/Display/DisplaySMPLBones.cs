@@ -1,7 +1,8 @@
 using System;
+using MoshPlayer.Scripts.BML.SMPLModel;
 using UnityEngine;
 
-namespace MoshPlayer.Scripts.BML {
+namespace MoshPlayer.Scripts.BML.Display {
     
     /// <summary>
     /// Adapted from https://forum.unity.com/threads/rendering-bones.34863/ 
@@ -24,8 +25,8 @@ namespace MoshPlayer.Scripts.BML {
             }
         }
         
-        public void Init(MoshCharacter moshCharacter, SMPLSettings settings) {
-            this.settings = settings;
+        public void Init(MoshCharacter moshCharacter, SMPLSettings settingsFile) {
+            settings = settingsFile;
             boneContainer = new GameObject();
             boneContainer.transform.SetParent(moshCharacter.gameObject.transform);
             boneContainer.transform.localPosition = Vector3.zero;
@@ -35,8 +36,8 @@ namespace MoshPlayer.Scripts.BML {
             SetupBones(pelvisBone);
         }
 
-        void FindRootBone(Transform transform) {
-            foreach (Transform child in transform) {
+        void FindRootBone(Transform parentTransform) {
+            foreach (Transform child in parentTransform) {
                 if (child.name == SMPLConstants.PelvisBone) {
                     pelvisBone = child;
                 }

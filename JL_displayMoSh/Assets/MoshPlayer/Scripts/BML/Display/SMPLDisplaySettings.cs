@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace MoshPlayer.Scripts.BML {
+namespace MoshPlayer.Scripts.BML.Display {
     [CreateAssetMenu]
     public class SMPLDisplaySettings : ScriptableObject {
         

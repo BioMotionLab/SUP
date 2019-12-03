@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using MoshPlayer.Scripts.BML.SMPLModel;
+using UnityEngine;
 
-namespace MoshPlayer.Scripts.BML {
+namespace MoshPlayer.Scripts.BML.Display {
     public class BoneRenderer : MonoBehaviour {
 
         LineRenderer lineRenderer;

@@ -2,7 +2,7 @@
 using MoshPlayer.Scripts.Utilities;
 using UnityEngine;
 
-namespace MoshPlayer.Scripts.BML {
+namespace MoshPlayer.Scripts.BML.SMPLModel {
     public class JointCalculator {
         const int FirstMatrixColumn = 0;
 
