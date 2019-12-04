@@ -460,7 +460,7 @@ PrefabInstance:
     - target: {fileID: 5100136094089617265, guid: 214f2428e1f4c274da4fa6d27a3d44a3,
         type: 3}
       propertyPath: AnimationsToPlayFile
-      value: C:/Users/BioMotion/Documents/GitHub/UpdatingMoshAndSMPL/JL_displayMoSh/Assets/Resources/single.txt
+      value: C:/Users/BioMotion/Documents/GitHub/UpdatingMoshAndSMPL/JL_displayMoSh/Assets/Resources/pairs.txt
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 214f2428e1f4c274da4fa6d27a3d44a3, type: 3}

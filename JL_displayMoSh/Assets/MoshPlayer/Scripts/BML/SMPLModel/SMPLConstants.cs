@@ -1,8 +1,10 @@
 namespace MoshPlayer.Scripts.BML.SMPLModel {
     public static class SMPLConstants {
         // a scale variable is needed in order to calculate the beta values.
-        public const float BetaScalingFactor = 5.0f;
-
+        
+        public const float SMPLBlendshapeScalingFactor = 1f / 5.0f;
+        public const float UnityBlendShapeScaleFactor = 100f;
+        
         // these should be fixed to be more consistent. 
         public const int ShapeBetaCount = 10;
         public const int JointCount     = 24;
@@ -11,7 +13,8 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         /// PoseDependentBlendshapeCount is 24 joints but subtract pelvis, so 23. Then one per element of 3x3 rotation matrix (9). So 23*9 = 207 
         /// </summary>
         public const int PoseDependentBlendshapeCount      = 207;
-        
+
+        public const int FirstJointIndexAfterPelvis = 1;
         
         /// <summary>
         /// Represents the 3 dimensions of a vector3 (X, Y, Z) for looping purposes
@@ -39,5 +42,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         public const string RightBonePrefix = "R_";
         public const string LeftFootBone = "L_Foot";
         public const string RightFootBone = "R_Foot";
+        
+        
     }
 }

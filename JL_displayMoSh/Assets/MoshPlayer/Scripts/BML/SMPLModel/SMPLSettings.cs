@@ -31,6 +31,10 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         [SerializeField]
         public bool CharacterFeetSnapToGround = true;
         
+        public bool ChangeFrameRate = default;
+        
+        public int  DesiredFrameRate = default;
+        
         public Mesh GetMeshPrefab(Gender gender) {
             switch (gender) {
                 case Gender.Female: 

@@ -12,18 +12,9 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
     
         MoshAnimation moshAnimation;
         Mesh          smplMeshClone;
-    
-        public bool ChangeFrameRate = false;
-        public int DesiredFrameRate;
         SkinnedMeshRenderer skinnedMeshRenderer;
-        
-        
-        [SerializeField]
-        MoshMesh MoshMesh = default;
-
-        [SerializeField]
-        // ReSharper disable once InconsistentNaming
-        SMPLSettings settings = default;
+        MoshMesh moshMesh;
+        SMPLSettings settings;
 
         // ReSharper disable once ConvertToAutoPropertyWhenPossible
         public SMPLSettings Settings => settings;
@@ -33,7 +24,8 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         
 
         void Awake() {
-            skinnedMeshRenderer = MoshMesh.GetComponent<SkinnedMeshRenderer>();
+            moshMesh = GetComponentInChildren<MoshMesh>();
+            skinnedMeshRenderer = moshMesh.GetComponent<SkinnedMeshRenderer>();
             if (skinnedMeshRenderer ==  null) throw new NullReferenceException("Can't find skinnedMeshRenderer in awake");
             RotateToUnityCoordinates();
         }
@@ -50,13 +42,14 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         /// <summary>
         /// Sets up and plays a mosh animation.
         /// </summary>
-        public void StartAnimation(MoshAnimation animationToStart) {
+        public void StartAnimation(MoshAnimation animationToStart, SMPLSettings smplSettings) {
+            this.settings = smplSettings;
             moshAnimation = animationToStart;
             ActivateMesh(moshAnimation.Gender);
         
             gameObject.SetActive(true);
             moshAnimation.AttachAnimationToMoshCharacter(skinnedMeshRenderer, settings);
-            if (ChangeFrameRate) moshAnimation.AdjustFrameRate(DesiredFrameRate);
+            if (Settings.ChangeFrameRate) moshAnimation.AdjustFrameRate(settings.DesiredFrameRate);
             UpdateAnimation();
         }
     

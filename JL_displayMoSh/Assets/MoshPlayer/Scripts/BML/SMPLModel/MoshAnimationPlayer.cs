@@ -73,7 +73,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
                     characterComponent.SkinnedMeshRender.material = settings.DisplaySettings.SemiTransparentMaterial;
                 }
                 newCharacters.Add(characterComponent);
-                characterComponent.StartAnimation(moshAnimation);
+                characterComponent.StartAnimation(moshAnimation, settings);
             }
 
             return newCharacters;
