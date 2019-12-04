@@ -14,7 +14,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         int desiredFPS;
         
         readonly int sourceFPS;
-        readonly float duration;
+        readonly float sourceDuration;
         bool resamplingRequired = false;
         int resampledTotalFrameCount;
         
@@ -24,18 +24,27 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         SkinnedMeshRenderer meshRenderer;
         
         int                 currentFrame = 0;
-        
+        float lastFrameTime = 0;
+
         public bool Finished => currentFrame >= resampledTotalFrameCount;
     
 
-        public MoshAnimation(Gender    gender,       int           sourceTotalFrameCount, int          sourceFPS, float[] rawBodyShapeWeightBetas,
-                             Vector3[] translations, Quaternion[,] allPoses,              SMPLSettings settings) {
+        public MoshAnimation(Gender gender,       
+                             int sourceTotalFrameCount, 
+                             int sourceFPS, 
+                             float[] rawBodyShapeWeightBetas,
+                             Vector3[] translations, 
+                             Quaternion[,] allPoses) {
             Gender = gender;
-            this.sourceTotalFrameCount = sourceTotalFrameCount;
+            
             this.sourceFPS = sourceFPS;
+            this.sourceTotalFrameCount = sourceTotalFrameCount;
+            sourceDuration = this.sourceTotalFrameCount / (float) this.sourceFPS;
+
             desiredFPS = sourceFPS;
             resampledTotalFrameCount = sourceTotalFrameCount;
-            duration = this.sourceTotalFrameCount / (float) this.sourceFPS;
+            
+            
             this.rawBodyShapeWeightBetas = rawBodyShapeWeightBetas;
             this.translations = translations;
             this.allPoses = allPoses;
@@ -57,6 +66,10 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         }
 
         public void PlayCurrentFrame() {
+            Debug.Log($"Time since last frame: {Time.time - lastFrameTime}");
+            
+            lastFrameTime = Time.time;
+            
             Vector3 translationThisFrame = GetTranslationAtFrame(currentFrame);
             Quaternion[] posesThisFrame = GetPosesAtFrame(currentFrame);
             
@@ -81,7 +94,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         void SetDesiredFPS(int value) {
         
             desiredFPS = value;
-            // duration stays constant, but upsampling/downsampling will happen.
+            // sourceDuration stays constant, but upsampling/downsampling will happen.
             // Time of start and end keys remains constant, but keys in between are shifted
             // and more may be added or removed.
         
@@ -89,11 +102,11 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         
             // have to update length here. 
             // I think this is the right way to get length.
-            // actually, since the time of the last thisFrame should remain static, 
-            // if the time between frames is a constant, then the time of the last thisFrame cannot
+            // actually, since the time of the last frame should remain static, 
+            // if the time between frames is a constant, then the time of the last frame cannot
             // be completely static. 
             // I think I should still floor the value. 
-            resampledTotalFrameCount = Mathf.FloorToInt(desiredFPS * duration);
+            resampledTotalFrameCount = Mathf.FloorToInt(desiredFPS * sourceDuration);
         
         }
 
@@ -101,7 +114,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         Vector3 GetTranslationAtFrame(int thisFrame) {
             if (!resamplingRequired) return translations[thisFrame];
         
-            ResampledFrame resampledFrame = new ResampledFrame(thisFrame, sourceFPS, resampledTotalFrameCount, duration);
+            ResampledFrame resampledFrame = new ResampledFrame(thisFrame, sourceFPS, resampledTotalFrameCount, sourceDuration);
             Vector3 translationAtFrameBeforeThis = translations[resampledFrame.FrameBeforeThis];
             
             bool isLastFrame = resampledFrame.FrameAfterThis >= sourceTotalFrameCount;
@@ -120,8 +133,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         /// Populate an array with rotations of each joint at thisFrame. 
         /// </summary>
         /// <param name="thisFrame">Frame at which to get rotations</param>
-        Quaternion[] GetPosesAtFrame(int thisFrame) 
-        {
+        Quaternion[] GetPosesAtFrame(int thisFrame) {
             Quaternion[] posesThisFrame = new Quaternion[SMPLConstants.JointCount];
 
             if (!resamplingRequired) {
@@ -137,7 +149,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
 
         void GetResampledPosesAtFrame(int thisFrame, Quaternion[] posesThisFrame) {
             for (int jointIndex = 0; jointIndex < SMPLConstants.JointCount; jointIndex++) {
-                ResampledFrame resampledFrame = new ResampledFrame(thisFrame, sourceFPS, resampledTotalFrameCount, duration);
+                ResampledFrame resampledFrame = new ResampledFrame(thisFrame, sourceFPS, resampledTotalFrameCount, sourceDuration);
                 if (resampledFrame.FrameAfterThis >= sourceTotalFrameCount) {
                     posesThisFrame[jointIndex] = allPoses[resampledFrame.FrameBeforeThis, jointIndex];
                 }

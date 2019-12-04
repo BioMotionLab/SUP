@@ -27,7 +27,7 @@ namespace MoshPlayer.Scripts.BML.FileLoaders {
         }
 
         public MoshAnimation BuildWithSettings(SMPLSettings settings) {
-            MoshAnimation animation = new MoshAnimation(gender, frameCount, fps, betas, translations, poses, settings);
+            MoshAnimation animation = new MoshAnimation(gender, frameCount, fps, betas, translations, poses);
             return animation;
         }
     

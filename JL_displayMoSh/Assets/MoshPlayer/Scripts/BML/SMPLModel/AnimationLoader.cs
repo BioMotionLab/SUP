@@ -67,7 +67,9 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
                     animations.Add(new MoshAnimationFromJSON(animationFileString).BuildWithSettings(settings));
                 }
                 catch (FileNotFoundException e) {
-                    Debug.LogError($"Trying to load animation file {filename} from folder {animFolder} but could not find it.");
+                    Debug.LogError($"Trying to load animation file but could not find it (see below): " +
+                                   $"\n\t\tFileName: {filename}" +
+                                   $"\n\t\tFolder: {animFolder} ");
                 }
                 
             }
