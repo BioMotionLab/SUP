@@ -48,7 +48,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             ActivateMesh(moshAnimation.Gender);
         
             gameObject.SetActive(true);
-            moshAnimation.AttachAnimationToMoshCharacter(skinnedMeshRenderer, settings);
+            moshAnimation.AttachSkin(skinnedMeshRenderer, settings);
             if (Settings.ChangeFrameRate) moshAnimation.AdjustFrameRate(settings.DesiredFrameRate);
             UpdateAnimation();
         }

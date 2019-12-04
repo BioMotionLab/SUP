@@ -10,12 +10,10 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
 	
 		const string DefaultSelectPathText = "Select...";
 	
-		[FormerlySerializedAs("AnimListPath")]
 		[Tooltip("Path to file with list of animation file names")]
 		[SerializeField] 
 		public string AnimationsToPlayFile = DefaultSelectPathText;
 	
-		[Tooltip("Folder containing MoSh anims")]
 		[SerializeField] 
 		public string AnimFolder = DefaultSelectPathText;
 	
@@ -24,19 +22,15 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
 
 		MoshAnimationPlayer moshAnimationPlayer;
 
-		[FormerlySerializedAs("displayBones")]
 		[SerializeField]
 		DisplayBones DisplayBones = default;
 
-		[FormerlySerializedAs("displayMesh")]
 		[SerializeField]
 		DisplayMesh DisplayMesh = default;
 
-		[FormerlySerializedAs("displayPointLights")]
 		[SerializeField]
 		DisplayPointLights DisplayPointLights = default;
 		
-		[FormerlySerializedAs("NextTrialKey")]
 		[SerializeField]
 		KeyCode[] NextTrialKeys = default;
 
@@ -49,10 +43,9 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
 			
 			loader = gameObject.AddComponent<AnimationLoader>();
 			loader.Init(AnimationsToPlayFile, Settings, AnimFolder, DoneLoading);
-			
 		}
 
-		void DoneLoading(List<MoshAnimation[]> animationSequence) {
+		void DoneLoading(List<List<MoshAnimation>> animationSequence) {
 			doneLoading = true;
 			moshAnimationPlayer = new MoshAnimationPlayer(animationSequence, Settings, DisplayPointLights, DisplayBones, DisplayMesh);
 			Destroy(loader);
@@ -64,16 +57,19 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
 
 			
 			if (!started && notYetNotified) {
-				Debug.Log("Waiting to start playing...");
+				Debug.Log($"Waiting to start playing... press {NextTrialKeys[0]} to continue");
 				notYetNotified = false;
 			}
 			
 			if (NextTrialKeys.Any(Input.GetKeyDown)) {
 				if (!started) {
-					moshAnimationPlayer.StartPlaying();
+					moshAnimationPlayer.StartPlayingAnimations();
 					started = true;
 				}
-				moshAnimationPlayer.GoToNextAnimation();
+				else {
+					moshAnimationPlayer.GoToNextAnimation();
+				}
+				
 			}
 		}
 

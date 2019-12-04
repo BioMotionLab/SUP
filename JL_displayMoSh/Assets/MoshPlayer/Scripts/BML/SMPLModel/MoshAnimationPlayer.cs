@@ -8,7 +8,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
     /// </summary>
     public class MoshAnimationPlayer {
 	
-        readonly List<MoshAnimation[]> animationSequence;
+        readonly List<List<MoshAnimation>> animationSequence;
         readonly SMPLSettings          settings;
         
         
@@ -22,7 +22,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         DisplayMesh displayMesh;
         DisplayBones displayBones;
 
-        public MoshAnimationPlayer(List<MoshAnimation[]> animationSequence, SMPLSettings settings,
+        public MoshAnimationPlayer(List<List<MoshAnimation>> animationSequence, SMPLSettings settings,
                                    DisplayPointLights displayPointLights, DisplayBones displayBones, DisplayMesh displayMesh) {
             this.displayPointLights = displayPointLights;
             this.displayBones = displayBones;
@@ -32,7 +32,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         }
 
 
-        public void StartPlaying() {
+        public void StartPlayingAnimations() {
             currentCharacters = StartAnimation(); //play the first animation!
         }
 
@@ -47,11 +47,11 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         /// Play the animation for both characters at specified position in sequence of files.
         /// </summary>
         List<MoshCharacterComponent> StartAnimation() {
-            MoshAnimation[] animationGroup = animationSequence[currentAnimationIndex];
-            Debug.Log($"Playing animation {currentAnimationIndex+1} of {animationSequence.Count}. Contains animations for {animationGroup.Length} characters");
+            List<MoshAnimation> animationGroup = animationSequence[currentAnimationIndex];
+            Debug.Log($"Playing animation {currentAnimationIndex+1} of {animationSequence.Count}. Contains animations for {animationGroup.Count} characters");
 		
             List<MoshCharacterComponent> newCharacters = new List<MoshCharacterComponent>();
-            for (int animationIndex = 0; animationIndex < animationGroup.Length; animationIndex++) {
+            for (int animationIndex = 0; animationIndex < animationGroup.Count; animationIndex++) {
                 MoshAnimation moshAnimation = animationGroup[animationIndex];
                 MoshCharacterComponent characterComponent = settings.CreateNewCharacter();
                 characterComponent.name = $"Character {animationIndex}";

@@ -23,11 +23,11 @@ namespace MoshPlayer.Scripts.BML.FileLoaders {
             JSONNode betasJointRegressorNode = node[SMPLConstants.JSONKeys.BetaJointRegressors];
         
             for (int vector3Dimension = 0; vector3Dimension < SMPLConstants.DimensionsOfAVector3; vector3Dimension++) {
-                jointsRegressor[vector3Dimension] = new Matrix(SMPLConstants.JointCount, SMPLConstants.ShapeBetaCount);
+                jointsRegressor[vector3Dimension] = new Matrix(SMPLConstants.JointCount, SMPLConstants.BodyShapeBetaCount);
             }
 
             for (int jointIndex = 0; jointIndex < SMPLConstants.JointCount; jointIndex++) {
-                for (int shapeBetaIndex = 0; shapeBetaIndex < SMPLConstants.ShapeBetaCount; shapeBetaIndex++) {
+                for (int shapeBetaIndex = 0; shapeBetaIndex < SMPLConstants.BodyShapeBetaCount; shapeBetaIndex++) {
                     // dimension refers to the separate x,y,z values.
                     for (int vector3Dimension = 0; vector3Dimension < SMPLConstants.DimensionsOfAVector3; vector3Dimension++) {
                         Matrix jointRegressorMatrix = jointsRegressor[vector3Dimension];

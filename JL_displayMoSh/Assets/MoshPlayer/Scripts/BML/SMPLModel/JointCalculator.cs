@@ -16,7 +16,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         }
 
         /// <summary>
-        /// Calculate initial joint positions from betas. 
+        /// Calculate initial joint positions from rawBodyShapeWeightBetas. 
         /// </summary>
         /// <returns>The joints.</returns>
         public Vector3[] CalculateJointPositions(float[] betas) {
@@ -64,20 +64,20 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         }
 
         /// <summary>
-        /// Copies the betas array to a matrix with one column for use in matrix multiplication.
+        /// Copies the rawBodyShapeWeightBetas array to a matrix with one column for use in matrix multiplication.
         /// </summary>
         /// <param name="betas"></param>
         /// <returns></returns>
         static Matrix CopyBetaArrayToMatrix(float[] betas) {
-            Matrix betaMatrix = new Matrix(SMPLConstants.ShapeBetaCount, 1); // column vector.
-            for (int betaIndex = 0; betaIndex < SMPLConstants.ShapeBetaCount; betaIndex++) {
+            Matrix betaMatrix = new Matrix(SMPLConstants.BodyShapeBetaCount, 1); // column vector.
+            for (int betaIndex = 0; betaIndex < SMPLConstants.BodyShapeBetaCount; betaIndex++) {
                 betaMatrix[betaIndex, FirstMatrixColumn] = betas[betaIndex];
             }
             return betaMatrix;
         }
 
         public Vector3[] CalculateJointsAtZeroedBetas() {
-            float[] zeroedBetas = new float[SMPLConstants.ShapeBetaCount];
+            float[] zeroedBetas = new float[SMPLConstants.BodyShapeBetaCount];
             return CalculateJointPositions(zeroedBetas);
         }
     }

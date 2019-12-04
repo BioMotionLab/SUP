@@ -1,4 +1,5 @@
-﻿using MoshPlayer.Scripts.BML.SMPLModel;
+﻿using System;
+using MoshPlayer.Scripts.BML.SMPLModel;
 using UnityEngine;
 
 namespace MoshPlayer.Scripts.BML.Display {
@@ -6,8 +7,8 @@ namespace MoshPlayer.Scripts.BML.Display {
 
         LineRenderer lineRenderer;
 
-        Transform child;
-        Transform parent;
+        public Transform child;
+        public Transform parent;
 
         SMPLSettings settings;
     
@@ -19,6 +20,7 @@ namespace MoshPlayer.Scripts.BML.Display {
         public void Init(Transform boneParent, Transform boneChild, SMPLSettings settingsFile) {
             parent = boneParent;
             child = boneChild;
+            name = $"BoneRenderer {parent.name} to {child.name}";
             settings = settingsFile;
             
             SetDifferentSideColorsIfNeeded();
@@ -43,13 +45,23 @@ namespace MoshPlayer.Scripts.BML.Display {
         void SetDifferentSideColorsIfNeeded() {
             if (!settings.DisplaySettings.DrawSidesDifferentColors) return;
 
-            if (child.name.Contains(SMPLConstants.LeftBonePrefix)) {
-                lineRenderer.material = settings.DisplaySettings.LeftSideMaterial;
+            SideOfBody sideOfBody = Bones.GetSideOfBody(child.name);
+            switch (sideOfBody) {
+                case SideOfBody.Left:
+                    lineRenderer.material = settings.DisplaySettings.LeftSideMaterial;
+                    break;
+                case SideOfBody.Right:
+                    lineRenderer.material = settings.DisplaySettings.RightSideMaterial;
+                    break;
+                case SideOfBody.Center:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
+        }
 
-            if (child.name.Contains(SMPLConstants.RightBonePrefix)) {
-                lineRenderer.material = settings.DisplaySettings.RightSideMaterial;
-            }
+        public void SetupParent() {
+            transform.SetParent(child);
         }
     }
 }

@@ -9,28 +9,26 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         readonly int           sourceTotalFrameCount;
         readonly Vector3[]     translations;
         readonly Quaternion[,] allPoses;
-        readonly float[]       betas;
+        readonly float[]       rawBodyShapeWeightBetas;
 
         int desiredFPS;
-
-        int resampledTotalFrameCount;
-
-        readonly float  duration;
-        public   Gender Gender { get; }
-
         
-        bool                     resamplingRequired = false;
-        readonly int             sourceFPS;
-        BoneModifier           boneModifier;
-
-        int                 currentFrame = 0;
+        readonly int sourceFPS;
+        readonly float duration;
+        bool resamplingRequired = false;
+        int resampledTotalFrameCount;
+        
+        public Gender Gender { get; }
+        
+        BoneModifier boneModifier;
         SkinnedMeshRenderer meshRenderer;
         
+        int                 currentFrame = 0;
         
         public bool Finished => currentFrame >= resampledTotalFrameCount;
     
 
-        public MoshAnimation(Gender    gender,       int           sourceTotalFrameCount, int          sourceFPS, float[] betas,
+        public MoshAnimation(Gender    gender,       int           sourceTotalFrameCount, int          sourceFPS, float[] rawBodyShapeWeightBetas,
                              Vector3[] translations, Quaternion[,] allPoses,              SMPLSettings settings) {
             Gender = gender;
             this.sourceTotalFrameCount = sourceTotalFrameCount;
@@ -38,18 +36,33 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             desiredFPS = sourceFPS;
             resampledTotalFrameCount = sourceTotalFrameCount;
             duration = this.sourceTotalFrameCount / (float) this.sourceFPS;
-            this.betas = betas;
+            this.rawBodyShapeWeightBetas = rawBodyShapeWeightBetas;
             this.translations = translations;
             this.allPoses = allPoses;
             currentFrame = 0;
 
         }
 
-        public void AttachAnimationToMoshCharacter(SkinnedMeshRenderer meshRendererToAttach, SMPLSettings settings) {
-            meshRenderer = meshRendererToAttach;
-            boneModifier = new BoneModifier(meshRenderer, Gender, betas, settings);
-            
+        public void AttachSkin(SkinnedMeshRenderer skinnedMeshRendererToAttach, SMPLSettings settings) {
+            meshRenderer = skinnedMeshRendererToAttach;
+            boneModifier = new BoneModifier(meshRenderer, Gender, rawBodyShapeWeightBetas, settings);
             InitializeBodyShapeBlendshapes();
+        }
+
+        void InitializeBodyShapeBlendshapes() {
+            for (int betaIndex = 0; betaIndex < SMPLConstants.BodyShapeBetaCount; betaIndex++) {
+                float scaledBeta = ScaleBlendshapeWeightFromBlenderToUnity(rawBodyShapeWeightBetas[betaIndex]);
+                meshRenderer.SetBlendShapeWeight(betaIndex, scaledBeta);
+            }
+        }
+
+        public void PlayCurrentFrame() {
+            Vector3 translationThisFrame = GetTranslationAtFrame(currentFrame);
+            Quaternion[] posesThisFrame = GetPosesAtFrame(currentFrame);
+            
+            boneModifier.UpdateBoneRotations(posesThisFrame, translationThisFrame);
+            UpdatePoseDependentBlendShapes(posesThisFrame);
+            currentFrame++;
         }
 
 
@@ -102,7 +115,6 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             return resampledTranslation;
         }
 
-      
 
         /// <summary>
         /// Populate an array with rotations of each joint at thisFrame. 
@@ -138,17 +150,6 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             }
         }
 
-        /// <summary>
-        /// The SMPL models have a scaling factor for some reason,
-        /// and also need to be multiplied by another factor to be in the same scale as Unity
-        /// </summary>
-        /// <param name="rawWeight"></param>
-        /// <returns></returns>
-        static float ScaleBlendshapeWeightFromBlenderToUnity(float rawWeight) {
-            float scaledWeight = rawWeight * SMPLConstants.UnityBlendShapeScaleFactor * SMPLConstants.SMPLBlendshapeScalingFactor;
-            return scaledWeight;
-        }
-
 
         /// <summary>
         /// Updates all pose-dependent blendshapes this frame.
@@ -164,31 +165,25 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
                 float[] rotationMatrix3X3 = jointPose.To3X3Matrix();
             
                 int jointIndexNoPelvis = jointIndex - 1; // no blendshapes for pelvis.
-                for (int rotationMatrixElement = 0; rotationMatrixElement < SMPLConstants.RotationMatrixElementCount; rotationMatrixElement++) {
-                    float theta = rotationMatrix3X3[rotationMatrixElement];
-                    float scaledTheta = ScaleBlendshapeWeightFromBlenderToUnity(theta); 
-                    int blendShapeIndex = SMPLConstants.ShapeBetaCount + jointIndexNoPelvis * SMPLConstants.RotationMatrixElementCount + rotationMatrixElement;
-                    meshRenderer.SetBlendShapeWeight(blendShapeIndex, scaledTheta);
+                for (int rotMatrixElement = 0; rotMatrixElement < SMPLConstants.RotationMatrixElementCount; rotMatrixElement++) {
+                    
+                    float rawPoseDependentBlendshapeWeight = rotationMatrix3X3[rotMatrixElement];
+                    float scaledWeightBetas = ScaleBlendshapeWeightFromBlenderToUnity(rawPoseDependentBlendshapeWeight); 
+                    int blendShapeIndex = SMPLConstants.BodyShapeBetaCount + jointIndexNoPelvis * SMPLConstants.RotationMatrixElementCount + rotMatrixElement;
+                    meshRenderer.SetBlendShapeWeight(blendShapeIndex, scaledWeightBetas);
                 }
             }
         }
 
-
-        public void PlayCurrentFrame() {
-            Vector3 translationThisFrame = GetTranslationAtFrame(currentFrame);
-            Quaternion[] posesThisFrame = GetPosesAtFrame(currentFrame);
-            
-            boneModifier.UpdateBoneRotations(posesThisFrame, translationThisFrame);
-            UpdatePoseDependentBlendShapes(posesThisFrame);
-            currentFrame++;
+        /// <summary>
+        /// The SMPL models have a scaling factor for some reason,
+        /// and also need to be multiplied by another factor to be in the same scale as Unity
+        /// </summary>
+        /// <param name="rawWeight"></param>
+        /// <returns></returns>
+        static float ScaleBlendshapeWeightFromBlenderToUnity(float rawWeight) {
+            float scaledWeight = rawWeight * SMPLConstants.UnityBlendShapeScaleFactor * SMPLConstants.SMPLBlendshapeScalingFactor;
+            return scaledWeight;
         }
-        
-        void InitializeBodyShapeBlendshapes() {
-            for (int betaIndex = 0; betaIndex < SMPLConstants.ShapeBetaCount; betaIndex++) {
-                float scaledBeta = ScaleBlendshapeWeightFromBlenderToUnity(betas[betaIndex]);
-                meshRenderer.SetBlendShapeWeight(betaIndex, scaledBeta);
-            }
-        }
-
     }
 }

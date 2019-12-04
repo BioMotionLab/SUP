@@ -44,7 +44,7 @@ namespace MoshPlayer.Scripts.BML.FileLoaders {
         }
 
         void LoadTranslations(JSONNode moshJSON) {
-            JSONNode     transNode = moshJSON [SMPLConstants.JSONKeys.Translation];
+            JSONNode     transNode = moshJSON [SMPLConstants.JSONKeys.Translations];
             frameCount = transNode.  Count;
             
             translations = new Vector3 [frameCount];

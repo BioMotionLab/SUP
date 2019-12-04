@@ -1,4 +1,5 @@
-﻿using MoshPlayer.Scripts.BML.SMPLModel;
+﻿using System;
+using MoshPlayer.Scripts.BML.SMPLModel;
 using UnityEngine;
 
 namespace MoshPlayer.Scripts.BML.Display {
@@ -13,8 +14,9 @@ namespace MoshPlayer.Scripts.BML.Display {
             SkinnedMeshRenderer skinnedMeshRenderer = moshCharacter.SkinnedMeshRender;
             
             foreach (Transform bone in skinnedMeshRenderer.bones) {
+                if (!Bones.IsBone(bone)) continue;
                 if (bone == skinnedMeshRenderer.rootBone) continue; //skip root 
-                bool isFootBone = (bone.name == SMPLConstants.LeftFootBone || bone.name == SMPLConstants.RightFootBone);
+                bool isFootBone = (bone.name == Bones.LeftFoot || bone.name == Bones.RightFoot);
                 if (settings.DisplaySettings.ExcludeFeetForPointLights && isFootBone)
                     continue;
             
@@ -40,12 +42,19 @@ namespace MoshPlayer.Scripts.BML.Display {
             
             
             MeshRenderer meshRenderer = pointLight.GetComponent<MeshRenderer>();
-            
-            if (bone.name.Contains(SMPLConstants.LeftBonePrefix)) {
-                meshRenderer.sharedMaterial = settings.DisplaySettings.LeftSideMaterial;
-            }
-            if (bone.name.Contains(SMPLConstants.RightBonePrefix)) {
-                meshRenderer.sharedMaterial = settings.DisplaySettings.RightSideMaterial;
+
+            SideOfBody side = Bones.GetSideOfBody(bone.name);
+            switch (side) {
+                case SideOfBody.Left:
+                    meshRenderer.sharedMaterial = settings.DisplaySettings.LeftSideMaterial;
+                    break;
+                case SideOfBody.Right:
+                    meshRenderer.sharedMaterial = settings.DisplaySettings.RightSideMaterial;
+                    break;
+                case SideOfBody.Center:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
     }

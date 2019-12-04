@@ -1,12 +1,12 @@
 namespace MoshPlayer.Scripts.BML.SMPLModel {
     public static class SMPLConstants {
-        // a scale variable is needed in order to calculate the beta values.
+        
         
         public const float SMPLBlendshapeScalingFactor = 1f / 5.0f;
+        
         public const float UnityBlendShapeScaleFactor = 100f;
         
-        // these should be fixed to be more consistent. 
-        public const int ShapeBetaCount = 10;
+        public const int BodyShapeBetaCount = 10;
         public const int JointCount     = 24;
         
         /// <summary>
@@ -28,21 +28,14 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             public const string Gender = "gender";
             public const string Male   = "male";
             public const string Female = "female";
+            
             public const string FPS    = "fps";
-            public const string Translation  = "trans";
-            public const string Betas  = "betas";
+            public const string Translations  = "trans";
+            
+            public const string Betas  = "rawBodyShapeWeightBetas";
             public const string Poses  = "poses";
-
             public const string JointTemplates      = "template_J";
             public const string BetaJointRegressors = "betasJ_regr";
         }
-
-        public const string PelvisBone = "Pelvis";
-        public const string LeftBonePrefix = "L_";
-        public const string RightBonePrefix = "R_";
-        public const string LeftFootBone = "L_Foot";
-        public const string RightFootBone = "R_Foot";
-        
-        
     }
 }

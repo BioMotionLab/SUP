@@ -29,6 +29,7 @@
               <e p="SMPLModel" t="Include">
                 <e p="AnimationLoader.cs" t="Include" />
                 <e p="BoneModifier.cs" t="Include" />
+                <e p="Bones.cs" t="Include" />
                 <e p="Gender.cs" t="Include" />
                 <e p="JointCalculator.cs" t="Include" />
                 <e p="MoShAnimation.cs" t="Include" />

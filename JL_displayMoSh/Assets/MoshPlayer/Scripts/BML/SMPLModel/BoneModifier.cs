@@ -37,36 +37,36 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
                     throw new ArgumentOutOfRangeException(nameof(gender), gender, null);
             }
             
-            
+            moshCharacterTransform = skinnedMeshRenderer.transform.parent;
             this.skinnedMeshRenderer = skinnedMeshRenderer;
             this.settings = settings;
             bones = skinnedMeshRenderer.bones;
             
             boneNameToJointIndex = new Dictionary<string, int> {
-                                                                   {"Pelvis", 0},
-                                                                   {"L_Hip", 1},
-                                                                   {"R_Hip", 2},
-                                                                   {"Spine1", 3},
-                                                                   {"L_Knee", 4},
-                                                                   {"R_Knee", 5},
-                                                                   {"Spine2", 6},
-                                                                   {"L_Ankle", 7},
-                                                                   {"R_Ankle", 8},
-                                                                   {"Spine3", 9},
-                                                                   {"L_Foot", 10},
-                                                                   {"R_Foot", 11},
-                                                                   {"Neck", 12},
-                                                                   {"L_Collar", 13},
-                                                                   {"R_Collar", 14},
-                                                                   {"Head", 15},
-                                                                   {"L_Shoulder", 16},
-                                                                   {"R_Shoulder", 17},
-                                                                   {"L_Elbow", 18},
-                                                                   {"R_Elbow", 19},
-                                                                   {"L_Wrist", 20},
-                                                                   {"R_Wrist", 21},
-                                                                   {"L_Hand", 22},
-                                                                   {"R_Hand", 23}
+                                                                   {Bones.Pelvis, 0},
+                                                                   {Bones.LeftHip, 1},
+                                                                   {Bones.RightHip, 2},
+                                                                   {Bones.Spine1, 3},
+                                                                   {Bones.LeftKnee, 4},
+                                                                   {Bones.RightKnee, 5},
+                                                                   {Bones.Spine2, 6},
+                                                                   {Bones.LeftAnkle, 7},
+                                                                   {Bones.RightAnkle, 8},
+                                                                   {Bones.Spine3, 9},
+                                                                   {Bones.LeftFoot, 10},
+                                                                   {Bones.RightFoot, 11},
+                                                                   {Bones.Neck, 12},
+                                                                   {Bones.LeftCollar, 13},
+                                                                   {Bones.RightCollar, 14},
+                                                                   {Bones.Head, 15},
+                                                                   {Bones.LeftShoulder, 16},
+                                                                   {Bones.RightShoulder, 17},
+                                                                   {Bones.LeftElbow, 18},
+                                                                   {Bones.RightElbow, 19},
+                                                                   {Bones.LeftWrist, 20},
+                                                                   {Bones.RightWrist, 21},
+                                                                   {Bones.LeftHand, 22},
+                                                                   {Bones.RightHand, 23}
                                                                };
             bakedMesh = new Mesh();
             
@@ -75,28 +75,26 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         }
 
 
-        public void UpdateBonePositions(Vector3[] newPositions) {
-            SetBonePositions(newPositions);
-            SetBindPoses();
+        /// <summary>
+        /// Gets the new joint positions from the animation.
+        /// Passes them to the boneModifier. 
+        /// </summary>
+        /// <param name="betas"></param>
+        void SetupBones(float[] betas) {
+            Vector3[] jointPositions = jointCalculator.CalculateJointPositions(betas);
+            SetupBonePositions(jointPositions);
+            SetupBindPoses();
             if (settings.CharacterFeetSnapToGround) {
                 SetFeetOnGround();
             }
         }
 
-        void SetFeetOnGround() {
-            
-            RecomputeLocalBounds();
-            float heightOffset = -minBounds.y;
-            bones[PelvisIndex].Translate(0.0f, heightOffset, 0.0f);
-            
-        }
-
-        void SetBonePositions(Vector3[] newPositions) {
+        void SetupBonePositions(Vector3[] jointPositions) {
             for (int boneIndex = FirstBoneIndexAfterRoot; boneIndex < bones.Length; boneIndex++) {
                 string boneName = bones[boneIndex].name;
                 int boneJointIndex = boneNameToJointIndex[boneName];
 
-                Vector3 newBonePositionInWorldSpace = newPositions[boneJointIndex];
+                Vector3 newBonePositionInWorldSpace = jointPositions[boneJointIndex];
                 var transformedPositionInLocalSpace = WorldPositionToMoshCharactersSpace(newBonePositionInWorldSpace);
                 bones[boneIndex].position = transformedPositionInLocalSpace;
             }
@@ -106,33 +104,13 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         /// Incoming new positions from joint calculation are centered at origin in world space
         /// Transform to avatar position+orientation for correct world space position
         /// </summary>
-        /// <param name="newBonePosition"></param>
+        /// <param name="worldPosition"></param>
         /// <returns></returns>
-        Vector3 WorldPositionToMoshCharactersSpace(Vector3 newBonePosition) {
-            moshCharacterTransform = skinnedMeshRenderer.transform.parent;
-            Vector3 transformedPoint = moshCharacterTransform.TransformPoint(newBonePosition);
+        Vector3 WorldPositionToMoshCharactersSpace(Vector3 worldPosition) {
+            Vector3 transformedPoint = moshCharacterTransform.TransformPoint(worldPosition);
             return transformedPoint;
         }
 
-        public void UpdateBoneRotations(Quaternion[] pose, Vector3 trans)  {
-            for (int boneIndex = FirstBoneIndexAfterRoot; boneIndex < bones.Length; boneIndex++) {
-                string boneName = bones[boneIndex].name;
-                int poseIndex = boneNameToJointIndex[boneName];
-                bones[boneIndex].localRotation = pose[poseIndex];
-            }
-            bones[PelvisIndex].localPosition = trans;
-        }
-
-        /// <summary>
-        /// Gets the new joint positions from the animation.
-        /// Passes them to the boneModifier. 
-        /// </summary>
-        /// <param name="betas"></param>
-        void SetupBones(float[] betas) {
-            Vector3[] joints = jointCalculator.CalculateJointPositions(betas);
-            UpdateBonePositions(joints);
-        }
-        
         /// <summary>
         /// the bind pose property is actually just an array of matrices. one for each joint. The matrices are inverse transformations.
         /// Sets the bind poses of the mesh.
@@ -140,7 +118,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         /// Make this matrix relative to the avatar root so that we can move the root game object around freely.
         /// I'm pretty sure this means that the bind pose values are all in the same coordinate system. or maybe not. 
         /// </summary>
-        void SetBindPoses() {
+        void SetupBindPoses() {
             Mesh sharedMesh = skinnedMeshRenderer.sharedMesh;
             Matrix4x4[] newBindPoses = sharedMesh.bindposes;
             for (int i = 0; i < bones.Length; i++) {
@@ -150,14 +128,27 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             skinnedMeshRenderer.sharedMesh = sharedMesh;
         }
 
-
-        public void ResetRotations() {
-            foreach (Transform bone in bones) {
-                bone.localRotation = Quaternion.identity;
+        /// <summary>
+        /// Update the bone movements based on new poses and translations
+        /// </summary>
+        /// <param name="pose"></param>
+        /// <param name="trans"></param>
+        public void UpdateBoneRotations(Quaternion[] pose, Vector3 trans)  {
+            for (int boneIndex = FirstBoneIndexAfterRoot; boneIndex < bones.Length; boneIndex++) {
+                string boneName = bones[boneIndex].name;
+                int poseIndex = boneNameToJointIndex[boneName];
+                bones[boneIndex].localRotation = pose[poseIndex];
             }
+            bones[PelvisIndex].localPosition = trans;
         }
 
-    
+
+        void SetFeetOnGround() {
+            RecomputeLocalBounds();
+            float heightOffset = minBounds.y;
+            bones[PelvisIndex].Translate(0.0f, heightOffset, 0.0f);
+        }
+
         /// <summary>
         /// Finds bounding box in local space. This needs to happen manually since unity doesn't
         /// automatically recompute bounds of skinned mesh renderer after import.
@@ -168,12 +159,12 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         void RecomputeLocalBounds() {
             skinnedMeshRenderer.BakeMesh(bakedMesh); 
             
-            
             float xMin = Mathf.Infinity;
-            float xMax = Mathf.NegativeInfinity;
             float yMin = Mathf.Infinity;
-            float yMax = Mathf.NegativeInfinity;
             float zMin = Mathf.Infinity;
+            
+            float xMax = Mathf.NegativeInfinity;
+            float yMax = Mathf.NegativeInfinity;
             float zMax = Mathf.NegativeInfinity;
 
             foreach (Vector3 vertex in bakedMesh.vertices) {
