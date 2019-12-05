@@ -22,5 +22,7 @@ MonoBehaviour:
     type: 3}
   FemaleJointRegressorFile: {fileID: 4900000, guid: 2f7e42425abf6bc47aaf3989432907e9,
     type: 3}
+  DisplaySpeed: 1
+  PlayBackwards: 0
   DisplaySettings: {fileID: 11400000, guid: 87c6acc71617edb48b1dc7a2e4b4fc23, type: 2}
   CharacterFeetSnapToGround: 1

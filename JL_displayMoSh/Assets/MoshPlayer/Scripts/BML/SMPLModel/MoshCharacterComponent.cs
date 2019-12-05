@@ -49,7 +49,6 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         
             gameObject.SetActive(true);
             moshAnimation.AttachSkin(skinnedMeshRenderer, settings);
-            if (Settings.ChangeFrameRate) moshAnimation.AdjustFrameRate(settings.DesiredFrameRate);
             UpdateAnimation();
         }
     

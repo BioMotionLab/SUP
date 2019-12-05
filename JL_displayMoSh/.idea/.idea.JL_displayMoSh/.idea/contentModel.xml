@@ -30,6 +30,7 @@
                 <e p="AnimationLoader.cs" t="Include" />
                 <e p="BoneModifier.cs" t="Include" />
                 <e p="Bones.cs" t="Include" />
+                <e p="ForwardsResampledFrame.cs" t="Include" />
                 <e p="Gender.cs" t="Include" />
                 <e p="JointCalculator.cs" t="Include" />
                 <e p="MoShAnimation.cs" t="Include" />
@@ -38,7 +39,6 @@
                 <e p="MoshCharacterComponent.cs" t="Include" />
                 <e p="MoshMesh.cs" t="Include" />
                 <e p="MoshViewerComponent.cs" t="Include" />
-                <e p="ResampledFrame.cs" t="Include" />
                 <e p="SMPLConstants.cs" t="Include" />
                 <e p="SMPLSettings.cs" t="Include" />
               </e>

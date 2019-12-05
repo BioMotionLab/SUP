@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Text;
 using MoshPlayer.Scripts.BML.FileLoaders;
@@ -9,19 +10,18 @@ using UnityEngine;
 namespace MoshPlayer.Scripts.BML.SMPLModel {
     public class AnimationLoader : MonoBehaviour {
 		
-        string       animationsToPlayFile;
         SMPLSettings settings;
         string       animFolder;
 
         public bool                  DoneLoading;
         public List<List<MoshAnimation>> animationSequence;
         string[]                     animLines;
-        Action<List<List<MoshAnimation>>>                       doneAction;
+        Action<List<List<MoshAnimation>>>                       DoThisWhenDoneAction;
 
-
+        
+        [SuppressMessage("ReSharper", "ParameterHidesMember")]
         public void Init(string animationsToPlayFile, SMPLSettings settings, string animFolder, Action<List<List<MoshAnimation>>> doneAction) {
-            this.doneAction = doneAction;
-            this.animationsToPlayFile = animationsToPlayFile;
+            this.DoThisWhenDoneAction = doneAction;
             this.settings = settings;
             this.animFolder = animFolder;
 
@@ -51,7 +51,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
                 yield return null;
             }
             Debug.Log($"Done Loading All Animations. Successfully loaded {animationSequence.Count} of {animLines.Length}.");
-            doneAction.Invoke(animationSequence);
+            DoThisWhenDoneAction.Invoke(animationSequence);
         }
 
 
@@ -59,18 +59,18 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             //TODO maybe better way to store list of animationSequence? Needs to be MatLab-friendly for Niko.
             string[] fileNames = line.Split (' '); //Space delimited
             List<MoshAnimation> animations = new List<MoshAnimation>();
-            for (int index = 0; index < fileNames.Length; index++) {
-                string filename = fileNames[index];
-                string animationFileString;
+            foreach (string filename in fileNames) {
                 try {
-                    animationFileString = LoadAnimFileAsString(filename);
-                    animations.Add(new MoshAnimationFromJSON(animationFileString).BuildWithSettings(settings));
+                    string animationFileString = LoadAnimFileAsString(filename);
+                    MoshAnimation loadedAnimation = new MoshAnimationFromJSON(animationFileString).BuildWithSettings(settings);
+                    animations.Add(loadedAnimation);
                 }
-                catch (FileNotFoundException e) {
-                    Debug.LogError($"Trying to load animation file but could not find it (see below): " +
+                catch (FileNotFoundException) {
+                    Debug.LogError($"Trying to load animation but could not find the file specified. Details below: " +
                                    $"\n\t\tFileName: {filename}" +
                                    $"\n\t\tFolder: {animFolder} ");
                 }
+
                 
             }
             return animations;

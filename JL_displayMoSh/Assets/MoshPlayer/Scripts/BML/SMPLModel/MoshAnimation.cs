@@ -6,28 +6,28 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
     
     public class MoshAnimation {
 
-        readonly int           sourceTotalFrameCount;
+        
         readonly Vector3[]     translations;
         readonly Quaternion[,] allPoses;
         readonly float[]       rawBodyShapeWeightBetas;
 
-        int desiredFPS;
         
         readonly int sourceFPS;
+        readonly int sourceTotalFrameCount;
         readonly float sourceDuration;
-        bool resamplingRequired = false;
-        int resampledTotalFrameCount;
+     
         
         public Gender Gender { get; }
-        
+        public bool Finished = false;
+
         BoneModifier boneModifier;
         SkinnedMeshRenderer meshRenderer;
         
-        int                 currentFrame = 0;
-        float lastFrameTime = 0;
+        float startTime;
+        bool started = false;
+        float requiredDuration;
+        bool playBackwards;
 
-        public bool Finished => currentFrame >= resampledTotalFrameCount;
-    
 
         public MoshAnimation(Gender gender,       
                              int sourceTotalFrameCount, 
@@ -40,22 +40,22 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             this.sourceFPS = sourceFPS;
             this.sourceTotalFrameCount = sourceTotalFrameCount;
             sourceDuration = this.sourceTotalFrameCount / (float) this.sourceFPS;
-
-            desiredFPS = sourceFPS;
-            resampledTotalFrameCount = sourceTotalFrameCount;
             
             
             this.rawBodyShapeWeightBetas = rawBodyShapeWeightBetas;
             this.translations = translations;
             this.allPoses = allPoses;
-            currentFrame = 0;
 
         }
 
         public void AttachSkin(SkinnedMeshRenderer skinnedMeshRendererToAttach, SMPLSettings settings) {
             meshRenderer = skinnedMeshRendererToAttach;
             boneModifier = new BoneModifier(meshRenderer, Gender, rawBodyShapeWeightBetas, settings);
+
+            requiredDuration = sourceDuration / settings.DisplaySpeed;
+            
             InitializeBodyShapeBlendshapes();
+            playBackwards = settings.PlayBackwards;
         }
 
         void InitializeBodyShapeBlendshapes() {
@@ -66,59 +66,43 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         }
 
         public void PlayCurrentFrame() {
-            Debug.Log($"Time since last frame: {Time.time - lastFrameTime}");
+            if (Finished) return;
+            if (!started) {
+                startTime = Time.time;
+                started = true;
+            }
             
-            lastFrameTime = Time.time;
+            float elapsedTime = Time.time - startTime;
+
+            ResampledFrame resampledFrame;
+            if (playBackwards)
+                resampledFrame =
+                    new BackwardsResampleFrame(elapsedTime, sourceTotalFrameCount, requiredDuration);
+            else resampledFrame = new ForwardsResampledFrame(elapsedTime, sourceTotalFrameCount, requiredDuration) ;
             
-            Vector3 translationThisFrame = GetTranslationAtFrame(currentFrame);
-            Quaternion[] posesThisFrame = GetPosesAtFrame(currentFrame);
+
+            if (resampledFrame.IsLastFrame) {
+                Finished = true;
+                return;
+            }
+
+            Vector3 translationThisFrame = GetTranslationAtFrame(resampledFrame);
+            Quaternion[] posesThisFrame = GetPosesAtFrame(resampledFrame);
             
             boneModifier.UpdateBoneRotations(posesThisFrame, translationThisFrame);
             UpdatePoseDependentBlendShapes(posesThisFrame);
-            currentFrame++;
+            
+            
         }
 
 
-        public void AdjustFrameRate(int desiredFrameRate) {
-            if (desiredFrameRate != 0) {
-                SetDesiredFPS(desiredFrameRate);
-            }
-        }
-
-
-        /// <summary>
-        /// Gets or sets the fps, upsampling or downsampling if the fps is 
-        /// is different from the source fps. 
-        /// </summary>
-        /// <value>The new setDesiredFPS to sample to.</value>
-        void SetDesiredFPS(int value) {
-        
-            desiredFPS = value;
-            // sourceDuration stays constant, but upsampling/downsampling will happen.
-            // Time of start and end keys remains constant, but keys in between are shifted
-            // and more may be added or removed.
-        
-            resamplingRequired = desiredFPS != sourceFPS;
-        
-            // have to update length here. 
-            // I think this is the right way to get length.
-            // actually, since the time of the last frame should remain static, 
-            // if the time between frames is a constant, then the time of the last frame cannot
-            // be completely static. 
-            // I think I should still floor the value. 
-            resampledTotalFrameCount = Mathf.FloorToInt(desiredFPS * sourceDuration);
-        
-        }
-
-
-        Vector3 GetTranslationAtFrame(int thisFrame) {
-            if (!resamplingRequired) return translations[thisFrame];
-        
-            ResampledFrame resampledFrame = new ResampledFrame(thisFrame, sourceFPS, resampledTotalFrameCount, sourceDuration);
+        Vector3 GetTranslationAtFrame(ResampledFrame resampledFrame) {
+            if (resampledFrame.IsFirstFrame) return translations[0];
+            
+            //Debug.Log($"finished: {Finished} FrameINdex {resampledFrame.FrameBeforeThis} count: {translations.Length}");
             Vector3 translationAtFrameBeforeThis = translations[resampledFrame.FrameBeforeThis];
             
-            bool isLastFrame = resampledFrame.FrameAfterThis >= sourceTotalFrameCount;
-            if (isLastFrame) return translationAtFrameBeforeThis;
+            if (resampledFrame.IsLastFrame) return translationAtFrameBeforeThis;
             
             Vector3 translationAtFrameAfterThis = translations[resampledFrame.FrameAfterThis];
             
@@ -128,31 +112,19 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             return resampledTranslation;
         }
 
+        
 
         /// <summary>
         /// Populate an array with rotations of each joint at thisFrame. 
         /// </summary>
-        /// <param name="thisFrame">Frame at which to get rotations</param>
-        Quaternion[] GetPosesAtFrame(int thisFrame) {
+        Quaternion[] GetPosesAtFrame(ResampledFrame resampledFrame) {
+            
             Quaternion[] posesThisFrame = new Quaternion[SMPLConstants.JointCount];
-
-            if (!resamplingRequired) {
-                for (int jointIndex = 0; jointIndex < SMPLConstants.JointCount; jointIndex++) {
-                    posesThisFrame[jointIndex] = allPoses[thisFrame, jointIndex];
-                }
-            }
-            else {
-                GetResampledPosesAtFrame(thisFrame, posesThisFrame);
-            }
-            return posesThisFrame;
-        }
-
-        void GetResampledPosesAtFrame(int thisFrame, Quaternion[] posesThisFrame) {
+            
             for (int jointIndex = 0; jointIndex < SMPLConstants.JointCount; jointIndex++) {
-                ResampledFrame resampledFrame = new ResampledFrame(thisFrame, sourceFPS, resampledTotalFrameCount, sourceDuration);
-                if (resampledFrame.FrameAfterThis >= sourceTotalFrameCount) {
-                    posesThisFrame[jointIndex] = allPoses[resampledFrame.FrameBeforeThis, jointIndex];
-                }
+                
+                if (resampledFrame.IsFirstFrame) posesThisFrame[jointIndex] = allPoses[0, jointIndex];
+                else if (resampledFrame.IsLastFrame) posesThisFrame[jointIndex] = allPoses[resampledFrame.FrameBeforeThis, jointIndex];
                 else {
                     Quaternion rotationAtFrameBeforeThis = allPoses[resampledFrame.FrameBeforeThis, jointIndex];
                     Quaternion rotationAtFrameAfterThis = allPoses[resampledFrame.FrameAfterThis, jointIndex];
@@ -160,6 +132,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
                                                                   resampledFrame.PercentageElapsedSinceLastFrame);
                 }
             }
+            return posesThisFrame;
         }
 
 

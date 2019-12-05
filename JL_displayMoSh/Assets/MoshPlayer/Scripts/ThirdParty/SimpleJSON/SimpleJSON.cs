@@ -586,8 +586,7 @@ namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
             string TokenName = "";
             bool QuoteMode = false;
             bool TokenIsQuoted = false;
-            while (i < aJSON.Length)
-            {
+            while (i < aJSON.Length) {
                 switch (aJSON[i])
                 {
                     case '{':

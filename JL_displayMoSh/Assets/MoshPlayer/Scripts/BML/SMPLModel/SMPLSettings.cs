@@ -2,6 +2,7 @@ using System;
 using MoshPlayer.Scripts.BML.Display;
 using MoshPlayer.Scripts.BML.FileLoaders;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace MoshPlayer.Scripts.BML.SMPLModel {
     [CreateAssetMenu]
@@ -24,16 +25,19 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         [SerializeField]
         TextAsset FemaleJointRegressorFile = default;
         public JointCalculator FemaleJointCalculator => new JointCalculatorFromJSON(FemaleJointRegressorFile).Build();
+
+        [SerializeField]
+        [Range(0,5)]
+        public float DisplaySpeed = 1f;
+
+        [SerializeField]
+        public bool PlayBackwards = false;
         
         [SerializeField]
         public SMPLDisplaySettings DisplaySettings = default;
         
         [SerializeField]
-        public bool CharacterFeetSnapToGround = true;
-        
-        public bool ChangeFrameRate = default;
-        
-        public int  DesiredFrameRate = default;
+        public bool SnapMeshFeetToGround = true;
         
         public Mesh GetMeshPrefab(Gender gender) {
             switch (gender) {

@@ -1,10 +1,11 @@
-using System;
+using System.Collections.Generic;
 using UnityEngine;
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace MoshPlayer.Scripts.BML.SMPLModel {
-    public class Bones {
-        const string LeftPrefix  = "L_";
-        const string RightPrefix = "R_";
+    public static class Bones {
+        public const string LeftPrefix  = "L_";
+        public const string RightPrefix = "R_";
             
         public const string Pelvis = "Pelvis";
         public const string LeftHip    = "L_Hip";
@@ -39,6 +40,34 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             if (name.Contains(RightPrefix)) return SideOfBody.Right;
             return SideOfBody.Center;
         }
+
+        public static readonly Dictionary<string, int> NameToJointIndex = new Dictionary<string, int> {
+                                                                   {Pelvis, 0},
+                                                                   {LeftHip, 1},
+                                                                   {RightHip, 2},
+                                                                   {Spine1, 3},
+                                                                   {LeftKnee, 4},
+                                                                   {RightKnee, 5},
+                                                                   {Spine2, 6},
+                                                                   {LeftAnkle, 7},
+                                                                   {RightAnkle, 8},
+                                                                   {Spine3, 9},
+                                                                   {LeftFoot, 10},
+                                                                   {RightFoot, 11},
+                                                                   {Neck, 12},
+                                                                   {LeftCollar, 13},
+                                                                   {RightCollar, 14},
+                                                                   {Head, 15},
+                                                                   {LeftShoulder, 16},
+                                                                   {RightShoulder, 17},
+                                                                   {LeftElbow, 18},
+                                                                   {RightElbow, 19},
+                                                                   {LeftWrist, 20},
+                                                                   {RightWrist, 21},
+                                                                   {LeftHand, 22},
+                                                                   {RightHand, 23}
+                                                               };
+        
 
         public static bool IsBone(Transform child) {
             switch (child.name) {

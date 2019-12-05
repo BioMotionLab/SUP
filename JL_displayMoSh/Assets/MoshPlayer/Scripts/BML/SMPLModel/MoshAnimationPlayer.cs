@@ -48,7 +48,10 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         /// </summary>
         List<MoshCharacterComponent> StartAnimation() {
             List<MoshAnimation> animationGroup = animationSequence[currentAnimationIndex];
-            Debug.Log($"Playing animation {currentAnimationIndex+1} of {animationSequence.Count}. Contains animations for {animationGroup.Count} characters");
+
+            string backwardsText = settings.PlayBackwards ? "backwards" : "";
+            Debug.Log($"Playing animation {currentAnimationIndex+1} of {animationSequence.Count}. " +
+                      $"Contains animations for {animationGroup.Count} characters. Playing at {settings.DisplaySpeed}X speed {backwardsText}.");
 		
             List<MoshCharacterComponent> newCharacters = new List<MoshCharacterComponent>();
             for (int animationIndex = 0; animationIndex < animationGroup.Count; animationIndex++) {
