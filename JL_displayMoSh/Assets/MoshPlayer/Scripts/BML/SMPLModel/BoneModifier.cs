@@ -9,8 +9,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
     /// 
     /// </summary>
     public class BoneModifier {
-    
-    
+        
         const int PelvisIndex = 1;
         const int FirstBoneIndexAfterRoot = 1;
 
@@ -19,19 +18,18 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         
         readonly JointCalculator jointCalculator;
         readonly Transform pelvis;
-        readonly Mesh      bakedMesh = null;
         Vector3            minBounds;
         readonly Transform moshCharacterTransform;
         readonly SMPLSettings settings;
 
-        public BoneModifier(SkinnedMeshRenderer skinnedMeshRenderer, Gender gender, float[] bodyShapeBetas, SMPLSettings settings)
+        public BoneModifier(ModelDefinition model, SkinnedMeshRenderer skinnedMeshRenderer, Gender gender, float[] bodyShapeBetas, SMPLSettings settings)
         {
             switch (gender) {
                 case Gender.Male:
-                    jointCalculator = settings.MaleJointCalculator;
+                    jointCalculator = model.MaleJointCalculator;
                     break;
                 case Gender.Female:
-                    jointCalculator = settings.FemaleJointCalculator;
+                    jointCalculator = model.FemaleJointCalculator;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(gender), gender, null);
@@ -41,16 +39,13 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             this.skinnedMeshRenderer = skinnedMeshRenderer;
             this.settings = settings;
             bones = skinnedMeshRenderer.bones;
-            
-            bakedMesh = new Mesh();
-            
+
             SetupBones(bodyShapeBetas);
         }
 
 
         /// <summary>
-        /// Gets the new joint positions from the animation.
-        /// Passes them to the boneModifier. 
+        /// Initial Setup of bones based on body shape
         /// </summary>
         /// <param name="bodyShapeBetas"></param>
         void SetupBones(float[] bodyShapeBetas) {
@@ -62,6 +57,10 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             }
         }
 
+        /// <summary>
+        /// Adjust the length and position of bones for each person
+        /// </summary>
+        /// <param name="jointPositions"></param>
         void SetupBonePositions(Vector3[] jointPositions) {
             for (int boneIndex = FirstBoneIndexAfterRoot; boneIndex < bones.Length; boneIndex++) {
                 string boneName = bones[boneIndex].name;
@@ -94,19 +93,19 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         void SetupBindPoses() {
             Mesh sharedMesh = skinnedMeshRenderer.sharedMesh;
             Matrix4x4[] newBindPoses = sharedMesh.bindposes;
-            for (int i = 0; i < bones.Length; i++) {
-                newBindPoses[i] = bones[i].worldToLocalMatrix * moshCharacterTransform.localToWorldMatrix;
+            for (int boneIndex = 0; boneIndex < bones.Length; boneIndex++) {
+                newBindPoses[boneIndex] = bones[boneIndex].worldToLocalMatrix * moshCharacterTransform.localToWorldMatrix;
             }
             sharedMesh.bindposes = newBindPoses;
             skinnedMeshRenderer.sharedMesh = sharedMesh;
         }
 
         /// <summary>
-        /// Update the bone movements based on new poses and translations
+        /// Updates the bones based on new poses and translation of pelvis
         /// </summary>
         /// <param name="pose"></param>
         /// <param name="trans"></param>
-        public void UpdateBoneRotations(Quaternion[] pose, Vector3 trans)  {
+        public void UpdateBones(Quaternion[] pose, Vector3 trans)  {
             for (int boneIndex = FirstBoneIndexAfterRoot; boneIndex < bones.Length; boneIndex++) {
                 string boneName = bones[boneIndex].name;
                 int poseIndex = Bones.NameToJointIndex[boneName];
@@ -116,6 +115,13 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         }
 
 
+        /// <summary>
+        /// AB: Snaps the MESH to the ground, not the animation.
+        /// This means that the lowest vertex of the character BEFORE animating is snapped to ground.
+        /// I've double checked that this works properly, but several of the sample animations have parts that clip below ground.
+        /// This is a problem with the MoSH process rather than the display process.
+        /// The MoSH animations weren't properly calibrated or post-processed, so it gets the wrong world coordinates.
+        /// </summary>
         void SetFeetOnGround() {
             RecomputeLocalBounds();
             float heightOffset = minBounds.y;
@@ -123,14 +129,14 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         }
 
         /// <summary>
-        /// Finds bounding box in local space. This needs to happen manually since unity doesn't
-        /// automatically recompute bounds of skinned mesh renderer after import.
+        /// Finds bounding box in local space. Vertex coordinates are in local space.
+        /// This needs to happen manually since unity doesn't automatically recompute bounds of skinned mesh renderer after import.
         /// JL: I bet it's necessary to bake the mesh to access vertex data modified by blend shapes.
-        /// 
-        /// Vertex coordinates are in local space. 
+        /// AB: Yes, this is the case.
         /// </summary>
         void RecomputeLocalBounds() {
-            skinnedMeshRenderer.BakeMesh(bakedMesh); 
+            Mesh newMesh = new Mesh();
+            skinnedMeshRenderer.BakeMesh(newMesh); 
             
             float xMin = Mathf.Infinity;
             float yMin = Mathf.Infinity;
@@ -140,7 +146,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             float yMax = Mathf.NegativeInfinity;
             float zMax = Mathf.NegativeInfinity;
 
-            foreach (Vector3 vertex in bakedMesh.vertices) {
+            foreach (Vector3 vertex in newMesh.vertices) {
                 xMin = Mathf.Min(xMin, vertex.x);
                 yMin = Mathf.Min(yMin, vertex.y);
                 zMin = Mathf.Min(zMin, vertex.z);

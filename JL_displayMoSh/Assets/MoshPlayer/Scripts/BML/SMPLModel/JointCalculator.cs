@@ -4,13 +4,15 @@ using UnityEngine;
 
 namespace MoshPlayer.Scripts.BML.SMPLModel {
     public class JointCalculator {
-        const int FirstMatrixColumn = 0;
+        const int FirstColumnOfMatrix = 0;
 
         readonly Matrix[] template;
         readonly Matrix[] jointsRegressor;
-        
-        
-        public JointCalculator(Matrix[] template, Matrix[] jointsRegressor) {
+        ModelDefinition model;
+
+
+        public JointCalculator(ModelDefinition model, Matrix[] template, Matrix[] jointsRegressor) {
+            this.model = model;
             this.template = template;
             this.jointsRegressor = jointsRegressor;
         }
@@ -26,8 +28,8 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         }
 
         Vector3[] ConvertJointMatrixToArray(Matrix[] newRegressedJoints) {
-            Vector3[] updatedJointArray = new Vector3[SMPLConstants.JointCount];
-            for (int jointIndex = 0; jointIndex < SMPLConstants.JointCount; jointIndex++) {
+            Vector3[] updatedJointArray = new Vector3[model.JointCount];
+            for (int jointIndex = 0; jointIndex < model.JointCount; jointIndex++) {
                 Vector3 jointVectorInMayaCoords = RetrieveJointsFromMatrixAsVector3(newRegressedJoints, jointIndex);
                 Vector3 finalJointVector = jointVectorInMayaCoords.ToLeftHanded();
                 updatedJointArray[jointIndex] = finalJointVector;
@@ -58,9 +60,9 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             const int zDimension = 2;
         
             //Cast to float is needed because Matrices are dumb.
-            return new Vector3((float)newJoints[xDimension][jointIndex, FirstMatrixColumn],
-                               (float)newJoints[yDimension][jointIndex, FirstMatrixColumn],
-                               (float)newJoints[zDimension][jointIndex, FirstMatrixColumn]);
+            return new Vector3((float)newJoints[xDimension][jointIndex, FirstColumnOfMatrix],
+                               (float)newJoints[yDimension][jointIndex, FirstColumnOfMatrix],
+                               (float)newJoints[zDimension][jointIndex, FirstColumnOfMatrix]);
         }
 
         /// <summary>
@@ -68,17 +70,13 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         /// </summary>
         /// <param name="betas"></param>
         /// <returns></returns>
-        static Matrix CopyBetaArrayToMatrix(float[] betas) {
-            Matrix betaMatrix = new Matrix(SMPLConstants.BodyShapeBetaCount, 1); // column vector.
-            for (int betaIndex = 0; betaIndex < SMPLConstants.BodyShapeBetaCount; betaIndex++) {
-                betaMatrix[betaIndex, FirstMatrixColumn] = betas[betaIndex];
+        Matrix CopyBetaArrayToMatrix(float[] betas) {
+            Matrix betaMatrix = new Matrix(model.BodyShapeBetaCount, 1); // column vector.
+            for (int betaIndex = 0; betaIndex < model.BodyShapeBetaCount; betaIndex++) {
+                betaMatrix[betaIndex, FirstColumnOfMatrix] = betas[betaIndex];
             }
             return betaMatrix;
         }
 
-        public Vector3[] CalculateJointsAtZeroedBetas() {
-            float[] zeroedBetas = new float[SMPLConstants.BodyShapeBetaCount];
-            return CalculateJointPositions(zeroedBetas);
-        }
     }
 }

@@ -2,6 +2,7 @@
 using MoshPlayer.Scripts.BML.SMPLModel;
 using MoshPlayer.Scripts.ThirdParty.SimpleJSON;
 using MoshPlayer.Scripts.Utilities;
+using UnityEditor;
 using UnityEngine;
 
 namespace MoshPlayer.Scripts.BML.FileLoaders {
@@ -18,10 +19,13 @@ namespace MoshPlayer.Scripts.BML.FileLoaders {
         int           frameCount;
         Vector3[]     translations;
         Quaternion[,] poses;
+        ModelDefinition matchedModel;
+        readonly SMPLSettings settings;
 
-        public MoshAnimationFromJSON(string jsonFileWholeString)  {
+        public MoshAnimationFromJSON(string jsonFileWholeString, SMPLSettings settings)  {
             if (jsonFileWholeString == null) throw new NullReferenceException("Tried to instantiate Animation JSON with null TextAsset");
-
+            if (settings == null) throw new NullReferenceException("No Settings specified");
+            this.settings = settings;
             // AB: This is where the load speed bottleneck is. It seems to have trouble parsing even fairly small ~1MB files (~100ms or more).
             // Once parsed it seems to be very fast to load (< 5 ms)
             // According to Google, SimpleJSON is the fastest parser... so perhaps just a limitation of the way the data is stored. 
@@ -30,34 +34,63 @@ namespace MoshPlayer.Scripts.BML.FileLoaders {
             LoadAnimationFromJSON (jsonNode);
         }
 
-        public MoshAnimation BuildWithSettings(SMPLSettings settings) {
-            MoshAnimation animation = new MoshAnimation(gender, frameCount, fps, betas, translations, poses);
+        public MoshAnimation BuildWithSettings() {
+            MoshAnimation animation = new MoshAnimation(matchedModel, gender, frameCount, fps, betas, translations, poses);
             return animation;
         }
     
-        void LoadAnimationFromJSON(JSONNode moshJSON)
-        {
-            LoadGender(moshJSON);
-            LoadFPS(moshJSON);
+        void LoadAnimationFromJSON(JSONNode moshJSON) {
             
-            LoadBetas(moshJSON);
-            
-            LoadTranslationsAndPosesFromJoints(moshJSON);
-            
+            JSONNode genderNode = null;
+            JSONNode betasNode = null;
+            JSONNode fpsNode = null;
+            JSONNode transNode = null;
+            JSONNode posesNode = null;
 
+            foreach (var model in settings.ModelParameters) {
+                genderNode = moshJSON[model.JsonKeys.Gender];
+                betasNode = moshJSON[model.JsonKeys.Betas];
+                fpsNode = moshJSON[model.JsonKeys.FPS];
+                transNode = moshJSON[model.JsonKeys.Translations];
+                posesNode = moshJSON[model.JsonKeys.Poses];
+
+                if (ModelMatch(betasNode, model)) {
+                    matchedModel = model;
+                    //Debug.Log($"Matched model {matchedModel.ModelName}");
+                    break;
+                }
+            }
+
+            if (matchedModel == null) {
+                Debug.LogError("Could not match animation to a model");
+                return;
+            }
+            
+            
+            LoadGender(genderNode);
+            LoadFPS(fpsNode);
+            LoadBetas(betasNode);
+            LoadTranslationsAndPosesFromJoints(transNode, posesNode);
+            
         }
 
-        void LoadTranslationsAndPosesFromJoints(JSONNode moshJSON) {
-            JSONNode     transNode = moshJSON[SMPLConstants.JSONKeys.Translations];
+        static bool ModelMatch(JSONNode betasNode, ModelDefinition model) {
+            bool modelMatch = betasNode.Count == model.BodyShapeBetaCount;
+            return modelMatch;
+        }
+        
+
+        void LoadTranslationsAndPosesFromJoints(JSONNode transNode, JSONNode posesNode) {
+            
             frameCount = transNode.Count;
             
             translations = new Vector3[frameCount];
-            poses = new Quaternion[frameCount, SMPLConstants.JointCount];
+            poses = new Quaternion[frameCount, matchedModel.JointCount];
             
             for (int frameIndex = 0; frameIndex < frameCount; frameIndex++) {
                 LoadTranslationFromJoint(transNode, frameIndex);
-                for (int jointIndex = 0; jointIndex < SMPLConstants.JointCount; jointIndex++) {
-                    LoadPosesFromJoint(moshJSON, frameIndex, jointIndex);
+                for (int jointIndex = 0; jointIndex < matchedModel.JointCount; jointIndex++) {
+                    LoadPosesFromJoint(posesNode, frameIndex, jointIndex);
                 }
             }
         }
@@ -69,8 +102,7 @@ namespace MoshPlayer.Scripts.BML.FileLoaders {
             translations[frameIndex] = translationInUnityCoords;
         }
 
-        void LoadPosesFromJoint(JSONNode moshJSON, int frameIndex, int jointIndex) {
-            JSONNode posesNode = moshJSON[SMPLConstants.JSONKeys.Poses];
+        void LoadPosesFromJoint(JSONNode posesNode, int frameIndex, int jointIndex) {
             JSONNode thisPoseJson = posesNode[frameIndex][jointIndex];
             Quaternion poseInMayaCoords = new Quaternion(thisPoseJson[0], thisPoseJson[1], thisPoseJson[2], thisPoseJson[3]);
             Quaternion poseInUnityCoords = poseInMayaCoords.ToLeftHanded();
@@ -78,27 +110,27 @@ namespace MoshPlayer.Scripts.BML.FileLoaders {
         }
 
 
-        void LoadBetas(JSONNode moshJSON) {
-            betas = new float[10];
-            for (int i = 0; i < SMPLConstants.BodyShapeBetaCount; i++) {
-                betas[i] = moshJSON[SMPLConstants.JSONKeys.Betas][i];
+        void LoadBetas(JSONNode betasNode) {
+            betas = new float[matchedModel.BodyShapeBetaCount];
+            for (int i = 0; i < matchedModel.BodyShapeBetaCount; i++) {
+                betas[i] = betasNode[i];
             }
         }
 
-        void LoadFPS(JSONNode moshJSON) {
-            JSONNode fpsNode = moshJSON[SMPLConstants.JSONKeys.FPS];
+        void LoadFPS(JSONNode fpsNode) {
+            
             if (fpsNode.IsNull) throw new NullReferenceException("JSON has no fps field.");
             fps = fpsNode;
         }
 
-        void LoadGender(JSONNode moshJSON) {
-            JSONNode genderNode = moshJSON[SMPLConstants.JSONKeys.Gender];
+        void LoadGender(JSONNode genderNode) {
+            
             if (genderNode.IsNull) throw new NullReferenceException("File does not contain a gender field.");
             
-            if (genderNode == SMPLConstants.JSONKeys.Male) {
+            if (genderNode == matchedModel.JsonKeys.Male) {
                 gender = Gender.Male;
             }
-            else if (genderNode == SMPLConstants.JSONKeys.Female) {
+            else if (genderNode == matchedModel.JsonKeys.Female) {
                 gender = Gender.Female;
             }
             else {

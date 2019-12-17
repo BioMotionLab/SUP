@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using MoshPlayer.Scripts.BML.Display;
 using MoshPlayer.Scripts.BML.FileLoaders;
 using UnityEngine;
@@ -10,22 +11,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
 
         [SerializeField]
         GameObject CharacterPrefab = default;
-        
-        [SerializeField]
-        Mesh MaleMeshPrefab = default;
-    
-        [SerializeField]
-        Mesh FemaleMeshPrefab = default;
-
-        [SerializeField]
-        TextAsset MaleJointRegressorFile = default;
-
-        public JointCalculator MaleJointCalculator => new JointCalculatorFromJSON(MaleJointRegressorFile).Build();
-
-        [SerializeField]
-        TextAsset FemaleJointRegressorFile = default;
-        public JointCalculator FemaleJointCalculator => new JointCalculatorFromJSON(FemaleJointRegressorFile).Build();
-
+      
         [SerializeField]
         [Range(0,5)]
         public float DisplaySpeed = 1f;
@@ -39,21 +25,15 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         [SerializeField]
         public bool SnapMeshFeetToGround = true;
         
-        public Mesh GetMeshPrefab(Gender gender) {
-            switch (gender) {
-                case Gender.Female: 
-                    return FemaleMeshPrefab;
-                case Gender.Male:
-                    return MaleMeshPrefab;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(gender), gender, null);
-            }
-        }
+        
+        [SerializeField]
+        public List<ModelDefinition> ModelParameters = new List<ModelDefinition>();
 
-        public MoshCharacterComponent CreateNewCharacter() {
+        public MoshCharacter CreateNewCharacter(string characterName) {
             GameObject newCharacter = Instantiate(CharacterPrefab);
-            MoshCharacterComponent newMoshCharacterComponent = newCharacter.GetComponent<MoshCharacterComponent>();
-            return newMoshCharacterComponent;
+            newCharacter.name = characterName;
+            MoshCharacter newMoshCharacter = newCharacter.GetComponent<MoshCharacter>();
+            return newMoshCharacter;
         }
     }
 }

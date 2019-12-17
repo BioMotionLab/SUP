@@ -45,7 +45,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         public void StartAnimation(MoshAnimation animationToStart, SMPLSettings smplSettings) {
             this.settings = smplSettings;
             moshAnimation = animationToStart;
-            ActivateMesh(moshAnimation.Gender);
+            ActivateMesh(moshAnimation.Gender, moshAnimation.model);
         
             gameObject.SetActive(true);
             moshAnimation.AttachSkin(skinnedMeshRenderer, settings);
@@ -65,8 +65,8 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             moshAnimation.PlayCurrentFrame();
         }
 
-        void ActivateMesh(Gender gender) {
-            skinnedMeshRenderer.sharedMesh = Instantiate(settings.GetMeshPrefab(gender));
+        void ActivateMesh(Gender gender, ModelDefinition model) {
+            skinnedMeshRenderer.sharedMesh = Instantiate(model.GetMeshPrefab(gender));
         }
 
         void StopAnimation() {
@@ -76,7 +76,8 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         }
 
         public void InterruptAnimation() {
-            if (gameObject == null) return;
+            if (this == null || gameObject == null) return; // order of check important here. 
+            
             //Debug.Log($"{gameObject.name}'s Animation Interrupted");
             DestroyCharacter();
         }

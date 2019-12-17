@@ -11,16 +11,14 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         readonly List<List<MoshAnimation>> animationSequence;
         readonly SMPLSettings          settings;
         
-        
-
         public bool AllAnimsComplete => currentAnimationIndex >= animationSequence.Count;
 
         int currentAnimationIndex = 0;
 	
-        List<MoshCharacterComponent> currentCharacters;
-        DisplayPointLights displayPointLights;
-        DisplayMesh displayMesh;
-        DisplayBones displayBones;
+        List<MoshCharacter> currentCharacters;
+        readonly DisplayPointLights displayPointLights;
+        readonly DisplayMesh displayMesh;
+        readonly DisplayBones displayBones;
 
         public MoshAnimationPlayer(List<List<MoshAnimation>> animationSequence, SMPLSettings settings,
                                    DisplayPointLights displayPointLights, DisplayBones displayBones, DisplayMesh displayMesh) {
@@ -37,7 +35,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         }
 
         void StopCurrentAnimations() {
-            foreach (MoshCharacterComponent character in currentCharacters) {
+            foreach (MoshCharacter character in currentCharacters) {
                 if (character == null) continue;
                 character.InterruptAnimation();
             }
@@ -46,37 +44,37 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         /// <summary>
         /// Play the animation for both characters at specified position in sequence of files.
         /// </summary>
-        List<MoshCharacterComponent> StartAnimation() {
+        List<MoshCharacter> StartAnimation() {
             List<MoshAnimation> animationGroup = animationSequence[currentAnimationIndex];
 
             string backwardsText = settings.PlayBackwards ? "backwards" : "";
             Debug.Log($"Playing animation {currentAnimationIndex+1} of {animationSequence.Count}. " +
                       $"Contains animations for {animationGroup.Count} characters. Playing at {settings.DisplaySpeed}X speed {backwardsText}.");
 		
-            List<MoshCharacterComponent> newCharacters = new List<MoshCharacterComponent>();
+            List<MoshCharacter> newCharacters = new List<MoshCharacter>();
             for (int animationIndex = 0; animationIndex < animationGroup.Count; animationIndex++) {
                 MoshAnimation moshAnimation = animationGroup[animationIndex];
-                MoshCharacterComponent characterComponent = settings.CreateNewCharacter();
-                characterComponent.name = $"Character {animationIndex}";
+                string characterName = $"Character {animationIndex}";
+                MoshCharacter moshCharacter = settings.CreateNewCharacter(characterName);
                 if (displayPointLights == DisplayPointLights.On) {
-                    DisplaySMPLPointLights pointLightDisplay = characterComponent.gameObject.AddComponent<DisplaySMPLPointLights>();
-                    pointLightDisplay.Init(characterComponent, settings);
+                    DisplaySMPLPointLights pointLightDisplay = moshCharacter.gameObject.AddComponent<DisplaySMPLPointLights>();
+                    pointLightDisplay.Init(moshCharacter, settings);
                 }
                 if (displayBones == DisplayBones.On)
                 {
-                    DisplaySMPLBones boneDisplay = characterComponent.gameObject.AddComponent<DisplaySMPLBones>();
-                    boneDisplay.Init(characterComponent, settings);
+                    DisplaySMPLBones boneDisplay = moshCharacter.gameObject.AddComponent<DisplaySMPLBones>();
+                    boneDisplay.Init(moshCharacter, settings);
                 }
 
                 if (displayMesh == DisplayMesh.Off) {
-                    characterComponent.SkinnedMeshRender.enabled = false;
+                    moshCharacter.SkinnedMeshRender.enabled = false;
                 }
 
                 if (displayMesh == DisplayMesh.SemiTransparent) {
-                    characterComponent.SkinnedMeshRender.material = settings.DisplaySettings.SemiTransparentMaterial;
+                    moshCharacter.SkinnedMeshRender.material = settings.DisplaySettings.SemiTransparentMaterial;
                 }
-                newCharacters.Add(characterComponent);
-                characterComponent.StartAnimation(moshAnimation, settings);
+                newCharacters.Add(moshCharacter);
+                moshCharacter.StartAnimation(moshAnimation, settings);
             }
 
             return newCharacters;

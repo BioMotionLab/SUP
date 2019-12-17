@@ -39,7 +39,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
                 StringBuilder log = new StringBuilder();
                 string line = animLines[lineIndex];
                 List<MoshAnimation> allAnimationsInThisLine = GetAnimationsFromLine(line);
-                log.Append($"Loaded animation {lineIndex} of {animLines.Length}");
+                log.Append($"Loaded animation {lineIndex} of {animLines.Length} (Model:{allAnimationsInThisLine[0].model.ModelName})");
                 if (allAnimationsInThisLine.Count > 0) {
                     animationSequence.Add(allAnimationsInThisLine);
                     log.Append($", containing animations for {allAnimationsInThisLine.Count} characters");
@@ -62,7 +62,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             foreach (string filename in fileNames) {
                 try {
                     string animationFileString = LoadAnimFileAsString(filename);
-                    MoshAnimation loadedAnimation = new MoshAnimationFromJSON(animationFileString).BuildWithSettings(settings);
+                    MoshAnimation loadedAnimation = new MoshAnimationFromJSON(animationFileString, settings).BuildWithSettings();
                     animations.Add(loadedAnimation);
                 }
                 catch (FileNotFoundException) {

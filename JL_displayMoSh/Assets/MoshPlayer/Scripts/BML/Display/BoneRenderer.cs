@@ -7,8 +7,8 @@ namespace MoshPlayer.Scripts.BML.Display {
 
         LineRenderer lineRenderer;
 
-        public Transform child;
-        public Transform parent;
+        Transform child;
+        Transform parent;
 
         SMPLSettings settings;
     

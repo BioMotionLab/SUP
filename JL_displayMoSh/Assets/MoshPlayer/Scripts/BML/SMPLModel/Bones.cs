@@ -100,6 +100,11 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
                     return false;
             }
         }
+
+        public static bool IsFootBone(Transform bone) {
+            string boneName = bone.name;
+            return boneName == LeftFoot || boneName == RightFoot;
+        }
     }
 
     public enum SideOfBody {

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ContentModelStore">
-    <e p="C:\Users\BioMotion\.Rider2019.2\system\extResources" t="IncludeRecursive" />
-    <e p="C:\Users\BioMotion\.Rider2019.2\system\resharper-host\local\Transient\ReSharperHost\v192\SolutionCaches\_JL_displayMoSh.-1911016634.00" t="ExcludeRecursive" />
+    <e p="C:\Users\BioMotion\.Rider2019.3\system\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\BioMotion\.Rider2019.3\system\resharper-host\local\Transient\ReSharperHost\v193\SolutionCaches\_JL_displayMoSh.-1911016634.00" t="ExcludeRecursive" />
     <e p="C:\Users\BioMotion\Documents\GitHub\UpdatingMoshAndSMPL\JL_displayMoSh" t="IncludeRecursive">
       <e p="Assembly-CSharp-Editor.csproj" t="IncludeRecursive" />
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
@@ -33,6 +33,8 @@
                 <e p="ForwardsResampledFrame.cs" t="Include" />
                 <e p="Gender.cs" t="Include" />
                 <e p="JointCalculator.cs" t="Include" />
+                <e p="JSONModelKeys.cs" t="Include" />
+                <e p="ModelDefinition.cs" t="Include" />
                 <e p="MoShAnimation.cs" t="Include" />
                 <e p="MoshAnimationPlayer.cs" t="Include" />
                 <e p="MoShCharacter.cs" t="Include" />
@@ -63,6 +65,7 @@
           <e p="mixed_single_pairs.txt" t="Include" />
           <e p="pairs.txt" t="Include" />
           <e p="pairs_all.txt" t="Include" />
+          <e p="ShortSingleList.txt" t="Include" />
           <e p="single.txt" t="Include" />
           <e p="test.txt" t="Include" />
         </e>

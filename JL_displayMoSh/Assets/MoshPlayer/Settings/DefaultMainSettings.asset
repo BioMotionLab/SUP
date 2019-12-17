@@ -14,15 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CharacterPrefab: {fileID: 1422993857495300, guid: a833c934eda954cb68ede3ef16f14025,
     type: 3}
-  MaleMeshPrefab: {fileID: -6776866857465904403, guid: 7101835e7cddc9c4b96ba9039b9228ff,
-    type: 3}
-  FemaleMeshPrefab: {fileID: 3226173293770572294, guid: 81d5aef25ec81274f93605c5b6a6afa0,
-    type: 3}
-  MaleJointRegressorFile: {fileID: 4900000, guid: 5316b038f0a47b14ba9765cdddea10a6,
-    type: 3}
-  FemaleJointRegressorFile: {fileID: 4900000, guid: 2f7e42425abf6bc47aaf3989432907e9,
-    type: 3}
   DisplaySpeed: 1
   PlayBackwards: 0
   DisplaySettings: {fileID: 11400000, guid: 87c6acc71617edb48b1dc7a2e4b4fc23, type: 2}
-  CharacterFeetSnapToGround: 1
+  SnapMeshFeetToGround: 1
+  ModelParameters:
+  - {fileID: 11400000, guid: e43797cba7d6c6e4cab5ce139cb32601, type: 2}
+  - {fileID: 11400000, guid: 914a54cb7fbcabe41a0ee32110e356c8, type: 2}

@@ -8,8 +8,10 @@ namespace MoshPlayer.Scripts.BML.FileLoaders {
     
         readonly Matrix[] jointsRegressor;
         readonly Matrix[] template;
+        readonly ModelDefinition model;
 
-        public JointCalculatorFromJSON(TextAsset jsonText) {
+        public JointCalculatorFromJSON(ModelDefinition model, TextAsset jsonText) {
+            this.model = model;
             template = new Matrix [SMPLConstants.DimensionsOfAVector3];
             jointsRegressor = new Matrix [SMPLConstants.DimensionsOfAVector3];
 
@@ -23,11 +25,11 @@ namespace MoshPlayer.Scripts.BML.FileLoaders {
             JSONNode betasJointRegressorNode = node[SMPLConstants.JSONKeys.BetaJointRegressors];
         
             for (int vector3Dimension = 0; vector3Dimension < SMPLConstants.DimensionsOfAVector3; vector3Dimension++) {
-                jointsRegressor[vector3Dimension] = new Matrix(SMPLConstants.JointCount, SMPLConstants.BodyShapeBetaCount);
+                jointsRegressor[vector3Dimension] = new Matrix(model.JointCount, model.BodyShapeBetaCount);
             }
 
-            for (int jointIndex = 0; jointIndex < SMPLConstants.JointCount; jointIndex++) {
-                for (int shapeBetaIndex = 0; shapeBetaIndex < SMPLConstants.BodyShapeBetaCount; shapeBetaIndex++) {
+            for (int jointIndex = 0; jointIndex < model.JointCount; jointIndex++) {
+                for (int shapeBetaIndex = 0; shapeBetaIndex < model.BodyShapeBetaCount; shapeBetaIndex++) {
                     // dimension refers to the separate x,y,z values.
                     for (int vector3Dimension = 0; vector3Dimension < SMPLConstants.DimensionsOfAVector3; vector3Dimension++) {
                         Matrix jointRegressorMatrix = jointsRegressor[vector3Dimension];
@@ -41,10 +43,10 @@ namespace MoshPlayer.Scripts.BML.FileLoaders {
         void ParseTemplatesFromJSON(JSONNode node) {
             JSONNode templateNode = node[SMPLConstants.JSONKeys.JointTemplates];
             for (int dimensionOfVector3 = 0; dimensionOfVector3 < SMPLConstants.DimensionsOfAVector3; dimensionOfVector3++) {
-                template[dimensionOfVector3] = new Matrix(SMPLConstants.JointCount, 1);
+                template[dimensionOfVector3] = new Matrix(model.JointCount, 1);
             }
 
-            for (int jointIndex = 0; jointIndex < SMPLConstants.JointCount; jointIndex++) {
+            for (int jointIndex = 0; jointIndex < model.JointCount; jointIndex++) {
                 for (int vector3Dimension = 0; vector3Dimension < SMPLConstants.DimensionsOfAVector3; vector3Dimension++) {
                     double x = templateNode[jointIndex][vector3Dimension].AsDouble;
                     Matrix templateMatrix = template[vector3Dimension];
@@ -54,7 +56,7 @@ namespace MoshPlayer.Scripts.BML.FileLoaders {
         }
 
         public JointCalculator Build() {
-            return new JointCalculator(template, jointsRegressor);
+            return new JointCalculator(model, template, jointsRegressor);
         }
     }
 }
