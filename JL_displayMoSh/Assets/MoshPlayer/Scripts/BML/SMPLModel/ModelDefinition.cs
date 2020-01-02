@@ -31,17 +31,6 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
     
         [SerializeField]
         Mesh FemaleMeshPrefab = default;
-
-          
-        [SerializeField]
-        TextAsset MaleJointRegressorFile = default;
-
-        public JointCalculator MaleJointCalculator => new JointCalculatorFromJSON(this, MaleJointRegressorFile).Build();
-
-        [SerializeField]
-        TextAsset FemaleJointRegressorFile = default;
-        public JointCalculator FemaleJointCalculator => new JointCalculatorFromJSON(this, FemaleJointRegressorFile).Build();
-        
         
         public Mesh GetMeshPrefab(Gender gender) {
             switch (gender) {

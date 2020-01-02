@@ -23,7 +23,6 @@
                 <e p="MoshViewerEditor.cs" t="Include" />
               </e>
               <e p="FileLoaders" t="Include">
-                <e p="JointCalculatorFromJSON.cs" t="Include" />
                 <e p="MoShAnimationFromJSON.cs" t="Include" />
               </e>
               <e p="SMPLModel" t="Include">
@@ -32,7 +31,6 @@
                 <e p="Bones.cs" t="Include" />
                 <e p="ForwardsResampledFrame.cs" t="Include" />
                 <e p="Gender.cs" t="Include" />
-                <e p="JointCalculator.cs" t="Include" />
                 <e p="JSONModelKeys.cs" t="Include" />
                 <e p="ModelDefinition.cs" t="Include" />
                 <e p="MoShAnimation.cs" t="Include" />

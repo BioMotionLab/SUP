@@ -16,7 +16,6 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         readonly SkinnedMeshRenderer     skinnedMeshRenderer;
         readonly Transform[]             bones;
         
-        readonly JointCalculator jointCalculator;
         readonly Transform pelvis;
         Vector3            minBounds;
         readonly Transform moshCharacterTransform;
@@ -24,17 +23,6 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
 
         public BoneModifier(ModelDefinition model, SkinnedMeshRenderer skinnedMeshRenderer, Gender gender, float[] bodyShapeBetas, SMPLSettings settings)
         {
-            switch (gender) {
-                case Gender.Male:
-                    jointCalculator = model.MaleJointCalculator;
-                    break;
-                case Gender.Female:
-                    jointCalculator = model.FemaleJointCalculator;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(gender), gender, null);
-            }
-            
             moshCharacterTransform = skinnedMeshRenderer.transform.parent;
             this.skinnedMeshRenderer = skinnedMeshRenderer;
             this.settings = settings;
@@ -49,29 +37,13 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         /// </summary>
         /// <param name="bodyShapeBetas"></param>
         void SetupBones(float[] bodyShapeBetas) {
-            Vector3[] jointPositions = jointCalculator.CalculateJointPositions(bodyShapeBetas);
-            SetupBonePositions(jointPositions);
             SetupBindPoses();
             if (settings.SnapMeshFeetToGround) {
                 SetFeetOnGround();
             }
         }
 
-        /// <summary>
-        /// Adjust the length and position of bones for each person
-        /// </summary>
-        /// <param name="jointPositions"></param>
-        void SetupBonePositions(Vector3[] jointPositions) {
-            for (int boneIndex = FirstBoneIndexAfterRoot; boneIndex < bones.Length; boneIndex++) {
-                string boneName = bones[boneIndex].name;
-                int boneJointIndex = Bones.NameToJointIndex[boneName];
-
-                Vector3 newBonePositionInWorldSpace = jointPositions[boneJointIndex];
-                var transformedPositionInLocalSpace = WorldPositionToCharacterSpace(newBonePositionInWorldSpace);
-                bones[boneIndex].position = transformedPositionInLocalSpace;
-            }
-        }
-
+        
         /// <summary>
         /// Incoming new positions from joint calculation are centered at origin in world space
         /// Transform to avatar position+orientation for correct world space position

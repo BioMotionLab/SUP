@@ -18,4 +18,4 @@ MonoBehaviour:
   FPS: fps
   Translations: trans
   Poses: poses
-  Betas: rawBodyShapeWeightBetas
+  Betas: betas
