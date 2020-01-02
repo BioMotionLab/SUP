@@ -23,7 +23,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         int poseDependentBlendshapeCount = 207;
 
         [SerializeField]
-        JSONModelKeys jsonKeys = default;
+        JSONModelKeys jsonKeys = new JSONModelKeys();
 
         
         [SerializeField]

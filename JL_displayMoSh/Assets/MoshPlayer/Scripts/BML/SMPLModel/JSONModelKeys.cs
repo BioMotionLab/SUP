@@ -1,9 +1,10 @@
+using System;
 using UnityEngine;
 
 namespace MoshPlayer.Scripts.BML.SMPLModel {
     
-    [CreateAssetMenu]
-    public class JSONModelKeys : ScriptableObject {
+    [Serializable]
+    public class JSONModelKeys {
         public string Gender       = "gender";
         public string Male         = "male";
         public string Female       = "female";
