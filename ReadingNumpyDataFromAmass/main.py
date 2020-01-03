@@ -6,6 +6,9 @@ from scipy.spatial.transform import Rotation
 
 #%%
 npzFileName = 'AMASS_Data/20160330_03333/punching_poses.npz'
+
+#%%
+print(sys.version)
 #%%
 
 
@@ -89,3 +92,9 @@ converter = AMASSJsonConverter(npzFileName)
 #%%
 converter.write_to_json('test_data.json')
 print("done conversion.")
+
+#%%
+sample = "amass_sample.npz"
+converter = AMASSJsonConverter(sample)
+converter.write_to_json('amass_sample.json')
+print("done")

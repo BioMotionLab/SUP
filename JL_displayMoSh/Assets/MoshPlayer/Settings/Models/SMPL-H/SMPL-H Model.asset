@@ -13,12 +13,22 @@ MonoBehaviour:
   m_Name: SMPL-H Model
   m_EditorClassIdentifier: 
   modelName: SMPL-H
-  blendShapeScalingFactor: 5
+  blendShapeScalingFactor: 10
   bodyShapeBetaCount: 16
   jointCount: 52
   poseDependentBlendshapeCount: 459
-  jsonKeys: {fileID: 11400000, guid: 675aa79d59308824f9650e0d20fbff68, type: 2}
+  jsonKeys:
+    Gender: gender
+    Male: male
+    Female: female
+    FPS: fps
+    Translations: trans
+    Poses: poses
+    Betas: betas
+  CharacterPrefab: {fileID: 5185582439452735900, guid: af1c255e0b26040cf90db1c657548c0a,
+    type: 3}
   MaleMeshPrefab: {fileID: -541940830321011496, guid: af9bb6ce23fd5b74aa1f38ce7569e2f2,
     type: 3}
   FemaleMeshPrefab: {fileID: 6234179447507586025, guid: a214d82a7b33b674796cd49fa3b40f87,
     type: 3}
+  PelvisIndex: 0

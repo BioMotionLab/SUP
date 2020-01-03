@@ -10,7 +10,6 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
     /// </summary>
     public class BoneModifier {
         
-        const int PelvisIndex = 1;
         const int FirstBoneIndexAfterRoot = 1;
 
         readonly SkinnedMeshRenderer     skinnedMeshRenderer;
@@ -20,70 +19,42 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         Vector3            minBounds;
         readonly Transform moshCharacterTransform;
         readonly SMPLSettings settings;
+        private ModelDefinition model;
 
         public BoneModifier(ModelDefinition model, SkinnedMeshRenderer skinnedMeshRenderer, Gender gender, float[] bodyShapeBetas, SMPLSettings settings)
         {
+            this.model = model;
             moshCharacterTransform = skinnedMeshRenderer.transform.parent;
             this.skinnedMeshRenderer = skinnedMeshRenderer;
             this.settings = settings;
             bones = skinnedMeshRenderer.bones;
 
-            SetupBones(bodyShapeBetas);
-        }
-
-
-        /// <summary>
-        /// Initial Setup of bones based on body shape
-        /// </summary>
-        /// <param name="bodyShapeBetas"></param>
-        void SetupBones(float[] bodyShapeBetas) {
-            SetupBindPoses();
             if (settings.SnapMeshFeetToGround) {
                 SetFeetOnGround();
             }
         }
-
         
-        /// <summary>
-        /// Incoming new positions from joint calculation are centered at origin in world space
-        /// Transform to avatar position+orientation for correct world space position
-        /// </summary>
-        /// <param name="worldPosition"></param>
-        /// <returns></returns>
-        Vector3 WorldPositionToCharacterSpace(Vector3 worldPosition) {
-            Vector3 transformedPoint = moshCharacterTransform.TransformPoint(worldPosition);
-            return transformedPoint;
-        }
-
-        /// <summary>
-        /// The bind pose property is actually just an array of matrices. one for each joint. The matrices are inverse transformations.
-        /// Sets the bind poses of the mesh.
-        /// JL: the following two comments are copied from unity documentation. The bind pose is bone's inverse transformation matrix.
-        /// Make this matrix relative to the avatar root so that we can move the root game object around freely.
-        /// I'm pretty sure this means that the bind pose values are all in the same coordinate system. or maybe not. 
-        /// </summary>
-        void SetupBindPoses() {
-            Mesh sharedMesh = skinnedMeshRenderer.sharedMesh;
-            Matrix4x4[] newBindPoses = sharedMesh.bindposes;
-            for (int boneIndex = 0; boneIndex < bones.Length; boneIndex++) {
-                newBindPoses[boneIndex] = bones[boneIndex].worldToLocalMatrix * moshCharacterTransform.localToWorldMatrix;
-            }
-            sharedMesh.bindposes = newBindPoses;
-            skinnedMeshRenderer.sharedMesh = sharedMesh;
-        }
-
         /// <summary>
         /// Updates the bones based on new poses and translation of pelvis
         /// </summary>
         /// <param name="pose"></param>
         /// <param name="trans"></param>
         public void UpdateBones(Quaternion[] pose, Vector3 trans)  {
-            for (int boneIndex = FirstBoneIndexAfterRoot; boneIndex < bones.Length; boneIndex++) {
+            for (int boneIndex = 0; boneIndex < bones.Length; boneIndex++) {
                 string boneName = bones[boneIndex].name;
-                int poseIndex = Bones.NameToJointIndex[boneName];
-                bones[boneIndex].localRotation = pose[poseIndex];
+                if (boneName == Bones.Pelvis) continue;
+                try
+                {
+                    int poseIndex = Bones.NameToJointIndex[boneName];
+                    bones[boneIndex].localRotation = pose[poseIndex];
+                }
+                catch (KeyNotFoundException e)
+                {
+                    throw new KeyNotFoundException($"Bone Not in dictionary: boneIndex: {boneIndex}, name: {boneName}");
+                }
+                
             }
-            bones[PelvisIndex].localPosition = trans;
+            bones[model.PelvisIndex].localPosition = trans;
         }
 
 
@@ -97,7 +68,17 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         void SetFeetOnGround() {
             RecomputeLocalBounds();
             float heightOffset = minBounds.y;
-            bones[PelvisIndex].Translate(0.0f, heightOffset, 0.0f);
+            if (Mathf.Abs(heightOffset) > 500)
+            {
+                Debug.LogError("heightOffset calculated incorrectly");
+                return;
+            }
+
+            Transform pelvisBone = bones[model.PelvisIndex];
+            Debug.Log(pelvisBone.name);
+            Debug.Log(pelvisBone.position);
+            Debug.Log(heightOffset);
+            pelvisBone.Translate(0.0f, heightOffset, 0.0f);
         }
 
         /// <summary>
@@ -107,8 +88,22 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         /// AB: Yes, this is the case.
         /// </summary>
         void RecomputeLocalBounds() {
+            
+            // if (!skinnedMeshRenderer.sharedMesh.isReadable) {
+            //     Application.Quit();
+            //     throw new ArgumentException($"{skinnedMeshRenderer.gameObject.name} Mesh is not readable. Make sure to enable read/write on mesh import settings");
+            // }
+            
             Mesh newMesh = new Mesh();
-            skinnedMeshRenderer.BakeMesh(newMesh); 
+            skinnedMeshRenderer.BakeMesh(newMesh);
+
+            if (newMesh.vertices.Length == 0)
+            {
+                Debug.LogError($"no vertices in baked mesh");
+                return;
+            }
+
+            Debug.Log(newMesh.vertices.Length);
             
             float xMin = Mathf.Infinity;
             float yMin = Mathf.Infinity;
@@ -119,6 +114,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             float zMax = Mathf.NegativeInfinity;
 
             foreach (Vector3 vertex in newMesh.vertices) {
+                Debug.Log(vertex);
                 xMin = Mathf.Min(xMin, vertex.x);
                 yMin = Mathf.Min(yMin, vertex.y);
                 zMin = Mathf.Min(zMin, vertex.z);

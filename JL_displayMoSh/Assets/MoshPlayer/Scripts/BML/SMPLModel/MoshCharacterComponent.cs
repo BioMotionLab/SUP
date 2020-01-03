@@ -27,7 +27,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             moshMesh = GetComponentInChildren<MoshMesh>();
             skinnedMeshRenderer = moshMesh.GetComponent<SkinnedMeshRenderer>();
             if (skinnedMeshRenderer ==  null) throw new NullReferenceException("Can't find skinnedMeshRenderer in awake");
-            RotateToUnityCoordinates();
+            
         }
 
         /// <summary>
@@ -35,6 +35,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         /// JL: this seems weird. 
         /// </summary>
         void RotateToUnityCoordinates() {
+            
             transform.Rotate(-90f, 0f, 0f);
             
         }
@@ -45,6 +46,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         public void StartAnimation(MoshAnimation animationToStart, SMPLSettings smplSettings) {
             this.settings = smplSettings;
             moshAnimation = animationToStart;
+            if (moshAnimation.model.RotateToUnityCoords) RotateToUnityCoordinates();
             ActivateMesh(moshAnimation.Gender, moshAnimation.model);
         
             gameObject.SetActive(true);

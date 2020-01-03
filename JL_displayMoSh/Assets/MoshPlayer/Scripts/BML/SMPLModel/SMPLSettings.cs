@@ -8,10 +8,7 @@ using UnityEngine.Serialization;
 namespace MoshPlayer.Scripts.BML.SMPLModel {
     [CreateAssetMenu]
     public class SMPLSettings : ScriptableObject {
-
-        [SerializeField]
-        GameObject CharacterPrefab = default;
-      
+        
         [SerializeField]
         [Range(0,5)]
         public float DisplaySpeed = 1f;
@@ -29,11 +26,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         [SerializeField]
         public List<ModelDefinition> ModelParameters = new List<ModelDefinition>();
 
-        public MoshCharacter CreateNewCharacter(string characterName) {
-            GameObject newCharacter = Instantiate(CharacterPrefab);
-            newCharacter.name = characterName;
-            MoshCharacter newMoshCharacter = newCharacter.GetComponent<MoshCharacter>();
-            return newMoshCharacter;
-        }
+        public int FallbackFPS = 120;
+        
     }
 }

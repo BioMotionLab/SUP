@@ -35,9 +35,51 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         public const string LeftHand      = "L_Hand";
         public const string RightHand     = "R_Hand";
 
+        public const string LeftIndexBase = "lindex0";
+        public const string LeftIndexMid = "lindex1";
+        public const string LeftIndexEnd = "lindex2";
+        
+        public const string LeftMiddleBase = "lmiddle0";
+        public const string LeftMiddleMid = "lmiddle1";
+        public const string LeftMiddleEnd = "lmiddle2";
+        
+        public const string LeftPinkyBase = "lpinky0";
+        public const string LeftPinkyMid = "lpinky1";
+        public const string LeftPinkyEnd = "lpinky2";
+        
+        public const string LeftRingBase = "lring0";
+        public const string LeftRingMid = "lring1";
+        public const string LeftRingEnd = "lring2";
+
+        public const string LeftThumbBase = "lthumb0";
+        public const string LeftThumbMid = "lthumb1";
+        public const string LeftThumbEnd = "lthumb2";
+        
+        
+        public const string RightIndexBase = "rindex0";
+        public const string RightIndexMid = "rindex1";
+        public const string RightIndexEnd = "rindex2";
+        
+        public const string RightMiddleBase = "rmiddle0";
+        public const string RightMiddleMid = "rmiddle1";
+        public const string RightMiddleEnd = "rmiddle2";
+        
+        public const string RightPinkyBase = "rpinky0";
+        public const string RightPinkyMid = "rpinky1";
+        public const string RightPinkyEnd = "rpinky2";
+        
+        public const string RightRingBase = "rring0";
+        public const string RightRingMid = "rring1";
+        public const string RightRingEnd = "rring2";
+
+        public const string RightThumbBase = "rthumb0";
+        public const string RightThumbMid = "rthumb1";
+        public const string RightThumbEnd = "rthumb2";
+        
         public static SideOfBody GetSideOfBody(string name) {
-            if (name.Contains(LeftPrefix)) return SideOfBody.Left;
-            if (name.Contains(RightPrefix)) return SideOfBody.Right;
+            if (name.Contains(LeftPrefix) || name.Substring(0,1) == "l") return SideOfBody.Left;
+            if (name.Contains(RightPrefix) || name.Substring(0,1) == "r") return SideOfBody.Right;
+        
             return SideOfBody.Center;
         }
 
@@ -65,7 +107,48 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
                                                                    {LeftWrist, 20},
                                                                    {RightWrist, 21},
                                                                    {LeftHand, 22},
-                                                                   {RightHand, 23}
+                                                                   {RightHand, 23},
+                                                                   
+                                                                   {LeftIndexBase, 22},
+                                                                   {LeftIndexMid, 23},
+                                                                   {LeftIndexEnd, 24},
+        
+                                                                   {LeftMiddleBase, 25},
+                                                                   {LeftMiddleMid, 26},
+                                                                   {LeftMiddleEnd, 27},
+        
+                                                                   {LeftPinkyBase, 28},
+                                                                   {LeftPinkyMid, 29},
+                                                                   {LeftPinkyEnd, 30},
+        
+                                                                   {LeftRingBase, 31},
+                                                                   {LeftRingMid, 32},
+                                                                   {LeftRingEnd, 33},
+
+                                                                   {LeftThumbBase, 34},
+                                                                   {LeftThumbMid, 35},
+                                                                   {LeftThumbEnd, 36},
+        
+        
+                                                                   {RightIndexBase, 37},
+                                                                   {RightIndexMid, 38},
+                                                                   {RightIndexEnd, 39},
+        
+                                                                   {RightMiddleBase, 40},
+                                                                   {RightMiddleMid, 41},
+                                                                   {RightMiddleEnd, 42},
+        
+                                                                   {RightPinkyBase, 43},
+                                                                   {RightPinkyMid, 44},
+                                                                   {RightPinkyEnd, 45},
+        
+                                                                   {RightRingBase, 46},
+                                                                   {RightRingMid, 47},
+                                                                   {RightRingEnd, 48},
+
+                                                                   {RightThumbBase, 49},
+                                                                   {RightThumbMid, 50},
+                                                                   {RightThumbEnd, 51},
                                                                };
         
 
@@ -95,6 +178,48 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
                 case RightWrist:
                 case LeftHand:
                 case RightHand:
+                    
+                case LeftIndexBase:
+                case LeftIndexMid:
+                case LeftIndexEnd:
+
+                case LeftMiddleBase:
+                case LeftMiddleMid:
+                case LeftMiddleEnd:
+
+                case LeftPinkyBase:
+                case LeftPinkyMid:
+                case LeftPinkyEnd:
+
+                case LeftRingBase:
+                case LeftRingMid:
+                case LeftRingEnd:
+
+                case LeftThumbBase:
+                case LeftThumbMid:
+                case LeftThumbEnd:
+
+
+                case RightIndexBase:
+                case RightIndexMid:
+                case RightIndexEnd:
+
+                case RightMiddleBase:
+                case RightMiddleMid:
+                case RightMiddleEnd:
+
+                case RightPinkyBase:
+                case RightPinkyMid:
+                case RightPinkyEnd:
+
+                case RightRingBase:
+                case RightRingMid:
+                case RightRingEnd:
+
+                case RightThumbBase:
+                case RightThumbMid:
+                case RightThumbEnd:
+
                     return true;
                 default:
                     return false;

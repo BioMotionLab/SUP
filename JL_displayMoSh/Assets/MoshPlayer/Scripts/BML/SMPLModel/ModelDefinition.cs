@@ -25,6 +25,8 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         [SerializeField]
         JSONModelKeys jsonKeys = new JSONModelKeys();
 
+        [SerializeField] 
+        GameObject CharacterPrefab = default;
         
         [SerializeField]
         Mesh MaleMeshPrefab = default;
@@ -50,5 +52,19 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         public int   PoseDependentBlendshapeCount => poseDependentBlendshapeCount;
 
         public JSONModelKeys JsonKeys => jsonKeys;
+        public bool RotateToUnityCoords = false;
+
+        public int PelvisIndex = 0;
+
+        public MoshCharacter CreateNewCharacter(string characterName) {
+            GameObject newCharacter = Instantiate(CharacterPrefab);
+            newCharacter.name = characterName;
+            MoshCharacter newMoshCharacter = newCharacter.GetComponent<MoshCharacter>();
+            return newMoshCharacter;
+        }
+        
+        
+        
+        
     }
 }

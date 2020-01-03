@@ -17,12 +17,18 @@ MonoBehaviour:
   bodyShapeBetaCount: 10
   jointCount: 24
   poseDependentBlendshapeCount: 207
-  jsonKeys: {fileID: 11400000, guid: 256d3e81b0ca56b4ba804f5dbb2860fd, type: 2}
+  jsonKeys:
+    Gender: gender
+    Male: male
+    Female: female
+    FPS: fps
+    Translations: trans
+    Poses: poses
+    Betas: betas
+  CharacterPrefab: {fileID: 1422993857495300, guid: a833c934eda954cb68ede3ef16f14025,
+    type: 3}
   MaleMeshPrefab: {fileID: -6776866857465904403, guid: 7101835e7cddc9c4b96ba9039b9228ff,
     type: 3}
   FemaleMeshPrefab: {fileID: 3226173293770572294, guid: 81d5aef25ec81274f93605c5b6a6afa0,
     type: 3}
-  MaleJointRegressorFile: {fileID: 4900000, guid: 5316b038f0a47b14ba9765cdddea10a6,
-    type: 3}
-  FemaleJointRegressorFile: {fileID: 4900000, guid: 2f7e42425abf6bc47aaf3989432907e9,
-    type: 3}
+  PelvisIndex: 1

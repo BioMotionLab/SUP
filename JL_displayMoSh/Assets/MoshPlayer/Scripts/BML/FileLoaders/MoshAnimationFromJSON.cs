@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections;
+using System.Linq;
+using System.Text;
 using MoshPlayer.Scripts.BML.SMPLModel;
 using MoshPlayer.Scripts.ThirdParty.SimpleJSON;
 using MoshPlayer.Scripts.Utilities;
@@ -68,11 +71,31 @@ namespace MoshPlayer.Scripts.BML.FileLoaders {
             
             
             LoadGender(genderNode);
+            Debug.Log($"Gender: {gender}");
             LoadFPS(fpsNode);
+            Debug.Log($"fps: {fps}");
             LoadBetas(betasNode);
+            if (fps == 0) {
+                Debug.Log($"No fps specified, defaulting to {settings.FallbackFPS}");
+                fps = settings.FallbackFPS;
+            }
+            
+            DebugArray("betas", betas.ToList());
+            
             LoadTranslationsAndPosesFromJoints(transNode, posesNode);
+            DebugArray("trans" , translations.ToList());
+            //DebugArray("poses" , poses.ToList());
             
         }
+
+        void DebugArray(string name, IList list)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine($"{name}: length {list.Count}");
+            foreach (var item in list) sb.AppendLine(item.ToString());
+            Debug.Log(sb);
+        }
+        
 
         static bool ModelMatch(JSONNode betasNode, ModelDefinition model) {
             bool modelMatch = betasNode.Count == model.BodyShapeBetaCount;
