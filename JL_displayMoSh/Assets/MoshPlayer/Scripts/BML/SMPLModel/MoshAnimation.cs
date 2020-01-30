@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using MoshPlayer.Scripts.Utilities;
 using UnityEngine;
 
@@ -9,7 +10,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         
         readonly Vector3[]     translations;
         readonly Quaternion[,] allPoses;
-        readonly float[]       rawBodyShapeWeightBetas;
+        float[]       rawBodyShapeWeightBetas;
 
         
         readonly int sourceFPS;
@@ -46,6 +47,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             this.rawBodyShapeWeightBetas = rawBodyShapeWeightBetas;
             this.translations = translations;
             this.allPoses = allPoses;
+            Debug.Log(gender);
 
         }
 
@@ -53,15 +55,18 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             meshRenderer = skinnedMeshRendererToAttach;
             boneModifier = new BoneModifier(model, meshRenderer, Gender, rawBodyShapeWeightBetas, settings);
 
-            requiredDuration = sourceDuration / settings.DisplaySpeed;
             
+            boneModifier.SetupBones(rawBodyShapeWeightBetas);
             InitializeBodyShapeBlendshapes();
+            
+            
+            requiredDuration = sourceDuration / settings.DisplaySpeed;
             playBackwards = settings.PlayBackwards;
         }
 
         void InitializeBodyShapeBlendshapes() {
             for (int betaIndex = 0; betaIndex < model.BodyShapeBetaCount; betaIndex++) {
-                float scaledBeta = ScaleBlendshapeWeightFromBlenderToUnity(rawBodyShapeWeightBetas[betaIndex]);
+                float scaledBeta = ScaleBlendshapeFromBlenderToUnity(rawBodyShapeWeightBetas[betaIndex]);
                 meshRenderer.SetBlendShapeWeight(betaIndex, scaledBeta);
             }
         }
@@ -90,10 +95,15 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             Vector3 translationThisFrame = GetTranslationAtFrame(resampledFrame);
             Quaternion[] posesThisFrame = GetPosesAtFrame(resampledFrame);
             
-            boneModifier.UpdateBones(posesThisFrame, translationThisFrame);
+            boneModifier.UpdateBonesRotations(posesThisFrame, translationThisFrame);
+            UpdateBetas();
             UpdatePoseDependentBlendShapes(posesThisFrame);
             
             
+        }
+
+        void UpdateBetas() {
+            InitializeBodyShapeBlendshapes();
         }
 
 
@@ -145,18 +155,24 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         /// </summary>
         /// <param name="poses"></param>
         void UpdatePoseDependentBlendShapes(Quaternion[] poses) {
+
+            int startingJoint =  model.SkipFirstPose ? 1 : 0;
             
-            for (int jointIndex = SMPLConstants.FirstJointIndexAfterPelvis; jointIndex < model.JointCount; jointIndex++) {
+            for (int jointIndex = startingJoint; jointIndex < model.JointCount; jointIndex++) {
                 Quaternion jointPose = poses[jointIndex];
                 float[] rotationMatrix3X3 = jointPose.To3X3Matrix();
-            
-                int jointIndexNoPelvis = jointIndex - 1; // no blendshapes for pelvis.
+                
                 for (int rotMatrixElement = 0; rotMatrixElement < SMPLConstants.RotationMatrixElementCount; rotMatrixElement++) {
                     
                     float rawPoseDependentBlendshapeWeight = rotationMatrix3X3[rotMatrixElement];
-                    float scaledWeightBetas = ScaleBlendshapeWeightFromBlenderToUnity(rawPoseDependentBlendshapeWeight); 
+                    //Debug.Log($"joint {jointIndex}, ele {rotMatrixElement} raw BS: {rawPoseDependentBlendshapeWeight}");
+                    float scaledWeightBeta = ScalePoseBlendshapesFromBlenderToUnity(rawPoseDependentBlendshapeWeight); 
+                    
+                    int jointIndexNoPelvis = model.SkipFirstPose ? jointIndex - 1 : jointIndex; // no blendshapes for pelvis.
+                    //Debug.Log(jointIndexNoPelvis);
                     int blendShapeIndex = model.BodyShapeBetaCount + jointIndexNoPelvis * SMPLConstants.RotationMatrixElementCount + rotMatrixElement;
-                    meshRenderer.SetBlendShapeWeight(blendShapeIndex, scaledWeightBetas);
+                    //Debug.Log(blendShapeIndex);
+                    meshRenderer.SetBlendShapeWeight(blendShapeIndex, scaledWeightBeta);
                 }
             }
         }
@@ -167,9 +183,19 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         /// </summary>
         /// <param name="rawWeight"></param>
         /// <returns></returns>
-        float ScaleBlendshapeWeightFromBlenderToUnity(float rawWeight) {
-            float scaledWeight = rawWeight * SMPLConstants.UnityBlendShapeScaleFactor * model.BlendshapeScalingFactor;
+        float ScaleBlendshapeFromBlenderToUnity(float rawWeight) {
+            if (!model.AddShapeBlendshapes) return 0;
+            float scaledWeight = rawWeight * model.ShapeBlendShapeScalingFactor * model.UnityBlendShapeScaleFactor;
             return scaledWeight;
+        }
+        
+        float ScalePoseBlendshapesFromBlenderToUnity(float rawWeight) {
+                    //float scaledWeight = rawWeight * model.UnityBlendShapeScaleFactor * model.BlendshapeScalingFactor;
+                    //return scaledWeight;
+                    if (!model.AddPoseBlenshapes) return 0;
+                    float scaledWeight = rawWeight * model.PoseBlendshapeScalingFactor * model.UnityBlendShapeScaleFactor;
+                    return scaledWeight;
+
         }
     }
 }

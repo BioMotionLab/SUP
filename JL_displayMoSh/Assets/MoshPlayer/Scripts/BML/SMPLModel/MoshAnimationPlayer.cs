@@ -54,8 +54,8 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             List<MoshCharacter> newCharacters = new List<MoshCharacter>();
             for (int animationIndex = 0; animationIndex < animationGroup.Count; animationIndex++) {
                 MoshAnimation moshAnimation = animationGroup[animationIndex];
-                string characterName = $"Character {animationIndex}";
-                MoshCharacter moshCharacter = moshAnimation.model.CreateNewCharacter(characterName);
+                string characterName = $"{moshAnimation.Gender} Character {animationIndex}";
+                MoshCharacter moshCharacter = moshAnimation.model.CreateNewCharacter(characterName, moshAnimation.Gender);
                 if (displayPointLights == DisplayPointLights.On) {
                     DisplaySMPLPointLights pointLightDisplay = moshCharacter.gameObject.AddComponent<DisplaySMPLPointLights>();
                     pointLightDisplay.Init(moshCharacter, settings);

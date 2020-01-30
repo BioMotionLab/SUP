@@ -5,7 +5,6 @@ using System.Text;
 using MoshPlayer.Scripts.BML.SMPLModel;
 using MoshPlayer.Scripts.ThirdParty.SimpleJSON;
 using MoshPlayer.Scripts.Utilities;
-using UnityEditor;
 using UnityEngine;
 
 namespace MoshPlayer.Scripts.BML.FileLoaders {

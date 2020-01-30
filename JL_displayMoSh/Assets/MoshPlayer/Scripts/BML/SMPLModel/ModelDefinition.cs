@@ -1,6 +1,8 @@
 using System;
 using MoshPlayer.Scripts.BML.FileLoaders;
+using MoshPlayer.Scripts.ThirdParty.SimpleJSON;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace MoshPlayer.Scripts.BML.SMPLModel {
     
@@ -9,9 +11,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
 
         [SerializeField]
         string modelName = default;
-        
-        [SerializeField]
-        float blendShapeScalingFactor = 5f;
+       
 
         [SerializeField]
         int bodyShapeBetaCount = 10;
@@ -26,27 +26,30 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         JSONModelKeys jsonKeys = new JSONModelKeys();
 
         [SerializeField] 
-        GameObject CharacterPrefab = default;
+        MoshCharacterComponent MaleCharacterPrefab = default;
         
-        [SerializeField]
-        Mesh MaleMeshPrefab = default;
-    
-        [SerializeField]
-        Mesh FemaleMeshPrefab = default;
+        [SerializeField] 
+        MoshCharacterComponent FemaleCharacterPrefab = default;
+
         
-        public Mesh GetMeshPrefab(Gender gender) {
+        MoshCharacter GetCharacterPrefab(Gender gender) {
             switch (gender) {
                 case Gender.Female: 
-                    return FemaleMeshPrefab;
+                    return FemaleCharacterPrefab;
                 case Gender.Male:
-                    return MaleMeshPrefab;
+                    return MaleCharacterPrefab;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(gender), gender, null);
             }
         }
         
         public string ModelName => modelName;
-        public float BlendshapeScalingFactor      => 1f / blendShapeScalingFactor;
+        public float PoseBlendshapeScalingFactor      => 1f / poseBlendShapeScalingFactor;
+
+        public float ShapeBlendShapeScalingFactor => 1f / shapeBlendShapeScalingFactor;
+        
+       
+        public float UnityBlendShapeScaleFactor => unityBlendShapeScaleFactor;
         public int   BodyShapeBetaCount           => bodyShapeBetaCount;
         public int   JointCount                   => jointCount;
         public int   PoseDependentBlendshapeCount => poseDependentBlendshapeCount;
@@ -56,15 +59,39 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
 
         public int PelvisIndex = 0;
 
-        public MoshCharacter CreateNewCharacter(string characterName) {
-            GameObject newCharacter = Instantiate(CharacterPrefab);
+        public MoshCharacter CreateNewCharacter(string characterName, Gender gender) {
+            MoshCharacter genderedPrefab = GetCharacterPrefab(gender);
+            GameObject newCharacter = Instantiate(genderedPrefab.gameObject);
             newCharacter.name = characterName;
             MoshCharacter newMoshCharacter = newCharacter.GetComponent<MoshCharacter>();
             return newMoshCharacter;
         }
+
+        [SerializeField]
+        bool skipFirstPose = false;
+
+        public bool SkipFirstPose => skipFirstPose;
+       
         
+        public TextAsset RegressorFile;
+
+
+        [SerializeField]
+        float unityBlendShapeScaleFactor = 100f;
+
+        [SerializeField]
+        float poseBlendShapeScalingFactor = 5f;
+
+        [SerializeField]
+        float shapeBlendShapeScalingFactor = 5f;
+
         
+        public bool AddShapeBlendshapes;
+
+        public bool AddPoseBlenshapes;
+
+        public bool Animate;
         
-        
+        public Vector3 OffsetErrorInFBXBetweenRigAndMesh;
     }
 }

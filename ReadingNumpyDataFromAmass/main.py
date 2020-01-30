@@ -1,6 +1,7 @@
 #%%
 import numpy as np
 import json
+import sys
 # noinspection PyPep8Naming
 from scipy.spatial.transform import Rotation
 
@@ -12,7 +13,7 @@ print(sys.version)
 #%%
 
 
-class AMASSJsonConverter:
+class AMASSJsonDataConverter:
     JOINTS = 52
     ROTATION_VECTOR_DIMENSIONS = 3
     QUATERNION_DIMENSIONS = 4
@@ -30,8 +31,12 @@ class AMASSJsonConverter:
         self.data = self.load_data()
         self.read_data()
 
+        print(f'poses shape: {self.poses.shape}')
+        print(f'poses[0] shape {self.poses[0].shape}')
         reshaped_poses = np.reshape(self.poses, [self.poses.shape[0], self.JOINTS, self.ROTATION_VECTOR_DIMENSIONS])
         self.convert_poses_to_quaternions(reshaped_poses)
+        print(f'poses as quat shape {self.poses_as_quaternion.shape}')
+        print(f'p as q [0]\n {self.poses_as_quaternion[0]}')
 
         self.data_as_dict = {
             "gender": self.gender,
@@ -45,8 +50,9 @@ class AMASSJsonConverter:
         poses_as_quaternion = np.empty([self.frames, self.JOINTS, self.QUATERNION_DIMENSIONS])
         for frameIndex in range(0, self.frames):
             for poseIndex in range(0, self.JOINTS):
-                rotation_vector = Rotation.from_rotvec(reshaped_poses[frameIndex][poseIndex])
-                quaternion = rotation_vector.as_quat()
+                rotation_vector_raw = reshaped_poses[frameIndex][poseIndex]
+                rotation = Rotation.from_rotvec(rotation_vector_raw)
+                quaternion = rotation.as_quat()
                 poses_as_quaternion[frameIndex][poseIndex] = quaternion
         self.poses_as_quaternion = poses_as_quaternion
 
@@ -88,13 +94,19 @@ class AMASSJsonConverter:
 
 
 #%%
-converter = AMASSJsonConverter(npzFileName)
+converter = AMASSJsonDataConverter(npzFileName)
 #%%
 converter.write_to_json('test_data.json')
 print("done conversion.")
 
 #%%
 sample = "amass_sample.npz"
-converter = AMASSJsonConverter(sample)
+converter = AMASSJsonDataConverter(sample)
 converter.write_to_json('amass_sample.json')
-print("done")
+
+
+
+#%%
+sample = "amass_sample.npz"
+converter = AMASSJsonDataConverter(sample)
+print(converter.poses[0])

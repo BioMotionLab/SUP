@@ -1,8 +1,6 @@
 namespace MoshPlayer.Scripts.BML.SMPLModel {
     public static class SMPLConstants {
-        
-        public const float UnityBlendShapeScaleFactor = 100f;
-        
+
         public const int FirstJointIndexAfterPelvis = 1;
         
         /// <summary>

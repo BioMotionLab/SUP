@@ -15,6 +15,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         SkinnedMeshRenderer skinnedMeshRenderer;
         MoshMesh moshMesh;
         SMPLSettings settings;
+        Mesh originalMesh;
 
         // ReSharper disable once ConvertToAutoPropertyWhenPossible
         public SMPLSettings Settings => settings;
@@ -28,6 +29,16 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             skinnedMeshRenderer = moshMesh.GetComponent<SkinnedMeshRenderer>();
             if (skinnedMeshRenderer ==  null) throw new NullReferenceException("Can't find skinnedMeshRenderer in awake");
             
+            //Create clone of mesh so original is not affected by any of our fiddling
+            originalMesh = skinnedMeshRenderer.sharedMesh;
+            skinnedMeshRenderer.sharedMesh = Instantiate( skinnedMeshRenderer.sharedMesh);
+            
+
+        }
+
+        void OnDestroy() {
+            skinnedMeshRenderer.sharedMesh = originalMesh;
+            Debug.Log("Resetting mesh to previous state on destroy");
         }
 
         /// <summary>
@@ -47,7 +58,6 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             this.settings = smplSettings;
             moshAnimation = animationToStart;
             if (moshAnimation.model.RotateToUnityCoords) RotateToUnityCoordinates();
-            ActivateMesh(moshAnimation.Gender, moshAnimation.model);
         
             gameObject.SetActive(true);
             moshAnimation.AttachSkin(skinnedMeshRenderer, settings);
@@ -64,11 +74,9 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
                 StopAnimation();
                 return;
             }
-            moshAnimation.PlayCurrentFrame();
-        }
 
-        void ActivateMesh(Gender gender, ModelDefinition model) {
-            skinnedMeshRenderer.sharedMesh = Instantiate(model.GetMeshPrefab(gender));
+            if (!moshAnimation.model.Animate) return;
+            moshAnimation.PlayCurrentFrame();
         }
 
         void StopAnimation() {

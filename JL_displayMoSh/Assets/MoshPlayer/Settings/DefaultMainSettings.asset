@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f062b4b4922425a8e6f25d4e51fc515, type: 3}
   m_Name: DefaultMainSettings
   m_EditorClassIdentifier: 
-  DisplaySpeed: 0.26
+  DisplaySpeed: 0.1
   PlayBackwards: 0
   DisplaySettings: {fileID: 11400000, guid: 87c6acc71617edb48b1dc7a2e4b4fc23, type: 2}
   SnapMeshFeetToGround: 1

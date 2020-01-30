@@ -14,10 +14,7 @@ namespace MoshPlayer.Scripts.BML.Display {
             SkinnedMeshRenderer skinnedMeshRenderer = moshCharacter.SkinnedMeshRender;
             
             foreach (Transform bone in skinnedMeshRenderer.bones) {
-                if (!Bones.IsBone(bone)) continue;
-                if (bone == skinnedMeshRenderer.rootBone) continue; //skip root 
-                
-                if (settings.DisplaySettings.ExcludeFeetForPointLights && Bones.IsFootBone(bone)) continue;
+
             
                 GameObject newPointLight = CreateNewPointLight(bone);
                 SetDifferentMaterialsPerSideIfNeeded(bone, newPointLight);

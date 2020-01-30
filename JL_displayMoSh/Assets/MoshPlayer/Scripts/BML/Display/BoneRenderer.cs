@@ -43,6 +43,10 @@ namespace MoshPlayer.Scripts.BML.Display {
         }
 
         void SetDifferentSideColorsIfNeeded() {
+            
+            //TODO remove this line
+            if (parent.name.Contains("index")) return;
+            
             if (!settings.DisplaySettings.DrawSidesDifferentColors) return;
 
             SideOfBody sideOfBody = Bones.GetSideOfBody(child.name);
@@ -58,6 +62,8 @@ namespace MoshPlayer.Scripts.BML.Display {
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+
+            
         }
 
         public void SetupParent() {

@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: SMPL-H Model
   m_EditorClassIdentifier: 
   modelName: SMPL-H
-  blendShapeScalingFactor: 10
   bodyShapeBetaCount: 16
   jointCount: 52
   poseDependentBlendshapeCount: 459
@@ -25,10 +24,17 @@ MonoBehaviour:
     Translations: trans
     Poses: poses
     Betas: betas
-  CharacterPrefab: {fileID: 5185582439452735900, guid: af1c255e0b26040cf90db1c657548c0a,
+  MaleCharacterPrefab: {fileID: 7845027693450683428, guid: 492b0e35594551e449db36a91bba27ae,
     type: 3}
-  MaleMeshPrefab: {fileID: -541940830321011496, guid: af9bb6ce23fd5b74aa1f38ce7569e2f2,
+  FemaleCharacterPrefab: {fileID: 8904340602749300597, guid: 30558fd0cb4e94948ae802ad1523ba6e,
     type: 3}
-  FemaleMeshPrefab: {fileID: 6234179447507586025, guid: a214d82a7b33b674796cd49fa3b40f87,
-    type: 3}
+  RotateToUnityCoords: 0
   PelvisIndex: 0
+  skipFirstPose: 1
+  RegressorFile: {fileID: 4900000, guid: 8b419f52a73b44c4b934f9683c19b594, type: 3}
+  unityBlendShapeScaleFactor: 100
+  poseBlendShapeScalingFactor: 1
+  shapeBlendShapeScalingFactor: 1
+  AddShapeBlendshapes: 1
+  AddPoseBlenshapes: 1
+  Animate: 1
