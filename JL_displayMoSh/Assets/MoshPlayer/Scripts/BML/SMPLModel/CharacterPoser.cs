@@ -131,22 +131,16 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
 
             for (int jointIndex = startingJoint; jointIndex < model.JointCount; jointIndex++) {
                 Quaternion jointPose = poses[jointIndex];
-                if (jointPose != Quaternion.identity) Debug.Log("nonZero pose");
                 float[] rotationMatrix3X3 = jointPose.To3X3MatrixMinusIdent();
                 
                 for (int rotMatrixElement = 0; rotMatrixElement < SMPLConstants.RotationMatrixElementCount; rotMatrixElement++) {
                     
                     float rawPoseDependentBlendshapeWeight = rotationMatrix3X3[rotMatrixElement];
-                    //Debug.Log($"joint {jointIndex}, ele {rotMatrixElement} raw BS: {rawPoseDependentBlendshapeWeight}");
                     float scaledWeightBeta = ScalePoseBlendshapesFromBlenderToUnity(rawPoseDependentBlendshapeWeight); 
                     
                     int jointIndexNoPelvis = model.SkipFirstPose ? jointIndex - 1 : jointIndex; // no blendshapes for pelvis.
-                    //Debug.Log(jointIndexNoPelvis);
                     int blendShapeIndex = model.BodyShapeBetaCount + jointIndexNoPelvis * SMPLConstants.RotationMatrixElementCount + rotMatrixElement;
-                    //Debug.Log(blendShapeIndex);
                     skinnedMeshRenderer.SetBlendShapeWeight(blendShapeIndex, scaledWeightBeta);
-                    
-                    //if(Math.Abs(scaledWeightBeta) > 0.001f) Debug.Log($"setting{blendShapeIndex} to {scaledWeightBeta}");
                 }
             }
         }
