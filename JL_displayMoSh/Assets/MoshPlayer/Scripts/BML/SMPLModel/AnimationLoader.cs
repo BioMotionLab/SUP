@@ -39,7 +39,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
                 StringBuilder log = new StringBuilder();
                 string line = animLines[lineIndex];
                 List<MoshAnimation> allAnimationsInThisLine = GetAnimationsFromLine(line);
-                log.Append($"Loaded animation {lineIndex} of {animLines.Length} (Model:{allAnimationsInThisLine[0].model.ModelName})");
+                log.Append($"Loaded animation {lineIndex} of {animLines.Length} (Model:{allAnimationsInThisLine[0].Model.ModelName})");
                 if (allAnimationsInThisLine.Count > 0) {
                     animationSequence.Add(allAnimationsInThisLine);
                     log.Append($", containing animations for {allAnimationsInThisLine.Count} characters");

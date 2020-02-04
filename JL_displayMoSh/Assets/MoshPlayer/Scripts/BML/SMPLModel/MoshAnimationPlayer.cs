@@ -16,13 +16,11 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         int currentAnimationIndex = 0;
 	
         List<MoshCharacter> currentCharacters;
-        readonly DisplayPointLights displayPointLights;
         readonly DisplayMesh displayMesh;
         readonly DisplayBones displayBones;
 
         public MoshAnimationPlayer(List<List<MoshAnimation>> animationSequence, SMPLSettings settings,
-                                   DisplayPointLights displayPointLights, DisplayBones displayBones, DisplayMesh displayMesh) {
-            this.displayPointLights = displayPointLights;
+                                   DisplayBones displayBones, DisplayMesh displayMesh) {
             this.displayBones = displayBones;
             this.displayMesh = displayMesh;
             this.animationSequence = animationSequence;
@@ -55,11 +53,8 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             for (int animationIndex = 0; animationIndex < animationGroup.Count; animationIndex++) {
                 MoshAnimation moshAnimation = animationGroup[animationIndex];
                 string characterName = $"{moshAnimation.Gender} Character {animationIndex}";
-                MoshCharacter moshCharacter = moshAnimation.model.CreateNewCharacter(characterName, moshAnimation.Gender);
-                if (displayPointLights == DisplayPointLights.On) {
-                    DisplaySMPLPointLights pointLightDisplay = moshCharacter.gameObject.AddComponent<DisplaySMPLPointLights>();
-                    pointLightDisplay.Init(moshCharacter, settings);
-                }
+                MoshCharacter moshCharacter = moshAnimation.Model.CreateNewCharacter(characterName, moshAnimation.Gender);
+                
                 if (displayBones == DisplayBones.On)
                 {
                     DisplaySMPLBones boneDisplay = moshCharacter.gameObject.AddComponent<DisplaySMPLBones>();

@@ -88,7 +88,8 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         
         public bool AddShapeBlendshapes;
 
-        public bool AddPoseBlenshapes;
+        [FormerlySerializedAs("AddPoseBlenshapes")]
+        public bool AddPoseBlendshapes;
 
         public bool Animate;
         

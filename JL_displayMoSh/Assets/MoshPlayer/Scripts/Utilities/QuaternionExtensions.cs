@@ -10,7 +10,7 @@ namespace MoshPlayer.Scripts.Utilities {
         /// <param name="quaternion">Quaternion to convert to a matrix.</param>
         /// <returns></returns>
         [PublicAPI]
-        public static float[] To3X3Matrix(this Quaternion quaternion)
+        public static float[] To3X3MatrixMinusIdent(this Quaternion quaternion)
         {
             //convert to from unity back to MPI's maya coordinate system
             Quaternion rightHandedQuaternion = quaternion.ToRightHanded();
@@ -42,6 +42,11 @@ namespace MoshPlayer.Scripts.Utilities {
             rot3X3[6] = 2 * ( xz - yw );
             rot3X3[7] =  2 * ( yz + xw );
             rot3X3[8] = 1 - 2 * ( xx + yy );
+            
+            //subtract ident because life is hard.
+            rot3X3[0] -= 1;
+            rot3X3[4] -= 1;
+            rot3X3[8] -= 1;
 
             return rot3X3;
         }

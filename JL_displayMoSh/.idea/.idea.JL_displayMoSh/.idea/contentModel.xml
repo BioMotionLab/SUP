@@ -17,6 +17,7 @@
                 <e p="DisplayMesh.cs" t="Include" />
                 <e p="DisplayPointLights.cs" t="Include" />
                 <e p="DisplaySMPLBones.cs" t="Include" />
+                <e p="PointLight.cs" t="Include" />
                 <e p="PointLightRenderer.cs" t="Include" />
                 <e p="SMPLDisplaySettings.cs" t="Include" />
               </e>
@@ -24,15 +25,17 @@
                 <e p="MoshViewerEditor.cs" t="Include" />
               </e>
               <e p="FileLoaders" t="Include">
+                <e p="JointRegressor.cs" t="Include" />
                 <e p="MoShAnimationFromJSON.cs" t="Include" />
                 <e p="SMPLHRegressorFromJSON.cs" t="Include" />
               </e>
               <e p="SMPLModel" t="Include">
                 <e p="AnimationLoader.cs" t="Include" />
-                <e p="BoneModifier.cs" t="Include" />
                 <e p="Bones.cs" t="Include" />
+                <e p="CharacterPoser.cs" t="Include" />
                 <e p="ForwardsResampledFrame.cs" t="Include" />
                 <e p="Gender.cs" t="Include" />
+                <e p="IndividualizedBody.cs" t="Include" />
                 <e p="JSONModelKeys.cs" t="Include" />
                 <e p="ModelDefinition.cs" t="Include" />
                 <e p="MoShAnimation.cs" t="Include" />

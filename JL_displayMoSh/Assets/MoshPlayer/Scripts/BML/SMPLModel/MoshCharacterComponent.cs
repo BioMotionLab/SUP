@@ -16,6 +16,10 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         MoshMesh moshMesh;
         SMPLSettings settings;
         Mesh originalMesh;
+        
+        [SerializeField]
+        ModelDefinition model = default;
+        public ModelDefinition Model => model;
 
         // ReSharper disable once ConvertToAutoPropertyWhenPossible
         public SMPLSettings Settings => settings;
@@ -57,7 +61,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         public void StartAnimation(MoshAnimation animationToStart, SMPLSettings smplSettings) {
             this.settings = smplSettings;
             moshAnimation = animationToStart;
-            if (moshAnimation.model.RotateToUnityCoords) RotateToUnityCoordinates();
+            if (model.RotateToUnityCoords) RotateToUnityCoordinates();
         
             gameObject.SetActive(true);
             moshAnimation.AttachSkin(skinnedMeshRenderer, settings);
@@ -75,7 +79,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
                 return;
             }
 
-            if (!moshAnimation.model.Animate) return;
+            if (!model.Animate) return;
             moshAnimation.PlayCurrentFrame();
         }
 

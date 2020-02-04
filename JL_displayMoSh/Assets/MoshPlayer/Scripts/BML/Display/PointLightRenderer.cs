@@ -1,56 +1,57 @@
 ﻿using System;
 using MoshPlayer.Scripts.BML.SMPLModel;
+using UnityEditor;
 using UnityEngine;
 
 namespace MoshPlayer.Scripts.BML.Display {
     
-    public class DisplaySMPLPointLights : MonoBehaviour {
+    [ExecuteInEditMode]
+    public class PointLightRenderer : MonoBehaviour {
         
-        SMPLSettings settings;
+        [SerializeField]
+        SMPLDisplaySettings DisplaySettings = default;
 
-        public void Init(MoshCharacter moshCharacter, SMPLSettings settingsFile) {
-            
-            settings = settingsFile;
-            SkinnedMeshRenderer skinnedMeshRenderer = moshCharacter.SkinnedMeshRender;
-            
-            foreach (Transform bone in skinnedMeshRenderer.bones) {
+        SkinnedMeshRenderer meshRenderer;
 
-            
-                GameObject newPointLight = CreateNewPointLight(bone);
-                SetDifferentMaterialsPerSideIfNeeded(bone, newPointLight);
+        [SerializeField]
+        PointLight PointLightPrefab;
+
+        [SerializeField]
+        public bool DisplayPointLights = true;
+
+        GameObject pointLightContainer;
+
+        void OnEnable() {
+            if (meshRenderer == null) meshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
+            if (pointLightContainer == null) {
+                CreatePointLights();
             }
-           
         }
 
-        GameObject CreateNewPointLight(Transform bone) {
-            GameObject newPointLight = Instantiate(settings.DisplaySettings.PointLightPrefab, bone, false);
-            newPointLight.name = $"PointLight for {bone.name}";
-            newPointLight.transform.localPosition = Vector3.zero;
-            newPointLight.transform.localScale = new Vector3(settings.DisplaySettings.PointLightDisplaySize,
-                                                             settings.DisplaySettings.PointLightDisplaySize,
-                                                             settings.DisplaySettings.PointLightDisplaySize);
-            return newPointLight;
+        [ContextMenu("Create PointLights")]
+        void CreatePointLights() {
+            pointLightContainer = new GameObject {name = "PointLight Container"};
+            pointLightContainer.transform.parent = transform;
+            CreatePointLightsInBoneHierarchy(meshRenderer.bones[0]);
         }
 
-        void SetDifferentMaterialsPerSideIfNeeded(Transform bone, GameObject pointLight) {
-            if (!settings.DisplaySettings.DrawSidesDifferentColors) return;
-            
-            
-            MeshRenderer meshRenderer = pointLight.GetComponent<MeshRenderer>();
-
-            SideOfBody side = Bones.GetSideOfBody(bone.name);
-            switch (side) {
-                case SideOfBody.Left:
-                    meshRenderer.sharedMaterial = settings.DisplaySettings.LeftSideMaterial;
-                    break;
-                case SideOfBody.Right:
-                    meshRenderer.sharedMaterial = settings.DisplaySettings.RightSideMaterial;
-                    break;
-                case SideOfBody.Center:
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
+        void CreatePointLightsInBoneHierarchy(Transform parent) {
+            PointLight newPointLight = Instantiate(PointLightPrefab, pointLightContainer.transform);
+            newPointLight.AttachBone(this, parent, DisplaySettings);
+            foreach (Transform child in parent) {
+                if (Bones.IsBone(child)) {
+                    CreatePointLightsInBoneHierarchy(child);
+                }
             }
+        }
+
+        void OnDisable() {
+            DestroyPointLights();
+        }
+
+        void DestroyPointLights() {
+            DestroyImmediate(pointLightContainer);
         }
     }
+    
 }

@@ -27,9 +27,6 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
 
 		[SerializeField]
 		DisplayMesh DisplayMesh = default;
-
-		[SerializeField]
-		DisplayPointLights DisplayPointLights = default;
 		
 		[SerializeField]
 		KeyCode[] NextTrialKeys = default;
@@ -47,7 +44,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
 
 		void DoneLoading(List<List<MoshAnimation>> animationSequence) {
 			doneLoading = true;
-			moshAnimationPlayer = new MoshAnimationPlayer(animationSequence, Settings, DisplayPointLights, DisplayBones, DisplayMesh);
+			moshAnimationPlayer = new MoshAnimationPlayer(animationSequence, Settings, DisplayBones, DisplayMesh);
 			Destroy(loader);
 		}
 		

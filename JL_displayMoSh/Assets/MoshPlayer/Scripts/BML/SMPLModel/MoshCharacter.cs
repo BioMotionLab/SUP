@@ -7,6 +7,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         SMPLSettings Settings { get; }
         // ReSharper disable once InconsistentNaming
         GameObject gameObject { get;  }
+        ModelDefinition Model { get; }
         void StartAnimation(MoshAnimation moshAnimation, SMPLSettings settings);
         void InterruptAnimation();
     }

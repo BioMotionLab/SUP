@@ -33,8 +33,9 @@ MonoBehaviour:
   skipFirstPose: 1
   RegressorFile: {fileID: 4900000, guid: 8b419f52a73b44c4b934f9683c19b594, type: 3}
   unityBlendShapeScaleFactor: 100
-  poseBlendShapeScalingFactor: 1
+  poseBlendShapeScalingFactor: 5
   shapeBlendShapeScalingFactor: 1
   AddShapeBlendshapes: 1
-  AddPoseBlenshapes: 1
+  AddPoseBlendshapes: 0
   Animate: 1
+  OffsetErrorInFBXBetweenRigAndMesh: {x: 0.00217, y: -0.2407916, z: 0.02858}
