@@ -1,37 +1,43 @@
 using System;
 using MoshPlayer.Scripts.BML.SMPLModel;
 using UnityEngine;
+// ReSharper disable ParameterHidesMember
 
 namespace MoshPlayer.Scripts.BML.Display {
+    
+    /// <summary>
+    /// A single point light for displaying a joint's location.
+    /// </summary>
     [ExecuteInEditMode]
     public class PointLight : MonoBehaviour {
         Transform linkedBone;
-        SMPLDisplaySettings displaySettings;
+        DisplaySettings displaySettings;
         MeshRenderer meshRenderer;
-        PointLightRenderer displaySMPLPointLights;
-
-
+        PointLightDisplay pointLightDisplay;
+        
         void OnEnable() {
             meshRenderer = GetComponent<MeshRenderer>();
         }
-
-        public void AttachBone(PointLightRenderer displaySMPLPointLights, Transform bone,
-                               SMPLDisplaySettings    displaySettings) {
+        
+        public void AttachBone(PointLightDisplay pointLightDisplay, 
+                               Transform bone,
+                               DisplaySettings    displaySettings) {
             linkedBone = bone;
             this.displaySettings = displaySettings;
-            this.displaySMPLPointLights = displaySMPLPointLights;
+            this.pointLightDisplay = pointLightDisplay;
             name = $"PointLight for {bone.name}";
             transform.localPosition = Vector3.zero;
             transform.localScale = new Vector3(displaySettings.PointLightDisplaySize,
                                              displaySettings.PointLightDisplaySize,
                                              displaySettings.PointLightDisplaySize);
-            SetDifferentMaterialsPerSideIfNeeded(bone);
+            
+            if (displaySettings.DrawSidesDifferentColors) ColorBySideOfBody(bone);
         }
 
         void Update() {
             if (linkedBone != null) {
                 transform.position = linkedBone.position;
-                meshRenderer.enabled = displaySMPLPointLights.DisplayPointLights;
+                meshRenderer.enabled = pointLightDisplay.DisplayPointLights;
             }
             else {
                 meshRenderer.enabled = false;
@@ -39,9 +45,12 @@ namespace MoshPlayer.Scripts.BML.Display {
             
         }
         
-        void SetDifferentMaterialsPerSideIfNeeded(Transform bone) {
-            if (!displaySettings.DrawSidesDifferentColors) return;
-
+        /// <summary>
+        /// Colors the sides of body differently
+        /// </summary>
+        /// <param name="bone"></param>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        void ColorBySideOfBody(Transform bone) {
             SideOfBody side = Bones.GetSideOfBody(bone.name);
             switch (side) {
                 case SideOfBody.Left:

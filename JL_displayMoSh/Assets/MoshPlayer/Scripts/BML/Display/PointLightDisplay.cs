@@ -1,15 +1,15 @@
-﻿using System;
-using MoshPlayer.Scripts.BML.SMPLModel;
-using UnityEditor;
+﻿using MoshPlayer.Scripts.BML.SMPLModel;
 using UnityEngine;
 
 namespace MoshPlayer.Scripts.BML.Display {
     
-    [ExecuteInEditMode]
-    public class PointLightRenderer : MonoBehaviour {
+    /// <summary>
+    /// This renders point lights (spheres) for the joints of a body.
+    /// </summary>
+    public class PointLightDisplay : MonoBehaviour {
         
         [SerializeField]
-        SMPLDisplaySettings DisplaySettings = default;
+        DisplaySettings DisplaySettings = default;
 
         SkinnedMeshRenderer meshRenderer;
 
@@ -24,17 +24,20 @@ namespace MoshPlayer.Scripts.BML.Display {
         void OnEnable() {
             if (meshRenderer == null) meshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
             if (pointLightContainer == null) {
-                CreatePointLights();
+                SetupPointLights();
             }
         }
 
-        [ContextMenu("Create PointLights")]
-        void CreatePointLights() {
+        void SetupPointLights() {
             pointLightContainer = new GameObject {name = "PointLight Container"};
             pointLightContainer.transform.parent = transform;
             CreatePointLightsInBoneHierarchy(meshRenderer.bones[0]);
         }
-
+        
+        /// <summary>
+        /// Walks down Bone Hierarchy to create linked point lights
+        /// </summary>
+        /// <param name="parent"></param>
         void CreatePointLightsInBoneHierarchy(Transform parent) {
             PointLight newPointLight = Instantiate(PointLightPrefab, pointLightContainer.transform);
             newPointLight.AttachBone(this, parent, DisplaySettings);
@@ -46,10 +49,6 @@ namespace MoshPlayer.Scripts.BML.Display {
         }
 
         void OnDisable() {
-            DestroyPointLights();
-        }
-
-        void DestroyPointLights() {
             DestroyImmediate(pointLightContainer);
         }
     }

@@ -10,7 +10,7 @@ using UnityEngine;
 namespace MoshPlayer.Scripts.BML.SMPLModel {
     public class AnimationLoader : MonoBehaviour {
 		
-        SMPLSettings settings;
+        SettingsMain settingsMain;
         string       animFolder;
 
         public bool                  DoneLoading;
@@ -20,9 +20,9 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
 
         
         [SuppressMessage("ReSharper", "ParameterHidesMember")]
-        public void Init(string animationsToPlayFile, SMPLSettings settings, string animFolder, Action<List<List<MoshAnimation>>> doneAction) {
+        public void Init(string animationsToPlayFile, SettingsMain settingsMain, string animFolder, Action<List<List<MoshAnimation>>> doneAction) {
             this.DoThisWhenDoneAction = doneAction;
-            this.settings = settings;
+            this.settingsMain = settingsMain;
             this.animFolder = animFolder;
 
             animLines = File.ReadAllLines(animationsToPlayFile);
@@ -62,7 +62,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             foreach (string filename in fileNames) {
                 try {
                     string animationFileString = LoadAnimFileAsString(filename);
-                    MoshAnimation loadedAnimation = new MoshAnimationFromJSON(animationFileString, settings).BuildWithSettings();
+                    MoshAnimation loadedAnimation = new MoshAnimationFromJSON(animationFileString, settingsMain).BuildWithSettings();
                     animations.Add(loadedAnimation);
                 }
                 catch (FileNotFoundException) {

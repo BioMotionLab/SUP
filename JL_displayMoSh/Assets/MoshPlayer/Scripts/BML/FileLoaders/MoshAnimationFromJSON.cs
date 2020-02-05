@@ -22,12 +22,12 @@ namespace MoshPlayer.Scripts.BML.FileLoaders {
         Vector3[]     translations;
         Quaternion[,] poses;
         ModelDefinition matchedModel;
-        readonly SMPLSettings settings;
+        readonly SettingsMain settingsMain;
 
-        public MoshAnimationFromJSON(string jsonFileWholeString, SMPLSettings settings)  {
+        public MoshAnimationFromJSON(string jsonFileWholeString, SettingsMain settingsMain)  {
             if (jsonFileWholeString == null) throw new NullReferenceException("Tried to instantiate Animation JSON with null TextAsset");
-            if (settings == null) throw new NullReferenceException("No Settings specified");
-            this.settings = settings;
+            if (settingsMain == null) throw new NullReferenceException("No SettingsMain specified");
+            this.settingsMain = settingsMain;
             // AB: This is where the load speed bottleneck is. It seems to have trouble parsing even fairly small ~1MB files (~100ms or more).
             // Once parsed it seems to be very fast to load (< 5 ms)
             // According to Google, SimpleJSON is the fastest parser... so perhaps just a limitation of the way the data is stored. 
@@ -49,7 +49,7 @@ namespace MoshPlayer.Scripts.BML.FileLoaders {
             JSONNode transNode = null;
             JSONNode posesNode = null;
 
-            foreach (var model in settings.ModelParameters) {
+            foreach (var model in settingsMain.ModelParameters) {
                 genderNode = moshJSON[model.JsonKeys.Gender];
                 betasNode = moshJSON[model.JsonKeys.Betas];
                 fpsNode = moshJSON[model.JsonKeys.FPS];
@@ -75,8 +75,8 @@ namespace MoshPlayer.Scripts.BML.FileLoaders {
             Debug.Log($"fps: {fps}");
             LoadBetas(betasNode);
             if (fps == 0) {
-                Debug.Log($"No fps specified, defaulting to {settings.FallbackFPS}");
-                fps = settings.FallbackFPS;
+                Debug.Log($"No fps specified, defaulting to {settingsMain.FallbackFPS}");
+                fps = settingsMain.FallbackFPS;
             }
             
             DebugArray("betas", betas.ToList());

@@ -5,7 +5,7 @@ namespace MoshPlayer.Scripts.BML.Display {
     /// Options for displaying point lights for joints
     /// </summary>
     [PublicAPI]
-    public enum DisplayPointLights {
+    public enum PointLightDisplayState {
         On,
         Off
     }

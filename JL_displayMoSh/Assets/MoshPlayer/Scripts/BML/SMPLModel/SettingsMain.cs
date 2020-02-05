@@ -1,13 +1,10 @@
-using System;
 using System.Collections.Generic;
 using MoshPlayer.Scripts.BML.Display;
-using MoshPlayer.Scripts.BML.FileLoaders;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace MoshPlayer.Scripts.BML.SMPLModel {
     [CreateAssetMenu]
-    public class SMPLSettings : ScriptableObject {
+    public class SettingsMain : ScriptableObject {
         
         [SerializeField]
         [Range(0,5)]
@@ -17,7 +14,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         public bool PlayBackwards = false;
         
         [SerializeField]
-        public SMPLDisplaySettings DisplaySettings = default;
+        public DisplaySettings DisplaySettings = default;
         
         [SerializeField]
         public bool SnapMeshFeetToGround = true;

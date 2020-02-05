@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace MoshPlayer.Scripts.BML.Display {
     [CreateAssetMenu]
-    public class SMPLDisplaySettings : ScriptableObject {
+    public class DisplaySettings : ScriptableObject {
         
         [Header("General")]
         
@@ -36,7 +36,7 @@ namespace MoshPlayer.Scripts.BML.Display {
         public float BoneWidth = 0.04f;
 
         [SerializeField]
-        public BoneRenderer BonePrefab;
+        public BoneLine BonePrefab;
 
         
     }

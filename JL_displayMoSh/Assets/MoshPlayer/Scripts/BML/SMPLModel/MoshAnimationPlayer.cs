@@ -9,22 +9,22 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
     public class MoshAnimationPlayer {
 	
         readonly List<List<MoshAnimation>> animationSequence;
-        readonly SMPLSettings          settings;
+        readonly SettingsMain          settingsMain;
         
         public bool AllAnimsComplete => currentAnimationIndex >= animationSequence.Count;
 
         int currentAnimationIndex = 0;
 	
         List<MoshCharacter> currentCharacters;
-        readonly DisplayMesh displayMesh;
-        readonly DisplayBones displayBones;
+        readonly MeshDisplayState meshDisplayState;
+        readonly BoneDisplayState boneDisplayState;
 
-        public MoshAnimationPlayer(List<List<MoshAnimation>> animationSequence, SMPLSettings settings,
-                                   DisplayBones displayBones, DisplayMesh displayMesh) {
-            this.displayBones = displayBones;
-            this.displayMesh = displayMesh;
+        public MoshAnimationPlayer(List<List<MoshAnimation>> animationSequence, SettingsMain settingsMain,
+                                   BoneDisplayState boneDisplayState, MeshDisplayState meshDisplayState) {
+            this.boneDisplayState = boneDisplayState;
+            this.meshDisplayState = meshDisplayState;
             this.animationSequence = animationSequence;
-            this.settings = settings;
+            this.settingsMain = settingsMain;
         }
 
 
@@ -45,9 +45,9 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         List<MoshCharacter> StartAnimation() {
             List<MoshAnimation> animationGroup = animationSequence[currentAnimationIndex];
 
-            string backwardsText = settings.PlayBackwards ? "backwards" : "";
+            string backwardsText = settingsMain.PlayBackwards ? "backwards" : "";
             Debug.Log($"Playing animation {currentAnimationIndex+1} of {animationSequence.Count}. " +
-                      $"Contains animations for {animationGroup.Count} characters. Playing at {settings.DisplaySpeed}X speed {backwardsText}.");
+                      $"Contains animations for {animationGroup.Count} characters. Playing at {settingsMain.DisplaySpeed}X speed {backwardsText}.");
 		
             List<MoshCharacter> newCharacters = new List<MoshCharacter>();
             for (int animationIndex = 0; animationIndex < animationGroup.Count; animationIndex++) {
@@ -55,21 +55,17 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
                 string characterName = $"{moshAnimation.Gender} Character {animationIndex}";
                 MoshCharacter moshCharacter = moshAnimation.Model.CreateNewCharacter(characterName, moshAnimation.Gender);
                 
-                if (displayBones == DisplayBones.On)
-                {
-                    DisplaySMPLBones boneDisplay = moshCharacter.gameObject.AddComponent<DisplaySMPLBones>();
-                    boneDisplay.Init(moshCharacter, settings);
+                switch (meshDisplayState) {
+                    case MeshDisplayState.Off:
+                        moshCharacter.SkinnedMeshRender.enabled = false;
+                        break;
+                    case MeshDisplayState.SemiTransparent:
+                        moshCharacter.SkinnedMeshRender.material = settingsMain.DisplaySettings.SemiTransparentMaterial;
+                        break;
                 }
 
-                if (displayMesh == DisplayMesh.Off) {
-                    moshCharacter.SkinnedMeshRender.enabled = false;
-                }
-
-                if (displayMesh == DisplayMesh.SemiTransparent) {
-                    moshCharacter.SkinnedMeshRender.material = settings.DisplaySettings.SemiTransparentMaterial;
-                }
                 newCharacters.Add(moshCharacter);
-                moshCharacter.StartAnimation(moshAnimation, settings);
+                moshCharacter.StartAnimation(moshAnimation, settingsMain);
             }
 
             return newCharacters;

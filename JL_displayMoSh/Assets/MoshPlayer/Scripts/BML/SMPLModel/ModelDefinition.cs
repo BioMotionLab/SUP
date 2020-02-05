@@ -1,6 +1,4 @@
 using System;
-using MoshPlayer.Scripts.BML.FileLoaders;
-using MoshPlayer.Scripts.ThirdParty.SimpleJSON;
 using UnityEngine;
 using UnityEngine.Serialization;
 

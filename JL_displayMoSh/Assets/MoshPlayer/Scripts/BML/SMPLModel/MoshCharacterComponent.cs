@@ -14,7 +14,10 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         Mesh          smplMeshClone;
         SkinnedMeshRenderer skinnedMeshRenderer;
         MoshMesh moshMesh;
-        SMPLSettings settings;
+        
+        [SerializeField]
+        SettingsMain settingsMain = default;
+        
         Mesh originalMesh;
         
         [SerializeField]
@@ -22,7 +25,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         public ModelDefinition Model => model;
 
         // ReSharper disable once ConvertToAutoPropertyWhenPossible
-        public SMPLSettings Settings => settings;
+        public SettingsMain SettingsMain => settingsMain;
         
         // ReSharper disable once ConvertToAutoPropertyWithPrivateSetter
         public SkinnedMeshRenderer SkinnedMeshRender => skinnedMeshRenderer;
@@ -58,13 +61,13 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         /// <summary>
         /// Sets up and plays a mosh animation.
         /// </summary>
-        public void StartAnimation(MoshAnimation animationToStart, SMPLSettings smplSettings) {
-            this.settings = smplSettings;
+        public void StartAnimation(MoshAnimation animationToStart, SettingsMain settingsMain) {
+            this.settingsMain = settingsMain;
             moshAnimation = animationToStart;
             if (model.RotateToUnityCoords) RotateToUnityCoordinates();
         
             gameObject.SetActive(true);
-            moshAnimation.AttachSkin(skinnedMeshRenderer, settings);
+            moshAnimation.AttachSkin(skinnedMeshRenderer, this.settingsMain);
             UpdateAnimation();
         }
     

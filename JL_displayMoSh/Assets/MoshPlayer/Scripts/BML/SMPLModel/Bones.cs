@@ -4,8 +4,11 @@ using UnityEngine;
 
 namespace MoshPlayer.Scripts.BML.SMPLModel {
     public static class Bones {
-        public const string LeftPrefix  = "L_";
-        public const string RightPrefix = "R_";
+        public const string LeftPrefix1  = "L_";
+        public const string RightPrefix1 = "R_";
+        
+        public const string LeftPrefix2  = "l";
+        public const string RightPrefix2 = "r";
             
         public const string Pelvis = "Pelvis";
         public const string LeftHip    = "L_Hip";
@@ -75,82 +78,94 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         public const string RightThumbBase = "rthumb0";
         public const string RightThumbMid = "rthumb1";
         public const string RightThumbEnd = "rthumb2";
+
+        public static readonly Dictionary<string, int> NameToJointIndex = new Dictionary<string, int> {
+                                                                                                          {Pelvis, 0},
+                                                                                                          {LeftHip, 1},
+                                                                                                          {RightHip, 2},
+                                                                                                          
+                                                                                                          {Spine1, 3},
+                                                                                                          
+                                                                                                          {LeftKnee, 4},
+                                                                                                          {RightKnee, 5},
+                                                                                                          
+                                                                                                          {Spine2, 6},
+                                                                                                          
+                                                                                                          {LeftAnkle, 7},
+                                                                                                          {RightAnkle, 8},
+                                                                                                          
+                                                                                                          {Spine3, 9},
+                                                                                                          
+                                                                                                          {LeftFoot, 10},
+                                                                                                          {RightFoot, 11},
+                                                                                                          
+                                                                                                          {Neck, 12},
+                                                                                                          
+                                                                                                          {LeftCollar, 13},
+                                                                                                          {RightCollar, 14},
+                                                                                                          
+                                                                                                          {Head, 15},
+                                                                                                          
+                                                                                                          {LeftShoulder, 16},
+                                                                                                          {RightShoulder, 17},
+                                                                                                          
+                                                                                                          {LeftElbow, 18},
+                                                                                                          {RightElbow, 19},
+                                                                                                          
+                                                                                                          {LeftWrist, 20},
+                                                                                                          {RightWrist, 21},
+                                                                                                          
+                                                                                                          {LeftHand, 22},
+                                                                                                          {RightHand, 23},
+                                                                                                          
+                                                                                                          {LeftIndexBase, 22},
+                                                                                                          {LeftIndexMid, 23},
+                                                                                                          {LeftIndexEnd, 24},
         
+                                                                                                          {LeftMiddleBase, 25},
+                                                                                                          {LeftMiddleMid, 26},
+                                                                                                          {LeftMiddleEnd, 27},
+        
+                                                                                                          {LeftPinkyBase, 28},
+                                                                                                          {LeftPinkyMid, 29},
+                                                                                                          {LeftPinkyEnd, 30},
+        
+                                                                                                          {LeftRingBase, 31},
+                                                                                                          {LeftRingMid, 32},
+                                                                                                          {LeftRingEnd, 33},
+
+                                                                                                          {LeftThumbBase, 34},
+                                                                                                          {LeftThumbMid, 35},
+                                                                                                          {LeftThumbEnd, 36},
+                                                                                                          
+                                                                                                          {RightIndexBase, 37},
+                                                                                                          {RightIndexMid, 38},
+                                                                                                          {RightIndexEnd, 39},
+        
+                                                                                                          {RightMiddleBase, 40},
+                                                                                                          {RightMiddleMid, 41},
+                                                                                                          {RightMiddleEnd, 42},
+        
+                                                                                                          {RightPinkyBase, 43},
+                                                                                                          {RightPinkyMid, 44},
+                                                                                                          {RightPinkyEnd, 45},
+        
+                                                                                                          {RightRingBase, 46},
+                                                                                                          {RightRingMid, 47},
+                                                                                                          {RightRingEnd, 48},
+
+                                                                                                          {RightThumbBase, 49},
+                                                                                                          {RightThumbMid, 50},
+                                                                                                          {RightThumbEnd, 51},
+                                                                                                      };
+
         public static SideOfBody GetSideOfBody(string name) {
-            if (name.Contains(LeftPrefix) || name.Substring(0,1) == "l") return SideOfBody.Left;
-            if (name.Contains(RightPrefix) || name.Substring(0,1) == "r") return SideOfBody.Right;
+            if (name.Contains(LeftPrefix1) || name.Substring(0,1) == LeftPrefix2) return SideOfBody.Left;
+            if (name.Contains(RightPrefix1) || name.Substring(0,1) == RightPrefix2) return SideOfBody.Right;
         
             return SideOfBody.Center;
         }
 
-        public static readonly Dictionary<string, int> NameToJointIndex = new Dictionary<string, int> {
-                                                                   {Pelvis, 0},
-                                                                   {RightHip, 2},
-                                                                   {LeftHip, 1},
-                                                                   {Spine1, 3},
-                                                                   {RightKnee, 5},
-                                                                   {LeftKnee, 4},
-                                                                   {Spine2, 6},
-                                                                   {RightAnkle, 8},
-                                                                   {LeftAnkle, 7},
-                                                                   {Spine3, 9},
-                                                                   {RightFoot, 11},
-                                                                   {LeftFoot, 10},
-                                                                   {Neck, 12},
-                                                                   {RightCollar, 14},
-                                                                   {LeftCollar, 13},
-                                                                   {Head, 15},
-                                                                   {RightShoulder, 17},
-                                                                   {LeftShoulder, 16},
-                                                                   {RightElbow, 19},
-                                                                   {LeftElbow, 18},
-                                                                   {RightWrist, 21},
-                                                                   {LeftWrist, 20},
-                                                                   {RightHand, 23},
-                                                                   {LeftHand, 22},
-                                                                   
-                                                                   {LeftIndexBase, 22},
-                                                                   {LeftIndexMid, 23},
-                                                                   {LeftIndexEnd, 24},
-        
-                                                                   {LeftMiddleBase, 25},
-                                                                   {LeftMiddleMid, 26},
-                                                                   {LeftMiddleEnd, 27},
-        
-                                                                   {LeftPinkyBase, 28},
-                                                                   {LeftPinkyMid, 29},
-                                                                   {LeftPinkyEnd, 30},
-        
-                                                                   {LeftRingBase, 31},
-                                                                   {LeftRingMid, 32},
-                                                                   {LeftRingEnd, 33},
-
-                                                                   {LeftThumbBase, 34},
-                                                                   {LeftThumbMid, 35},
-                                                                   {LeftThumbEnd, 36},
-        
-        
-                                                                   {RightIndexBase, 37},
-                                                                   {RightIndexMid, 38},
-                                                                   {RightIndexEnd, 39},
-        
-                                                                   {RightMiddleBase, 40},
-                                                                   {RightMiddleMid, 41},
-                                                                   {RightMiddleEnd, 42},
-        
-                                                                   {RightPinkyBase, 43},
-                                                                   {RightPinkyMid, 44},
-                                                                   {RightPinkyEnd, 45},
-        
-                                                                   {RightRingBase, 46},
-                                                                   {RightRingMid, 47},
-                                                                   {RightRingEnd, 48},
-
-                                                                   {RightThumbBase, 49},
-                                                                   {RightThumbMid, 50},
-                                                                   {RightThumbEnd, 51},
-                                                               };
-        
 
         public static bool IsBone(Transform child) {
             switch (child.name) {

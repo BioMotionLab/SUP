@@ -1,5 +1,8 @@
+using JetBrains.Annotations;
+
 namespace MoshPlayer.Scripts.BML.Display {
-    public enum DisplayMesh {
+    [PublicAPI]
+    public enum MeshDisplayState {
         On,
         SemiTransparent,
         Off

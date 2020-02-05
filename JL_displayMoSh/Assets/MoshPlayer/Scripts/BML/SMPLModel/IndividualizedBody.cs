@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
+﻿using System.Collections.Generic;
 using MoshPlayer.Scripts.BML.FileLoaders;
+using UnityEditor;
 using UnityEngine;
 
 namespace MoshPlayer.Scripts.BML.SMPLModel {
@@ -19,11 +17,9 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
     /// Finally, it applies the shape-blendshapes to the corrected mesh
     /// so that it matches the correct mesh for the body.
     /// </summary>
-    [ExecuteInEditMode]
     public class IndividualizedBody : MonoBehaviour {
         
         SkinnedMeshRenderer skinnedMeshRenderer;
-        Vector3 minBounds;
         ModelDefinition model;
         JointRegressor jointRegressor;
         Vector3 newPelvisPosition;
@@ -37,13 +33,19 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         // ReSharper disable once InconsistentNaming
         float[] bodyShapeBetas;
 
+        public Vector3 PelvisPositionWithGroundOffset;
+        MoshCharacter moshCharacter;
+        Vector3 originalCharacterPosition;
+        
+        
         void OnEnable() {
-            Debug.Log("Enabling individualized body");
-            MoshCharacter moshCharacter = GetComponentInParent<MoshCharacter>();
+            moshCharacter = GetComponentInParent<MoshCharacter>();
+            originalCharacterPosition = moshCharacter.gameObject.transform.position;
             model = moshCharacter.Model;
             
             skinnedMeshRenderer = GetComponent<SkinnedMeshRenderer>();
             CacheAverageBody();
+            //ComputeGroundOffset();
             
             if (bodyShapeBetas == null || bodyShapeBetas.Length == 0) bodyShapeBetas = new float[model.BodyShapeBetaCount];
             
@@ -57,11 +59,8 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
                     originalBonePositions[boneIndex] = skinnedMeshRenderer.bones[boneIndex].position;
                 }
             }
-            
             if (originalMesh == null) originalMesh = skinnedMeshRenderer.sharedMesh;
             skinnedMeshRenderer.sharedMesh = Instantiate(originalMesh);
-            
-            
         }
 
         void OnDisable() {
@@ -70,6 +69,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
 
         [ContextMenu("Reset to average body")]
         void ResetToAverageBody() {
+            moshCharacter.gameObject.transform.position = originalCharacterPosition;
             bodyShapeBetas = new float[bodyShapeBetas.Length];
             UpdateBodyShapeBlendshapes();
             for (int boneIndex = 0; boneIndex < originalBonePositions.Length; boneIndex++) {
@@ -100,6 +100,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
 
             UpdateBodyShapeBlendshapes();
             
+            //ComputeGroundOffset();
         }
 
         /// <summary>
@@ -108,9 +109,9 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         /// </summary>
         /// <param name="jointPositions"></param>
         void AdjustBonePositions(Vector3[] jointPositions) {
-            Vector3 initialPelvisPosition = skinnedMeshRenderer.bones[0].position;
+            Vector3 initialCorrectedPelvisPosition = skinnedMeshRenderer.bones[0].position - model.OffsetErrorInFBXBetweenRigAndMesh;
 
-            jointPositions = CenterAroundPosition(jointPositions, initialPelvisPosition);
+            jointPositions = CenterAroundPosition(jointPositions, initialCorrectedPelvisPosition);
             jointPositions = ConvertToUnityCoordinateSystem(jointPositions);
 
             SetPositionDownwardsThroughHierarchy(skinnedMeshRenderer.bones[0], jointPositions);
@@ -119,19 +120,11 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
 
         /// <summary>
         /// This adjusts the average mesh to be attached to the new bones.
-        /// This is still NOT the correct individualized mesh,
+        /// Result is still NOT the correct individualized mesh,
         /// just the average mesh that's been skinned to updated bone locations.
-        ///
-        /// Since the bones are being moved, the mesh deforms automatically to
-        /// compensate with linear blend skinning. However, since the blendshapes
-        /// are computed relative to the average body, this presents a problem.
-        /// We need to undo this automatic linear blend skinning by applying a correction.
-        /// 
-        /// We also correct for an error in the FBX construction
-        /// where the mesh and bones have different origins.
-        /// This makes sure the skeleton is not offset from the body
         /// </summary>
         void AdjustMeshToNewBones() {
+            
             AccountForUnwantedLinearBlendSkinning();
             CorrectMeshToRigOffset();
         }
@@ -144,12 +137,6 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             for (int betaIndex = 0; betaIndex < model.BodyShapeBetaCount; betaIndex++) {
                 float scaledBeta = ScaleBlendshapeFromBlenderToUnity(bodyShapeBetas[betaIndex]);
                 skinnedMeshRenderer.SetBlendShapeWeight(betaIndex, scaledBeta);
-            }
-        }
-
-        void ResetBodyShapeBlendshapes() {
-            for (int betaIndex = 0; betaIndex < model.BodyShapeBetaCount; betaIndex++) {
-                skinnedMeshRenderer.SetBlendShapeWeight(betaIndex, 0);
             }
         }
 
@@ -174,7 +161,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         /// <param name="parent"></param>
         /// <param name="jointPositions"></param>
         /// <param name="transformList"></param>
-        static void SetPositionDownwardsThroughHierarchy(Transform       parent, Vector3[] jointPositions,
+        void SetPositionDownwardsThroughHierarchy(Transform       parent, Vector3[] jointPositions,
                                                          List<Transform> transformList = null) {
             if (transformList == null) transformList = new List<Transform>();
 
@@ -182,7 +169,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             if (Bones.NameToJointIndex.TryGetValue(boneName, out int boneJointIndex)) {
                 //Debug.Log($"setting: {boneName}, {jointPositions[boneJointIndex].ToString("F6")}, index: {boneJointIndex}");
 
-                parent.position = jointPositions[boneJointIndex];
+                parent.position = skinnedMeshRenderer.transform.TransformPoint(jointPositions[boneJointIndex]);
 
                 foreach (Transform child in parent) {
                     transformList.Add(child);
@@ -191,6 +178,11 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             }
         }
 
+        /// <summary>
+        /// Correct for an error in the FBX construction
+        /// where the mesh and bones have different origins.
+        /// This makes sure the skeleton is not offset from the body
+        /// </summary>
         void CorrectMeshToRigOffset() {
             Vector3[] translatedVertexes = new Vector3[skinnedMeshRenderer.sharedMesh.vertexCount];
             for (int i = 0; i < translatedVertexes.Length; i++) {
@@ -221,12 +213,14 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
 
 
         /// <summary>
-        /// The linear blend skinning deforms the mesh when you modify the bones.
-        /// The following code undoes that unwanted blend skinning.
+        /// Since the bones are being moved, the mesh deforms automatically to
+        /// compensate for these changes using linear blend skinning. However, since the blendshapes
+        /// are computed relative to the average body, this presents a problem.
+        /// We need to undo this automatic linear blend skinning by applying a correction.
+        ///
         /// The body shape blendshapes (betas) were calculated as deformations to the average mesh,
-        /// not a bone-deformed mesh. That is why this is necessary.
+        /// not the new bone-deformed mesh. That is why this is necessary.
         /// </summary>
-        /// <param name="oldVertexes"></param>
         void AccountForUnwantedLinearBlendSkinning() {
             
             //vertices doesn't return the actual current vertexes, it's its vertexes before skinning.
@@ -250,79 +244,25 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             skinnedMeshRenderer.sharedMesh.vertices = vertexesWithUnwantedSkinningRemoved;
         }
 
-        /// <summary>
-        /// AB: Snaps the MESH to the ground, not the animation.
-        /// This means that the lowest vertex of the character BEFORE animating is snapped to ground.
-        /// I've double checked that this works properly, but several of the sample animations have parts that clip below ground.
-        /// This is a problem with the MoSH process rather than the display process.
-        /// The MoSH animations weren't properly calibrated or post-processed, so it gets the wrong world coordinates.
-        /// </summary>
-        void SetFeetOnGround() {
-            RecomputeLocalBounds();
-            float heightOffset = minBounds.y;
-            Debug.Log($"heightOffset: {heightOffset}");
-            if (Mathf.Abs(heightOffset) > 500) {
-                Debug.LogError("heightOffset calculated incorrectly");
-                return;
-            }
-
-            Transform pelvisBone = skinnedMeshRenderer.bones[model.PelvisIndex];
-            //Debug.Log(pelvisBone.name);
-            //Debug.Log(pelvisBone.position);
-            //Debug.Log(heightOffset);
-            pelvisBone.position -= new Vector3(0, heightOffset, 0);
-
-            //pelvisBone.position -= model.OffsetErrorInFBXBetweenRigAndMesh;
-            //pelvisBone.
-        }
 
         /// <summary>
-        /// Finds bounding box in local space. Vertex coordinates are in local space.
-        /// This needs to happen manually since unity doesn't automatically recompute bounds of skinned mesh renderer after import.
-        /// JL: I bet it's necessary to bake the mesh to access vertex data modified by blend shapes.
-        /// AB: Yes, this is the case.
+        /// Finds distance between lowest mesh vertex and the ground. Used to move pelvis upwards to plant feet on ground
         /// </summary>
-        void RecomputeLocalBounds() {
-            // if (!skinnedMeshRenderer.sharedMesh.isReadable) {
-            //     Application.Quit();
-            //     throw new ArgumentException($"{skinnedMeshRenderer.gameObject.name} Mesh is not readable. Make sure to enable read/write on mesh import settings");
-            // }
+        void ComputeGroundOffset() {
 
+            Vector3 currentPelvisPosition = skinnedMeshRenderer.bones[model.PelvisIndex].position;
+            skinnedMeshRenderer.bones[model.PelvisIndex].position = Vector3.zero;
+            //bake the mesh to access vertex locations after modifications by blend shapes.
             Mesh newMesh = new Mesh();
             skinnedMeshRenderer.BakeMesh(newMesh);
-
-            if (newMesh.vertices.Length == 0) {
-                Debug.LogError($"no vertices in baked mesh");
-                return;
-            }
-
-            //Debug.Log(newMesh.vertices.Length);
-
-            float xMin = Mathf.Infinity;
+            
             float yMin = Mathf.Infinity;
-            float zMin = Mathf.Infinity;
-
-            float xMax = Mathf.NegativeInfinity;
-            float yMax = Mathf.NegativeInfinity;
-            float zMax = Mathf.NegativeInfinity;
-
             foreach (Vector3 vertex in newMesh.vertices) {
-                xMin = Mathf.Min(xMin, vertex.x);
                 yMin = Mathf.Min(yMin, vertex.y);
-                zMin = Mathf.Min(zMin, vertex.z);
-
-                xMax = Mathf.Max(xMax, vertex.x);
-                yMax = Mathf.Max(yMax, vertex.y);
-                zMax = Mathf.Max(zMax, vertex.z);
             }
+            PelvisPositionWithGroundOffset = new Vector3(0, -yMin, 0);
 
-            minBounds = new Vector3(xMin, yMin, zMin);
-            //maxBounds = new Vector3(xMax, yMax, zMax);
-        }
-        
-        public void ResetToIndividualizedMesh() {
-            if (cachedIndividualizedMesh == null) return;
-            skinnedMeshRenderer.sharedMesh.vertices = cachedIndividualizedMesh.vertices;
+            skinnedMeshRenderer.bones[model.PelvisIndex].position = currentPelvisPosition;
         }
     }
 }

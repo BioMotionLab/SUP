@@ -4,11 +4,11 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
     public interface MoshCharacter {
         SkinnedMeshRenderer SkinnedMeshRender { get; }
         
-        SMPLSettings Settings { get; }
+        SettingsMain SettingsMain { get; }
         // ReSharper disable once InconsistentNaming
         GameObject gameObject { get;  }
         ModelDefinition Model { get; }
-        void StartAnimation(MoshAnimation moshAnimation, SMPLSettings settings);
+        void StartAnimation(MoshAnimation moshAnimation, SettingsMain settingsMain);
         void InterruptAnimation();
     }
 }

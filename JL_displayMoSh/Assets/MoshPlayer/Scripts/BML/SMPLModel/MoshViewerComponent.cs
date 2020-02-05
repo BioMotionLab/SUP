@@ -3,7 +3,6 @@ using System.IO;
 using System.Linq;
 using MoshPlayer.Scripts.BML.Display;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace MoshPlayer.Scripts.BML.SMPLModel {
 	public class MoshViewerComponent : MonoBehaviour {
@@ -18,15 +17,15 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
 		public string AnimFolder = DefaultSelectPathText;
 	
 		[SerializeField]
-		SMPLSettings Settings = default;
+		SettingsMain SettingsMain = default;
 
 		MoshAnimationPlayer moshAnimationPlayer;
 
 		[SerializeField]
-		DisplayBones DisplayBones = default;
+		BoneDisplayState BoneDisplayState = default;
 
 		[SerializeField]
-		DisplayMesh DisplayMesh = default;
+		MeshDisplayState MeshDisplayState = default;
 		
 		[SerializeField]
 		KeyCode[] NextTrialKeys = default;
@@ -39,12 +38,12 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
 			if (!File.Exists(AnimationsToPlayFile)) throw new IOException($"Can't find List of Animations file {AnimationsToPlayFile}");
 			
 			loader = gameObject.AddComponent<AnimationLoader>();
-			loader.Init(AnimationsToPlayFile, Settings, AnimFolder, DoneLoading);
+			loader.Init(AnimationsToPlayFile, SettingsMain, AnimFolder, DoneLoading);
 		}
 
 		void DoneLoading(List<List<MoshAnimation>> animationSequence) {
 			doneLoading = true;
-			moshAnimationPlayer = new MoshAnimationPlayer(animationSequence, Settings, DisplayBones, DisplayMesh);
+			moshAnimationPlayer = new MoshAnimationPlayer(animationSequence, SettingsMain, BoneDisplayState, MeshDisplayState);
 			Destroy(loader);
 		}
 		

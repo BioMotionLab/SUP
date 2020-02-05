@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text;
 using UnityEngine;
 
 namespace MoshPlayer.Scripts.BML.SMPLModel {
@@ -49,7 +48,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
 
         }
 
-        public void AttachSkin(SkinnedMeshRenderer skinnedMeshRendererToAttach, SMPLSettings settings) {
+        public void AttachSkin(SkinnedMeshRenderer skinnedMeshRendererToAttach, SettingsMain settingsMain) {
             SkinnedMeshRenderer meshRenderer = skinnedMeshRendererToAttach;
 
             individualizedBody = meshRenderer.GetComponent<IndividualizedBody>();
@@ -58,8 +57,8 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             characterPoser = meshRenderer.gameObject.GetComponent<CharacterPoser>();
             if (characterPoser == null) throw new NullReferenceException("Can't find CharacterPoser component");
 
-            requiredDuration = sourceDuration / settings.DisplaySpeed;
-            playBackwards = settings.PlayBackwards;
+            requiredDuration = sourceDuration / settingsMain.DisplaySpeed;
+            playBackwards = settingsMain.PlayBackwards;
         }
 
         

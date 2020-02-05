@@ -5,36 +5,35 @@ using UnityEngine;
 
 namespace MoshPlayer.Scripts.BML.SMPLModel {
     /// <summary>
-    /// Slightly modified version of SMPLModifyBones from MPI.
-    /// Primarily just adds a reset method. 
-    /// 
+    /// Poses the body and adjust pose-dependent blendshapes accordingly.
     /// </summary>
-    
-    [ExecuteInEditMode]
     public class CharacterPoser : MonoBehaviour {
 
         SkinnedMeshRenderer skinnedMeshRenderer;
-        Vector3[] tPoseVertexes;
-        Transform[] bones;
-        ModelDefinition model;
-        IndividualizedBody body;
-        public bool  UpdatePosesLive;
-        Quaternion[] currentTempPoses;
+        Vector3[]           tPoseVertexes;
+        Transform[]         bones;
+        ModelDefinition     model;
+        IndividualizedBody  body;
+        public bool         UpdatePosesLive;
+        Quaternion[]        currentTempPoses;
+        MoshCharacter       moshCharacter;
+        bool grounded = false;
 
-        
+
         void OnEnable() {
-            MoshCharacter moshCharacter = GetComponentInParent<MoshCharacter>();
+            moshCharacter = GetComponentInParent<MoshCharacter>();
             if (moshCharacter == null) throw new NullReferenceException("Can't find MoshCharacter component");
 
             model = moshCharacter.Model;
-            
+
             skinnedMeshRenderer = GetComponent<SkinnedMeshRenderer>();
-            if (skinnedMeshRenderer == null) throw new NullReferenceException("Not attached to object with a skinnedMeshrenderer");
-            
+            if (skinnedMeshRenderer == null)
+                throw new NullReferenceException("Not attached to object with a skinnedMeshrenderer");
+
             bones = skinnedMeshRenderer.bones;
 
             body = GetComponent<IndividualizedBody>();
-            if (body== null) throw new NullReferenceException("Can't find individualized body");
+            if (body == null) throw new NullReferenceException("Can't find individualized body");
         }
 
         void OnDisable() {
@@ -42,6 +41,8 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         }
 
         void Update() {
+            if (!grounded) SetFeetOnGround();
+            
             if (UpdatePosesLive) {
                 Quaternion[] currentBonePoses = GatherPosesFromBones();
                 AddPoseDependentBlendShapes(currentBonePoses);
@@ -56,7 +57,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         /// </summary>
         /// <param name="poses"></param>
         /// <param name="trans"></param>
-        public void UpdateBoneRotations(Quaternion[] poses)  {
+        public void UpdateBoneRotations(Quaternion[] poses) {
             for (int boneIndex = 0; boneIndex < bones.Length; boneIndex++) {
                 string boneName = bones[boneIndex].name;
                 if (boneName == Bones.Pelvis) continue;
@@ -71,7 +72,14 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         }
 
         public void UpdateTranslation(Vector3 trans) {
-            bones[model.PelvisIndex].localPosition = trans;
+            moshCharacter.gameObject.transform.localPosition = trans;
+        }
+
+        [ContextMenu("ground body")]
+        void SetFeetOnGround() {
+            Debug.Log(body.PelvisPositionWithGroundOffset);
+            //bones[model.PelvisIndex].localPosition = body.PelvisPositionWithGroundOffset;
+            grounded = true;
         }
 
 
