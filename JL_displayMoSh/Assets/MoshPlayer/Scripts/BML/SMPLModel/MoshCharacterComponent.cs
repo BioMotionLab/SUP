@@ -29,6 +29,15 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         
         // ReSharper disable once ConvertToAutoPropertyWithPrivateSetter
         public SkinnedMeshRenderer SkinnedMeshRender => skinnedMeshRenderer;
+        CharacterEvents events;
+        
+        public CharacterEvents Events {
+            get {
+                if (events == null) events = new CharacterEvents();
+                return events;
+            }
+        }
+
         
 
         void Awake() {
@@ -102,5 +111,6 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         void DestroyCharacter() {
             Destroy(gameObject);
         }
+        
     }
 }

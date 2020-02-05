@@ -32,6 +32,7 @@
               <e p="SMPLModel" t="Include">
                 <e p="AnimationLoader.cs" t="Include" />
                 <e p="Bones.cs" t="Include" />
+                <e p="CharacterEvents.cs" t="Include" />
                 <e p="CharacterPoser.cs" t="Include" />
                 <e p="ForwardsResampledFrame.cs" t="Include" />
                 <e p="Gender.cs" t="Include" />

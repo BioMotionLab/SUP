@@ -33,19 +33,21 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         // ReSharper disable once InconsistentNaming
         float[] bodyShapeBetas;
 
-        public Vector3 PelvisPositionWithGroundOffset;
         MoshCharacter moshCharacter;
         Vector3 originalCharacterPosition;
-        
-        
+        CharacterEvents events;
+
+
         void OnEnable() {
             moshCharacter = GetComponentInParent<MoshCharacter>();
             originalCharacterPosition = moshCharacter.gameObject.transform.position;
             model = moshCharacter.Model;
+
+            events = moshCharacter.Events;
             
             skinnedMeshRenderer = GetComponent<SkinnedMeshRenderer>();
             CacheAverageBody();
-            //ComputeGroundOffset();
+            SetFeetOnGround();
             
             if (bodyShapeBetas == null || bodyShapeBetas.Length == 0) bodyShapeBetas = new float[model.BodyShapeBetaCount];
             
@@ -73,7 +75,9 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             bodyShapeBetas = new float[bodyShapeBetas.Length];
             UpdateBodyShapeBlendshapes();
             for (int boneIndex = 0; boneIndex < originalBonePositions.Length; boneIndex++) {
-                skinnedMeshRenderer.bones[boneIndex].position = originalBonePositions[boneIndex];
+                Transform bone = skinnedMeshRenderer.bones[boneIndex];
+                bone.position = originalBonePositions[boneIndex];
+                bone.rotation = Quaternion.identity;
             }
             skinnedMeshRenderer.sharedMesh = Instantiate(originalMesh);
             
@@ -97,10 +101,11 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             AdjustBonePositions(bonePositions);
             AdjustMeshToNewBones();
             
-
             UpdateBodyShapeBlendshapes();
             
-            //ComputeGroundOffset();
+            events.BroadcastBodyChange(this);
+            
+            SetFeetOnGround();
         }
 
         /// <summary>
@@ -124,7 +129,6 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         /// just the average mesh that's been skinned to updated bone locations.
         /// </summary>
         void AdjustMeshToNewBones() {
-            
             AccountForUnwantedLinearBlendSkinning();
             CorrectMeshToRigOffset();
         }
@@ -248,21 +252,38 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         /// <summary>
         /// Finds distance between lowest mesh vertex and the ground. Used to move pelvis upwards to plant feet on ground
         /// </summary>
-        void ComputeGroundOffset() {
-
+        [ContextMenu("reground")]
+        void SetFeetOnGround() {
+            
+            //Set root back on ground
+            Transform rootTransform = moshCharacter.gameObject.transform;
+            rootTransform.position = new Vector3(rootTransform.position.x, 0, rootTransform.position.z);
+            
+            //save current Position
             Vector3 currentPelvisPosition = skinnedMeshRenderer.bones[model.PelvisIndex].position;
             skinnedMeshRenderer.bones[model.PelvisIndex].position = Vector3.zero;
+            
+            
             //bake the mesh to access vertex locations after modifications by blend shapes.
             Mesh newMesh = new Mesh();
             skinnedMeshRenderer.BakeMesh(newMesh);
             
+            
+            //find lowest vertex
             float yMin = Mathf.Infinity;
             foreach (Vector3 vertex in newMesh.vertices) {
                 yMin = Mathf.Min(yMin, vertex.y);
             }
-            PelvisPositionWithGroundOffset = new Vector3(0, -yMin, 0);
-
+            Vector3 lowestVertexRelativeToMeshCenter = new Vector3(0, yMin, 0);
+            
+            //restore current Position
             skinnedMeshRenderer.bones[model.PelvisIndex].position = currentPelvisPosition;
+            
+            //add offset
+            Vector3 offset = lowestVertexRelativeToMeshCenter + skinnedMeshRenderer.bones[model.PelvisIndex].localPosition;
+            Debug.Log(offset.ToString("F6"));
+            skinnedMeshRenderer.bones[model.PelvisIndex].localPosition -= offset;
+
         }
     }
 }

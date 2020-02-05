@@ -13,17 +13,19 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         Vector3[]           tPoseVertexes;
         Transform[]         bones;
         ModelDefinition     model;
-        IndividualizedBody  body;
         public bool         UpdatePosesLive;
         Quaternion[]        currentTempPoses;
         MoshCharacter       moshCharacter;
-        bool grounded = false;
+        CharacterEvents events;
 
 
         void OnEnable() {
             moshCharacter = GetComponentInParent<MoshCharacter>();
             if (moshCharacter == null) throw new NullReferenceException("Can't find MoshCharacter component");
 
+            events = moshCharacter.Events;
+            events.OnReground += SetFeetOnGround;
+            
             model = moshCharacter.Model;
 
             skinnedMeshRenderer = GetComponent<SkinnedMeshRenderer>();
@@ -31,18 +33,14 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
                 throw new NullReferenceException("Not attached to object with a skinnedMeshrenderer");
 
             bones = skinnedMeshRenderer.bones;
-
-            body = GetComponent<IndividualizedBody>();
-            if (body == null) throw new NullReferenceException("Can't find individualized body");
         }
 
         void OnDisable() {
             ResetToTPose();
+            events.OnReground -= SetFeetOnGround;
         }
 
         void Update() {
-            if (!grounded) SetFeetOnGround();
-            
             if (UpdatePosesLive) {
                 Quaternion[] currentBonePoses = GatherPosesFromBones();
                 AddPoseDependentBlendShapes(currentBonePoses);
@@ -56,7 +54,6 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         /// Updates the bones based on new poses and translation of pelvis
         /// </summary>
         /// <param name="poses"></param>
-        /// <param name="trans"></param>
         public void UpdateBoneRotations(Quaternion[] poses) {
             for (int boneIndex = 0; boneIndex < bones.Length; boneIndex++) {
                 string boneName = bones[boneIndex].name;
@@ -76,10 +73,8 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         }
 
         [ContextMenu("ground body")]
-        void SetFeetOnGround() {
-            Debug.Log(body.PelvisPositionWithGroundOffset);
-            //bones[model.PelvisIndex].localPosition = body.PelvisPositionWithGroundOffset;
-            grounded = true;
+        void SetFeetOnGround(Vector3 groundOffset) {
+            
         }
 
 
@@ -121,8 +116,6 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
                 bone.rotation = Quaternion.identity;
             }
             ResetPoseDependentBlendShapesToZero();
-            body.UpdateBody();
-
         }
 
 
