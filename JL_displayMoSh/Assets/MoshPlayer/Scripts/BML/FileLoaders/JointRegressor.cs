@@ -42,10 +42,21 @@ namespace MoshPlayer.Scripts.BML.FileLoaders {
 
             Matrix<double> finalNewPositionMatrix = jointTemplate + J_RegressorDotBetas(betas);
             
-
-            Vector3[] positions = MatrixToPositionArray(model, finalNewPositionMatrix);
+            Vector3[] positionsInMayaCoords = MatrixToPositionArray(model, finalNewPositionMatrix);
+            Vector3[] positions = ConvertToUnityCoordinateSystem(positionsInMayaCoords);
             return positions;
         }
+        
+        Vector3[] ConvertToUnityCoordinateSystem(Vector3[] jointPositions) {
+            Vector3[] flippedJointPositions = new Vector3[jointPositions.Length];
+            for (int index = 0; index < jointPositions.Length; index++) {
+                Vector3 jointPosition = jointPositions[index];
+                flippedJointPositions[index] = new Vector3(-jointPosition.x, jointPosition.y, jointPosition.z);
+            }
+
+            return flippedJointPositions;
+        }
+
 
         /// <summary>
         /// Since C# lacks "einsum" function, have to do complex matrix multiplication manually
