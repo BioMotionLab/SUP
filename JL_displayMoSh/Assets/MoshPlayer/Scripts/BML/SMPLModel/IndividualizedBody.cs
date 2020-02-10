@@ -65,20 +65,13 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             SaveVertices();
         }
 
-        private void SaveVertices()
+        void SaveVertices()
         {
             originalVertices = new Vector3[skinnedMeshRenderer.sharedMesh.vertexCount];
             skinnedMeshRenderer.sharedMesh.vertices.CopyTo(originalVertices, 0);
-
-            // Vector3[] originialCenteredVertices = new Vector3[originalVertices.Length];
-            // for (int i = 0; i < originalVertices.Length; i++)
-            // {
-            //     originialCenteredVertices[i] = originalVertices[i] - 
-            // }
-            
         }
 
-        private void SaveBonePositions()
+        void SaveBonePositions()
         {
             originalBonePositions = new Vector3[skinnedMeshRenderer.bones.Length];
             for (int boneIndex = 0; boneIndex < skinnedMeshRenderer.bones.Length; boneIndex++)
@@ -86,7 +79,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
                 Transform bone = skinnedMeshRenderer.bones[boneIndex];
                 //Save in local coordinates of pelvis. Assumes pelvis at zero.
                 originalBonePositions[boneIndex] = skinnedMeshRenderer.transform.InverseTransformPoint(bone.position);
-                Debug.Log($"bone {bone.name} pos: {bone.position} saved as {originalBonePositions[boneIndex]}");
+                //Debug.Log($"bone {bone.name} pos: {bone.position} saved as {originalBonePositions[boneIndex]}");
             }
         }
 
@@ -108,7 +101,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             skinnedMeshRenderer.sharedMesh.vertices = restoredVerticies;
         }
 
-        private void ResetBones()
+        void ResetBones()
         {
             for (int boneIndex = 0; boneIndex < originalBonePositions.Length; boneIndex++)
             {
@@ -118,7 +111,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             }
         }
 
-        private void ResetBlendshapes()
+        void ResetBlendshapes()
         {
             float[] zeroBetas = new float[bodyShapeBetas.Length];
             UpdateBodyShapeBlendshapes(zeroBetas);
@@ -148,22 +141,20 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         /// <summary>
         /// Sets up the bone positions for the individualized body.
         /// After this the skeleton should be correct, but with a bad mesh on it.
+        ///
+        /// It's important to take the Raw Bone Positions (do not center them)
+        /// since the mesh will eventually deform to match.
+        /// The pelvis can be re-centered afterwards
         /// </summary>
         /// <param name="newJointPositions"></param>
         void AdjustBonePositions(Vector3[] newJointPositions)
         {
             Debug.Log("\npositions");
             Array.ForEach(newJointPositions, (ele)=> Debug.Log(ele));
-            pelvisOffsetFromReshape = newJointPositions[model.PelvisIndex];
-            
-            Vector3[] centeredJointPositions = CenterAroundPosition(newJointPositions, pelvisOffsetFromReshape);
-            
-            Debug.Log("\ncentered");
-            Array.ForEach(newJointPositions, (ele)=> Debug.Log(ele));
-            
+
             SetPositionDownwardsThroughHierarchy(skinnedMeshRenderer.bones[model.PelvisIndex], 
-                skinnedMeshRenderer.transform, 
-                centeredJointPositions);
+                                                 skinnedMeshRenderer.transform, 
+                                                 newJointPositions);
         }
 
         /// <summary>
@@ -172,6 +163,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         /// just the average mesh that's been skinned to updated bone locations.
         /// </summary>
         void AdjustMeshToNewBones() {
+            
             AccountForUnwantedLinearBlendSkinning();
             CorrectMeshToRigOffset();
         }
@@ -231,14 +223,14 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             Vector3[] translatedVertexes = new Vector3[skinnedMeshRenderer.sharedMesh.vertexCount];
             for (int i = 0; i < translatedVertexes.Length; i++) {
                 //translatedVertexes[i] = skinnedMeshRenderer.sharedMesh.vertices[i]  + new Vector3(.00217f,-0.2407116f,0.02858f) ;
-                translatedVertexes[i] = skinnedMeshRenderer.sharedMesh.vertices[i]  + new Vector3(-.00217F,-0.93,0.02858f) ;
+                translatedVertexes[i] = skinnedMeshRenderer.sharedMesh.vertices[i] - new Vector3(.00217f,0.972724f,0.02858f) + model.OffsetErrorInFBXBetweenRigAndMesh ;
             }
             
             //+ model.OffsetErrorInFBXBetweenRigAndMesh
             skinnedMeshRenderer.sharedMesh.vertices = translatedVertexes;
         }
 
-        Vector3[] CenterAroundPosition(Vector3[] jointPositions, Vector3 initialPos) {
+        Vector3[] CenterJointsAroundPosition(Vector3[] jointPositions, Vector3 initialPos) {
             Vector3[] newJointPositions = new Vector3[jointPositions.Length];
             for (int i = 0; i < jointPositions.Length; i++) {
                 newJointPositions[i] = jointPositions[i] - initialPos;
