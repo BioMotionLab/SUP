@@ -5,7 +5,6 @@ using UnityEditor;
 using UnityEngine;
 
 namespace MoshPlayer.Scripts.BML.SMPLModel {
-    
     /// <summary>
     /// This modifies a body to match its individual shape based on its specified beta-parameters.
     ///
@@ -24,11 +23,6 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         ModelDefinition model;
         JointRegressor jointRegressor;
         Vector3 newPelvisPosition;
-        Mesh cachedIndividualizedMesh;
-
-        Mesh originalMesh;
-        Vector3[] originalBonePositions;
-
 
         [SerializeField]
         // ReSharper disable once InconsistentNaming
@@ -36,9 +30,12 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
 
         MoshCharacter moshCharacter;
         CharacterEvents events;
-        private Vector3[] originalVertices;
-        private Vector3 pelvisOffsetFromReshape;
+        
+        Vector3 pelvisOffsetFromReshape;
 
+
+        AverageBody averageBody;
+        Vector3[] updatedVertices;
 
         void OnEnable() {
             moshCharacter = GetComponentInParent<MoshCharacter>();
@@ -49,86 +46,40 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             
             skinnedMeshRenderer.bones[model.PelvisIndex].localPosition = Vector3.zero;
             
-            CacheAverageBody();
+            averageBody = new AverageBody(skinnedMeshRenderer, model);
             //SetFeetOnGround();
             
-             bodyShapeBetas = new float[model.BodyShapeBetaCount];
+            bodyShapeBetas = new float[model.BodyShapeBetaCount];
+            
+            updatedVertices = new Vector3[skinnedMeshRenderer.sharedMesh.vertexCount];
+            
             
             jointRegressor = SMPLHRegressorFromJSON.LoadRegressorFromJSON(model.RegressorFile);
             
             
         }
-
-        void CacheAverageBody()
-        {
-            SaveBonePositions();
-            SaveVertices();
-        }
-
-        void SaveVertices()
-        {
-            originalVertices = new Vector3[skinnedMeshRenderer.sharedMesh.vertexCount];
-            skinnedMeshRenderer.sharedMesh.vertices.CopyTo(originalVertices, 0);
-        }
-
-        void SaveBonePositions()
-        {
-            originalBonePositions = new Vector3[skinnedMeshRenderer.bones.Length];
-            for (int boneIndex = 0; boneIndex < skinnedMeshRenderer.bones.Length; boneIndex++)
-            {
-                Transform bone = skinnedMeshRenderer.bones[boneIndex];
-                //Save in local coordinates of pelvis. Assumes pelvis at zero.
-                originalBonePositions[boneIndex] = skinnedMeshRenderer.transform.InverseTransformPoint(bone.position);
-                //Debug.Log($"bone {bone.name} pos: {bone.position} saved as {originalBonePositions[boneIndex]}");
-            }
-        }
+        
 
         void OnDisable() {
-            ResetToAverageBody();
+            averageBody.Restore();
         }
-
-        [ContextMenu("Reset to average body")]
-        void ResetToAverageBody() {
-            ResetBlendshapes();
-            ResetBones();
-            ResetMesh();
-        }
-
-        private void ResetMesh()
-        {
-            Vector3[] restoredVerticies = new Vector3[originalVertices.Length];
-            originalVertices.CopyTo(restoredVerticies, 0);
-            skinnedMeshRenderer.sharedMesh.vertices = restoredVerticies;
-        }
-
-        void ResetBones()
-        {
-            for (int boneIndex = 0; boneIndex < originalBonePositions.Length; boneIndex++)
-            {
-                Transform bone = skinnedMeshRenderer.bones[boneIndex];
-                bone.position = originalBonePositions[boneIndex];
-                bone.rotation = Quaternion.identity;
-            }
-        }
-
-        void ResetBlendshapes()
-        {
-            float[] zeroBetas = new float[bodyShapeBetas.Length];
-            UpdateBodyShapeBlendshapes(zeroBetas);
-        }
-
+        
         public void SetupBodyWithBetas(float[] betas) {
             bodyShapeBetas = betas;
+            UpdateBody();
+        }
+
+        void Update() {
+            //Debug.Log("update");
             UpdateBody();
         }
 
         [ContextMenu("Update With Current Betas")]
         public void UpdateBody() {
             
-            ResetToAverageBody();
+            averageBody.Restore();
             
-            Vector3[] newJointPositions = jointRegressor.JointPositionFrom(model, bodyShapeBetas);
-            AdjustBonePositions(newJointPositions);
+            AdjustBonePositions();
             AdjustMeshToNewBones();
             
             UpdateBodyShapeBlendshapes(bodyShapeBetas);
@@ -141,18 +92,15 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         /// <summary>
         /// Sets up the bone positions for the individualized body.
         /// After this the skeleton should be correct, but with a bad mesh on it.
-        ///
+        /// 
         /// It's important to take the Raw Bone Positions (do not center them)
         /// since the mesh will eventually deform to match.
         /// The pelvis can be re-centered afterwards
         /// </summary>
-        /// <param name="newJointPositions"></param>
-        void AdjustBonePositions(Vector3[] newJointPositions)
+        void AdjustBonePositions()
         {
-            Debug.Log("\npositions");
-            Array.ForEach(newJointPositions, (ele)=> Debug.Log(ele));
-
-            SetPositionDownwardsThroughHierarchy(skinnedMeshRenderer.bones[model.PelvisIndex], 
+            Vector3[] newJointPositions = jointRegressor.JointPositionFrom(model, bodyShapeBetas);
+            Bones.SetPositionDownwardsThroughHierarchy(skinnedMeshRenderer.bones[model.PelvisIndex], 
                                                  skinnedMeshRenderer.transform, 
                                                  newJointPositions);
         }
@@ -164,11 +112,30 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         /// </summary>
         void AdjustMeshToNewBones() {
             
-            AccountForUnwantedLinearBlendSkinning();
-            CorrectMeshToRigOffset();
+            //vertices doesn't return the actual current vertexes, it's its vertexes before skinning.
+            //You need to bake the skinned mesh into a mesh object to retrieve the deformed vertices
+            Mesh bakedMesh = new Mesh();
+            skinnedMeshRenderer.BakeMesh(bakedMesh);
+            
+            // Needs!! to cache vertex arrays since these calls are VERY expensive. Not doing this will decrease FPS by 1000x
+            Vector3[] sharedMeshVertices = skinnedMeshRenderer.sharedMesh.vertices;
+            Vector3[] bakedMeshVertices = bakedMesh.vertices;
+            
+            
+            for (int i = 0; i < skinnedMeshRenderer.sharedMesh.vertexCount; i++) {
+                
+                Vector3 lbsCorrectedVertex = AccountForUnwantedLinearBlendSkinning(sharedMeshVertices[i],
+                                                                                   bakedMeshVertices[i], 
+                                                                                   averageBody.Vertices[i]);
+                Vector3 offsetCorrectedVertex = CorrectMeshToRigOffset(lbsCorrectedVertex);
+                updatedVertices[i] = offsetCorrectedVertex;
+            }
+            
+            skinnedMeshRenderer.sharedMesh.vertices = updatedVertices;
+            
+          
         }
-
-
+        
         /// <summary>
         /// This deforms the average mesh to the correct individualized mesh based on the body-shape betas.
         /// </summary>
@@ -190,53 +157,16 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             float scaledWeight = rawWeight * model.ShapeBlendShapeScalingFactor * model.UnityBlendShapeScaleFactor;
             return scaledWeight;
         }
-
-
-        /// <summary>
-        /// Position of bones must be adjusted carefully, since moving a parent after setting the child's
-        /// position will then move the child away from desired location. This function traverses through
-        /// a hierarchy to ensure this never happens.
-        /// </summary>
-        /// <param name="parentBone"></param>
-        /// <param name="rootCoordinateTransform"></param>
-        /// <param name="jointPositions"></param>
-        void SetPositionDownwardsThroughHierarchy(Transform parentBone, Transform rootCoordinateTransform, Vector3[] jointPositions) {
-
-            string boneName = parentBone.name;
-            if (Bones.NameToJointIndex.TryGetValue(boneName, out int boneJointIndex)) {
-                //Debug.Log($"setting: {boneName}, {jointPositions[boneJointIndex].ToString("F6")}, index: {boneJointIndex}");
-
-                parentBone.position = rootCoordinateTransform.TransformPoint(jointPositions[boneJointIndex]);
-                Debug.Log($"{boneName} set to pos: {parentBone.position}");
-                foreach (Transform child in parentBone) {
-                    SetPositionDownwardsThroughHierarchy(child, rootCoordinateTransform, jointPositions);
-                }
-            }
-        }
+        
 
         /// <summary>
         /// Correct for an error in the FBX construction
         /// where the mesh and bones have different origins.
         /// This makes sure the skeleton is not offset from the body
         /// </summary>
-        void CorrectMeshToRigOffset() {
-            Vector3[] translatedVertexes = new Vector3[skinnedMeshRenderer.sharedMesh.vertexCount];
-            for (int i = 0; i < translatedVertexes.Length; i++) {
-                //translatedVertexes[i] = skinnedMeshRenderer.sharedMesh.vertices[i]  + new Vector3(.00217f,-0.2407116f,0.02858f) ;
-                translatedVertexes[i] = skinnedMeshRenderer.sharedMesh.vertices[i] - new Vector3(.00217f,0.972724f,0.02858f) + model.OffsetErrorInFBXBetweenRigAndMesh ;
-            }
-            
-            //+ model.OffsetErrorInFBXBetweenRigAndMesh
-            skinnedMeshRenderer.sharedMesh.vertices = translatedVertexes;
-        }
-
-        Vector3[] CenterJointsAroundPosition(Vector3[] jointPositions, Vector3 initialPos) {
-            Vector3[] newJointPositions = new Vector3[jointPositions.Length];
-            for (int i = 0; i < jointPositions.Length; i++) {
-                newJointPositions[i] = jointPositions[i] - initialPos;
-            }
-
-            return newJointPositions;
+        Vector3 CorrectMeshToRigOffset(Vector3 vertex) {
+            // this is heavily optimized to reduce frame rate lag caused by garbage collection.
+            return vertex - model.CombinedOffset;
         }
 
         /// <summary>
@@ -248,32 +178,11 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         /// The body shape blendshapes (betas) were calculated as deformations to the average mesh,
         /// not the new bone-deformed mesh. That is why this is necessary.
         /// </summary>
-        void AccountForUnwantedLinearBlendSkinning() {
-            
-            //vertices doesn't return the actual current vertexes, it's its vertexes before skinning.
-            //You need to bake the skinned mesh into a mesh object to retrieve the deformed vertices
-            Vector3[] vertexesWithUnwantedSkinningRemoved = new Vector3[skinnedMeshRenderer.sharedMesh.vertexCount];
-            
-            Mesh bakedMesh = new Mesh();
-            skinnedMeshRenderer.BakeMesh(bakedMesh);
-
-            for (int i = 0; i < originalVertices.Length; i++) {
-                Vector3 differenceVector = originalVertices[i] - bakedMesh.vertices[i];
-
-                if (i % 102 == 0)
-                {
-                    Debug.Log($"baked differenceVector {differenceVector.ToString("F6")}");
-                    Vector3 rawDifferencevector = originalVertices[i] - skinnedMeshRenderer.sharedMesh.vertices[i];
-                    Debug.Log($"raw differenceVector {rawDifferencevector.ToString("F6")}");
-                }
-                
-                
-                //basically undoes the deformation 
-                vertexesWithUnwantedSkinningRemoved[i] = skinnedMeshRenderer.sharedMesh.vertices[i] + differenceVector;
-            }
-
-            //now copy back to actual vertexes.
-            skinnedMeshRenderer.sharedMesh.vertices = vertexesWithUnwantedSkinningRemoved;
+        Vector3  AccountForUnwantedLinearBlendSkinning(Vector3 vertex, Vector3 bakedVertex, Vector3 averageVertex) {
+            // this is heavily optimized to reduce framerate caused by garbage collection.
+            // AverageVertex-bakedVertex is the deformation caused by LBS, we're adding it back on.
+            return vertex + averageVertex - bakedVertex;
+           
         }
 
 

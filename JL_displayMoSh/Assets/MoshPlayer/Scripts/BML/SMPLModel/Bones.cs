@@ -245,6 +245,36 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             string boneName = bone.name;
             return boneName == LeftFoot || boneName == RightFoot;
         }
+        
+        /// <summary>
+        /// Position of bones must be adjusted carefully, since moving a parent after setting the child's
+        /// position will then move the child away from desired location. This function traverses through
+        /// a hierarchy to ensure this never happens.
+        /// </summary>
+        /// <param name="parentBone"></param>
+        /// <param name="rootCoordinateTransform"></param>
+        /// <param name="jointPositions"></param>
+        public static void SetPositionDownwardsThroughHierarchy(Transform parentBone, Transform rootCoordinateTransform, Vector3[] jointPositions) {
+            string boneName = parentBone.name;
+            if (NameToJointIndex.TryGetValue(boneName, out int boneJointIndex)) {
+                parentBone.position = rootCoordinateTransform.TransformPoint(jointPositions[boneJointIndex]);
+                foreach (Transform child in parentBone) {
+                    SetPositionDownwardsThroughHierarchy(child, rootCoordinateTransform, jointPositions);
+                }
+            }
+        }
+        
+        public static void ResetBonesDownwardsThroughHierarchy(Transform parentBone, Transform rootCoordinateTransform, Vector3[] originalPositions) {
+            string boneName = parentBone.name;
+            if (NameToJointIndex.TryGetValue(boneName, out int boneJointIndex)) {
+                parentBone.position = rootCoordinateTransform.TransformPoint(originalPositions[boneJointIndex]);
+                parentBone.rotation = Quaternion.identity;
+                foreach (Transform child in parentBone) {
+                    SetPositionDownwardsThroughHierarchy(child, rootCoordinateTransform, originalPositions);
+                }
+            }
+        }
+        
     }
 
     public enum SideOfBody {
@@ -252,4 +282,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         Right,
         Center
     }
+    
+    
+    
 }

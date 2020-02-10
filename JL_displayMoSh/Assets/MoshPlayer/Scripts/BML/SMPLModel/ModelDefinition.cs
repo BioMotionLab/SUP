@@ -69,8 +69,9 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         bool skipFirstPose = false;
 
         public bool SkipFirstPose => skipFirstPose;
+
        
-        
+
         public TextAsset RegressorFile;
 
 
@@ -91,6 +92,14 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
 
         public bool Animate;
         
+        [SerializeField]
+        //new Vector3(.00217f,0.972724f,0.02858f);
+        public Vector3 OffsetBetweenPelvisAndZero;
+
+        
         public Vector3 OffsetErrorInFBXBetweenRigAndMesh;
+
+        [SerializeField]
+        public Vector3 CombinedOffset;
     }
 }
