@@ -1,6 +1,11 @@
 using UnityEngine;
 
 namespace MoshPlayer.Scripts.BML.SMPLModel {
+    /// <summary>
+    /// This class stores the data for the average mesh, to enable easy resetting.
+    /// This is especially important to restore mesh on program quit not not
+    /// cause permanent changes to the mesh.
+    /// </summary>
     public class AverageBody {
         
         readonly SkinnedMeshRenderer skinnedMeshRenderer;
@@ -11,7 +16,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         readonly Vector3[] restoredVerticies;
 
         public Vector3[] Vertices => vertices;
-
+        
         public AverageBody(SkinnedMeshRenderer skinnedMeshRenderer, ModelDefinition model)
         {
             this.skinnedMeshRenderer = skinnedMeshRenderer;

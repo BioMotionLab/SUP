@@ -9,6 +9,9 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         GameObject gameObject { get;  }
         ModelDefinition Model { get; }
         CharacterEvents Events { get; }
+        bool SetFeetOnGround { get; }
+        Vector3 CombinedOffset { get; }
+        Gender Gender { get; }
         void StartAnimation(MoshAnimation moshAnimation, SettingsMain settingsMain);
         void InterruptAnimation();
     }

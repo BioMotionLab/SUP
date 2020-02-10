@@ -14,7 +14,7 @@ namespace MoshPlayer.Scripts.BML.Display {
         SkinnedMeshRenderer meshRenderer;
 
         [SerializeField]
-        PointLight PointLightPrefab;
+        PointLight PointLightPrefab = default;
 
         [SerializeField]
         public bool DisplayPointLights = true;

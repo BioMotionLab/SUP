@@ -35,7 +35,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
                              Vector3[]       translations,
                              Quaternion[,]   allPoses) {
             Gender = gender;
-            this.Model = model;
+            Model = model;
             this.sourceFPS = sourceFPS;
             this.sourceTotalFrameCount = sourceTotalFrameCount;
             sourceDuration = this.sourceTotalFrameCount / (float) this.sourceFPS;
@@ -52,13 +52,13 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             SkinnedMeshRenderer meshRenderer = skinnedMeshRendererToAttach;
 
             individualizedBody = meshRenderer.GetComponent<IndividualizedBody>();
-            individualizedBody.SetupBodyWithBetas(rawBodyShapeWeightBetas);
+            individualizedBody.UpdateBodyWithBetas(rawBodyShapeWeightBetas);
 
             characterPoser = meshRenderer.gameObject.GetComponent<CharacterPoser>();
             if (characterPoser == null) throw new NullReferenceException("Can't find CharacterPoser component");
 
-            requiredDuration = sourceDuration / settingsMain.DisplaySpeed;
-            playBackwards = settingsMain.PlayBackwards;
+            requiredDuration = sourceDuration / settingsMain.DisplaySettings.DisplaySpeed;
+            playBackwards = settingsMain.DisplaySettings.PlayBackwards;
         }
 
         
@@ -87,7 +87,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             Vector3 translationThisFrame = GetTranslationAtFrame(resampledFrame);
             Quaternion[] posesThisFrame = GetPosesAtFrame(resampledFrame);
             
-            characterPoser.UpdateBoneRotations(posesThisFrame);
+            characterPoser.SetPoses(posesThisFrame);
             characterPoser.UpdateTranslation(translationThisFrame);
             
         }

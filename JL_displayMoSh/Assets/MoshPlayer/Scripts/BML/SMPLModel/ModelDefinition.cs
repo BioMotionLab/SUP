@@ -65,41 +65,41 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             return newMoshCharacter;
         }
 
+        [FormerlySerializedAs("skipFirstPose")]
         [SerializeField]
-        bool skipFirstPose = false;
+        // ReSharper disable once InconsistentNaming
+        bool firstPoseIsPelvisTranslation = false;
 
-        public bool SkipFirstPose => skipFirstPose;
+        public bool FirstPoseIsPelvisTranslation => firstPoseIsPelvisTranslation;
+        
+        [SerializeField]
+        TextAsset MaleRegressorFile;
+        
+        [SerializeField]
+        TextAsset FemaleRegressorFile;
 
-       
-
-        public TextAsset RegressorFile;
-
+        public TextAsset RegressorFile(Gender gender) {
+            switch (gender) {
+                case Gender.Male:
+                    return MaleRegressorFile;
+                case Gender.Female:
+                    return FemaleRegressorFile;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(gender), gender, null);
+            }
+        }
 
         [SerializeField]
+        // ReSharper disable once InconsistentNaming
         float unityBlendShapeScaleFactor = 100f;
 
         [SerializeField]
-        float poseBlendShapeScalingFactor = 5f;
+        // ReSharper disable once InconsistentNaming
+        float poseBlendShapeScalingFactor = 1f;
 
         [SerializeField]
-        float shapeBlendShapeScalingFactor = 5f;
-
-        
-        public bool AddShapeBlendshapes;
-
-        [FormerlySerializedAs("AddPoseBlenshapes")]
-        public bool AddPoseBlendshapes;
-
-        public bool Animate;
-        
-        [SerializeField]
-        //new Vector3(.00217f,0.972724f,0.02858f);
-        public Vector3 OffsetBetweenPelvisAndZero;
-
-        
-        public Vector3 OffsetErrorInFBXBetweenRigAndMesh;
-
-        [SerializeField]
-        public Vector3 CombinedOffset;
+        // ReSharper disable once InconsistentNaming
+        float shapeBlendShapeScalingFactor = 1f;
+      
     }
 }

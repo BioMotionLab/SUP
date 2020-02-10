@@ -14,10 +14,35 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         Mesh          smplMeshClone;
         SkinnedMeshRenderer skinnedMeshRenderer;
         MoshMesh moshMesh;
-        
+
+        [SerializeField]
+        Gender gender;
+
+        public Gender Gender => gender;
+
         [SerializeField]
         SettingsMain settingsMain = default;
         
+          
+        [SerializeField]
+        //new Vector3(.00217f,0.972724f,0.02858f);
+        Vector3 OffsetErrorBetweenPelvisAndZero = default;
+
+        
+        [SerializeField]
+        Vector3 OffsetErrorInFbxBetweenRigAndMesh = default;
+
+        [SerializeField]
+        Vector3 combinedOffsets = default;
+
+        void OnValidate() {
+            combinedOffsets = OffsetErrorBetweenPelvisAndZero - OffsetErrorInFbxBetweenRigAndMesh;
+        }
+
+        public Vector3 CombinedOffset => combinedOffsets;
+
+        public bool SetFeetOnGround => settingsMain.SetFeetOnGround;
+
         Mesh originalMesh;
         
         [SerializeField]
@@ -90,8 +115,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
                 StopAnimation();
                 return;
             }
-
-            if (!model.Animate) return;
+            
             moshAnimation.PlayCurrentFrame();
         }
 

@@ -47,30 +47,24 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             skinnedMeshRenderer.bones[model.PelvisIndex].localPosition = Vector3.zero;
             
             averageBody = new AverageBody(skinnedMeshRenderer, model);
-            //SetFeetOnGround();
+            SetFeetOnGround();
             
+            //pre-create arrays for optimization.
             bodyShapeBetas = new float[model.BodyShapeBetaCount];
-            
             updatedVertices = new Vector3[skinnedMeshRenderer.sharedMesh.vertexCount];
             
             
-            jointRegressor = SMPLHRegressorFromJSON.LoadRegressorFromJSON(model.RegressorFile);
+            jointRegressor = SMPLHRegressorFromJSON.LoadRegressorFromJSON(model.RegressorFile(moshCharacter.Gender));
             
             
         }
         
-
         void OnDisable() {
             averageBody.Restore();
         }
         
-        public void SetupBodyWithBetas(float[] betas) {
+        public void UpdateBodyWithBetas(float[] betas) {
             bodyShapeBetas = betas;
-            UpdateBody();
-        }
-
-        void Update() {
-            //Debug.Log("update");
             UpdateBody();
         }
 
@@ -84,9 +78,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             
             UpdateBodyShapeBlendshapes(bodyShapeBetas);
             
-            events.BroadcastBodyChange(this);
-            
-            //SetFeetOnGround();
+            if (moshCharacter.SetFeetOnGround) SetFeetOnGround();
         }
 
         /// <summary>
@@ -112,12 +104,15 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         /// </summary>
         void AdjustMeshToNewBones() {
             
-            //vertices doesn't return the actual current vertexes, it's its vertexes before skinning.
+            
+            //vertices doesn't return the actual current vertexes, it's the vertexes before skinning.
             //You need to bake the skinned mesh into a mesh object to retrieve the deformed vertices
             Mesh bakedMesh = new Mesh();
             skinnedMeshRenderer.BakeMesh(bakedMesh);
             
-            // Needs!! to cache vertex arrays since these calls are VERY expensive. Not doing this will decrease FPS by 1000x
+            
+            // Important! Needs to cache vertex arrays since these calls are VERY expensive.
+            // Not doing this will decrease FPS by 1000x
             Vector3[] sharedMeshVertices = skinnedMeshRenderer.sharedMesh.vertices;
             Vector3[] bakedMeshVertices = bakedMesh.vertices;
             
@@ -153,7 +148,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         /// <param name="rawWeight"></param>
         /// <returns></returns>
         float ScaleBlendshapeFromBlenderToUnity(float rawWeight) {
-            if (!model.AddShapeBlendshapes) return 0;
+            //TODO if (!model.AddShapeBlendshapes) return 0;
             float scaledWeight = rawWeight * model.ShapeBlendShapeScalingFactor * model.UnityBlendShapeScaleFactor;
             return scaledWeight;
         }
@@ -166,7 +161,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         /// </summary>
         Vector3 CorrectMeshToRigOffset(Vector3 vertex) {
             // this is heavily optimized to reduce frame rate lag caused by garbage collection.
-            return vertex - model.CombinedOffset;
+            return vertex - moshCharacter.CombinedOffset;
         }
 
         /// <summary>
@@ -179,6 +174,12 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         /// not the new bone-deformed mesh. That is why this is necessary.
         /// </summary>
         Vector3  AccountForUnwantedLinearBlendSkinning(Vector3 vertex, Vector3 bakedVertex, Vector3 averageVertex) {
+            
+            //Use This to output the correct combined offset error.
+            //var message = averageVertex - bakedVertex;
+            //Debug.Log(message.ToString("f8"));
+            
+            
             // this is heavily optimized to reduce framerate caused by garbage collection.
             // AverageVertex-bakedVertex is the deformation caused by LBS, we're adding it back on.
             return vertex + averageVertex - bakedVertex;

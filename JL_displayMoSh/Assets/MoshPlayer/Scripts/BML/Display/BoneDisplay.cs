@@ -11,6 +11,10 @@ namespace MoshPlayer.Scripts.BML.Display {
         DisplaySettings displaySettings;
         Transform pelvisBone;
 
+        
+        [SerializeField]
+        public BoneLine BonePrefab;
+        
         [SerializeField]
         public bool DisplayBones = true;
 
@@ -35,7 +39,7 @@ namespace MoshPlayer.Scripts.BML.Display {
         void CreateBoneDisplays(Transform parent) {
             foreach (Transform child in parent) {
                 if (!Bones.IsBone(child)) continue;
-                BoneLine newBone = Instantiate(displaySettings.BonePrefab, boneDisplayContainer.transform);
+                BoneLine newBone = Instantiate(BonePrefab, boneDisplayContainer.transform);
                 newBone.Init(this, parent, child, displaySettings);
                 SetupBones(child);
             }

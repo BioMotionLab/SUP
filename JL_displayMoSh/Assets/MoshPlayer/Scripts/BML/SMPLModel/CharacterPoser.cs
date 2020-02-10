@@ -13,18 +13,22 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         Vector3[]           tPoseVertexes;
         Transform[]         bones;
         ModelDefinition     model;
-        public bool         UpdatePosesLive;
+        
+        [SerializeField]
+        bool UpdatePosesLive = default;
+
+        [SerializeField]
+        bool UpdateBlendshapesLive= default;
+        
+        
         Quaternion[]        currentTempPoses;
         MoshCharacter       moshCharacter;
-        CharacterEvents events;
-
+        Quaternion[] poses;
 
         void OnEnable() {
             moshCharacter = GetComponentInParent<MoshCharacter>();
             if (moshCharacter == null) throw new NullReferenceException("Can't find MoshCharacter component");
-
-            events = moshCharacter.Events;
-            events.OnReground += SetFeetOnGround;
+            
             
             model = moshCharacter.Model;
 
@@ -33,28 +37,41 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
                 throw new NullReferenceException("Not attached to object with a skinnedMeshrenderer");
 
             bones = skinnedMeshRenderer.bones;
+            
+            poses = new Quaternion[model.JointCount];
         }
 
         void OnDisable() {
             ResetToTPose();
-            events.OnReground -= SetFeetOnGround;
         }
 
-        void Update() {
-            if (UpdatePosesLive) {
-                Quaternion[] currentBonePoses = GatherPosesFromBones();
-                AddPoseDependentBlendShapes(currentBonePoses);
+        void LateUpdate() {
+            if (UpdateBlendshapesLive) {
+                AddPoseDependentBlendShapes();
             }
             else {
                 ResetPoseDependentBlendShapesToZero();
             }
+            
+
+            if (UpdatePosesLive) {
+                UpdatePoses();
+            }
+            else {
+                ResetBones();
+            }
         }
 
+        public void SetPoses(Quaternion[] poses) {
+            this.poses = poses;
+        }
+
+        
         /// <summary>
         /// Updates the bones based on new poses and translation of pelvis
         /// </summary>
         /// <param name="poses"></param>
-        public void UpdateBoneRotations(Quaternion[] poses) {
+        void UpdatePoses() {
             for (int boneIndex = 0; boneIndex < bones.Length; boneIndex++) {
                 string boneName = bones[boneIndex].name;
                 if (boneName == Bones.Pelvis) continue;
@@ -72,50 +89,16 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             moshCharacter.gameObject.transform.localPosition = trans;
         }
 
-        [ContextMenu("ground body")]
-        void SetFeetOnGround(Vector3 groundOffset) {
-            
-        }
-
-
-        public Quaternion[] GatherPosesFromBones() {
-            //Debug.Log("Gathering Poses");
-            Quaternion[] poses = new Quaternion[model.JointCount];
-            foreach (Transform bone in skinnedMeshRenderer.bones) {
-                int poseIndex = Bones.NameToJointIndex[bone.name];
-                poses[poseIndex] = bone.localRotation;
-                if (poses[poseIndex] != Quaternion.identity) {
-                    //Debug.Log($"poses {poseIndex}: {poses[poseIndex]}");
-                }
-            }
-            return poses;
-        }
-
-        /// <summary>
-        /// Updates the bones based on new poses and translation of pelvis
-        /// </summary>
-        /// <param name="poses"></param>
-        public void PoseSkeleton(Quaternion[] poses)  {
-            Debug.Log("reposing");
-            for (int boneIndex = 0; boneIndex < skinnedMeshRenderer.bones.Length; boneIndex++) {
-                string boneName = skinnedMeshRenderer.bones[boneIndex].name;
-                if (boneName == Bones.Pelvis) continue;
-                try {
-                    int poseIndex = Bones.NameToJointIndex[boneName];
-                    skinnedMeshRenderer.bones[boneIndex].localRotation = poses[poseIndex];
-                }
-                catch (KeyNotFoundException) {
-                    throw new KeyNotFoundException($"Bone Not in dictionary: boneIndex: {boneIndex}, name: {boneName}");
-                }
-            }
-        }
-
         [ContextMenu("ResetToTPose")]
         public void ResetToTPose() {
+            ResetBones();
+            ResetPoseDependentBlendShapesToZero();
+        }
+
+        void ResetBones() {
             foreach (var bone in bones) {
                 bone.rotation = Quaternion.identity;
             }
-            ResetPoseDependentBlendShapesToZero();
         }
 
 
@@ -125,10 +108,9 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         /// Pelvis has no blend shapes. So need to skip it when iterating through joints.
         /// But then to index blendshapes need to subtract that 1 back to get blendshape index.
         /// </summary>
-        /// <param name="poses"></param>
-        void AddPoseDependentBlendShapes(Quaternion[] poses) {
+        void AddPoseDependentBlendShapes() {
 
-            int startingJoint =  model.SkipFirstPose ? 1 : 0;
+            int startingJoint =  model.FirstPoseIsPelvisTranslation ? 1 : 0;
 
             for (int jointIndex = startingJoint; jointIndex < model.JointCount; jointIndex++) {
                 Quaternion jointPose = poses[jointIndex];
@@ -139,7 +121,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
                     float rawPoseDependentBlendshapeWeight = rotationMatrix3X3[rotMatrixElement];
                     float scaledWeightBeta = ScalePoseBlendshapesFromBlenderToUnity(rawPoseDependentBlendshapeWeight); 
                     
-                    int jointIndexNoPelvis = model.SkipFirstPose ? jointIndex - 1 : jointIndex; // no blendshapes for pelvis.
+                    int jointIndexNoPelvis = model.FirstPoseIsPelvisTranslation ? jointIndex - 1 : jointIndex; // no blendshapes for pelvis.
                     int blendShapeIndex = model.BodyShapeBetaCount + jointIndexNoPelvis * SMPLConstants.RotationMatrixElementCount + rotMatrixElement;
                     skinnedMeshRenderer.SetBlendShapeWeight(blendShapeIndex, scaledWeightBeta);
                 }
@@ -148,11 +130,11 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         
         [ContextMenu("ResetPoseBlendshapes")]
         void ResetPoseDependentBlendShapesToZero() {
-            int startingJoint =  model.SkipFirstPose ? 1 : 0;
+            int startingJoint =  model.FirstPoseIsPelvisTranslation ? 1 : 0;
             for (int jointIndex = startingJoint; jointIndex < model.JointCount; jointIndex++) {
                 for (int rotMatrixElement = 0; rotMatrixElement < SMPLConstants.RotationMatrixElementCount; rotMatrixElement++) {
                     float scaledWeightBeta = 0;
-                    int jointIndexNoPelvis = model.SkipFirstPose ? jointIndex - 1 : jointIndex; // no blendshapes for pelvis.
+                    int jointIndexNoPelvis = model.FirstPoseIsPelvisTranslation ? jointIndex - 1 : jointIndex; // no blendshapes for pelvis.
                     int blendShapeIndex = model.BodyShapeBetaCount + jointIndexNoPelvis * SMPLConstants.RotationMatrixElementCount + rotMatrixElement;
                     skinnedMeshRenderer.SetBlendShapeWeight(blendShapeIndex, scaledWeightBeta);
                 }
@@ -160,7 +142,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         }
 
         float ScalePoseBlendshapesFromBlenderToUnity(float rawWeight) {
-            if (!model.AddPoseBlendshapes) return 0;
+            //TODO if (!model.AddPoseBlendshapes) return 0;
             float scaledWeight = rawWeight * model.PoseBlendshapeScalingFactor * model.UnityBlendShapeScaleFactor;
             return scaledWeight;
 

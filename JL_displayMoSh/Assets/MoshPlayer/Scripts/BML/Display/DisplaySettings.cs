@@ -15,15 +15,9 @@ namespace MoshPlayer.Scripts.BML.Display {
         [SerializeField]
         public Material RightSideMaterial = default;
         
-        [SerializeField]
-        public Material SemiTransparentMaterial = default; 
-
         
         [Header("Point Light Display")]
         
-        [SerializeField]
-        public GameObject PointLightPrefab;
-
         [SerializeField]
         public float PointLightDisplaySize = 0.08f;
         
@@ -36,8 +30,11 @@ namespace MoshPlayer.Scripts.BML.Display {
         public float BoneWidth = 0.04f;
 
         [SerializeField]
-        public BoneLine BonePrefab;
+        [Range(0,5)]
+        public float DisplaySpeed = 1f;
 
+        [SerializeField]
+        public bool PlayBackwards = false;
         
     }
 }

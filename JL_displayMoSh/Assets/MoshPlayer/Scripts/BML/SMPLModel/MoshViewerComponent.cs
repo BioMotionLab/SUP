@@ -43,7 +43,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
 
 		void DoneLoading(List<List<MoshAnimation>> animationSequence) {
 			doneLoading = true;
-			moshAnimationPlayer = new MoshAnimationPlayer(animationSequence, SettingsMain, BoneDisplayState, MeshDisplayState);
+			moshAnimationPlayer = new MoshAnimationPlayer(animationSequence, SettingsMain);
 			Destroy(loader);
 		}
 		

@@ -1072,7 +1072,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6a59b913eb14f93a6d1bd9ea6fc5a2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UpdatePosesLive: 1
+  UpdatePosesLive: 0
+  UpdateBlendshapesLive: 1
 --- !u!114 &3663453371877652233
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1516,6 +1517,7 @@ GameObject:
   - component: {fileID: 7845027693450683428}
   - component: {fileID: 3755340494992920777}
   - component: {fileID: 6891566159017520019}
+  - component: {fileID: 9148669948084084627}
   m_Layer: 0
   m_Name: Male SMPLH Character
   m_TagString: Untagged
@@ -1552,6 +1554,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   settingsMain: {fileID: 11400000, guid: 2313800435c61b84ea16a728169d71c1, type: 2}
+  OffsetErrorBetweenPelvisAndZero: {x: 0.00217, y: 0.972724, z: 0.028858}
+  OffsetErrorInFbxBetweenRigAndMesh: {x: 0.00217, y: -0.240791, z: 0.028858}
+  combinedOffsets: {x: 0, y: 1.213515, z: 0}
   model: {fileID: 11400000, guid: 914a54cb7fbcabe41a0ee32110e356c8, type: 2}
 --- !u!114 &3755340494992920777
 MonoBehaviour:
@@ -1581,7 +1586,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44c769a0a73a43c4a77d641bc9919c1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BonePrefab: {fileID: -3767570862851206843, guid: 32ff7e245a058ca43b0b38d9d58bb9d6,
+    type: 3}
   DisplayBones: 1
+--- !u!114 &9148669948084084627
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3520467633113000203}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ea7379a8284b0d489e84ec2554c200c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MeshDisplayState: 0
+  SemiTransparentMaterial: {fileID: 2100000, guid: 390d20f60d542454993698b34318161d,
+    type: 2}
+  OpaqueMaterial: {fileID: 2100000, guid: b17622e691063274ca6e94c332d98f3c, type: 2}
 --- !u!1 &3750321636486630649
 GameObject:
   m_ObjectHideFlags: 0

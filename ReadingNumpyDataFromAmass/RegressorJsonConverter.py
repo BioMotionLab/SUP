@@ -5,7 +5,7 @@ import sys
 # noinspection PyPep8Naming
 
 #%%
-model_path = 'data/model_smplh_mana_m.npz'
+model_path = 'data/model_smplh-amass_f.npz.npz'
 
 #%%
 print(sys.version)
@@ -70,7 +70,7 @@ class AMASSJsonRegressorConverter:
 #%%
 converter = AMASSJsonRegressorConverter(model_path)
 #%%
-converter.write_to_json('test_regressor.json')
+converter.write_to_json('smplh_amass_regressor_f.json')
 print("done conversion.")
 
 #%%
