@@ -44,7 +44,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             this.rawBodyShapeWeightBetas = rawBodyShapeWeightBetas;
             this.translations = translations;
             this.allPoses = allPoses;
-            Debug.Log(gender);
+            //Debug.Log(gender);
 
         }
 

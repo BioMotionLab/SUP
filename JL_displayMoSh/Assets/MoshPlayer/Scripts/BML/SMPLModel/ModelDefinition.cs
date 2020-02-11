@@ -73,6 +73,9 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         public bool FirstPoseIsPelvisTranslation => firstPoseIsPelvisTranslation;
         
         [SerializeField]
+        public bool FemaleNegativeBlendshapes = false;
+
+        [SerializeField]
         TextAsset MaleRegressorFile;
         
         [SerializeField]

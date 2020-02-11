@@ -72,6 +72,17 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             for (int betaIndex = 0; betaIndex < model.BodyShapeBetaCount; betaIndex++) {
                 skinnedMeshRenderer.SetBlendShapeWeight(betaIndex, 0);
             }
+            
+            int startingJoint =  model.FirstPoseIsPelvisTranslation ? 1 : 0;
+            for (int jointIndex = startingJoint; jointIndex < model.JointCount; jointIndex++) {
+                for (int rotMatrixElement = 0; rotMatrixElement < SMPLConstants.RotationMatrixElementCount; rotMatrixElement++) {
+                    float scaledWeight = 0;
+                    int jointIndexNoPelvis = model.FirstPoseIsPelvisTranslation ? jointIndex - 1 : jointIndex; // no blendshapes for pelvis.
+                    int blendShapeIndex = model.BodyShapeBetaCount + jointIndexNoPelvis * SMPLConstants.RotationMatrixElementCount + rotMatrixElement;
+                    skinnedMeshRenderer.SetBlendShapeWeight(blendShapeIndex, scaledWeight);
+                }
+            }
+            
         }
     }
 }

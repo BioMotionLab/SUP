@@ -3,23 +3,21 @@ using UnityEngine;
 
 namespace MoshPlayer.Scripts.Utilities {
     public static class QuaternionExtensions {
-
+        
         /// <summary>
-        /// Convert rotation Quaternion to 3x3 rotation matrix, converted to RHS so blend shapes work correctly.
+        /// Convert rotation Quaternion to 3x3 rotation matrix.
         /// </summary>
         /// <param name="quaternion">Quaternion to convert to a matrix.</param>
         /// <returns></returns>
         [PublicAPI]
-        public static float[] To3X3MatrixMinusIdent(this Quaternion quaternion)
+        public static float[] To3X3Matrix(this Quaternion quaternion)
         {
-            //convert to from unity back to MPI's maya coordinate system
-            Quaternion rightHandedQuaternion = quaternion.ToRightHanded();
 
-            float x = rightHandedQuaternion.x;
-            float y = rightHandedQuaternion.y;
-            float z = rightHandedQuaternion.z;
-            float w = rightHandedQuaternion.w ;
-
+            float x = quaternion.x;
+            float y = quaternion.y;
+            float z = quaternion.z;
+            float w = quaternion.w ;
+            
             float xx      = x * x;
             float xy      = x * y;
             float xz      = x * z;
@@ -31,23 +29,25 @@ namespace MoshPlayer.Scripts.Utilities {
             float zw      = z * w;
         
             float[] rot3X3 = new float[9];
-            rot3X3[0] = 1 - 2 * ( yy + zz );
-            rot3X3[1] = 2 * ( xy - zw );
-            rot3X3[2] = 2 * ( xz + yw );
-
-            rot3X3[3] = 2 * ( xy + zw );
-            rot3X3[4] = 1 - 2 * ( xx + zz );
-            rot3X3[5] = 2 * ( yz - xw );
-
-            rot3X3[6] = 2 * ( xz - yw );
-            rot3X3[7] =  2 * ( yz + xw );
-            rot3X3[8] = 1 - 2 * ( xx + yy );
+            rot3X3[0] = 1 - 2*yy - 2*zz;
+            //rot3X3[0] =     2*yy - 2*zz;
             
-            //subtract ident because life is hard.
-            rot3X3[0] -= 1;
-            rot3X3[4] -= 1;
-            rot3X3[8] -= 1;
+            rot3X3[1] =     2*xy - 2*zw ;
+            rot3X3[2] =     2*xz + 2*yw;
 
+            rot3X3[3] =     2*xy + 2*zw;
+            
+            rot3X3[4] = 1 - 2*xx - 2*zz;
+            //rot3X3[4] =     2*xx - 2*zz;
+            
+            rot3X3[5] =     2*yz - 2*xw;
+
+            rot3X3[6] =     2*xz - 2*yw;
+            rot3X3[7] =     2*yz + 2*xw;
+            
+            rot3X3[8] = 1 - 2*xx - 2*yy;
+            //rot3X3[8] =     2*xx - 2*yy;
+            
             return rot3X3;
         }
         
@@ -62,23 +62,29 @@ namespace MoshPlayer.Scripts.Utilities {
 
             // if the difference is just handedness, I would have thought only 1 axis would need to be flipped. But these are quaternions, and 
             // pretty much no one understands quaternions. It like - violates labor laws or something.
-        
+
             Quaternion rightHandedQuaternion = new Quaternion (-leftHandedQuaternion.x,
-                                                               -leftHandedQuaternion.z,
                                                                leftHandedQuaternion.y,
+                                                               leftHandedQuaternion.z,
                                                                -leftHandedQuaternion.w);
             return rightHandedQuaternion;
         }
         
+        
+       
+
+        
         [PublicAPI]
-        public static Quaternion ToLeftHanded(this Quaternion inMayaCoords) {
-            float x = -inMayaCoords.x;
-            float y = inMayaCoords.y;
-            float z = inMayaCoords.z;
-            float w = -inMayaCoords.w;
+        public static Quaternion ToLeftHanded(this Quaternion rightHanded) {
+            float x = -rightHanded.x;
+            float y = rightHanded.y;
+            float z = rightHanded.z;
+            float w = -rightHanded.w;
             Quaternion inUnityCoords = new Quaternion(x, y, z, w);
             return inUnityCoords;
         }
+        
+     
 
 
     }

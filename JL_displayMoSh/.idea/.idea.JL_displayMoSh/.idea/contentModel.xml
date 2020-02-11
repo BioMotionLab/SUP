@@ -63,6 +63,7 @@
               </e>
             </e>
             <e p="Utilities" t="Include">
+              <e p="MatrixUtilities.cs" t="Include" />
               <e p="QuaternionExtensions.cs" t="Include" />
               <e p="Vector3Extensions.cs" t="Include" />
             </e>

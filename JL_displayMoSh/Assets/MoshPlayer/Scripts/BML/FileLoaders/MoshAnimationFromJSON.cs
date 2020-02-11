@@ -70,19 +70,19 @@ namespace MoshPlayer.Scripts.BML.FileLoaders {
             
             
             LoadGender(genderNode);
-            Debug.Log($"Gender: {gender}");
+            //Debug.Log($"Gender: {gender}");
             LoadFPS(fpsNode);
-            Debug.Log($"fps: {fps}");
+            //Debug.Log($"fps: {fps}");
             LoadBetas(betasNode);
             if (fps == 0) {
-                Debug.Log($"No fps specified, defaulting to {settingsMain.FallbackFPS}");
+                //Debug.Log($"No fps specified, defaulting to {settingsMain.FallbackFPS}");
                 fps = settingsMain.FallbackFPS;
             }
             
-            DebugArray("betas", betas.ToList());
+            //DebugArray("betas", betas.ToList());
             
             LoadTranslationsAndPosesFromJoints(transNode, posesNode);
-            DebugArray("trans" , translations.ToList());
+            //DebugArray("trans" , translations.ToList());
             //DebugArray("poses" , poses.ToList());
             
         }

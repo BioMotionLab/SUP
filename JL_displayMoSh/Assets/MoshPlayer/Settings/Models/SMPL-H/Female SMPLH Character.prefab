@@ -752,6 +752,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bodyShapeBetas: []
+  UpdateBodyShapeLive: 0
 --- !u!114 &9033997643542601292
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -765,7 +766,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UpdatePosesLive: 1
-  UpdateBlendshapesLive: 0
+  UpdateBlendshapesLive: 1
+  BlendShapeThreshold: 10
+  AllowPoseManipulation: 0
 --- !u!1 &2559637637536048256
 GameObject:
   m_ObjectHideFlags: 0
@@ -1004,8 +1007,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gender: 1
   settingsMain: {fileID: 11400000, guid: 2313800435c61b84ea16a728169d71c1, type: 2}
-  OffsetErrorBetweenPelvisAndZero: {x: 0.00088, y: 0.90931, z: 0.02782}
-  OffsetErrorInFbxBetweenRigAndMesh: {x: 0.00088, y: -0.211423, z: 0.02782}
+  offsetErrorBetweenPelvisAndZero: {x: 0.00088, y: 0.90931, z: 0.02782}
+  offsetErrorInFbxBetweenRigAndMesh: {x: 0.00088, y: -0.211423, z: 0.02782}
   combinedOffsets: {x: 0, y: 1.120733, z: 0}
   model: {fileID: 11400000, guid: 914a54cb7fbcabe41a0ee32110e356c8, type: 2}
 --- !u!114 &-4975064893371522861

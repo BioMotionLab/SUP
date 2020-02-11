@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace MoshPlayer.Scripts.BML.SMPLModel {
     /// <summary>
@@ -24,19 +25,24 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         SettingsMain settingsMain = default;
         
           
+        [FormerlySerializedAs("OffsetErrorBetweenPelvisAndZero")]
         [SerializeField]
         //new Vector3(.00217f,0.972724f,0.02858f);
-        Vector3 OffsetErrorBetweenPelvisAndZero = default;
+        Vector3 offsetErrorBetweenPelvisAndZero = default;
 
-        
+        public Vector3 OffsetErrorBetweenPelvisAndZero => offsetErrorBetweenPelvisAndZero;
+
+        [FormerlySerializedAs("OffsetErrorInFbxBetweenRigAndMesh")]
         [SerializeField]
-        Vector3 OffsetErrorInFbxBetweenRigAndMesh = default;
+        Vector3 offsetErrorInFbxBetweenRigAndMesh = default;
+
+        public Vector3 OffsetErrorInFbxBetweenRigAndMesh => offsetErrorInFbxBetweenRigAndMesh;
 
         [SerializeField]
         Vector3 combinedOffsets = default;
 
         void OnValidate() {
-            combinedOffsets = OffsetErrorBetweenPelvisAndZero - OffsetErrorInFbxBetweenRigAndMesh;
+            combinedOffsets = offsetErrorBetweenPelvisAndZero - offsetErrorInFbxBetweenRigAndMesh;
         }
 
         public Vector3 CombinedOffset => combinedOffsets;
@@ -79,7 +85,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
 
         void OnDestroy() {
             skinnedMeshRenderer.sharedMesh = originalMesh;
-            Debug.Log("Resetting mesh to previous state on destroy");
+            //Debug.Log("Resetting mesh to previous state on destroy");
         }
 
         /// <summary>

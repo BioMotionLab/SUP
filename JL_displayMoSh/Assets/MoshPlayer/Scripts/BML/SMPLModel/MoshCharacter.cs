@@ -10,6 +10,9 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         ModelDefinition Model { get; }
         CharacterEvents Events { get; }
         bool SetFeetOnGround { get; }
+        
+        Vector3 OffsetErrorBetweenPelvisAndZero { get; }
+        Vector3 OffsetErrorInFbxBetweenRigAndMesh { get; }
         Vector3 CombinedOffset { get; }
         Gender Gender { get; }
         void StartAnimation(MoshAnimation moshAnimation, SettingsMain settingsMain);

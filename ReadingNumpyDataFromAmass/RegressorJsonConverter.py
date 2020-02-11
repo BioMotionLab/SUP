@@ -148,3 +148,14 @@ print(joint_loc)
 recentered_joint_loc = joint_loc - joint_loc[0]
 print(recentered_joint_loc)
 
+#%%
+print(converter.joint_regressor)
+
+
+#%%
+print(converter.joint_template)
+
+#%%
+print(np.min(converter.data['posedirs'][:,0,0]))
+
+

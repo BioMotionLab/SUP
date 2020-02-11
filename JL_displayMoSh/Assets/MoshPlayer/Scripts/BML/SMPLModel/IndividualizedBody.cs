@@ -28,6 +28,9 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         // ReSharper disable once InconsistentNaming
         float[] bodyShapeBetas;
 
+        [SerializeField]
+        bool UpdateBodyShapeLive = false;
+        
         MoshCharacter moshCharacter;
         CharacterEvents events;
         
@@ -36,6 +39,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
 
         AverageBody averageBody;
         Vector3[] updatedVertices;
+        float minimumYVertex;
 
         void OnEnable() {
             moshCharacter = GetComponentInParent<MoshCharacter>();
@@ -68,9 +72,15 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             UpdateBody();
         }
 
+        void Update() {
+            if (UpdateBodyShapeLive) UpdateBody();
+        }
+        
+
         [ContextMenu("Update With Current Betas")]
         public void UpdateBody() {
             
+            // Need to start with fresh body, since everything is calculated relative to it.
             averageBody.Restore();
             
             AdjustBonePositions();
@@ -101,9 +111,11 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         /// This adjusts the average mesh to be attached to the new bones.
         /// Result is still NOT the correct individualized mesh,
         /// just the average mesh that's been skinned to updated bone locations.
+        ///
+        /// This is an EXPENSIVE call. I've optimized it heavily. It seems that the biggest slowdown now is the call to
+        /// BakeMesh(), which takes almost 15ms. The rest of the code takes around 3ms by my calculations.
         /// </summary>
         void AdjustMeshToNewBones() {
-            
             
             //vertices doesn't return the actual current vertexes, it's the vertexes before skinning.
             //You need to bake the skinned mesh into a mesh object to retrieve the deformed vertices
@@ -111,24 +123,31 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             skinnedMeshRenderer.BakeMesh(bakedMesh);
             
             
-            // Important! Needs to cache vertex arrays since these calls are VERY expensive.
+            // Important Optimization! Needs to cache vertex arrays since these calls are VERY expensive.
             // Not doing this will decrease FPS by 1000x
             Vector3[] sharedMeshVertices = skinnedMeshRenderer.sharedMesh.vertices;
             Vector3[] bakedMeshVertices = bakedMesh.vertices;
             
             
+            //For optimization purposes, this minY calculation needs to occur during this loop.
+            minimumYVertex = Mathf.Infinity;
+            
             for (int i = 0; i < skinnedMeshRenderer.sharedMesh.vertexCount; i++) {
+                Vector3 correctedVertex;
+                //These functions are run in same loop for heavy optimization.
+                //correctedVertex = AccountForUnwantedLinearBlendSkinning(sharedMeshVertices[i], bakedMeshVertices[i], averageBody.Vertices[i]);
+                correctedVertex = sharedMeshVertices[i];
                 
-                Vector3 lbsCorrectedVertex = AccountForUnwantedLinearBlendSkinning(sharedMeshVertices[i],
-                                                                                   bakedMeshVertices[i], 
-                                                                                   averageBody.Vertices[i]);
-                Vector3 offsetCorrectedVertex = CorrectMeshToRigOffset(lbsCorrectedVertex);
-                updatedVertices[i] = offsetCorrectedVertex;
+                correctedVertex = CorrectMeshToRigOffset(correctedVertex);
+                updatedVertices[i] = correctedVertex;
+                
+                
+                // Calculate Minimum Y here, to avoid looping through all ~7000 vertices again later.
+                minimumYVertex = Mathf.Min(minimumYVertex, correctedVertex.y);
             }
             
             skinnedMeshRenderer.sharedMesh.vertices = updatedVertices;
-            
-          
+
         }
         
         /// <summary>
@@ -142,13 +161,12 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         }
 
         /// <summary>
-        /// The some of the models have a scaling factor for some reason (e.g. SMPL is 1/5).
+        /// The some of the models have a scaling factor for some reason (e.g. SMPL is 1/5, SMPLH is 1).
         /// Blendshapes in unity are scaled 0-100 rather than 0-1, so also need to correct for that. 
         /// </summary>
         /// <param name="rawWeight"></param>
         /// <returns></returns>
         float ScaleBlendshapeFromBlenderToUnity(float rawWeight) {
-            //TODO if (!model.AddShapeBlendshapes) return 0;
             float scaledWeight = rawWeight * model.ShapeBlendShapeScalingFactor * model.UnityBlendShapeScaleFactor;
             return scaledWeight;
         }
@@ -158,69 +176,48 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         /// Correct for an error in the FBX construction
         /// where the mesh and bones have different origins.
         /// This makes sure the skeleton is not offset from the body
+        ///
+        /// this is heavily optimized to reduce frame rate lag caused by garbage collection.
+        /// the combined offset is actually two offsets added together, but even simple vector addition
+        /// was slowing it down. Now I precompute the addition since it stays constant.
         /// </summary>
         Vector3 CorrectMeshToRigOffset(Vector3 vertex) {
-            // this is heavily optimized to reduce frame rate lag caused by garbage collection.
             return vertex - moshCharacter.CombinedOffset;
         }
 
         /// <summary>
-        /// Since the bones are being moved, the mesh deforms automatically to
-        /// compensate for these changes using linear blend skinning. However, since the blendshapes
-        /// are computed relative to the average body, this presents a problem.
+        /// Since the bones are being moved, Unity deforms the mesh automatically to
+        /// compensate for these changes using linear blend skinning.
+        /// This presents a problem since the blendshapes are computed relative to the average body.
         /// We need to undo this automatic linear blend skinning by applying a correction.
         ///
         /// The body shape blendshapes (betas) were calculated as deformations to the average mesh,
         /// not the new bone-deformed mesh. That is why this is necessary.
         /// </summary>
-        Vector3  AccountForUnwantedLinearBlendSkinning(Vector3 vertex, Vector3 bakedVertex, Vector3 averageVertex) {
+        static Vector3  AccountForUnwantedLinearBlendSkinning(Vector3 vertex, Vector3 bakedVertex, Vector3 averageVertex) {
             
-            //Use This to output the correct combined offset error.
-            //var message = averageVertex - bakedVertex;
-            //Debug.Log(message.ToString("f8"));
+            //Use This to output the correct values for combined offset error, if needed.
+            //Ensure everything is set to zero first (mesh root, gameObject root, pelvis, etc.
+            //var combinedErrorValue = averageVertex - bakedVertex;
+            //Debug.Log(combinedErrorValue.ToString("f8"));
             
             
-            // this is heavily optimized to reduce framerate caused by garbage collection.
-            // AverageVertex-bakedVertex is the deformation caused by LBS, we're adding it back on.
+            // this is heavily optimized to reduce frame rate lag caused by garbage collection.
+            // averageVertex-bakedVertex is the deformation caused by LBS, we're adding it back on.
             return vertex + averageVertex - bakedVertex;
            
         }
 
 
         /// <summary>
-        /// Finds distance between lowest mesh vertex and the ground. Used to move pelvis upwards to plant feet on ground
+        /// Used to move pelvis upwards to plant feet on ground based on the lowest Y vertex in the Mesh.
         /// </summary>
         [ContextMenu("reground")]
         void SetFeetOnGround() {
-            
-            //Set root back on ground
-            Transform rootTransform = moshCharacter.gameObject.transform;
-            rootTransform.position = new Vector3(rootTransform.position.x, 0, rootTransform.position.z);
-            
-            //save current Position
-            Vector3 currentPelvisPosition = skinnedMeshRenderer.bones[model.PelvisIndex].position;
-            skinnedMeshRenderer.bones[model.PelvisIndex].position = Vector3.zero;
-            
-            
-            //bake the mesh to access vertex locations after modifications by blend shapes.
-            Mesh newMesh = new Mesh();
-            skinnedMeshRenderer.BakeMesh(newMesh);
-            
-            
-            //find lowest vertex
-            float yMin = Mathf.Infinity;
-            foreach (Vector3 vertex in newMesh.vertices) {
-                yMin = Mathf.Min(yMin, vertex.y);
-            }
-            Vector3 lowestVertexRelativeToMeshCenter = new Vector3(0, yMin, 0);
-            
-            //restore current Position
-            skinnedMeshRenderer.bones[model.PelvisIndex].position = currentPelvisPosition;
-            
-            //add offset
-            Vector3 offset = lowestVertexRelativeToMeshCenter + skinnedMeshRenderer.bones[model.PelvisIndex].localPosition;
-            skinnedMeshRenderer.bones[model.PelvisIndex].localPosition -= offset;
-
+            Vector3 offsetFromGround = new Vector3(0, minimumYVertex, 0) + moshCharacter.OffsetErrorBetweenPelvisAndZero;
+            //Debug.Log($"offset: {offsetFromGround.ToString("f4")}");
+            Transform pelvis = skinnedMeshRenderer.bones[model.PelvisIndex];
+            pelvis.localPosition += offsetFromGround;
         }
     }
 }

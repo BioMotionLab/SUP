@@ -1072,8 +1072,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6a59b913eb14f93a6d1bd9ea6fc5a2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UpdatePosesLive: 0
+  UpdatePosesLive: 1
   UpdateBlendshapesLive: 1
+  BlendShapeThreshold: 0
+  AllowPoseManipulation: 0
 --- !u!114 &3663453371877652233
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1103,6 +1105,7 @@ MonoBehaviour:
   - 0
   - 0
   - 0
+  UpdateBodyShapeLive: 0
 --- !u!1 &1622510034189216803
 GameObject:
   m_ObjectHideFlags: 0
@@ -1553,9 +1556,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4bef531201814b14a2ab676b4f1769a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gender: 0
   settingsMain: {fileID: 11400000, guid: 2313800435c61b84ea16a728169d71c1, type: 2}
-  OffsetErrorBetweenPelvisAndZero: {x: 0.00217, y: 0.972724, z: 0.028858}
-  OffsetErrorInFbxBetweenRigAndMesh: {x: 0.00217, y: -0.240791, z: 0.028858}
+  offsetErrorBetweenPelvisAndZero: {x: 0.00217, y: 0.972724, z: 0.028858}
+  offsetErrorInFbxBetweenRigAndMesh: {x: 0.00217, y: -0.240791, z: 0.028858}
   combinedOffsets: {x: 0, y: 1.213515, z: 0}
   model: {fileID: 11400000, guid: 914a54cb7fbcabe41a0ee32110e356c8, type: 2}
 --- !u!114 &3755340494992920777

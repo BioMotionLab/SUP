@@ -15,12 +15,8 @@ MonoBehaviour:
   DrawSidesDifferentColors: 1
   LeftSideMaterial: {fileID: 2100000, guid: 5975636768fed814ab183a919fb2fc49, type: 2}
   RightSideMaterial: {fileID: 2100000, guid: 8bad80b00626096438ec084e61fd4dba, type: 2}
-  SemiTransparentMaterial: {fileID: 2100000, guid: 390d20f60d542454993698b34318161d,
-    type: 2}
-  PointLightPrefab: {fileID: 6921410020572144229, guid: bffe4c47259477a4bacbc1018ea0d04f,
-    type: 3}
   PointLightDisplaySize: 0.01
   ExcludeFeetForPointLights: 1
   BoneWidth: 0.005
-  BonePrefab: {fileID: -3767570862851206843, guid: 32ff7e245a058ca43b0b38d9d58bb9d6,
-    type: 3}
+  DisplaySpeed: 0.15
+  PlayBackwards: 0
