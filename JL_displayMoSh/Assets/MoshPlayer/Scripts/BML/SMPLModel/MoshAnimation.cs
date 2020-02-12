@@ -53,7 +53,6 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             if (playback.Finished) return;
             if (!playback.Started) playback.Start();
             
-            Debug.Log("playing frame");
             ResampledFrame resampledFrame = playback.GetResampledFrame();
             
             Vector3 translationThisFrame = GetTranslationAtFrame(resampledFrame);
@@ -82,7 +81,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         
 
         /// <summary>
-        /// Populate an array with rotations of each joint at thisFrame. 
+        /// PopulateOptions an array with rotations of each joint at thisFrame. 
         /// </summary>
         Quaternion[] GetPosesAtFrame(ResampledFrame resampledFrame) {
             

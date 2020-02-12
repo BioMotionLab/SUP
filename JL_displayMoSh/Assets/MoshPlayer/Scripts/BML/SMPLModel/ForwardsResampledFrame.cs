@@ -9,9 +9,14 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         int FrameBeforeThis { get; }
         int FrameAfterThis { get; }
         float PercentageElapsedSinceLastFrame { get; }
+
+        float Frame { get; }
     }
 
     public class ForwardsResampledFrame : ResampledFrame {
+        
+        public float Frame => decimalFrameIndex;
+        
         readonly int totalFrameCount;
         readonly float decimalFrameIndex;
         
@@ -19,37 +24,18 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             this.totalFrameCount = totalFrameCount;
             float proportionComplete = elapsedTime / duration;
             decimalFrameIndex = proportionComplete * totalFrameCount;
-            FrameBeforeThis = Math.Max(0, Mathf.FloorToInt(decimalFrameIndex));
-            FrameAfterThis = Math.Min(totalFrameCount, Mathf.CeilToInt(decimalFrameIndex));
+            FrameBeforeThis = Mathf.Clamp(Mathf.FloorToInt(decimalFrameIndex), 0, totalFrameCount-1);
+            FrameAfterThis = Mathf.Clamp(Mathf.CeilToInt(decimalFrameIndex), 0, totalFrameCount-1);
             PercentageElapsedSinceLastFrame = decimalFrameIndex - FrameBeforeThis;
         }
         
         public bool IsFirstFrame => Math.Abs(decimalFrameIndex) < 0.0001f;
-        public bool IsLastFrame => FrameAfterThis >= totalFrameCount;
+        public bool IsLastFrame => FrameAfterThis >= totalFrameCount-1;
         public int FrameBeforeThis { get; }
 
         public int FrameAfterThis { get; }
 
         public float PercentageElapsedSinceLastFrame { get; }
     }
-
-    public class BackwardsResampleFrame : ResampledFrame {
-        readonly        int   totalFrameCount;
-        public int FrameBeforeThis { get; }
-        public int FrameAfterThis { get; }
-        public float PercentageElapsedSinceLastFrame { get; }
-        readonly        float decimalFrameIndex;
-        
-        public BackwardsResampleFrame(float elapsedTime, int totalFrameCount, float duration) {
-            this.totalFrameCount = totalFrameCount;
-            float proportionComplete = 1 - elapsedTime / duration;
-            decimalFrameIndex = proportionComplete * totalFrameCount;
-            FrameBeforeThis = Math.Max(0, Mathf.FloorToInt(decimalFrameIndex));
-            FrameAfterThis = Math.Min(totalFrameCount, Mathf.CeilToInt(decimalFrameIndex));
-            PercentageElapsedSinceLastFrame = decimalFrameIndex - FrameBeforeThis;
-        }
-        
-        public bool IsFirstFrame => FrameAfterThis >= totalFrameCount;
-        public bool IsLastFrame => Math.Abs(decimalFrameIndex) < 1f;
-    }
+    
 }

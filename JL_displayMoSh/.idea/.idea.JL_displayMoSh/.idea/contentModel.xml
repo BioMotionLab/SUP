@@ -8,6 +8,10 @@
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
         <e p="DebugTools.cs" t="Include" />
+        <e p="EnumDropdown.cs" t="Include" />
+        <e p="FrameListener.cs" t="Include" />
+        <e p="FrameSlider.cs" t="Include" />
+        <e p="MeshDisplayDropdown.cs" t="Include" />
         <e p="MoshPlayer" t="Include">
           <e p="Scripts" t="Include">
             <e p="BML" t="Include">
@@ -71,6 +75,7 @@
             </e>
           </e>
         </e>
+        <e p="PlaybackEventSystem.cs" t="Include" />
         <e p="Resources" t="Include">
           <e p="mixed_single_pairs.txt" t="Include" />
           <e p="new_animations.txt" t="Include" />
@@ -80,6 +85,35 @@
           <e p="single.txt" t="Include" />
           <e p="test.txt" t="Include" />
         </e>
+        <e p="TextMesh Pro" t="Include">
+          <e p="Fonts" t="Include">
+            <e p="LiberationSans - OFL.txt" t="Include" />
+          </e>
+          <e p="Resources" t="Include">
+            <e p="LineBreaking Following Characters.txt" t="Include" />
+            <e p="LineBreaking Leading Characters.txt" t="Include" />
+            <e p="Shaders" t="Include">
+              <e p="TMP_Bitmap-Custom-Atlas.shader" t="Include" />
+              <e p="TMP_Bitmap-Mobile.shader" t="Include" />
+              <e p="TMP_Bitmap.shader" t="Include" />
+              <e p="TMP_SDF Overlay.shader" t="Include" />
+              <e p="TMP_SDF-Mobile Masking.shader" t="Include" />
+              <e p="TMP_SDF-Mobile Overlay.shader" t="Include" />
+              <e p="TMP_SDF-Mobile.shader" t="Include" />
+              <e p="TMP_SDF-Surface-Mobile.shader" t="Include" />
+              <e p="TMP_SDF-Surface.shader" t="Include" />
+              <e p="TMP_SDF.shader" t="Include" />
+              <e p="TMP_Sprite.shader" t="Include" />
+              <e p="TMPro.cginc" t="Include" />
+              <e p="TMPro_Properties.cginc" t="Include" />
+              <e p="TMPro_Surface.cginc" t="Include" />
+            </e>
+          </e>
+          <e p="Sprites" t="Include">
+            <e p="EmojiOne Attribution.txt" t="Include" />
+          </e>
+        </e>
+        <e p="ValueFromSliderDisplay.cs" t="Include" />
       </e>
       <e p="JL_displayMoSh.sln" t="IncludeFlat" />
       <e p="obj" t="ExcludeRecursive" />

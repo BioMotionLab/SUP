@@ -1,4 +1,5 @@
 ﻿using System;
+using MoshPlayer.Scripts.BML.Display;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -78,7 +79,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             }
         }
 
-        void Awake() {
+        void OnEnable() {
             moshMesh = GetComponentInChildren<MoshMesh>();
             skinnedMeshRenderer = moshMesh.GetComponent<SkinnedMeshRenderer>();
             if (skinnedMeshRenderer ==  null) throw new NullReferenceException("Can't find skinnedMeshRenderer in awake");
@@ -86,8 +87,16 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             //Create clone of mesh so original is not affected by any of our fiddling
             originalMesh = skinnedMeshRenderer.sharedMesh;
             skinnedMeshRenderer.sharedMesh = Instantiate( skinnedMeshRenderer.sharedMesh);
-            
 
+            PlaybackEventSystem.OnMeshDisplayStateChanged += MeshDisplayStateChanged;
+        }
+
+        void OnDisable() {
+            PlaybackEventSystem.OnMeshDisplayStateChanged += MeshDisplayStateChanged;
+        }
+
+        void MeshDisplayStateChanged(MeshDisplayState newState) {
+            displayOptions.MeshDisplayState = newState;
         }
 
         void OnDestroy() {

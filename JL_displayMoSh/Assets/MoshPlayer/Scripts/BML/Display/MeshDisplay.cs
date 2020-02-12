@@ -21,9 +21,11 @@ namespace MoshPlayer.Scripts.BML.Display {
             switch (MeshDisplayState) {
                 case MeshDisplayState.On:
                     moshCharacter.SkinnedMeshRender.material = MeshDisplayOptions.Opaque;
+                    moshCharacter.SkinnedMeshRender.enabled = true;
                     break;
                 case MeshDisplayState.SemiTransparent:
                     moshCharacter.SkinnedMeshRender.material = MeshDisplayOptions.SemiTransparent;
+                    moshCharacter.SkinnedMeshRender.enabled = true;
                     break;
                 case MeshDisplayState.Off:
                     moshCharacter.SkinnedMeshRender.enabled = false;
