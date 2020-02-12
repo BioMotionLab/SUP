@@ -15,7 +15,6 @@
                 <e p="BoneDisplay.cs" t="Include" />
                 <e p="BoneDisplayState.cs" t="Include" />
                 <e p="BoneLine.cs" t="Include" />
-                <e p="DisplaySettings.cs" t="Include" />
                 <e p="MeshDisplay.cs" t="Include" />
                 <e p="MeshDisplayState.cs" t="Include" />
                 <e p="PointLight.cs" t="Include" />
@@ -35,6 +34,7 @@
                 <e p="AverageBody.cs" t="Include" />
                 <e p="Bones.cs" t="Include" />
                 <e p="CharacterEvents.cs" t="Include" />
+                <e p="CharacterOptions.cs" t="Include" />
                 <e p="CharacterPoser.cs" t="Include" />
                 <e p="ForwardsResampledFrame.cs" t="Include" />
                 <e p="Gender.cs" t="Include" />
@@ -47,6 +47,8 @@
                 <e p="MoshCharacterComponent.cs" t="Include" />
                 <e p="MoshMesh.cs" t="Include" />
                 <e p="MoshViewerComponent.cs" t="Include" />
+                <e p="Playback.cs" t="Include" />
+                <e p="PlaybackOptions.cs" t="Include" />
                 <e p="SettingsMain.cs" t="Include" />
                 <e p="SideOfBody.cs" t="Include" />
                 <e p="SMPLConstants.cs" t="Include" />

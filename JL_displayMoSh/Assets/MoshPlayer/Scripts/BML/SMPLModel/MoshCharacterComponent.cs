@@ -17,8 +17,22 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         MoshMesh moshMesh;
 
         [SerializeField]
-        Gender gender;
+        Gender gender = default;
 
+        
+        [SerializeField]
+        public bool setFeetOnGround = default;
+        
+        [SerializeField]
+        CharacterOptions options = default;
+
+        public bool SetFeetOnGround => setFeetOnGround;
+        public CharacterOptions Options => options;
+        
+        [SerializeField]
+        CharacterDisplayOptions displayOptions = default;
+
+        public CharacterDisplayOptions DisplayOptions => displayOptions;
         public Gender Gender => gender;
 
         [SerializeField]
@@ -47,16 +61,11 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
 
         public Vector3 CombinedOffset => combinedOffsets;
 
-        public bool SetFeetOnGround => settingsMain.SetFeetOnGround;
-
         Mesh originalMesh;
         
         [SerializeField]
         ModelDefinition model = default;
         public ModelDefinition Model => model;
-
-        // ReSharper disable once ConvertToAutoPropertyWhenPossible
-        public SettingsMain SettingsMain => settingsMain;
         
         // ReSharper disable once ConvertToAutoPropertyWithPrivateSetter
         public SkinnedMeshRenderer SkinnedMeshRender => skinnedMeshRenderer;
@@ -68,8 +77,6 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
                 return events;
             }
         }
-
-        
 
         void Awake() {
             moshMesh = GetComponentInChildren<MoshMesh>();
@@ -101,13 +108,13 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         /// <summary>
         /// Sets up and plays a mosh animation.
         /// </summary>
-        public void StartAnimation(MoshAnimation animationToStart, SettingsMain settingsMain) {
+        public void StartAnimation(MoshAnimation animationToStart, SettingsMain settingsMain, PlaybackOptions playbackOptions) {
             this.settingsMain = settingsMain;
             moshAnimation = animationToStart;
             if (model.RotateToUnityCoords) RotateToUnityCoordinates();
         
             gameObject.SetActive(true);
-            moshAnimation.AttachSkin(skinnedMeshRenderer, this.settingsMain);
+            moshAnimation.AttachSkin(skinnedMeshRenderer, playbackOptions);
             UpdateAnimation();
         }
     
@@ -127,7 +134,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
 
         void StopAnimation() {
             if (gameObject == null) return;
-            //Debug.Log($"{gameObject.name}'s Animation Complete");
+            Debug.Log($"{gameObject.name}'s Animation Complete");
             DestroyCharacter();
         }
 

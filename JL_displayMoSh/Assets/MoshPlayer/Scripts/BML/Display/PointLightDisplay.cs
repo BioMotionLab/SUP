@@ -8,20 +8,18 @@ namespace MoshPlayer.Scripts.BML.Display {
     /// </summary>
     public class PointLightDisplay : MonoBehaviour {
         
-        [SerializeField]
-        DisplaySettings DisplaySettings = default;
-
         SkinnedMeshRenderer meshRenderer;
 
         [SerializeField]
         PointLight PointLightPrefab = default;
 
-        [SerializeField]
-        public bool DisplayPointLights = true;
+        MoshCharacter moshCharacter;
+        public bool DisplayPointLights => moshCharacter.DisplayOptions.DisplayPointLights == PointLightDisplayState.On;
 
         GameObject pointLightContainer;
 
         void OnEnable() {
+            moshCharacter = GetComponent<MoshCharacter>();
             if (meshRenderer == null) meshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
             if (pointLightContainer == null) {
                 SetupPointLights();
@@ -40,7 +38,7 @@ namespace MoshPlayer.Scripts.BML.Display {
         /// <param name="parent"></param>
         void CreatePointLightsInBoneHierarchy(Transform parent) {
             PointLight newPointLight = Instantiate(PointLightPrefab, pointLightContainer.transform);
-            newPointLight.AttachBone(this, parent, DisplaySettings);
+            newPointLight.AttachBone(this, parent, moshCharacter.DisplayOptions.PointLightDisplayOptions);
             foreach (Transform child in parent) {
                 if (Bones.IsBone(child)) {
                     CreatePointLightsInBoneHierarchy(child);

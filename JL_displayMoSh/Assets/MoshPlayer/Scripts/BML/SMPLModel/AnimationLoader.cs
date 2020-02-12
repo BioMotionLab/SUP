@@ -17,13 +17,15 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         public List<List<MoshAnimation>> animationSequence;
         string[]                     animLines;
         Action<List<List<MoshAnimation>>>                       DoThisWhenDoneAction;
+        PlaybackOptions playbackOptions;
 
-        
+
         [SuppressMessage("ReSharper", "ParameterHidesMember")]
-        public void Init(string animationsToPlayFile, SettingsMain settingsMain, string animFolder, Action<List<List<MoshAnimation>>> doneAction) {
+        public void Init(string animationsToPlayFile, SettingsMain settingsMain, PlaybackOptions playbackOptions, string animFolder, Action<List<List<MoshAnimation>>> doneAction) {
             this.DoThisWhenDoneAction = doneAction;
             this.settingsMain = settingsMain;
             this.animFolder = animFolder;
+            this.playbackOptions = playbackOptions;
 
             animLines = File.ReadAllLines(animationsToPlayFile);
 			
@@ -39,7 +41,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
                 StringBuilder log = new StringBuilder();
                 string line = animLines[lineIndex];
                 List<MoshAnimation> allAnimationsInThisLine = GetAnimationsFromLine(line);
-                log.Append($"Loaded animation {lineIndex} of {animLines.Length} (Model:{allAnimationsInThisLine[0].Model.ModelName})");
+                log.Append($"Loaded {lineIndex} of {animLines.Length} (Model:{allAnimationsInThisLine[0].Model.ModelName})");
                 if (allAnimationsInThisLine.Count > 0) {
                     animationSequence.Add(allAnimationsInThisLine);
                     log.Append($", containing animations for {allAnimationsInThisLine.Count} characters");
@@ -47,7 +49,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
                 else {
                     log.Append(", which resulted in no successfully loaded animations. Skipping line.");
                 }
-                Debug.Log(log);
+                Debug.Log($"\t...{log}");
                 yield return null;
             }
             Debug.Log($"Done Loading All Animations. Successfully loaded {animationSequence.Count} of {animLines.Length}.");
@@ -62,7 +64,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             foreach (string filename in fileNames) {
                 try {
                     string animationFileString = LoadAnimFileAsString(filename);
-                    MoshAnimation loadedAnimation = new MoshAnimationFromJSON(animationFileString, settingsMain).BuildWithSettings();
+                    MoshAnimation loadedAnimation = new MoshAnimationFromJSON(animationFileString, settingsMain, playbackOptions).BuildWithSettings();
                     animations.Add(loadedAnimation);
                 }
                 catch (FileNotFoundException) {

@@ -8,24 +8,20 @@ namespace MoshPlayer.Scripts.BML.Display {
     /// </summary>
     public class BoneDisplay : MonoBehaviour {
 
-        DisplaySettings displaySettings;
         Transform pelvisBone;
-
         
         [SerializeField]
         public BoneLine BonePrefab;
-        
-        [SerializeField]
-        public bool DisplayBones = true;
 
         SkinnedMeshRenderer skinnedMeshRenderer;
 
         GameObject boneDisplayContainer;
         MoshCharacter moshCharacter;
-
+        public bool DisplayBones => moshCharacter.DisplayOptions.DisplayBones == BoneDisplayState.On;
+        public BoneDisplayOptions BoneDisplayOptions => moshCharacter.DisplayOptions.BoneDisplayOptions;
+        
         void OnEnable() {
             moshCharacter = GetComponent<MoshCharacter>();
-            displaySettings = moshCharacter.SettingsMain.DisplaySettings;
             skinnedMeshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
             
             SetupBones(skinnedMeshRenderer.bones[moshCharacter.Model.PelvisIndex]);
@@ -40,7 +36,7 @@ namespace MoshPlayer.Scripts.BML.Display {
             foreach (Transform child in parent) {
                 if (!Bones.IsBone(child)) continue;
                 BoneLine newBone = Instantiate(BonePrefab, boneDisplayContainer.transform);
-                newBone.Init(this, parent, child, displaySettings);
+                newBone.Init(this, parent, child, BoneDisplayOptions);
                 SetupBones(child);
             }
         }

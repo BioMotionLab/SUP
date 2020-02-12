@@ -15,18 +15,6 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         Transform[]         bones;
         ModelDefinition     model;
         
-        [SerializeField]
-        bool UpdatePosesLive = default;
-
-        [SerializeField]
-        bool UpdateBlendshapesLive= default;
-
-        [SerializeField]
-        float BlendShapeThreshold = default;
-
-        [SerializeField]
-        bool AllowPoseManipulation = default;
-        
         Quaternion[]        currentTempPoses;
         MoshCharacter       moshCharacter;
         Quaternion[] poses;
@@ -54,18 +42,18 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         void LateUpdate() {
 
 
-            if (AllowPoseManipulation) {
+            if (moshCharacter.Options.AllowPoseManipulation) {
                 poses = GatherPosesFromBones();
                 UpdatePoses();
             }
-            else if (UpdatePosesLive) {
+            else if (moshCharacter.Options.UpdatePosesLive) {
                 UpdatePoses();
             }
             else {
                 ResetPoses();
             }
 
-            if (UpdateBlendshapesLive) {
+            if (moshCharacter.Options.UpdateBlendshapesLive) {
                 AddPoseDependentBlendShapes();
             }
             else {

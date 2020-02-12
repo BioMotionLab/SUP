@@ -14,7 +14,7 @@ namespace MoshPlayer.Scripts.BML.Display {
         Transform childBone;
         Transform parentBone;
 
-        DisplaySettings settings;
+        BoneDisplayOptions boneDisplayOptions;
         BoneDisplay boneDisplay;
 
         void OnEnable() {
@@ -35,15 +35,15 @@ namespace MoshPlayer.Scripts.BML.Display {
         /// <param name="boneDisplay"></param>
         /// <param name="parentBone"></param>
         /// <param name="childBone"></param>
-        /// <param name="settings"></param>
-        public void Init(BoneDisplay boneDisplay, Transform parentBone, Transform childBone, DisplaySettings settings) {
+        /// <param name="boneDisplayOptions"></param>
+        public void Init(BoneDisplay boneDisplay, Transform parentBone, Transform childBone, BoneDisplayOptions boneDisplayOptions) {
             this.boneDisplay = boneDisplay;
             this.parentBone = parentBone;
             this.childBone = childBone;
             name = $"BoneLine {this.parentBone.name} to {this.childBone.name}";
-            this.settings = settings;
+            this.boneDisplayOptions = boneDisplayOptions;
             
-            if (settings.DrawSidesDifferentColors) DrawSidesDifferentColors();
+            if (boneDisplayOptions.DrawSidesDifferentColors) DrawSidesDifferentColors();
         }
 
         void Update() {
@@ -54,8 +54,8 @@ namespace MoshPlayer.Scripts.BML.Display {
         void UpdateBoneLine() {
             Vector3[] positions = {childBone.position, parentBone.position};
             lineRenderer.SetPositions(positions);
-            lineRenderer.startWidth = settings.BoneWidth;
-            lineRenderer.endWidth = settings.BoneWidth;
+            lineRenderer.startWidth = boneDisplayOptions.BoneWidth;
+            lineRenderer.endWidth = boneDisplayOptions.BoneWidth;
         }
 
         void ShowOrHideBasedOnSettings() {
@@ -66,10 +66,10 @@ namespace MoshPlayer.Scripts.BML.Display {
             SideOfBody sideOfBody = Bones.GetSideOfBody(childBone.name);
             switch (sideOfBody) {
                 case SideOfBody.Left:
-                    lineRenderer.material = settings.LeftSideMaterial;
+                    lineRenderer.material = boneDisplayOptions.LeftSideMaterial;
                     break;
                 case SideOfBody.Right:
-                    lineRenderer.material = settings.RightSideMaterial;
+                    lineRenderer.material = boneDisplayOptions.RightSideMaterial;
                     break;
                 case SideOfBody.Center:
                     break;

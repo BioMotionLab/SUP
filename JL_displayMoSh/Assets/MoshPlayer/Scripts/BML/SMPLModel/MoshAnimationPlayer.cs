@@ -10,7 +10,8 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
 	
         readonly List<List<MoshAnimation>> animationSequence;
         readonly SettingsMain          settingsMain;
-        
+        readonly PlaybackOptions playbackOptions;
+
         public bool AllAnimsComplete => currentAnimationIndex >= animationSequence.Count;
 
         int currentAnimationIndex = 0;
@@ -18,9 +19,10 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         List<MoshCharacter> currentCharacters;
         
 
-        public MoshAnimationPlayer(List<List<MoshAnimation>> animationSequence, SettingsMain settingsMain) {
+        public MoshAnimationPlayer(List<List<MoshAnimation>> animationSequence, SettingsMain settingsMain, PlaybackOptions playbackOptions) {
             this.animationSequence = animationSequence;
             this.settingsMain = settingsMain;
+            this.playbackOptions = playbackOptions;
         }
 
 
@@ -40,10 +42,9 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         /// </summary>
         List<MoshCharacter> StartAnimation() {
             List<MoshAnimation> animationGroup = animationSequence[currentAnimationIndex];
-
-            string backwardsText = settingsMain.DisplaySettings.PlayBackwards ? "backwards" : "";
+            
             Debug.Log($"Playing animation {currentAnimationIndex+1} of {animationSequence.Count}. " +
-                      $"Contains animations for {animationGroup.Count} characters. Playing at {settingsMain.DisplaySettings.DisplaySpeed}X speed {backwardsText}.");
+                      $"Contains animations for {animationGroup.Count} characters.");
 		
             List<MoshCharacter> newCharacters = new List<MoshCharacter>();
             for (int animationIndex = 0; animationIndex < animationGroup.Count; animationIndex++) {
@@ -51,10 +52,8 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
                 string characterName = $"{moshAnimation.Gender} Character {animationIndex}";
                 MoshCharacter moshCharacter = moshAnimation.Model.CreateNewCharacter(characterName, moshAnimation.Gender);
                 
-                
-
                 newCharacters.Add(moshCharacter);
-                moshCharacter.StartAnimation(moshAnimation, settingsMain);
+                moshCharacter.StartAnimation(moshAnimation, settingsMain, playbackOptions);
             }
 
             return newCharacters;

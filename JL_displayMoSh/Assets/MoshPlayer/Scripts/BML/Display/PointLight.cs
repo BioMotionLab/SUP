@@ -11,7 +11,7 @@ namespace MoshPlayer.Scripts.BML.Display {
     [ExecuteInEditMode]
     public class PointLight : MonoBehaviour {
         Transform linkedBone;
-        DisplaySettings displaySettings;
+        PointLightDisplayOptions displaySettings;
         MeshRenderer meshRenderer;
         PointLightDisplay pointLightDisplay;
         
@@ -21,7 +21,7 @@ namespace MoshPlayer.Scripts.BML.Display {
         
         public void AttachBone(PointLightDisplay pointLightDisplay, 
                                Transform bone,
-                               DisplaySettings    displaySettings) {
+                               PointLightDisplayOptions    displaySettings) {
             linkedBone = bone;
             this.displaySettings = displaySettings;
             this.pointLightDisplay = pointLightDisplay;

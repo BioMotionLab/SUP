@@ -9,16 +9,15 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
 
         [SerializeField]
         string modelName = default;
-       
 
         [SerializeField]
-        int bodyShapeBetaCount = 10;
+        int bodyShapeBetaCount = default;
 
         [SerializeField]
-        int jointCount = 24;
+        int jointCount = default;
 
         [SerializeField]
-        int poseDependentBlendshapeCount = 207;
+        int poseDependentBlendshapeCount = default;
 
         [SerializeField]
         JSONModelKeys jsonKeys = new JSONModelKeys();
@@ -42,12 +41,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         }
         
         public string ModelName => modelName;
-        public float PoseBlendshapeScalingFactor      => 1f / poseBlendShapeScalingFactor;
-
-        public float ShapeBlendShapeScalingFactor => 1f / shapeBlendShapeScalingFactor;
-        
-       
-        public float UnityBlendShapeScaleFactor => unityBlendShapeScaleFactor;
+      
         public int   BodyShapeBetaCount           => bodyShapeBetaCount;
         public int   JointCount                   => jointCount;
         public int   PoseDependentBlendshapeCount => poseDependentBlendshapeCount;
@@ -60,6 +54,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         public MoshCharacter CreateNewCharacter(string characterName, Gender gender) {
             MoshCharacter genderedPrefab = GetCharacterPrefab(gender);
             GameObject newCharacter = Instantiate(genderedPrefab.gameObject);
+            Debug.Log("Instantiating char");
             newCharacter.name = characterName;
             MoshCharacter newMoshCharacter = newCharacter.GetComponent<MoshCharacter>();
             return newMoshCharacter;
@@ -73,13 +68,10 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         public bool FirstPoseIsPelvisTranslation => firstPoseIsPelvisTranslation;
         
         [SerializeField]
-        public bool FemaleNegativeBlendshapes = false;
-
-        [SerializeField]
-        TextAsset MaleRegressorFile;
+        TextAsset MaleRegressorFile = default;
         
         [SerializeField]
-        TextAsset FemaleRegressorFile;
+        TextAsset FemaleRegressorFile = default;
 
         public TextAsset RegressorFile(Gender gender) {
             switch (gender) {
@@ -96,13 +88,18 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         // ReSharper disable once InconsistentNaming
         float unityBlendShapeScaleFactor = 100f;
 
+        public float UnityBlendShapeScaleFactor => unityBlendShapeScaleFactor;
+
         [SerializeField]
         // ReSharper disable once InconsistentNaming
         float poseBlendShapeScalingFactor = 1f;
 
+        public float PoseBlendshapeScalingFactor => 1f / poseBlendShapeScalingFactor;
+
         [SerializeField]
         // ReSharper disable once InconsistentNaming
         float shapeBlendShapeScalingFactor = 1f;
-      
+
+        public float ShapeBlendShapeScalingFactor => 1f / shapeBlendShapeScalingFactor;
     }
 }

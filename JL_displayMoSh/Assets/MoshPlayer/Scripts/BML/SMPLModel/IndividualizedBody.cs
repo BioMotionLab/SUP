@@ -28,9 +28,6 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         // ReSharper disable once InconsistentNaming
         float[] bodyShapeBetas;
 
-        [SerializeField]
-        bool UpdateBodyShapeLive = false;
-        
         MoshCharacter moshCharacter;
         CharacterEvents events;
         
@@ -73,7 +70,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         }
 
         void Update() {
-            if (UpdateBodyShapeLive) UpdateBody();
+            if (moshCharacter.Options.UpdateBodyShapeLive) UpdateBody();
         }
         
 
@@ -135,9 +132,8 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             for (int i = 0; i < skinnedMeshRenderer.sharedMesh.vertexCount; i++) {
                 Vector3 correctedVertex;
                 //These functions are run in same loop for heavy optimization.
-                //correctedVertex = AccountForUnwantedLinearBlendSkinning(sharedMeshVertices[i], bakedMeshVertices[i], averageBody.Vertices[i]);
-                correctedVertex = sharedMeshVertices[i];
-                
+                correctedVertex = AccountForUnwantedLinearBlendSkinning(sharedMeshVertices[i], bakedMeshVertices[i], averageBody.Vertices[i]);
+
                 correctedVertex = CorrectMeshToRigOffset(correctedVertex);
                 updatedVertices[i] = correctedVertex;
                 

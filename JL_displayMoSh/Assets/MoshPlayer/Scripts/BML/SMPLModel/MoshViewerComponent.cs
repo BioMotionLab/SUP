@@ -20,16 +20,13 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
 		SettingsMain SettingsMain = default;
 
 		MoshAnimationPlayer moshAnimationPlayer;
-
-		[SerializeField]
-		BoneDisplayState BoneDisplayState = default;
-
-		[SerializeField]
-		MeshDisplayState MeshDisplayState = default;
 		
 		[SerializeField]
 		KeyCode[] NextTrialKeys = default;
 
+		[SerializeField]
+		PlaybackOptions playbackOptions = default;
+		
 		AnimationLoader loader;
 		bool doneLoading = false;
 		bool started = false;
@@ -38,12 +35,12 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
 			if (!File.Exists(AnimationsToPlayFile)) throw new IOException($"Can't find List of Animations file {AnimationsToPlayFile}");
 			
 			loader = gameObject.AddComponent<AnimationLoader>();
-			loader.Init(AnimationsToPlayFile, SettingsMain, AnimFolder, DoneLoading);
+			loader.Init(AnimationsToPlayFile, SettingsMain, playbackOptions, AnimFolder, DoneLoading);
 		}
 
 		void DoneLoading(List<List<MoshAnimation>> animationSequence) {
 			doneLoading = true;
-			moshAnimationPlayer = new MoshAnimationPlayer(animationSequence, SettingsMain);
+			moshAnimationPlayer = new MoshAnimationPlayer(animationSequence, SettingsMain, playbackOptions);
 			Destroy(loader);
 		}
 		

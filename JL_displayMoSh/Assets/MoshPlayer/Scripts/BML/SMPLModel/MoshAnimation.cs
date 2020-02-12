@@ -2,33 +2,24 @@
 using UnityEngine;
 
 namespace MoshPlayer.Scripts.BML.SMPLModel {
-    
     public class MoshAnimation {
-
         
         readonly Vector3[]     translations;
         readonly Quaternion[,] allPoses;
         readonly float[]       rawBodyShapeWeightBetas;
         
-        readonly int sourceFPS;
-        readonly int sourceTotalFrameCount;
-        readonly float sourceDuration;
-     
         
         public Gender Gender { get; }
-        public bool Finished = false;
-
-        IndividualizedBody individualizedBody;
+        public bool Finished => playback.Finished;
         
-        float startTime;
-        bool started = false;
-        float requiredDuration;
-        bool playBackwards;
+        IndividualizedBody individualizedBody;
         public readonly ModelDefinition Model;
         CharacterPoser characterPoser;
+        readonly Playback playback;
 
 
-        public MoshAnimation(ModelDefinition model, Gender gender,
+        public MoshAnimation(ModelDefinition model, PlaybackOptions playbackOptions,
+                             Gender gender,
                              int             sourceTotalFrameCount,
                              int             sourceFPS,
                              float[]         rawBodyShapeWeightBetas,
@@ -36,19 +27,16 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
                              Quaternion[,]   allPoses) {
             Gender = gender;
             Model = model;
-            this.sourceFPS = sourceFPS;
-            this.sourceTotalFrameCount = sourceTotalFrameCount;
-            sourceDuration = this.sourceTotalFrameCount / (float) this.sourceFPS;
             
+            playback = new Playback(sourceTotalFrameCount, sourceFPS, playbackOptions);
             
             this.rawBodyShapeWeightBetas = rawBodyShapeWeightBetas;
             this.translations = translations;
             this.allPoses = allPoses;
-            //Debug.Log(gender);
 
         }
 
-        public void AttachSkin(SkinnedMeshRenderer skinnedMeshRendererToAttach, SettingsMain settingsMain) {
+        public void AttachSkin(SkinnedMeshRenderer skinnedMeshRendererToAttach, PlaybackOptions playbackOptions) {
             SkinnedMeshRenderer meshRenderer = skinnedMeshRendererToAttach;
 
             individualizedBody = meshRenderer.GetComponent<IndividualizedBody>();
@@ -56,40 +44,23 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
 
             characterPoser = meshRenderer.gameObject.GetComponent<CharacterPoser>();
             if (characterPoser == null) throw new NullReferenceException("Can't find CharacterPoser component");
-
-            requiredDuration = sourceDuration / settingsMain.DisplaySettings.DisplaySpeed;
-            playBackwards = settingsMain.DisplaySettings.PlayBackwards;
+            
         }
 
         
 
         public void PlayCurrentFrame() {
-            if (Finished) return;
-            if (!started) {
-                startTime = Time.time;
-                started = true;
-            }
+            if (playback.Finished) return;
+            if (!playback.Started) playback.Start();
             
-            float elapsedTime = Time.time - startTime;
-
-            ResampledFrame resampledFrame;
-            if (playBackwards)
-                resampledFrame =
-                    new BackwardsResampleFrame(elapsedTime, sourceTotalFrameCount, requiredDuration);
-            else resampledFrame = new ForwardsResampledFrame(elapsedTime, sourceTotalFrameCount, requiredDuration) ;
+            Debug.Log("playing frame");
+            ResampledFrame resampledFrame = playback.GetResampledFrame();
             
-
-            if (resampledFrame.IsLastFrame) {
-                Finished = true;
-                return;
-            }
-
             Vector3 translationThisFrame = GetTranslationAtFrame(resampledFrame);
             Quaternion[] posesThisFrame = GetPosesAtFrame(resampledFrame);
             
             characterPoser.SetPoses(posesThisFrame);
             characterPoser.UpdateTranslation(translationThisFrame);
-            
         }
         
         Vector3 GetTranslationAtFrame(ResampledFrame resampledFrame) {
