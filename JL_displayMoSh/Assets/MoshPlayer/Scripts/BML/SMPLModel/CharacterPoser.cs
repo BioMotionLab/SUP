@@ -53,7 +53,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
                 ResetPoses();
             }
 
-            if (moshCharacter.Options.UpdateBlendshapesLive) {
+            if (moshCharacter.Options.UpdatePoseBlendshapesLive) {
                 AddPoseDependentBlendShapes();
             }
             else {
@@ -96,6 +96,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         }
 
         public void UpdateTranslation(Vector3 trans) {
+            if (!moshCharacter.Options.UpdatePosesLive || moshCharacter.Options.AllowPoseManipulation) return;
             moshCharacter.gameObject.transform.localPosition = trans;
         }
 

@@ -28,7 +28,7 @@ public class FrameSlider : MonoBehaviour
 
     void SetTotalFrames(int totalFrames) {
         slider.maxValue = totalFrames;
-        Debug.Log($"set max frames to {slider.maxValue}");
+        //Debug.Log($"set max frames to {slider.maxValue}");
     }
 
     void SetFrame(float frame) {

@@ -1,6 +1,7 @@
 using System;
 using MoshPlayer.Scripts.BML.Display;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace MoshPlayer.Scripts.BML.SMPLModel {
 
@@ -18,7 +19,8 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
     public class CharacterOptions {
         public bool UpdateBodyShapeLive;
         public bool UpdatePosesLive;
-        public bool UpdateBlendshapesLive;
+        [FormerlySerializedAs("UpdateBlendshapesLive")]
+        public bool UpdatePoseBlendshapesLive;
         public bool AllowPoseManipulation;
     }
 

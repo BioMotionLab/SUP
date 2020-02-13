@@ -55,7 +55,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             elapsedTime = 0;
             
             PlaybackEventSystem.BroadcastTotalFrames(sourceTotalFrameCount);
-            Debug.Log($"total frames: {sourceTotalFrameCount}");
+            //Debug.Log($"total frames: {sourceTotalFrameCount}");
         }
 
         public ResampledFrame GetResampledFrame() {

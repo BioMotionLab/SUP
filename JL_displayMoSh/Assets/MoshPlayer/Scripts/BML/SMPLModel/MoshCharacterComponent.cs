@@ -1,4 +1,5 @@
 ﻿using System;
+using Boo.Lang.Runtime.DynamicDispatching;
 using MoshPlayer.Scripts.BML.Display;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -89,6 +90,36 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             skinnedMeshRenderer.sharedMesh = Instantiate( skinnedMeshRenderer.sharedMesh);
 
             PlaybackEventSystem.OnMeshDisplayStateChanged += MeshDisplayStateChanged;
+            PlaybackEventSystem.OnBoneDisplayStateChanged += BoneDisplayStateChanged;
+            PlaybackEventSystem.OnPointLightDisplayStateChanged += PointLightDisplayStateChanged;
+            PlaybackEventSystem.OnChangeLivePoses += SetLivePoses;
+            PlaybackEventSystem.OnChangeLivePoseBlendshapes += SetLivePoseBlendshapes;
+            PlaybackEventSystem.OnChangeLiveBodyShape += SetLiveBodyShape;
+            PlaybackEventSystem.OnChangeManualPosing += SetManualPosing;
+        }
+
+        void SetManualPosing(bool manualPosing) {
+            options.AllowPoseManipulation = manualPosing;
+        }
+
+        void SetLiveBodyShape(bool liveBodyShape) {
+            options.UpdateBodyShapeLive = liveBodyShape;
+        }
+
+        void SetLivePoseBlendshapes(bool livePoseBlendshapes) {
+            options.UpdatePoseBlendshapesLive = livePoseBlendshapes;
+        }
+
+        void SetLivePoses(bool livePoses) {
+            options.UpdatePosesLive = livePoses;
+        }
+
+        void PointLightDisplayStateChanged(PointLightDisplayState pointLightDisplayState) {
+            displayOptions.DisplayPointLights = pointLightDisplayState;
+        }
+
+        void BoneDisplayStateChanged(BoneDisplayState boneDisplayState) {
+            displayOptions.DisplayBones = boneDisplayState;
         }
 
         void OnDisable() {

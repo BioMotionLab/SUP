@@ -7,6 +7,7 @@
       <e p="Assembly-CSharp-Editor.csproj" t="IncludeRecursive" />
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
+        <e p="BoneDisplayDropdown.cs" t="Include" />
         <e p="DebugTools.cs" t="Include" />
         <e p="EnumDropdown.cs" t="Include" />
         <e p="FrameListener.cs" t="Include" />
@@ -76,6 +77,8 @@
           </e>
         </e>
         <e p="PlaybackEventSystem.cs" t="Include" />
+        <e p="PointLightDisplayDropdown.cs" t="Include" />
+        <e p="RenderSelector.cs" t="Include" />
         <e p="Resources" t="Include">
           <e p="mixed_single_pairs.txt" t="Include" />
           <e p="new_animations.txt" t="Include" />
