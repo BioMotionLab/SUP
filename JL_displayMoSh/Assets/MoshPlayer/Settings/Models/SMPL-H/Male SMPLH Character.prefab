@@ -1072,10 +1072,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6a59b913eb14f93a6d1bd9ea6fc5a2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UpdatePosesLive: 1
-  UpdateBlendshapesLive: 1
-  BlendShapeThreshold: 0
-  AllowPoseManipulation: 0
 --- !u!114 &3663453371877652233
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1105,7 +1101,6 @@ MonoBehaviour:
   - 0
   - 0
   - 0
-  UpdateBodyShapeLive: 0
 --- !u!1 &1622510034189216803
 GameObject:
   m_ObjectHideFlags: 0
@@ -1557,6 +1552,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gender: 0
+  setFeetOnGround: 1
+  options:
+    UpdateBodyShapeLive: 0
+    UpdatePosesLive: 1
+    UpdatePoseBlendshapesLive: 1
+    AllowPoseManipulation: 0
+  displayOptions:
+    DisplayBones: 1
+    DisplayPointLights: 1
+    MeshDisplayState: 0
+    PointLightDisplayOptions:
+      PointLightDisplaySize: 0.01
+      DrawSidesDifferentColors: 1
+      NoSideMaterial: {fileID: 2100000, guid: b17622e691063274ca6e94c332d98f3c, type: 2}
+      LeftSideMaterial: {fileID: 2100000, guid: 5975636768fed814ab183a919fb2fc49,
+        type: 2}
+      RightSideMaterial: {fileID: 2100000, guid: 8bad80b00626096438ec084e61fd4dba,
+        type: 2}
+    BoneDisplayOptions:
+      BoneWidth: 0.005
+      DrawSidesDifferentColors: 1
+      LeftSideMaterial: {fileID: 2100000, guid: 5975636768fed814ab183a919fb2fc49,
+        type: 2}
+      RightSideMaterial: {fileID: 2100000, guid: 8bad80b00626096438ec084e61fd4dba,
+        type: 2}
+    MeshDisplayOptions:
+      Opaque: {fileID: 2100000, guid: 42058d9077f8acf4f81e8b6c5d4917fc, type: 2}
+      SemiTransparent: {fileID: 2100000, guid: 390d20f60d542454993698b34318161d, type: 2}
   settingsMain: {fileID: 11400000, guid: 2313800435c61b84ea16a728169d71c1, type: 2}
   offsetErrorBetweenPelvisAndZero: {x: 0.00217, y: 0.972724, z: 0.028858}
   offsetErrorInFbxBetweenRigAndMesh: {x: 0.00217, y: -0.240791, z: 0.028858}
@@ -1574,10 +1597,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f738dd36dd3a4487f82dcf042b717066, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DisplaySettings: {fileID: 11400000, guid: 87c6acc71617edb48b1dc7a2e4b4fc23, type: 2}
   PointLightPrefab: {fileID: 3772656710727878941, guid: bffe4c47259477a4bacbc1018ea0d04f,
     type: 3}
-  DisplayPointLights: 1
 --- !u!114 &6891566159017520019
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1592,7 +1613,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BonePrefab: {fileID: -3767570862851206843, guid: 32ff7e245a058ca43b0b38d9d58bb9d6,
     type: 3}
-  DisplayBones: 1
 --- !u!114 &9148669948084084627
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1605,10 +1625,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ea7379a8284b0d489e84ec2554c200c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MeshDisplayState: 0
-  SemiTransparentMaterial: {fileID: 2100000, guid: 390d20f60d542454993698b34318161d,
-    type: 2}
-  OpaqueMaterial: {fileID: 2100000, guid: b17622e691063274ca6e94c332d98f3c, type: 2}
 --- !u!1 &3750321636486630649
 GameObject:
   m_ObjectHideFlags: 0

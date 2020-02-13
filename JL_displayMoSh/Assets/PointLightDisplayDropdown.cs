@@ -14,7 +14,7 @@ public class PointLightDisplayDropdown : MonoBehaviour
     }
 
     void Start() {
-        enumDropDown.PopulateOptions(tmpDropdown);
+        enumDropDown.PopulateOptions(tmpDropdown, PointLightDisplayState.Off);
     }
 
     [PublicAPI]

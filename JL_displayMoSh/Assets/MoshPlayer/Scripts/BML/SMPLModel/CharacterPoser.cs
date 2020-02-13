@@ -39,7 +39,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             ResetToTPose();
         }
 
-        void LateUpdate() {
+        void Update() {
 
 
             if (moshCharacter.Options.AllowPoseManipulation) {

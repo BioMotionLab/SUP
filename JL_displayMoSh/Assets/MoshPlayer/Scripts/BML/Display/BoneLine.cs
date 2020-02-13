@@ -46,7 +46,7 @@ namespace MoshPlayer.Scripts.BML.Display {
             if (boneDisplayOptions.DrawSidesDifferentColors) DrawSidesDifferentColors();
         }
 
-        void Update() {
+        void LateUpdate() {
             UpdateBoneLine();
             ShowOrHideBasedOnSettings();
         }

@@ -34,7 +34,7 @@ namespace MoshPlayer.Scripts.BML.Display {
             if (displaySettings.DrawSidesDifferentColors) ColorBySideOfBody(bone);
         }
 
-        void Update() {
+        void LateUpdate() {
             if (linkedBone != null) {
                 transform.position = linkedBone.position;
                 meshRenderer.enabled = pointLightDisplay.DisplayPointLights;

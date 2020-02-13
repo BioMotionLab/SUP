@@ -14,7 +14,7 @@ public class BoneDisplayDropdown : MonoBehaviour
     }
 
     void Start() {
-        enumDropDown.PopulateOptions(tmpDropdown);
+        enumDropDown.PopulateOptions(tmpDropdown, BoneDisplayState.Off);
     }
 
     [PublicAPI]

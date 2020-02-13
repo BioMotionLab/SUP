@@ -8,10 +8,13 @@
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
         <e p="BoneDisplayDropdown.cs" t="Include" />
+        <e p="CameraMovement.cs" t="Include" />
         <e p="DebugTools.cs" t="Include" />
         <e p="EnumDropdown.cs" t="Include" />
+        <e p="FlyCamera.cs" t="Include" />
         <e p="FrameListener.cs" t="Include" />
         <e p="FrameSlider.cs" t="Include" />
+        <e p="maxCamera.cs" t="Include" />
         <e p="MeshDisplayDropdown.cs" t="Include" />
         <e p="MoshPlayer" t="Include">
           <e p="Scripts" t="Include">

@@ -13,10 +13,16 @@ public class EnumDropdown<T> where T : Enum {
         return (T) value;
     }
 
-    public void PopulateOptions(TMP_Dropdown dropdown) {
+    public void PopulateOptions(TMP_Dropdown dropdown, int defaultValue = 0) {
         string[] enumNames = Enum.GetNames(typeof(T));
         List<string> namesList = enumNames.ToList();
         dropdown.ClearOptions();
         dropdown.AddOptions(namesList);
+        dropdown.value = defaultValue;
+    }
+
+    public void PopulateOptions(TMP_Dropdown dropdown, T defaultOption) {
+        int index = Convert.ToInt32(defaultOption); 
+        PopulateOptions(dropdown, index );
     }
 }

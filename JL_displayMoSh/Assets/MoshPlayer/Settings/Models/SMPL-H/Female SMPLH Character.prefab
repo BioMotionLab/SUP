@@ -1001,15 +1001,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gender: 1
-  setFeetOnGround: 0
+  setFeetOnGround: 1
   options:
     UpdateBodyShapeLive: 0
     UpdatePosesLive: 1
-    UpdateBlendshapesLive: 1
+    UpdatePoseBlendshapesLive: 1
     AllowPoseManipulation: 0
   displayOptions:
-    DisplayBones: 0
-    DisplayPointLights: 0
+    DisplayBones: 1
+    DisplayPointLights: 1
     MeshDisplayState: 0
     PointLightDisplayOptions:
       PointLightDisplaySize: 0.01
