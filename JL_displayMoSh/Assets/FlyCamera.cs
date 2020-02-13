@@ -56,7 +56,6 @@ public class FlyCamera : MonoBehaviour {
 		transform.Translate(Vector3.forward * forwardSpeed * Input.mouseScrollDelta.y);
 
 		if (Input.GetKey(KeyCode.Mouse2)) {
-			Debug.Log("middle mouse");
 			transform.Translate(Input.GetAxis("Mouse X") * Vector3.left * panSpeed);
 			transform.Translate(Input.GetAxis("Mouse Y") * Vector3.down * panSpeed);
 		}
