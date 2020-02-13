@@ -70,6 +70,21 @@ namespace MoshPlayer.Scripts.Utilities {
             return rightHandedQuaternion;
         }
         
+        public static Quaternion ToRightHanded2(this Quaternion leftHandedQuaternion) {
+            // Blasted left-handed coordinate system -- Converting quaternions from LHS to RHS so that pose blendshapes get the correct values
+
+            // if the difference is just handedness, I would have thought only 1 axis would need to be flipped. But these are quaternions, and 
+            // pretty much no one understands quaternions. It like - violates labor laws or something.
+            Debug.Log($"left {leftHandedQuaternion.eulerAngles.ToString("F4")}");
+            Quaternion rightHandedQuaternion = new Quaternion (-leftHandedQuaternion.y,
+                                                               -leftHandedQuaternion.z,
+                                                               -leftHandedQuaternion.z,
+                                                               leftHandedQuaternion.w);
+            //rightHandedQuaternion = Quaternion.Inverse(rightHandedQuaternion);
+            Debug.Log($"right {rightHandedQuaternion.eulerAngles.ToString("F4")}");
+            return rightHandedQuaternion;
+        }
+        
         
        
 

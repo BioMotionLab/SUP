@@ -16,6 +16,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         public readonly ModelDefinition Model;
         CharacterPoser characterPoser;
         readonly Playback playback;
+        AnimationControlEvents animationControlEvents;
 
 
         public MoshAnimation(ModelDefinition model, PlaybackOptions playbackOptions,
@@ -28,7 +29,8 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             Gender = gender;
             Model = model;
             
-            playback = new Playback(sourceTotalFrameCount, sourceFPS, playbackOptions);
+            animationControlEvents = new AnimationControlEvents();
+            playback = new Playback(sourceTotalFrameCount, sourceFPS, playbackOptions, animationControlEvents);
             
             this.rawBodyShapeWeightBetas = rawBodyShapeWeightBetas;
             this.translations = translations;
@@ -51,8 +53,11 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
 
         public void PlayCurrentFrame() {
             if (playback.Finished) return;
-            if (!playback.Started) playback.Start();
-            
+            if (!playback.Started) {
+                AnimationControlEvents.BroadCastAnimationStarted(this, animationControlEvents);
+                playback.Start();
+            }
+
             ResampledFrame resampledFrame = playback.GetResampledFrame();
             
             Vector3 translationThisFrame = GetTranslationAtFrame(resampledFrame);

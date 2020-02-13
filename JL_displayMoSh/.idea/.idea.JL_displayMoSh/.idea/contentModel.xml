@@ -7,6 +7,9 @@
       <e p="Assembly-CSharp-Editor.csproj" t="IncludeRecursive" />
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
+        <e p="AnimationControlEvents.cs" t="Include" />
+        <e p="AnimationDisplayMainPanel.cs" t="Include" />
+        <e p="AnimationPanel.cs" t="Include" />
         <e p="BoneDisplayDropdown.cs" t="Include" />
         <e p="CameraMovement.cs" t="Include" />
         <e p="DebugTools.cs" t="Include" />

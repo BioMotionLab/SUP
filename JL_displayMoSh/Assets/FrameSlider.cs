@@ -9,21 +9,27 @@ using UnityEngine.UI;
 public class FrameSlider : MonoBehaviour
 {
     Slider slider;
-
+    
     [SerializeField]
     TextMeshProUGUI FrameValue;
-    
-    
+
+    AnimationControlEvents animationControlEvents;
+
+
     // Start is called before the first frame update
     void OnEnable() {
         slider = GetComponent<Slider>();
-        PlaybackEventSystem.OnFrameBroadcast += SetFrame;
-        PlaybackEventSystem.OnBroadcastTotalFrames += SetTotalFrames;
+    }
+
+    public void Init(AnimationControlEvents animationControlEventsToAttach) {
+        animationControlEvents = animationControlEventsToAttach;
+        animationControlEvents.OnFrameBroadcast += SetFrame;
+        animationControlEvents.OnBroadcastTotalFrames += SetTotalFrames;
     }
 
     void OnDisable() {
-        PlaybackEventSystem.OnFrameBroadcast -= SetFrame;
-        PlaybackEventSystem.OnBroadcastTotalFrames -= SetTotalFrames;
+        animationControlEvents.OnFrameBroadcast -= SetFrame;
+        animationControlEvents.OnBroadcastTotalFrames -= SetTotalFrames;
     }
 
     void SetTotalFrames(int totalFrames) {
@@ -38,7 +44,7 @@ public class FrameSlider : MonoBehaviour
 
     [PublicAPI]
     public void UserChangedFrame(float value) {
-        PlaybackEventSystem.UserSelectedFrame(value);
+        animationControlEvents.UserSelectedFrame(value);
     }
 
     [PublicAPI]

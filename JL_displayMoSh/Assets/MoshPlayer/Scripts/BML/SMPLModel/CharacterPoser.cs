@@ -54,7 +54,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             }
 
             if (moshCharacter.Options.UpdatePoseBlendshapesLive) {
-                AddPoseDependentBlendShapes();
+                AddPoseDependentBlendShapes(poses);
             }
             else {
                 ResetPoseDependentBlendShapesToZero();
@@ -65,10 +65,13 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
 
         public Quaternion[] GatherPosesFromBones() {
             Quaternion[] poses = new Quaternion[model.JointCount];
-            foreach (Transform bone in skinnedMeshRenderer.bones) {
+            for (int boneIndex = 0; boneIndex < skinnedMeshRenderer.bones.Length; boneIndex++) {
+                Transform bone = skinnedMeshRenderer.bones[boneIndex];
                 int poseIndex = Bones.NameToJointIndex[bone.name];
                 poses[poseIndex] = bone.localRotation;
+                //poses[boneIndex] = bone.localRotation;
             }
+
             return poses;
         }
 
@@ -119,13 +122,13 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         /// Pelvis has no blend shapes. So need to skip it when iterating through joints.
         /// But then to index blendshapes need to subtract that 1 back to get blendshape index.
         /// </summary>
-        void AddPoseDependentBlendShapes() {
+        void AddPoseDependentBlendShapes(Quaternion [] poses) {
 
             int startingJoint =  model.FirstPoseIsPelvisTranslation ? 1 : 0;
 
             for (int jointIndex = startingJoint; jointIndex < model.JointCount; jointIndex++) {
                 
-                Quaternion jointPose = skinnedMeshRenderer.bones[jointIndex].localRotation;
+                Quaternion jointPose = poses[jointIndex];
                 
                 //convert to from Unity back to MPI's right-handed coords.
                 jointPose = jointPose.ToRightHanded();

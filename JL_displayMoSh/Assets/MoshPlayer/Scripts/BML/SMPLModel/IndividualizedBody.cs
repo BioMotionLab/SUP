@@ -84,7 +84,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             AdjustMeshToNewBones();
             
             UpdateBodyShapeBlendshapes(bodyShapeBetas);
-            
+
             if (moshCharacter.SetFeetOnGround) SetFeetOnGround();
         }
 

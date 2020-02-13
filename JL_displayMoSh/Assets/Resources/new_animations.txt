@@ -1,2 +1,2 @@
-test_data.json
+test_data.json amass_sample.json
 amass_sample.json

@@ -18,9 +18,10 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         readonly PlaybackOptions playbackOptions;
         float elapsedTime;
         float playbackSpeed = 1;
+        AnimationControlEvents controlEvents;
 
         public Playback(int sourceTotalFrameCount,
-                        int sourceFPS, PlaybackOptions playbackOptions) {
+                        int sourceFPS, PlaybackOptions playbackOptions, AnimationControlEvents animationControlEvents) {
             this.sourceFPS = sourceFPS;
             if (sourceFPS <= 0) {
                 this.sourceFPS = 60;
@@ -33,7 +34,9 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
 
             PlaybackEventSystem.OnPauseToggleEvent += TogglePause;
             PlaybackEventSystem.OnBroadcastDisplaySpeed += UpdatePlaybackSpeed;
-            PlaybackEventSystem.OnUserFrameSelect += JumpToFrame;
+
+            controlEvents = animationControlEvents;
+            controlEvents.OnUserFrameSelect += JumpToFrame;
         }
 
         void JumpToFrame(float frame) {
@@ -54,7 +57,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             Started = true;
             elapsedTime = 0;
             
-            PlaybackEventSystem.BroadcastTotalFrames(sourceTotalFrameCount);
+            controlEvents.BroadcastTotalFrames(sourceTotalFrameCount);
             //Debug.Log($"total frames: {sourceTotalFrameCount}");
         }
 
@@ -69,7 +72,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             lastUpdateTime = Time.time;
             
             ResampledFrame resampledFrame = new ForwardsResampledFrame(elapsedTime, sourceTotalFrameCount, sourceDuration);
-            PlaybackEventSystem.BroadcastCurrentFrame(resampledFrame.Frame);
+            controlEvents.BroadcastCurrentFrame(resampledFrame.Frame);
             //Debug.Log($"totalframes: {sourceTotalFrameCount}, current frame: {resampledFrame.Frame}");
             
             if (resampledFrame.IsLastFrame) {
@@ -83,6 +86,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
 
         void Finish() {
             Finished = true;
+            controlEvents.BroadCastAnimationEnded();
             PlaybackEventSystem.OnPauseToggleEvent -= TogglePause;
             PlaybackEventSystem.OnBroadcastDisplaySpeed -= UpdatePlaybackSpeed;
         }
