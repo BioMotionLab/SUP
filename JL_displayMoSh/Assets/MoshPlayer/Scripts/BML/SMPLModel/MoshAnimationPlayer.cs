@@ -42,9 +42,11 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         /// </summary>
         List<MoshCharacter> StartAnimation() {
             List<MoshAnimation> animationGroup = animationSequence[currentAnimationIndex];
-            
-            Debug.Log($"Playing animation {currentAnimationIndex+1} of {animationSequence.Count}. " +
-                      $"Contains animations for {animationGroup.Count} characters.");
+
+            string updateMessage = $"Playing animation set {currentAnimationIndex+1} of {animationSequence.Count}. " +
+                             $"({animationGroup.Count} chars)";
+            Debug.Log(updateMessage);
+            PlaybackEventSystem.UpdatePlayerProgress(updateMessage);
 		
             List<MoshCharacter> newCharacters = new List<MoshCharacter>();
             for (int animationIndex = 0; animationIndex < animationGroup.Count; animationIndex++) {
@@ -63,7 +65,9 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             StopCurrentAnimations();
             currentAnimationIndex++;
             if (AllAnimsComplete) {
-                Debug.Log("All Animations Complete");
+                string updateMessage = "All Animations Complete";
+                Debug.Log(updateMessage);
+                PlaybackEventSystem.UpdatePlayerProgress(updateMessage);
                 return;
             }
             currentCharacters = StartAnimation();

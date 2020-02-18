@@ -17,6 +17,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         CharacterPoser characterPoser;
         readonly Playback playback;
         AnimationControlEvents animationControlEvents;
+        public string animationName;
 
 
         public MoshAnimation(ModelDefinition model, PlaybackOptions playbackOptions,
@@ -25,7 +26,8 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
                              int             sourceFPS,
                              float[]         rawBodyShapeWeightBetas,
                              Vector3[]       translations,
-                             Quaternion[,]   allPoses) {
+                             Quaternion[,]   allPoses,
+                             string animationName) {
             Gender = gender;
             Model = model;
             
@@ -35,6 +37,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             this.rawBodyShapeWeightBetas = rawBodyShapeWeightBetas;
             this.translations = translations;
             this.allPoses = allPoses;
+            this.animationName = animationName;
 
         }
 

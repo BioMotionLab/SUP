@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Collections.Generic;
 using JetBrains.Annotations;
 using MoshPlayer.Scripts.BML.Display;
 using UnityEngine;
@@ -9,6 +10,8 @@ public class PlaybackEventSystem : MonoBehaviour {
 
     public bool Paused = false;
     
+    [SerializeField]
+    List<KeyCode> nextKeys = new List<KeyCode>();
 
     [PublicAPI]
     public void UpdateDisplaySpeed(float displaySpeed) {
@@ -21,6 +24,15 @@ public class PlaybackEventSystem : MonoBehaviour {
         Debug.Log($"Paused: {Paused}");
         OnPauseToggleEvent?.Invoke(Paused);
     }
+
+    public void Update() {
+        foreach (KeyCode key in nextKeys) {
+            if (Input.GetKeyDown(key)) {
+                GoToNextAnimation();
+            }
+        }
+    }
+
 
     public delegate void PauseToggleEvent(bool paused);
 
@@ -93,5 +105,30 @@ public class PlaybackEventSystem : MonoBehaviour {
     
     public static void ChangeLiveBodyShapeRendering(bool liveBodyShape) {
         OnChangeLiveBodyShape?.Invoke(liveBodyShape);
+    }
+
+
+    public delegate void NextAnimationEvent();
+
+    public static event NextAnimationEvent OnNextAnimation;
+
+    public static void GoToNextAnimation() {
+        OnNextAnimation?.Invoke();
+    }
+
+    public delegate void PlayerProgressTextEvent(string text);
+
+    public static event PlayerProgressTextEvent OnUpdatePlayerProgress;
+
+    public static void UpdatePlayerProgress(string text) {
+        OnUpdatePlayerProgress?.Invoke(text);
+    }
+
+
+    public delegate void LoadAnimationsEvent(string listFile, string animationsFolder);
+
+    public static event LoadAnimationsEvent OnLoadAnimations;
+    public static void LoadAnimations(string listFile, string animationsFolder) {
+        OnLoadAnimations?.Invoke(listFile, animationsFolder);
     }
 }

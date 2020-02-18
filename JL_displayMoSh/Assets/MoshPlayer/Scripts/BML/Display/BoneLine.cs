@@ -32,10 +32,10 @@ namespace MoshPlayer.Scripts.BML.Display {
         /// <summary>
         /// Replaces constructor for MonoBehaviour
         /// </summary>
-        /// <param name="boneDisplay"></param>
-        /// <param name="parentBone"></param>
-        /// <param name="childBone"></param>
-        /// <param name="boneDisplayOptions"></param>
+        /// <param animationName="boneDisplay"></param>
+        /// <param animationName="parentBone"></param>
+        /// <param animationName="childBone"></param>
+        /// <param animationName="boneDisplayOptions"></param>
         public void Init(BoneDisplay boneDisplay, Transform parentBone, Transform childBone, BoneDisplayOptions boneDisplayOptions) {
             this.boneDisplay = boneDisplay;
             this.parentBone = parentBone;

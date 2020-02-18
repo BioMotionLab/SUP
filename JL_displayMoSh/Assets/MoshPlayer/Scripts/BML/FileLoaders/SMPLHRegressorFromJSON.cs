@@ -34,7 +34,7 @@ namespace MoshPlayer.Scripts.BML.FileLoaders {
         /// <summary>
         /// Static builder to create a Regressor from a JSON file.
         /// </summary>
-        /// <param name="jsonFile">The regressor JSON File</param>
+        /// <param animationName="jsonFile">The regressor JSON File</param>
         /// <returns></returns>
         /// <exception cref="NullReferenceException"></exception>
         public static JointRegressor LoadRegressorFromJSON(TextAsset jsonFile) {
@@ -56,7 +56,7 @@ namespace MoshPlayer.Scripts.BML.FileLoaders {
         /// <summary>
         /// Loads the Joint template from a JSON node
         /// </summary>
-        /// <param name="templateJSONNode"></param>
+        /// <param animationName="templateJSONNode"></param>
         void LoadJointTemplate(JSONNode templateJSONNode) {
             JSONNode jointTemplateNode = templateJSONNode[JointTemplateJSONKey];
 
@@ -74,7 +74,7 @@ namespace MoshPlayer.Scripts.BML.FileLoaders {
         /// <summary>
         /// Loads the joint regressor into Unity-compatible matrix format (3 separate matrices, one for each dimension)
         /// </summary>
-        /// <param name="regressorJSONNode"></param>
+        /// <param animationName="regressorJSONNode"></param>
         void LoadJointRegressor(JSONNode regressorJSONNode) {
             JSONNode regressorNode = regressorJSONNode[JointRegressorJSONKey];
 

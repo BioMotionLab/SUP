@@ -35,7 +35,7 @@ namespace MoshPlayer.Scripts.BML.Display {
         /// <summary>
         /// Walks down Bone Hierarchy to create linked point lights
         /// </summary>
-        /// <param name="parent"></param>
+        /// <param animationName="parent"></param>
         void CreatePointLightsInBoneHierarchy(Transform parent) {
             PointLight newPointLight = Instantiate(PointLightPrefab, pointLightContainer.transform);
             newPointLight.AttachBone(this, parent, moshCharacter.DisplayOptions.PointLightDisplayOptions);

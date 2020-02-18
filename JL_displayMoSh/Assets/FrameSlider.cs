@@ -11,7 +11,7 @@ public class FrameSlider : MonoBehaviour
     Slider slider;
     
     [SerializeField]
-    TextMeshProUGUI FrameValue;
+    TextMeshProUGUI FrameValue = default;
 
     AnimationControlEvents animationControlEvents;
 
@@ -22,12 +22,13 @@ public class FrameSlider : MonoBehaviour
     }
 
     public void Init(AnimationControlEvents animationControlEventsToAttach) {
-        animationControlEvents = animationControlEventsToAttach;
+        animationControlEvents = animationControlEventsToAttach ?? throw new NullReferenceException("Animation events null");
         animationControlEvents.OnFrameBroadcast += SetFrame;
         animationControlEvents.OnBroadcastTotalFrames += SetTotalFrames;
     }
 
     void OnDisable() {
+        if (animationControlEvents == null) return;
         animationControlEvents.OnFrameBroadcast -= SetFrame;
         animationControlEvents.OnBroadcastTotalFrames -= SetTotalFrames;
     }
@@ -44,7 +45,7 @@ public class FrameSlider : MonoBehaviour
 
     [PublicAPI]
     public void UserChangedFrame(float value) {
-        animationControlEvents.UserSelectedFrame(value);
+        animationControlEvents?.UserSelectedFrame(value);
     }
 
     [PublicAPI]

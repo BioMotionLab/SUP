@@ -21,11 +21,12 @@ namespace MoshPlayer.Scripts.BML.FileLoaders {
         int           frameCount;
         Vector3[]     translations;
         Quaternion[,] poses;
+        string name;
         ModelDefinition matchedModel;
         readonly SettingsMain settingsMain;
         readonly PlaybackOptions playbackOptions;
 
-        public MoshAnimationFromJSON(string jsonFileWholeString, SettingsMain settingsMain, PlaybackOptions playbackOptions)  {
+        public MoshAnimationFromJSON(string jsonFileWholeString, SettingsMain settingsMain, PlaybackOptions playbackOptions, string name)  {
             if (jsonFileWholeString == null) throw new NullReferenceException("Tried to instantiate Animation JSON with null TextAsset");
             if (settingsMain == null) throw new NullReferenceException("No SettingsMain specified");
             this.settingsMain = settingsMain;
@@ -33,13 +34,13 @@ namespace MoshPlayer.Scripts.BML.FileLoaders {
             // AB: This is where the load speed bottleneck is. It seems to have trouble parsing even fairly small ~1MB files (~100ms or more).
             // Once parsed it seems to be very fast to load (< 5 ms)
             // According to Google, SimpleJSON is the fastest parser... so perhaps just a limitation of the way the data is stored. 
-            JSONNode jsonNode = JSON.Parse(jsonFileWholeString); 
-            
+            JSONNode jsonNode = JSON.Parse(jsonFileWholeString);
+            this.name = name;
             LoadAnimationFromJSON (jsonNode);
         }
 
         public MoshAnimation BuildWithSettings() {
-            MoshAnimation animation = new MoshAnimation(matchedModel, playbackOptions, gender, frameCount, fps, betas, translations, poses);
+            MoshAnimation animation = new MoshAnimation(matchedModel, playbackOptions, gender, frameCount, fps, betas, translations, poses, name);
             return animation;
         }
     

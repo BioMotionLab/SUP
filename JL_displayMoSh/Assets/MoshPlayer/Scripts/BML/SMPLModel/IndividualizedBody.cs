@@ -160,7 +160,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         /// The some of the models have a scaling factor for some reason (e.g. SMPL is 1/5, SMPLH is 1).
         /// Blendshapes in unity are scaled 0-100 rather than 0-1, so also need to correct for that. 
         /// </summary>
-        /// <param name="rawWeight"></param>
+        /// <param animationName="rawWeight"></param>
         /// <returns></returns>
         float ScaleBlendshapeFromBlenderToUnity(float rawWeight) {
             float scaledWeight = rawWeight * model.ShapeBlendShapeScalingFactor * model.UnityBlendShapeScaleFactor;

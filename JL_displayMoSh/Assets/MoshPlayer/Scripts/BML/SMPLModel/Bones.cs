@@ -254,9 +254,9 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         /// position will then move the child away from desired location. This function traverses through
         /// a hierarchy to ensure this never happens.
         /// </summary>
-        /// <param name="parentBone"></param>
-        /// <param name="rootCoordinateTransform"></param>
-        /// <param name="jointPositions"></param>
+        /// <param animationName="parentBone"></param>
+        /// <param animationName="rootCoordinateTransform"></param>
+        /// <param animationName="jointPositions"></param>
         public static void SetPositionDownwardsThroughHierarchy(Transform parentBone, Transform rootCoordinateTransform,
                                                                 Vector3[] jointPositions) {
             string boneName = parentBone.name;
@@ -274,9 +274,9 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         /// position will then move the child away from desired location. This function traverses through
         /// a hierarchy to ensure this never happens. 
         /// </summary>
-        /// <param name="parentBone"></param>
-        /// <param name="rootCoordinateTransform"></param>
-        /// <param name="originalPositions"></param>
+        /// <param animationName="parentBone"></param>
+        /// <param animationName="rootCoordinateTransform"></param>
+        /// <param animationName="originalPositions"></param>
         public static void ResetBonesDownwardsThroughHierarchy(Transform parentBone, Transform rootCoordinateTransform,
                                                                Vector3[] originalPositions) {
             string boneName = parentBone.name;

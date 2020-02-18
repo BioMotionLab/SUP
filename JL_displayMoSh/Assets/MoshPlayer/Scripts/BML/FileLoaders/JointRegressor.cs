@@ -65,7 +65,7 @@ namespace MoshPlayer.Scripts.BML.FileLoaders {
         /// result = np.einsum('ijk,kl->ij', J_regressor, betas)
         /// 
         /// </summary>
-        /// <param name="betas"></param>
+        /// <param animationName="betas"></param>
         /// <returns></returns>
         Matrix<double> J_RegressorDotBetas(Matrix<double> betas) {
             Matrix<double> dimensionResultsX = jointRegressorMatrixX.Multiply(betas);
@@ -84,9 +84,9 @@ namespace MoshPlayer.Scripts.BML.FileLoaders {
         /// Basically just converts 3 separate XYZ matricies (from multiplication)
         /// back in to a 3-dimensional matrix
         /// </summary>
-        /// <param name="dimensionResultsX"></param>
-        /// <param name="dimensionResultsY"></param>
-        /// <param name="dimensionResultsZ"></param>
+        /// <param animationName="dimensionResultsX"></param>
+        /// <param animationName="dimensionResultsY"></param>
+        /// <param animationName="dimensionResultsZ"></param>
         /// <returns></returns>
         static Matrix<double> StackDimensionsBackToOneMatrix(Matrix<double> dimensionResultsX,
                                                              Matrix<double> dimensionResultsY,
@@ -105,7 +105,7 @@ namespace MoshPlayer.Scripts.BML.FileLoaders {
         /// <summary>
         /// Converts array of betas to 
         /// </summary>
-        /// <param name="betaArray"></param>
+        /// <param animationName="betaArray"></param>
         /// <returns></returns>
         static Matrix<double> ConvertBetasToMatrix(float[] betaArray) {
             double[,] betaMatrix = new double[betaArray.Length, 1];
@@ -121,8 +121,8 @@ namespace MoshPlayer.Scripts.BML.FileLoaders {
         /// <summary>
         /// Converts Matrix Back to array of Vector3 positions
         /// </summary>
-        /// <param name="model"></param>
-        /// <param name="positionMatrix"></param>
+        /// <param animationName="model"></param>
+        /// <param animationName="positionMatrix"></param>
         /// <returns></returns>
         static Vector3[] MatrixToPositionArray(ModelDefinition model, Matrix<double> positionMatrix) {
             Vector3[] positions = new Vector3[model.JointCount];

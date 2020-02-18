@@ -54,7 +54,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         public MoshCharacter CreateNewCharacter(string characterName, Gender gender) {
             MoshCharacter genderedPrefab = GetCharacterPrefab(gender);
             GameObject newCharacter = Instantiate(genderedPrefab.gameObject);
-            Debug.Log("Instantiating char");
+            //Debug.Log("Instantiating char");
             newCharacter.name = characterName;
             MoshCharacter newMoshCharacter = newCharacter.GetComponent<MoshCharacter>();
             return newMoshCharacter;

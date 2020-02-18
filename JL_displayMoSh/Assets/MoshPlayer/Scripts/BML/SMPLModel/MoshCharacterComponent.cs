@@ -1,5 +1,4 @@
 ﻿using System;
-using Boo.Lang.Runtime.DynamicDispatching;
 using MoshPlayer.Scripts.BML.Display;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -181,7 +180,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         public void InterruptAnimation() {
             if (this == null || gameObject == null) return; // order of check important here. 
             
-            //Debug.Log($"{gameObject.name}'s Animation Interrupted");
+            //Debug.Log($"{gameObject.animationName}'s Animation Interrupted");
             DestroyCharacter();
         }
 

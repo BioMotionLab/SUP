@@ -7,7 +7,7 @@ using UnityEngine;
 public class AnimationDisplayMainPanel : MonoBehaviour {
 
     [SerializeField]
-    AnimationPanel AnimationPanelPrefab;
+    AnimationPanel AnimationPanelPrefab = default;
 
     public Dictionary<MoshAnimation, AnimationPanel> openPanels;
     
@@ -17,11 +17,14 @@ public class AnimationDisplayMainPanel : MonoBehaviour {
     }
 
     void AddNewAnimationPanel(MoshAnimation moshAnimation, AnimationControlEvents animationControlEvents) {
+        
         AnimationPanel newAnimationPanel = Instantiate(AnimationPanelPrefab, this.transform);
-        
+        newAnimationPanel.transform.SetSiblingIndex(0);
         openPanels.Add(moshAnimation, newAnimationPanel);
-        
         newAnimationPanel.Init(moshAnimation, animationControlEvents, this);
     }
-    
+
+    void OnDisable() {
+        AnimationControlEvents.OnAnimationStarted -= AddNewAnimationPanel;
+    }
 }

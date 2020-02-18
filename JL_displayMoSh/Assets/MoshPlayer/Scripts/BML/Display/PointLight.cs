@@ -48,7 +48,7 @@ namespace MoshPlayer.Scripts.BML.Display {
         /// <summary>
         /// Colors the sides of body differently
         /// </summary>
-        /// <param name="bone"></param>
+        /// <param animationName="bone"></param>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         void ColorBySideOfBody(Transform bone) {
             SideOfBody side = Bones.GetSideOfBody(bone.name);

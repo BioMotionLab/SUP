@@ -42,7 +42,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
                 Transform bone = skinnedMeshRenderer.bones[boneIndex];
                 //Save in local coordinates of pelvis. Assumes pelvis at zero.
                 originalBonePositions[boneIndex] = skinnedMeshRenderer.transform.InverseTransformPoint(bone.position);
-                //Debug.Log($"bone {bone.name} pos: {bone.position} saved as {originalBonePositions[boneIndex]}");
+                //Debug.Log($"bone {bone.animationName} pos: {bone.position} saved as {originalBonePositions[boneIndex]}");
             }
         }
         

@@ -26,7 +26,7 @@ public class FlyCamera : MonoBehaviour {
 	public float forwardSpeed;
 	public float panSpeed;
 	void Awake() {
-		Debug.Log ("FlyCamera Awake() - RESETTING CAMERA POSITION"); // nop?
+		//Debug.Log ("FlyCamera Awake() - RESETTING CAMERA POSITION"); // nop?
 		// nop:
 		//transform.position.Set(0,8,-32);
 		//transform.rotation.Set(15,0,0,1);
@@ -61,7 +61,6 @@ public class FlyCamera : MonoBehaviour {
 		}
 		
 		//Keyboard commands
-		float f = 0.0f;
 		Vector3 p = GetBaseInput();
 		if (Input.GetKey (KeyCode.LeftShift)){
 			totalRun += Time.deltaTime;

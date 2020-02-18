@@ -37,6 +37,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
 
             controlEvents = animationControlEvents;
             controlEvents.OnUserFrameSelect += JumpToFrame;
+            
         }
 
         void JumpToFrame(float frame) {
@@ -58,6 +59,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             elapsedTime = 0;
             
             controlEvents.BroadcastTotalFrames(sourceTotalFrameCount);
+            PlaybackEventSystem.OnNextAnimation += Finish;
             //Debug.Log($"total frames: {sourceTotalFrameCount}");
         }
 
@@ -67,8 +69,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             if (playbackOptions.PlayBackwards) {
                 signedPlaybackSpeed = -signedPlaybackSpeed;
             }
-
-            if (!paused) elapsedTime += (Time.time - lastUpdateTime) * playbackSpeed;
+            if (!paused) elapsedTime += (Time.time - lastUpdateTime) * signedPlaybackSpeed;
             lastUpdateTime = Time.time;
             
             ResampledFrame resampledFrame = new ForwardsResampledFrame(elapsedTime, sourceTotalFrameCount, sourceDuration);
@@ -89,6 +90,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             controlEvents.BroadCastAnimationEnded();
             PlaybackEventSystem.OnPauseToggleEvent -= TogglePause;
             PlaybackEventSystem.OnBroadcastDisplaySpeed -= UpdatePlaybackSpeed;
+            PlaybackEventSystem.OnNextAnimation -= Finish;
         }
     }
 }

@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using JetBrains.Annotations;
 using MoshPlayer.Scripts.BML.Display;
 using UnityEngine;
 
@@ -8,21 +10,11 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
 	public class MoshViewerComponent : MonoBehaviour {
 	
 		const string DefaultSelectPathText = "Select...";
-	
-		[Tooltip("Path to file with list of animation file names")]
-		[SerializeField] 
-		public string AnimationsToPlayFile = DefaultSelectPathText;
-	
-		[SerializeField] 
-		public string AnimFolder = DefaultSelectPathText;
-	
+		
 		[SerializeField]
 		SettingsMain SettingsMain = default;
 
 		MoshAnimationPlayer moshAnimationPlayer;
-		
-		[SerializeField]
-		KeyCode[] NextTrialKeys = default;
 
 		[SerializeField]
 		PlaybackOptions playbackOptions = default;
@@ -31,12 +23,25 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
 		bool doneLoading = false;
 		bool started = false;
 		bool notYetNotified = true;
-		void Awake() {
-			if (!File.Exists(AnimationsToPlayFile)) throw new IOException($"Can't find List of Animations file {AnimationsToPlayFile}");
+
+		void OnEnable() {
+			PlaybackEventSystem.OnNextAnimation += GoToNextAnimation;
+			PlaybackEventSystem.OnLoadAnimations += LoadAnimations;
+		}
+
+		void OnDisable() {
+			PlaybackEventSystem.OnNextAnimation -= GoToNextAnimation;
+			PlaybackEventSystem.OnLoadAnimations -= LoadAnimations;
+		}
+
+		void LoadAnimations(string listFile, string animationsFolder) {
+			
+			if (!File.Exists(listFile)) throw new IOException($"Can't find List of Animations file {listFile}");
 			
 			loader = gameObject.AddComponent<AnimationLoader>();
-			loader.Init(AnimationsToPlayFile, SettingsMain, playbackOptions, AnimFolder, DoneLoading);
+			loader.Init(listFile, SettingsMain, playbackOptions, animationsFolder, DoneLoading);
 		}
+
 
 		void DoneLoading(List<List<MoshAnimation>> animationSequence) {
 			doneLoading = true;
@@ -50,21 +55,22 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
 
 			
 			if (!started && notYetNotified) {
-				Debug.Log($"Waiting to start playing... press {NextTrialKeys[0]} to continue");
+				string updateMessage = $"Waiting to start playing... press \"Next Animation\" to continue";
+				Debug.Log(updateMessage);
+				PlaybackEventSystem.UpdatePlayerProgress(updateMessage);
 				notYetNotified = false;
-			}
-			
-			if (NextTrialKeys.Any(Input.GetKeyDown)) {
-				if (!started) {
-					moshAnimationPlayer.StartPlayingAnimations();
-					started = true;
-				}
-				else {
-					moshAnimationPlayer.GoToNextAnimation();
-				}
-				
 			}
 		}
 
+		[PublicAPI]
+		public void GoToNextAnimation() {
+			if (!started) {
+				moshAnimationPlayer.StartPlayingAnimations();
+				started = true;
+			}
+			else {
+				moshAnimationPlayer.GoToNextAnimation();
+			}
+		}
 	}
 }

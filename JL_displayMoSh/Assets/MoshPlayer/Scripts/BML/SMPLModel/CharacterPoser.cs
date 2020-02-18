@@ -83,7 +83,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         /// <summary>
         /// Updates the bones based on new poses and translation of pelvis
         /// </summary>
-        /// <param name="poses"></param>
+        /// <param animationName="poses"></param>
         void UpdatePoses() {
             for (int boneIndex = 0; boneIndex < bones.Length; boneIndex++) {
                 string boneName = bones[boneIndex].name;
@@ -93,7 +93,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
                     bones[boneIndex].localRotation = poses[poseIndex];
                 }
                 catch (KeyNotFoundException) {
-                    throw new KeyNotFoundException($"Bone Not in dictionary: boneIndex: {boneIndex}, name: {boneName}");
+                    throw new KeyNotFoundException($"Bone Not in dictionary: boneIndex: {boneIndex}, animationName: {boneName}");
                 }
             }
         }
