@@ -52,5 +52,14 @@ public class SelectAnimationsPanel : MonoBehaviour {
         gameObject.SetActive(false);
     }
     
+    [PublicAPI]
+    public void LoadSamples() {
+        animationsFolder =
+            @"C:\Users\BioMotion\Documents\GitHub\UpdatingMoshAndSMPL\JL_displayMoSh\Assets\Resources\NewAnimations";
+        listFile = @"C:\Users\BioMotion\Documents\GitHub\UpdatingMoshAndSMPL\JL_displayMoSh\Assets\Resources\new_animations.txt";
+        PlaybackEventSystem.LoadAnimations(listFile, animationsFolder);
+        gameObject.SetActive(false);
+    }
+    
     
 }
