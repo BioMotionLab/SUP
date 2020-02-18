@@ -4,4 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/MoshPlayer/MoshPlayerExampleScene.unity
+    guid: 4b3caf3dce812488aa96bad2cf6d6cf9
+  m_configObjects: {}

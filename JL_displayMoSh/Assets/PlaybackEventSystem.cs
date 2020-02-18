@@ -5,13 +5,15 @@ using JetBrains.Annotations;
 using MoshPlayer.Scripts.BML.Display;
 using UnityEngine;
 
-
 public class PlaybackEventSystem : MonoBehaviour {
 
     public bool Paused = false;
     
     [SerializeField]
     List<KeyCode> nextKeys = new List<KeyCode>();
+    
+    [SerializeField]
+    List<KeyCode> quitKeys = new List<KeyCode>();
 
     [PublicAPI]
     public void UpdateDisplaySpeed(float displaySpeed) {
@@ -31,6 +33,23 @@ public class PlaybackEventSystem : MonoBehaviour {
                 GoToNextAnimation();
             }
         }
+
+        foreach (KeyCode key in quitKeys) {
+            if (Input.GetKeyDown(key)) {
+                Quit();
+            }
+        }
+        
+    }
+
+    static void Quit() {
+#if UNITY_EDITOR
+        // Application.Quit() does not work in the editor so
+        // UnityEditor.EditorApplication.isPlaying need to be set to false to end the game
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+         Application.Quit();
+#endif
     }
 
 

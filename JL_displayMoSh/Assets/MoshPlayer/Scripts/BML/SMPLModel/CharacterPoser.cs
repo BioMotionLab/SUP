@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
 using MoshPlayer.Scripts.Utilities;
 using UnityEngine;
 using UnityEngine.Analytics;
@@ -124,6 +125,8 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         /// </summary>
         void AddPoseDependentBlendShapes(Quaternion [] poses) {
 
+            
+
             int startingJoint =  model.FirstPoseIsPelvisTranslation ? 1 : 0;
 
             for (int jointIndex = startingJoint; jointIndex < model.JointCount; jointIndex++) {
@@ -132,9 +135,11 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
                 
                 //convert to from Unity back to MPI's right-handed coords.
                 jointPose = jointPose.ToRightHanded();
-                
+
                 float[] rotationMatrix = jointPose.To3X3Matrix();
                 rotationMatrix = MatrixUtilities.SubtractIdentity(rotationMatrix);
+                
+                
                 //rotationMatrix = MatrixUtilities.RotationMatrix3x3ToRightHanded(rotationMatrix);
                 
                 for (int rotMatrixElement = 0; rotMatrixElement < SMPLConstants.RotationMatrixElementCount; rotMatrixElement++) {
@@ -150,6 +155,8 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
                     skinnedMeshRenderer.SetBlendShapeWeight(blendShapeIndex, scaledWeightBeta);
                 }
             }
+            
+            
         }
         
         [ContextMenu("ResetPoseBlendshapes")]

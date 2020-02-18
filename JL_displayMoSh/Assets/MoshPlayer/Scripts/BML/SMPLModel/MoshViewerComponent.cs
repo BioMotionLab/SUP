@@ -49,11 +49,12 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
 			Destroy(loader);
 		}
 		
+		
 		void Update() {
 			if (!doneLoading) return;
+			if (moshAnimationPlayer == null) return;
 			if (moshAnimationPlayer.AllAnimsComplete) return;
 
-			
 			if (!started && notYetNotified) {
 				string updateMessage = $"Waiting to start playing... press \"Next Animation\" to continue";
 				Debug.Log(updateMessage);
@@ -64,6 +65,8 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
 
 		[PublicAPI]
 		public void GoToNextAnimation() {
+			if (moshAnimationPlayer == null) return;
+			
 			if (!started) {
 				moshAnimationPlayer.StartPlayingAnimations();
 				started = true;
