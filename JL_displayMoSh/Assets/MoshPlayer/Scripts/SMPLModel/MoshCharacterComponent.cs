@@ -27,18 +27,22 @@ namespace MoshPlayer.Scripts.SMPLModel {
         // ReSharper disable once InconsistentNaming
         public bool setFeetOnGround = default;
         
+        [FormerlySerializedAs("CharacterRenderOptions")]
+        [FormerlySerializedAs("characterOptions")]
+        [FormerlySerializedAs("renderOptions")]
         [SerializeField]
         // ReSharper disable once InconsistentNaming
-        CharacterOptions options = default;
+        CharacterRenderOptions characterRenderOptions = default;
 
         public bool SetFeetOnGround => setFeetOnGround;
-        public CharacterOptions Options => options;
+        public CharacterRenderOptions RenderOptions => characterRenderOptions;
         
+        [FormerlySerializedAs("displayOptions")]
         [SerializeField]
         // ReSharper disable once InconsistentNaming
-        CharacterDisplayOptions displayOptions = default;
+        CharacterDisplayOptions characterDisplayOptions = default;
 
-        public CharacterDisplayOptions DisplayOptions => displayOptions;
+        public CharacterDisplayOptions DisplayOptions => characterDisplayOptions;
         public Gender Gender => gender;
 
 
@@ -77,7 +81,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
         // ReSharper disable once ConvertToAutoPropertyWithPrivateSetter
         public SkinnedMeshRenderer SkinnedMeshRender => skinnedMeshRenderer;
         CharacterEvents events;
-        
+
         public CharacterEvents Events {
             get {
                 if (events == null) events = new CharacterEvents();
@@ -94,45 +98,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
             originalMesh = skinnedMeshRenderer.sharedMesh;
             skinnedMeshRenderer.sharedMesh = Instantiate( skinnedMeshRenderer.sharedMesh);
 
-            PlaybackEventSystem.OnMeshDisplayStateChanged += MeshDisplayStateChanged;
-            PlaybackEventSystem.OnBoneDisplayStateChanged += BoneDisplayStateChanged;
-            PlaybackEventSystem.OnPointLightDisplayStateChanged += PointLightDisplayStateChanged;
-            PlaybackEventSystem.OnChangeLivePoses += SetLivePoses;
-            PlaybackEventSystem.OnChangeLivePoseBlendshapes += SetLivePoseBlendshapes;
-            PlaybackEventSystem.OnChangeLiveBodyShape += SetLiveBodyShape;
-            PlaybackEventSystem.OnChangeManualPosing += SetManualPosing;
-        }
-
-        void SetManualPosing(bool manualPosing) {
-            options.AllowPoseManipulation = manualPosing;
-        }
-
-        void SetLiveBodyShape(bool liveBodyShape) {
-            options.UpdateBodyShapeLive = liveBodyShape;
-        }
-
-        void SetLivePoseBlendshapes(bool livePoseBlendshapes) {
-            options.UpdatePoseBlendshapesLive = livePoseBlendshapes;
-        }
-
-        void SetLivePoses(bool livePoses) {
-            options.UpdatePosesLive = livePoses;
-        }
-
-        void PointLightDisplayStateChanged(PointLightDisplayState pointLightDisplayState) {
-            displayOptions.DisplayPointLights = pointLightDisplayState;
-        }
-
-        void BoneDisplayStateChanged(BoneDisplayState boneDisplayState) {
-            displayOptions.DisplayBones = boneDisplayState;
-        }
-
-        void OnDisable() {
-            PlaybackEventSystem.OnMeshDisplayStateChanged += MeshDisplayStateChanged;
-        }
-
-        void MeshDisplayStateChanged(MeshDisplayState newState) {
-            displayOptions.MeshDisplayState = newState;
+    
         }
 
         void OnDestroy() {
@@ -153,7 +119,10 @@ namespace MoshPlayer.Scripts.SMPLModel {
         /// <summary>
         /// Sets up and plays a mosh animation.
         /// </summary>
-        public void StartAnimation(MoshAnimation animationToStart, SettingsMain settings, PlaybackOptions playbackOptions) {
+        public void StartAnimation(MoshAnimation animationToStart, PlaybackOptions playbackOptions, CharacterDisplayOptions displayOptions, CharacterRenderOptions renderOptions) {
+            characterRenderOptions = renderOptions;
+            characterDisplayOptions = displayOptions;
+            
             moshAnimation = animationToStart;
             if (model.RotateToUnityCoords) RotateToUnityCoordinates();
         

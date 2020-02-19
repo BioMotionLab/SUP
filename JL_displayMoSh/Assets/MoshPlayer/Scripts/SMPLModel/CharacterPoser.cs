@@ -41,18 +41,18 @@ namespace MoshPlayer.Scripts.SMPLModel {
         void Update() {
 
 
-            if (moshCharacter.Options.AllowPoseManipulation) {
+            if (moshCharacter.RenderOptions.AllowPoseManipulation) {
                 poses = GatherPosesFromBones();
                 UpdatePoses();
             }
-            else if (moshCharacter.Options.UpdatePosesLive) {
+            else if (moshCharacter.RenderOptions.UpdatePosesLive) {
                 UpdatePoses();
             }
             else {
                 ResetPoses();
             }
 
-            if (moshCharacter.Options.UpdatePoseBlendshapesLive) {
+            if (moshCharacter.RenderOptions.UpdatePoseBlendshapesLive) {
                 AddPoseDependentBlendShapes(poses);
             }
             else {
@@ -96,7 +96,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
         }
 
         public void UpdateTranslation(Vector3 trans) {
-            if (!moshCharacter.Options.UpdatePosesLive || moshCharacter.Options.AllowPoseManipulation) return;
+            if (!moshCharacter.RenderOptions.UpdatePosesLive || moshCharacter.RenderOptions.AllowPoseManipulation) return;
             moshCharacter.gameObject.transform.localPosition = trans;
         }
 
@@ -132,7 +132,6 @@ namespace MoshPlayer.Scripts.SMPLModel {
 
                 float[] rotationMatrix = jointPose.To3X3Matrix();
                 rotationMatrix = MatrixUtilities.SubtractIdentity(rotationMatrix);
-                
                 
                 //rotationMatrix = MatrixUtilities.RotationMatrix3x3ToRightHanded(rotationMatrix);
                 

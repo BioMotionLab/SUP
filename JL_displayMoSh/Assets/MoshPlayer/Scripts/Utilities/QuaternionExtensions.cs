@@ -48,17 +48,21 @@ namespace MoshPlayer.Scripts.Utilities {
             
             return rot3X3;
         }
+
+        public static float[] Convert3X3MatrixNeg(this float[] orig) {
+            float[] newone = (float[])orig.Clone();
+            newone[2] *= -1;
+            newone[5] *= -1;
+            newone[6] *= -1;
+            newone[7] *= -1;
+            return newone;
+        }
         
         /// <summary>
         /// From https://www.gamedev.net/forums/topic/654682-quaternions-convert-between-left-right-handed-without-using-euler/
         /// </summary>
         [PublicAPI]
         public static Quaternion ToRightHanded(this Quaternion leftHandedQuaternion) {
-            // Blasted left-handed coordinate system -- Converting quaternions from LHS to RHS so that pose blendshapes get the correct values
-
-            // if the difference is just handedness, I would have thought only 1 axis would need to be flipped. But these are quaternions, and 
-            // pretty much no one understands quaternions. It like - violates labor laws or something.
-
             Quaternion rightHandedQuaternion = new Quaternion (-leftHandedQuaternion.x,
                                                                leftHandedQuaternion.y,
                                                                leftHandedQuaternion.z,
@@ -67,14 +71,10 @@ namespace MoshPlayer.Scripts.Utilities {
         }
         
         public static Quaternion ToRightHanded2(this Quaternion leftHandedQuaternion) {
-            // Blasted left-handed coordinate system -- Converting quaternions from LHS to RHS so that pose blendshapes get the correct values
-
-            // if the difference is just handedness, I would have thought only 1 axis would need to be flipped. But these are quaternions, and 
-            // pretty much no one understands quaternions. It like - violates labor laws or something.
             Debug.Log($"left {leftHandedQuaternion.eulerAngles.ToString("F4")}");
-            Quaternion rightHandedQuaternion = new Quaternion (-leftHandedQuaternion.y,
-                                                               -leftHandedQuaternion.z,
-                                                               -leftHandedQuaternion.z,
+            Quaternion rightHandedQuaternion = new Quaternion (-leftHandedQuaternion.z,
+                                                               leftHandedQuaternion.x,
+                                                               -leftHandedQuaternion.y,
                                                                leftHandedQuaternion.w);
             //rightHandedQuaternion = Quaternion.Inverse(rightHandedQuaternion);
             Debug.Log($"right {rightHandedQuaternion.eulerAngles.ToString("F4")}");

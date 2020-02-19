@@ -63,6 +63,7 @@ namespace MoshPlayer.Scripts.Playback {
 
             string updateMessage = $"Done Loading All Animations. Successfully loaded {AnimationSequence.Count} of {animLines.Length}.";
             Debug.Log(updateMessage);
+            PlaybackEventSystem.AnimationsDoneLoading();
             PlaybackEventSystem.UpdatePlayerProgress(updateMessage);
             doThisWhenDoneAction.Invoke(AnimationSequence);
         }

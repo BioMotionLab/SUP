@@ -58,7 +58,7 @@ namespace MoshPlayer.Scripts.Playback {
             elapsedTime = 0;
             
             controlEvents.BroadcastTotalFrames(sourceTotalFrameCount);
-            PlaybackEventSystem.OnNextAnimation += Finish;
+            PlaybackEventSystem.OnStopAllAnimations += Finish;
             //Debug.Log($"total frames: {sourceTotalFrameCount}");
         }
 
@@ -86,10 +86,11 @@ namespace MoshPlayer.Scripts.Playback {
 
         void Finish() {
             Finished = true;
+            //Debug.Log("playback ended");
             controlEvents.BroadCastAnimationEnded();
             PlaybackEventSystem.OnPauseToggleEvent -= TogglePause;
             PlaybackEventSystem.OnBroadcastDisplaySpeed -= UpdatePlaybackSpeed;
-            PlaybackEventSystem.OnNextAnimation -= Finish;
+            PlaybackEventSystem.OnStopAllAnimations -= Finish;
         }
     }
 }

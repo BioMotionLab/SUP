@@ -65,7 +65,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
         }
 
         void Update() {
-            if (moshCharacter.Options.UpdateBodyShapeLive) UpdateBody();
+            if (moshCharacter.RenderOptions.UpdateBodyShapeLive) UpdateBody();
         }
         
 

@@ -11,13 +11,13 @@ namespace MoshPlayer.Scripts.SMPLModel {
         CharacterEvents Events { get; }
         bool SetFeetOnGround { get; }
         
-        CharacterOptions Options { get; }
+        CharacterRenderOptions RenderOptions { get; }
         CharacterDisplayOptions DisplayOptions { get; }
         Vector3 OffsetErrorBetweenPelvisAndZero { get; }
         Vector3 OffsetErrorInFbxBetweenRigAndMesh { get; }
         Vector3 CombinedOffset { get; }
         Gender Gender { get; }
-        void StartAnimation(MoshAnimation moshAnimation, SettingsMain settings, PlaybackOptions playbackOptions);
+        void StartAnimation(MoshAnimation moshAnimation, PlaybackOptions playbackOptions, CharacterDisplayOptions displayOptions, CharacterRenderOptions renderOptions);
         void InterruptAnimation();
     }
 }

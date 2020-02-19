@@ -2,6 +2,7 @@
 
 using System;
 using System.Runtime.InteropServices;
+using MoshPlayer.ThirdParty.StandaloneFileBrowser;
 
 namespace SFB {
     public class StandaloneFileBrowserMac : IStandaloneFileBrowser {

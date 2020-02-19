@@ -17,6 +17,8 @@ namespace MoshPlayer.Scripts.Playback {
         [SerializeField]
         List<KeyCode> QuitKeys = new List<KeyCode>();
 
+        
+
         [PublicAPI]
         public void UpdateDisplaySpeed(float displaySpeed) {
             OnBroadcastDisplaySpeed?.Invoke(displaySpeed);
@@ -134,6 +136,7 @@ namespace MoshPlayer.Scripts.Playback {
         public static event NextAnimationEvent OnNextAnimation;
 
         public static void GoToNextAnimation() {
+            StopPlayingAllAnimations();
             OnNextAnimation?.Invoke();
         }
 
@@ -151,6 +154,23 @@ namespace MoshPlayer.Scripts.Playback {
         public static event LoadAnimationsEvent OnLoadAnimations;
         public static void LoadAnimations(string listFile, string animationsFolder) {
             OnLoadAnimations?.Invoke(listFile, animationsFolder);
+        }
+        
+        
+        public delegate void DoneLoadingAnimationsEvent();
+
+        public static event DoneLoadingAnimationsEvent OnDoneLoadingAnimations;
+        
+        public static void AnimationsDoneLoading( ){
+            OnDoneLoadingAnimations?.Invoke();
+        }
+
+        public delegate void StopAllAnimationsEvent();
+
+        public static event StopAllAnimationsEvent OnStopAllAnimations;
+        
+        public static void StopPlayingAllAnimations() {
+            OnStopAllAnimations?.Invoke();
         }
     }
 }

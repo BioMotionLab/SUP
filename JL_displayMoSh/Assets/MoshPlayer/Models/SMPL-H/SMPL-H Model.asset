@@ -31,7 +31,6 @@ MonoBehaviour:
   RotateToUnityCoords: 0
   PelvisIndex: 0
   firstPoseIsPelvisTranslation: 1
-  FemaleNegativeBlendshapes: 1
   MaleRegressorFile: {fileID: 4900000, guid: 8b419f52a73b44c4b934f9683c19b594, type: 3}
   FemaleRegressorFile: {fileID: 4900000, guid: a5a992dd48b262f4c9bc0f71548692cd, type: 3}
   unityBlendShapeScaleFactor: 100

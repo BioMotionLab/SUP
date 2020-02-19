@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using JetBrains.Annotations;
+using MoshPlayer.Scripts.Display;
 using MoshPlayer.Scripts.Playback;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -15,6 +16,15 @@ namespace MoshPlayer.Scripts.SMPLModel {
 		[FormerlySerializedAs("playbackOptions")]
 		[SerializeField]
 		PlaybackOptions PlaybackOptions = default;
+
+		[FormerlySerializedAs("characterRenderRenderOptions")]
+		[FormerlySerializedAs("CharacterRenderRenderOptions")]
+		[FormerlySerializedAs("CharacterRenderOptions")]
+		[SerializeField]
+		CharacterRenderOptions characterRenderOptions = default;
+
+		[SerializeField]
+		CharacterDisplayOptions characterDisplayOptions = default;
 		
 		AnimationLoader loader;
 		bool doneLoading = false;
@@ -24,11 +34,27 @@ namespace MoshPlayer.Scripts.SMPLModel {
 		void OnEnable() {
 			PlaybackEventSystem.OnNextAnimation += GoToNextAnimation;
 			PlaybackEventSystem.OnLoadAnimations += LoadAnimations;
+			
+			PlaybackEventSystem.OnMeshDisplayStateChanged += MeshDisplayStateChanged;
+			PlaybackEventSystem.OnBoneDisplayStateChanged += BoneDisplayStateChanged;
+			PlaybackEventSystem.OnPointLightDisplayStateChanged += PointLightDisplayStateChanged;
+			PlaybackEventSystem.OnChangeLivePoses += SetLivePoses;
+			PlaybackEventSystem.OnChangeLivePoseBlendshapes += SetLivePoseBlendshapes;
+			PlaybackEventSystem.OnChangeLiveBodyShape += SetLiveBodyShape;
+			PlaybackEventSystem.OnChangeManualPosing += SetManualPosing;
 		}
 
 		void OnDisable() {
 			PlaybackEventSystem.OnNextAnimation -= GoToNextAnimation;
 			PlaybackEventSystem.OnLoadAnimations -= LoadAnimations;
+			
+			PlaybackEventSystem.OnMeshDisplayStateChanged -= MeshDisplayStateChanged;
+			PlaybackEventSystem.OnBoneDisplayStateChanged -= BoneDisplayStateChanged;
+			PlaybackEventSystem.OnPointLightDisplayStateChanged += PointLightDisplayStateChanged;
+			PlaybackEventSystem.OnChangeLivePoses -= SetLivePoses;
+			PlaybackEventSystem.OnChangeLivePoseBlendshapes -= SetLivePoseBlendshapes;
+			PlaybackEventSystem.OnChangeLiveBodyShape -= SetLiveBodyShape;
+			PlaybackEventSystem.OnChangeManualPosing -= SetManualPosing;
 		}
 
 		void LoadAnimations(string listFile, string animationsFolder) {
@@ -42,7 +68,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
 
 		void DoneLoading(List<List<MoshAnimation>> animationSequence) {
 			doneLoading = true;
-			moshAnimationPlayer = new MoshAnimationPlayer(animationSequence, SettingsMain, PlaybackOptions);
+			moshAnimationPlayer = new MoshAnimationPlayer(animationSequence, PlaybackOptions, characterDisplayOptions, characterRenderOptions);
 			Destroy(loader);
 		}
 		
@@ -72,5 +98,35 @@ namespace MoshPlayer.Scripts.SMPLModel {
 				moshAnimationPlayer.GoToNextAnimation();
 			}
 		}
+		
+		
+		void SetManualPosing(bool manualPosing) {
+			characterRenderOptions.AllowPoseManipulation = manualPosing;
+		}
+
+		void SetLiveBodyShape(bool liveBodyShape) {
+			characterRenderOptions.UpdateBodyShapeLive = liveBodyShape;
+		}
+
+		void SetLivePoseBlendshapes(bool livePoseBlendshapes) {
+			characterRenderOptions.UpdatePoseBlendshapesLive = livePoseBlendshapes;
+		}
+
+		void SetLivePoses(bool livePoses) {
+			characterRenderOptions.UpdatePosesLive = livePoses;
+		}
+
+		void PointLightDisplayStateChanged(PointLightDisplayState pointLightDisplayState) {
+			characterDisplayOptions.DisplayPointLights = pointLightDisplayState;
+		}
+
+		void BoneDisplayStateChanged(BoneDisplayState boneDisplayState) {
+			characterDisplayOptions.DisplayBones = boneDisplayState;
+		}
+		
+		void MeshDisplayStateChanged(MeshDisplayState newState) {
+			characterDisplayOptions.MeshDisplayState = newState;
+		}
 	}
+	
 }

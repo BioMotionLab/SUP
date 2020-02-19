@@ -36,6 +36,7 @@
               <e p="PointLightDisplayDropdown.cs" t="Include" />
               <e p="RenderSelector.cs" t="Include" />
               <e p="SelectAnimationsPanel.cs" t="Include" />
+              <e p="UIEnabler.cs" t="Include" />
               <e p="ValueFromSliderDisplay.cs" t="Include" />
             </e>
             <e p="Playback" t="Include">
@@ -51,8 +52,8 @@
               <e p="AverageBody.cs" t="Include" />
               <e p="Bones.cs" t="Include" />
               <e p="CharacterEvents.cs" t="Include" />
-              <e p="CharacterOptions.cs" t="Include" />
               <e p="CharacterPoser.cs" t="Include" />
+              <e p="CharacterRenderOptions.cs" t="Include" />
               <e p="ForwardsResampledFrame.cs" t="Include" />
               <e p="Gender.cs" t="Include" />
               <e p="IndividualizedBody.cs" t="Include" />

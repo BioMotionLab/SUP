@@ -1,4 +1,5 @@
 using System;
+using SFB;
 
 namespace MoshPlayer.ThirdParty.StandaloneFileBrowser {
     public struct ExtensionFilter {
