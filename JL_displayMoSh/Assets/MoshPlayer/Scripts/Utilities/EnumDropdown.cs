@@ -3,26 +3,28 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 
-public class EnumDropdown<T> where T : Enum {
-    public T EnumFrom(int index) {
-        Array x = Enum.GetValues(typeof(T));
-        object value = null;
-        if (index >= 0 && x.Length > index) {
-            value = x.GetValue(index);
+namespace MoshPlayer.Scripts.Utilities {
+    public class EnumDropdown<T> where T : Enum {
+        public T EnumFrom(int index) {
+            Array x = Enum.GetValues(typeof(T));
+            object value = null;
+            if (index >= 0 && x.Length > index) {
+                value = x.GetValue(index);
+            }
+            return (T) value;
         }
-        return (T) value;
-    }
 
-    public void PopulateOptions(TMP_Dropdown dropdown, int defaultValue = 0) {
-        string[] enumNames = Enum.GetNames(typeof(T));
-        List<string> namesList = enumNames.ToList();
-        dropdown.ClearOptions();
-        dropdown.AddOptions(namesList);
-        dropdown.value = defaultValue;
-    }
+        public void PopulateOptions(TMP_Dropdown dropdown, int defaultValue = 0) {
+            string[] enumNames = Enum.GetNames(typeof(T));
+            List<string> namesList = enumNames.ToList();
+            dropdown.ClearOptions();
+            dropdown.AddOptions(namesList);
+            dropdown.value = defaultValue;
+        }
 
-    public void PopulateOptions(TMP_Dropdown dropdown, T defaultOption) {
-        int index = Convert.ToInt32(defaultOption); 
-        PopulateOptions(dropdown, index );
+        public void PopulateOptions(TMP_Dropdown dropdown, T defaultOption) {
+            int index = Convert.ToInt32(defaultOption); 
+            PopulateOptions(dropdown, index );
+        }
     }
 }

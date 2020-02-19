@@ -1,24 +1,24 @@
+using MoshPlayer.Scripts.SMPLModel;
 using UnityEngine;
 
-namespace MoshPlayer.Scripts.BML.SMPLModel {
+namespace MoshPlayer.Scripts.Playback {
     public class Playback {
         
         readonly int   sourceFPS;
         readonly int   sourceTotalFrameCount;
         readonly float sourceDuration;
         
-        float startTime;
         float lastUpdateTime;
         public bool Started  = false;
         public bool Finished = false;
 
 
-        public bool paused = false;
+        bool paused = false;
         
         readonly PlaybackOptions playbackOptions;
         float elapsedTime;
         float playbackSpeed = 1;
-        AnimationControlEvents controlEvents;
+        readonly AnimationControlEvents controlEvents;
 
         public Playback(int sourceTotalFrameCount,
                         int sourceFPS, PlaybackOptions playbackOptions, AnimationControlEvents animationControlEvents) {
@@ -54,7 +54,6 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         }
 
         public void Start() {
-            startTime = Time.time;
             Started = true;
             elapsedTime = 0;
             

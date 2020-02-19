@@ -1,6 +1,6 @@
 using System;
 
-namespace MoshPlayer.Scripts.BML.SMPLModel {
+namespace MoshPlayer.Scripts.FileLoaders {
     
     [Serializable]
     public class JSONModelKeys {

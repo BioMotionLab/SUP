@@ -4,26 +4,28 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Text;
-using MoshPlayer.Scripts.BML.Display;
-using MoshPlayer.Scripts.BML.FileLoaders;
+using MoshPlayer.Scripts.FileLoaders;
+using MoshPlayer.Scripts.SMPLModel;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-namespace MoshPlayer.Scripts.BML.SMPLModel {
+namespace MoshPlayer.Scripts.Playback {
     public class AnimationLoader : MonoBehaviour {
 		
         SettingsMain settingsMain;
         string       animFolder;
 
         public bool                  DoneLoading;
-        public List<List<MoshAnimation>> animationSequence;
+        [FormerlySerializedAs("animationSequence")]
+        public List<List<MoshAnimation>> AnimationSequence;
         string[]                     animLines;
-        Action<List<List<MoshAnimation>>>                       DoThisWhenDoneAction;
+        Action<List<List<MoshAnimation>>>                       doThisWhenDoneAction;
         PlaybackOptions playbackOptions;
 
 
         [SuppressMessage("ReSharper", "ParameterHidesMember")]
         public void Init(string animationsToPlayFile, SettingsMain settingsMain, PlaybackOptions playbackOptions, string animFolder, Action<List<List<MoshAnimation>>> doneAction) {
-            this.DoThisWhenDoneAction = doneAction;
+            doThisWhenDoneAction = doneAction;
             this.settingsMain = settingsMain;
             this.animFolder = animFolder;
             this.playbackOptions = playbackOptions;
@@ -34,7 +36,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             Debug.Log(updateMessage);
             PlaybackEventSystem.UpdatePlayerProgress(updateMessage);
 
-            animationSequence = new List<List<MoshAnimation>>();
+            AnimationSequence = new List<List<MoshAnimation>>();
 
             StartCoroutine(LoadAnimations());
         }
@@ -46,7 +48,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
                 List<MoshAnimation> allAnimationsInThisLine = GetAnimationsFromLine(line);
                 log.Append($"Loaded {lineIndex} of {animLines.Length} (Model:{allAnimationsInThisLine[0].Model.ModelName})");
                 if (allAnimationsInThisLine.Count > 0) {
-                    animationSequence.Add(allAnimationsInThisLine);
+                    AnimationSequence.Add(allAnimationsInThisLine);
                     log.Append($", containing animations for {allAnimationsInThisLine.Count} characters");
                 }
                 else {
@@ -59,10 +61,10 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
                 yield return null;
             }
 
-            string updateMessage = $"Done Loading All Animations. Successfully loaded {animationSequence.Count} of {animLines.Length}.";
+            string updateMessage = $"Done Loading All Animations. Successfully loaded {AnimationSequence.Count} of {animLines.Length}.";
             Debug.Log(updateMessage);
             PlaybackEventSystem.UpdatePlayerProgress(updateMessage);
-            DoThisWhenDoneAction.Invoke(animationSequence);
+            doThisWhenDoneAction.Invoke(AnimationSequence);
         }
 
 
@@ -88,8 +90,6 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
                         $"\n\t\tFileName: {filename}" +
                         $"\n\t\tFolder: {animFolder} ");
                 }
-
-                
             }
             return animations;
         }
@@ -103,7 +103,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
                 }
             }
 
-            Debug.Log(animFilePath);
+            //Debug.Log(animFilePath);
             string animText1 = File.ReadAllText(animFilePath);
             return animText1;
         }
@@ -111,7 +111,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
 
     public class FileMissingFromFolderException : Exception {
 
-        public FileMissingFromFolderException() : base() {
+        public FileMissingFromFolderException() {
         }
 
         public FileMissingFromFolderException(string e) : base(e) {

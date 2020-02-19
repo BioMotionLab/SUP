@@ -1,7 +1,6 @@
 using System;
-using UnityEngine;
 
-namespace MoshPlayer.Scripts.BML.SMPLModel {
+namespace MoshPlayer.Scripts.Playback {
     [Serializable]
     public class PlaybackOptions {
         

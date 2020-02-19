@@ -1,8 +1,7 @@
 using System.Collections.Generic;
-using MoshPlayer.Scripts.BML.Display;
 using UnityEngine;
 
-namespace MoshPlayer.Scripts.BML.SMPLModel {
+namespace MoshPlayer.Scripts.SMPLModel {
     [CreateAssetMenu]
     public class SettingsMain : ScriptableObject {
         

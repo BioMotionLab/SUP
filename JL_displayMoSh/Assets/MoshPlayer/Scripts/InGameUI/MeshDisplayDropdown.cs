@@ -1,27 +1,31 @@
 ﻿using JetBrains.Annotations;
-using MoshPlayer.Scripts.BML.Display;
+using MoshPlayer.Scripts.Display;
+using MoshPlayer.Scripts.Playback;
+using MoshPlayer.Scripts.Utilities;
 using TMPro;
 using UnityEngine;
 
-public class MeshDisplayDropdown : MonoBehaviour
- {
-     TMP_Dropdown tmpDropdown;
-     EnumDropdown<MeshDisplayState> enumDropDown;
+namespace MoshPlayer.Scripts.InGameUI {
+    public class MeshDisplayDropdown : MonoBehaviour
+    {
+        TMP_Dropdown                   tmpDropdown;
+        EnumDropdown<MeshDisplayState> enumDropDown;
  
-     void OnEnable() {
-         tmpDropdown = GetComponent<TMP_Dropdown>();
-         enumDropDown = new EnumDropdown<MeshDisplayState>();
-     }
+        void OnEnable() {
+            tmpDropdown = GetComponent<TMP_Dropdown>();
+            enumDropDown = new EnumDropdown<MeshDisplayState>();
+        }
  
-     void Start() {
-         enumDropDown.PopulateOptions(tmpDropdown);
-     }
+        void Start() {
+            enumDropDown.PopulateOptions(tmpDropdown);
+        }
  
-     [PublicAPI]
-     public void DropdownIndexChanged(int index) {
-         MeshDisplayState meshDisplayState = enumDropDown.EnumFrom(index);
-         PlaybackEventSystem.MeshDisplayStateChanged(meshDisplayState);
-     }
+        [PublicAPI]
+        public void DropdownIndexChanged(int index) {
+            MeshDisplayState meshDisplayState = enumDropDown.EnumFrom(index);
+            PlaybackEventSystem.MeshDisplayStateChanged(meshDisplayState);
+        }
  
  
- }
+    }
+}

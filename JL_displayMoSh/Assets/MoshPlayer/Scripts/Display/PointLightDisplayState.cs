@@ -1,6 +1,6 @@
 using JetBrains.Annotations;
 
-namespace MoshPlayer.Scripts.BML.Display {
+namespace MoshPlayer.Scripts.Display {
     /// <summary>
     /// Options for displaying point lights for joints
     /// </summary>

@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using MoshPlayer.Scripts.BML.FileLoaders;
-using UnityEditor;
+﻿using MoshPlayer.Scripts.FileLoaders;
 using UnityEngine;
 
-namespace MoshPlayer.Scripts.BML.SMPLModel {
+namespace MoshPlayer.Scripts.SMPLModel {
     /// <summary>
     /// This modifies a body to match its individual shape based on its specified beta-parameters.
     ///
@@ -29,8 +26,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         float[] bodyShapeBetas;
 
         MoshCharacter moshCharacter;
-        CharacterEvents events;
-        
+
         Vector3 pelvisOffsetFromReshape;
 
 
@@ -41,8 +37,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         void OnEnable() {
             moshCharacter = GetComponentInParent<MoshCharacter>();
             model = moshCharacter.Model;
-            events = moshCharacter.Events;
-            
+
             skinnedMeshRenderer = GetComponent<SkinnedMeshRenderer>();
             
             skinnedMeshRenderer.bones[model.PelvisIndex].localPosition = Vector3.zero;
@@ -160,8 +155,6 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         /// The some of the models have a scaling factor for some reason (e.g. SMPL is 1/5, SMPLH is 1).
         /// Blendshapes in unity are scaled 0-100 rather than 0-1, so also need to correct for that. 
         /// </summary>
-        /// <param animationName="rawWeight"></param>
-        /// <returns></returns>
         float ScaleBlendshapeFromBlenderToUnity(float rawWeight) {
             float scaledWeight = rawWeight * model.ShapeBlendShapeScalingFactor * model.UnityBlendShapeScaleFactor;
             return scaledWeight;

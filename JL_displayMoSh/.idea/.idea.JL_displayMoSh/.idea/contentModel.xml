@@ -67,9 +67,6 @@
               <e p="SMPLConstants.cs" t="Include" />
             </e>
             <e p="ThirdParty" t="Include">
-              <e p="Matrix" t="Include">
-                <e p="Matrix.cs" t="Include" />
-              </e>
               <e p="SimpleJSON" t="Include">
                 <e p="SimpleJSON.cs" t="Include" />
                 <e p="SimpleJSONBinary.cs" t="Include" />

@@ -1,7 +1,7 @@
-using MoshPlayer.Scripts.BML.SMPLModel;
+using MoshPlayer.Scripts.SMPLModel;
 using UnityEngine;
 
-namespace MoshPlayer.Scripts.BML.Display {
+namespace MoshPlayer.Scripts.Display {
 
     /// <summary>
     /// Adapted from https://forum.unity.com/threads/rendering-bones.34863/ 
@@ -27,9 +27,9 @@ namespace MoshPlayer.Scripts.BML.Display {
             SetupBones(skinnedMeshRenderer.bones[moshCharacter.Model.PelvisIndex]);
         }
 
-        void SetupBones(Transform pelvisBone) {
+        void SetupBones(Transform pelvisBoneToSetup) {
             CreateContainerIfNeeded();
-            CreateBoneDisplays(pelvisBone);
+            CreateBoneDisplays(pelvisBoneToSetup);
         }
 
         void CreateBoneDisplays(Transform parent) {

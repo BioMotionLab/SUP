@@ -1,23 +1,23 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using MoshPlayer.Scripts.Playback;
 using TMPro;
 using UnityEngine;
 
-public class PlayerProgressText : MonoBehaviour {
+namespace MoshPlayer.Scripts.InGameUI {
+    public class PlayerProgressText : MonoBehaviour {
 
-    TextMeshProUGUI text;
+        TextMeshProUGUI text;
     
-    void OnEnable() {
-        text = GetComponent<TextMeshProUGUI>();
-        PlaybackEventSystem.OnUpdatePlayerProgress += UpdateText;
-    }
+        void OnEnable() {
+            text = GetComponent<TextMeshProUGUI>();
+            PlaybackEventSystem.OnUpdatePlayerProgress += UpdateText;
+        }
 
-    void OnDisable() {
-        PlaybackEventSystem.OnUpdatePlayerProgress -= UpdateText;
-    }
+        void OnDisable() {
+            PlaybackEventSystem.OnUpdatePlayerProgress -= UpdateText;
+        }
 
-    void UpdateText(string s) {
-        text.text = s;
+        void UpdateText(string s) {
+            text.text = s;
+        }
     }
 }

@@ -1,30 +1,32 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using MoshPlayer.Scripts.BML.SMPLModel;
+﻿using System.Collections.Generic;
+using MoshPlayer.Scripts.Playback;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-public class AnimationDisplayMainPanel : MonoBehaviour {
+namespace MoshPlayer.Scripts.InGameUI {
+    public class AnimationDisplayMainPanel : MonoBehaviour {
 
-    [SerializeField]
-    AnimationPanel AnimationPanelPrefab = default;
+        [SerializeField]
+        AnimationPanel AnimationPanelPrefab = default;
 
-    public Dictionary<MoshAnimation, AnimationPanel> openPanels;
+        [FormerlySerializedAs("openPanels")]
+        public Dictionary<MoshAnimation, AnimationPanel> OpenPanels;
     
-    void OnEnable() {
-        openPanels = new Dictionary<MoshAnimation, AnimationPanel>();
-        AnimationControlEvents.OnAnimationStarted += AddNewAnimationPanel;
-    }
+        void OnEnable() {
+            OpenPanels = new Dictionary<MoshAnimation, AnimationPanel>();
+            AnimationControlEvents.OnAnimationStarted += AddNewAnimationPanel;
+        }
 
-    void AddNewAnimationPanel(MoshAnimation moshAnimation, AnimationControlEvents animationControlEvents) {
+        void AddNewAnimationPanel(MoshAnimation moshAnimation, AnimationControlEvents animationControlEvents) {
         
-        AnimationPanel newAnimationPanel = Instantiate(AnimationPanelPrefab, this.transform);
-        newAnimationPanel.transform.SetSiblingIndex(0);
-        openPanels.Add(moshAnimation, newAnimationPanel);
-        newAnimationPanel.Init(moshAnimation, animationControlEvents, this);
-    }
+            AnimationPanel newAnimationPanel = Instantiate(AnimationPanelPrefab, transform);
+            newAnimationPanel.transform.SetSiblingIndex(0);
+            OpenPanels.Add(moshAnimation, newAnimationPanel);
+            newAnimationPanel.Init(moshAnimation, animationControlEvents, this);
+        }
 
-    void OnDisable() {
-        AnimationControlEvents.OnAnimationStarted -= AddNewAnimationPanel;
+        void OnDisable() {
+            AnimationControlEvents.OnAnimationStarted -= AddNewAnimationPanel;
+        }
     }
 }

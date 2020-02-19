@@ -1,6 +1,7 @@
+using MoshPlayer.Scripts.Playback;
 using UnityEngine;
 
-namespace MoshPlayer.Scripts.BML.SMPLModel {
+namespace MoshPlayer.Scripts.SMPLModel {
     public interface MoshCharacter {
         SkinnedMeshRenderer SkinnedMeshRender { get; }
 
@@ -16,7 +17,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         Vector3 OffsetErrorInFbxBetweenRigAndMesh { get; }
         Vector3 CombinedOffset { get; }
         Gender Gender { get; }
-        void StartAnimation(MoshAnimation moshAnimation, SettingsMain settingsMain, PlaybackOptions playbackOptions);
+        void StartAnimation(MoshAnimation moshAnimation, SettingsMain settings, PlaybackOptions playbackOptions);
         void InterruptAnimation();
     }
 }

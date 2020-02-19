@@ -1,14 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using JetBrains.Annotations;
+﻿using JetBrains.Annotations;
+using MoshPlayer.Scripts.Playback;
 using UnityEngine;
 
-public class NextAnimationButton : MonoBehaviour
-{
+namespace MoshPlayer.Scripts.InGameUI {
+    public class NextAnimationButton : MonoBehaviour
+    {
 
 
-    [PublicAPI]
-    public void PlayNextAnimation() {
-        PlaybackEventSystem.GoToNextAnimation();
+        [PublicAPI]
+        public void PlayNextAnimation() {
+            PlaybackEventSystem.GoToNextAnimation();
+        }
     }
 }

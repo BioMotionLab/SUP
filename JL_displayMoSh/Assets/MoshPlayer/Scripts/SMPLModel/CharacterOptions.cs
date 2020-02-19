@@ -1,9 +1,9 @@
 using System;
-using MoshPlayer.Scripts.BML.Display;
+using MoshPlayer.Scripts.Display;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace MoshPlayer.Scripts.BML.SMPLModel {
+namespace MoshPlayer.Scripts.SMPLModel {
 
     [Serializable]
     public class CharacterDisplayOptions {

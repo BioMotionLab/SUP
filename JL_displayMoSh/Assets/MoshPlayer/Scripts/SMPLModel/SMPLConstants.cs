@@ -1,4 +1,4 @@
-namespace MoshPlayer.Scripts.BML.SMPLModel {
+namespace MoshPlayer.Scripts.SMPLModel {
     public static class SMPLConstants {
 
         public const int FirstJointIndexAfterPelvis = 1;

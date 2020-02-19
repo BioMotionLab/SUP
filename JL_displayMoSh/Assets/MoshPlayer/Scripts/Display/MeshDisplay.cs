@@ -1,8 +1,8 @@
 ﻿using System;
-using MoshPlayer.Scripts.BML.SMPLModel;
+using MoshPlayer.Scripts.SMPLModel;
 using UnityEngine;
 
-namespace MoshPlayer.Scripts.BML.Display {
+namespace MoshPlayer.Scripts.Display {
     public class MeshDisplay : MonoBehaviour
     {
         

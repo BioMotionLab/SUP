@@ -7,8 +7,6 @@ namespace MoshPlayer.Scripts.Utilities {
         /// <summary>
         /// Convert rotation Quaternion to 3x3 rotation matrix.
         /// </summary>
-        /// <param animationName="quaternion">Quaternion to convert to a matrix.</param>
-        /// <returns></returns>
         [PublicAPI]
         public static float[] To3X3Matrix(this Quaternion quaternion)
         {
@@ -54,8 +52,6 @@ namespace MoshPlayer.Scripts.Utilities {
         /// <summary>
         /// From https://www.gamedev.net/forums/topic/654682-quaternions-convert-between-left-right-handed-without-using-euler/
         /// </summary>
-        /// <param animationName="leftHandedQuaternion"></param>
-        /// <returns></returns>
         [PublicAPI]
         public static Quaternion ToRightHanded(this Quaternion leftHandedQuaternion) {
             // Blasted left-handed coordinate system -- Converting quaternions from LHS to RHS so that pose blendshapes get the correct values

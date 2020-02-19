@@ -1,6 +1,6 @@
 using JetBrains.Annotations;
 
-namespace MoshPlayer.Scripts.BML.Display {
+namespace MoshPlayer.Scripts.Display {
     [PublicAPI]
     public enum MeshDisplayState {
         On,

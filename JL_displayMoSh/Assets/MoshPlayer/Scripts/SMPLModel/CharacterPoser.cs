@@ -1,11 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
 using MoshPlayer.Scripts.Utilities;
 using UnityEngine;
-using UnityEngine.Analytics;
 
-namespace MoshPlayer.Scripts.BML.SMPLModel {
+namespace MoshPlayer.Scripts.SMPLModel {
     /// <summary>
     /// Poses the body and adjust pose-dependent blendshapes accordingly.
     /// </summary>
@@ -62,29 +60,27 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             }
         }
 
-        
 
-        public Quaternion[] GatherPosesFromBones() {
-            Quaternion[] poses = new Quaternion[model.JointCount];
+        Quaternion[] GatherPosesFromBones() {
+            Quaternion[] currentPoses = new Quaternion[model.JointCount];
             for (int boneIndex = 0; boneIndex < skinnedMeshRenderer.bones.Length; boneIndex++) {
                 Transform bone = skinnedMeshRenderer.bones[boneIndex];
                 int poseIndex = Bones.NameToJointIndex[bone.name];
-                poses[poseIndex] = bone.localRotation;
-                //poses[boneIndex] = bone.localRotation;
+                currentPoses[poseIndex] = bone.localRotation;
             }
 
-            return poses;
+            return currentPoses;
         }
 
-        public void SetPoses(Quaternion[] poses) {
-            this.poses = poses;
+        public void SetPoses(Quaternion[] newPoses) {
+            poses = newPoses;
         }
 
         
         /// <summary>
-        /// Updates the bones based on new poses and translation of pelvis
+        /// Updates the bones based on new newPoses and translation of pelvis
         /// </summary>
-        /// <param animationName="poses"></param>
+        /// <param animationName="newPoses"></param>
         void UpdatePoses() {
             for (int boneIndex = 0; boneIndex < bones.Length; boneIndex++) {
                 string boneName = bones[boneIndex].name;
@@ -123,15 +119,13 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         /// Pelvis has no blend shapes. So need to skip it when iterating through joints.
         /// But then to index blendshapes need to subtract that 1 back to get blendshape index.
         /// </summary>
-        void AddPoseDependentBlendShapes(Quaternion [] poses) {
-
-            
+        void AddPoseDependentBlendShapes(Quaternion[] posesToMatch) {
 
             int startingJoint =  model.FirstPoseIsPelvisTranslation ? 1 : 0;
 
             for (int jointIndex = startingJoint; jointIndex < model.JointCount; jointIndex++) {
                 
-                Quaternion jointPose = poses[jointIndex];
+                Quaternion jointPose = posesToMatch[jointIndex];
                 
                 //convert to from Unity back to MPI's right-handed coords.
                 jointPose = jointPose.ToRightHanded();

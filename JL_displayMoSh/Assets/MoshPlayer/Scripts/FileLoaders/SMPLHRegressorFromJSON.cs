@@ -1,10 +1,11 @@
 ﻿using System;
-using MoshPlayer.Scripts.ThirdParty.SimpleJSON;
-using UnityEngine;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
+using MoshPlayer.Scripts.SMPLModel;
+using MoshPlayer.Scripts.ThirdParty.SimpleJSON;
+using UnityEngine;
 
-namespace MoshPlayer.Scripts.BML.FileLoaders {
+namespace MoshPlayer.Scripts.FileLoaders {
     /// <summary>
     /// Reads the regressor JSON file and loads it into Unity-Compatible formats.
     /// File should contain a Joint template and Joint regressor to fit formula
@@ -34,9 +35,6 @@ namespace MoshPlayer.Scripts.BML.FileLoaders {
         /// <summary>
         /// Static builder to create a Regressor from a JSON file.
         /// </summary>
-        /// <param animationName="jsonFile">The regressor JSON File</param>
-        /// <returns></returns>
-        /// <exception cref="NullReferenceException"></exception>
         public static JointRegressor LoadRegressorFromJSON(TextAsset jsonFile) {
             if (jsonFile == null) throw new NullReferenceException("No JointRegressor file defined");
 
@@ -56,7 +54,6 @@ namespace MoshPlayer.Scripts.BML.FileLoaders {
         /// <summary>
         /// Loads the Joint template from a JSON node
         /// </summary>
-        /// <param animationName="templateJSONNode"></param>
         void LoadJointTemplate(JSONNode templateJSONNode) {
             JSONNode jointTemplateNode = templateJSONNode[JointTemplateJSONKey];
 
@@ -67,14 +64,12 @@ namespace MoshPlayer.Scripts.BML.FileLoaders {
                     jointTemplateArray[jointIndex, dimensionIndex] = jointTemplateNode[jointIndex][dimensionIndex];
                 }
             }
-
             jointTemplate = DenseMatrix.OfArray(jointTemplateArray);
         }
 
         /// <summary>
         /// Loads the joint regressor into Unity-compatible matrix format (3 separate matrices, one for each dimension)
         /// </summary>
-        /// <param animationName="regressorJSONNode"></param>
         void LoadJointRegressor(JSONNode regressorJSONNode) {
             JSONNode regressorNode = regressorJSONNode[JointRegressorJSONKey];
 

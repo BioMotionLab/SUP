@@ -1,9 +1,10 @@
 ﻿using System;
-using MoshPlayer.Scripts.BML.SMPLModel;
+using MoshPlayer.Scripts.SMPLModel;
 using UnityEngine;
+
 // ReSharper disable ParameterHidesMember
 
-namespace MoshPlayer.Scripts.BML.Display {
+namespace MoshPlayer.Scripts.Display {
     /// <summary>
     /// Draws a boneDisplay between two joints.
     /// </summary>
@@ -32,10 +33,10 @@ namespace MoshPlayer.Scripts.BML.Display {
         /// <summary>
         /// Replaces constructor for MonoBehaviour
         /// </summary>
-        /// <param animationName="boneDisplay"></param>
-        /// <param animationName="parentBone"></param>
-        /// <param animationName="childBone"></param>
-        /// <param animationName="boneDisplayOptions"></param>
+        /// <param name="boneDisplay"></param>
+        /// <param name="parentBone"></param>
+        /// <param name="childBone"></param>
+        /// <param name="boneDisplayOptions"></param>
         public void Init(BoneDisplay boneDisplay, Transform parentBone, Transform childBone, BoneDisplayOptions boneDisplayOptions) {
             this.boneDisplay = boneDisplay;
             this.parentBone = parentBone;

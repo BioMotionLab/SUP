@@ -1,9 +1,10 @@
 ﻿using System;
-using MoshPlayer.Scripts.BML.Display;
+using MoshPlayer.Scripts.Display;
+using MoshPlayer.Scripts.Playback;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace MoshPlayer.Scripts.BML.SMPLModel {
+namespace MoshPlayer.Scripts.SMPLModel {
     /// <summary>
     /// Altered version of loadMoshAnim from MPI. Allows a MoSh animation to be played at any time with a call to PlayAnim,
     /// rather than running on initialization of the script in the start method (requiring instantiating a new prefab.
@@ -18,42 +19,46 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         MoshMesh moshMesh;
 
         [SerializeField]
+        // ReSharper disable once InconsistentNaming
         Gender gender = default;
 
         
         [SerializeField]
+        // ReSharper disable once InconsistentNaming
         public bool setFeetOnGround = default;
         
         [SerializeField]
+        // ReSharper disable once InconsistentNaming
         CharacterOptions options = default;
 
         public bool SetFeetOnGround => setFeetOnGround;
         public CharacterOptions Options => options;
         
         [SerializeField]
+        // ReSharper disable once InconsistentNaming
         CharacterDisplayOptions displayOptions = default;
 
         public CharacterDisplayOptions DisplayOptions => displayOptions;
         public Gender Gender => gender;
 
-        [SerializeField]
-        SettingsMain settingsMain = default;
-        
-          
+
         [FormerlySerializedAs("OffsetErrorBetweenPelvisAndZero")]
         [SerializeField]
         //new Vector3(.00217f,0.972724f,0.02858f);
+        // ReSharper disable once InconsistentNaming
         Vector3 offsetErrorBetweenPelvisAndZero = default;
 
         public Vector3 OffsetErrorBetweenPelvisAndZero => offsetErrorBetweenPelvisAndZero;
 
         [FormerlySerializedAs("OffsetErrorInFbxBetweenRigAndMesh")]
         [SerializeField]
+        // ReSharper disable once InconsistentNaming
         Vector3 offsetErrorInFbxBetweenRigAndMesh = default;
 
         public Vector3 OffsetErrorInFbxBetweenRigAndMesh => offsetErrorInFbxBetweenRigAndMesh;
 
         [SerializeField]
+        // ReSharper disable once InconsistentNaming
         Vector3 combinedOffsets = default;
 
         void OnValidate() {
@@ -65,6 +70,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         Mesh originalMesh;
         
         [SerializeField]
+        // ReSharper disable once InconsistentNaming
         ModelDefinition model = default;
         public ModelDefinition Model => model;
         
@@ -147,8 +153,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         /// <summary>
         /// Sets up and plays a mosh animation.
         /// </summary>
-        public void StartAnimation(MoshAnimation animationToStart, SettingsMain settingsMain, PlaybackOptions playbackOptions) {
-            this.settingsMain = settingsMain;
+        public void StartAnimation(MoshAnimation animationToStart, SettingsMain settings, PlaybackOptions playbackOptions) {
             moshAnimation = animationToStart;
             if (model.RotateToUnityCoords) RotateToUnityCoordinates();
         

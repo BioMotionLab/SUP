@@ -1,9 +1,8 @@
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
-using MoshPlayer.Scripts.BML.SMPLModel;
 using UnityEngine;
 
-namespace MoshPlayer.Scripts.BML.FileLoaders {
+namespace MoshPlayer.Scripts.SMPLModel {
     /// <summary>
     /// This Class takes a set of an individual body's shape-betas and
     /// calculates the correct skeleton for that body.
@@ -65,8 +64,6 @@ namespace MoshPlayer.Scripts.BML.FileLoaders {
         /// result = np.einsum('ijk,kl->ij', J_regressor, betas)
         /// 
         /// </summary>
-        /// <param animationName="betas"></param>
-        /// <returns></returns>
         Matrix<double> J_RegressorDotBetas(Matrix<double> betas) {
             Matrix<double> dimensionResultsX = jointRegressorMatrixX.Multiply(betas);
             Matrix<double> dimensionResultsY = jointRegressorMatrixY.Multiply(betas);
@@ -84,10 +81,6 @@ namespace MoshPlayer.Scripts.BML.FileLoaders {
         /// Basically just converts 3 separate XYZ matricies (from multiplication)
         /// back in to a 3-dimensional matrix
         /// </summary>
-        /// <param animationName="dimensionResultsX"></param>
-        /// <param animationName="dimensionResultsY"></param>
-        /// <param animationName="dimensionResultsZ"></param>
-        /// <returns></returns>
         static Matrix<double> StackDimensionsBackToOneMatrix(Matrix<double> dimensionResultsX,
                                                              Matrix<double> dimensionResultsY,
                                                              Matrix<double> dimensionResultsZ
@@ -105,8 +98,6 @@ namespace MoshPlayer.Scripts.BML.FileLoaders {
         /// <summary>
         /// Converts array of betas to 
         /// </summary>
-        /// <param animationName="betaArray"></param>
-        /// <returns></returns>
         static Matrix<double> ConvertBetasToMatrix(float[] betaArray) {
             double[,] betaMatrix = new double[betaArray.Length, 1];
             for (int i = 0; i < betaArray.Length; i++) {
@@ -121,9 +112,6 @@ namespace MoshPlayer.Scripts.BML.FileLoaders {
         /// <summary>
         /// Converts Matrix Back to array of Vector3 positions
         /// </summary>
-        /// <param animationName="model"></param>
-        /// <param animationName="positionMatrix"></param>
-        /// <returns></returns>
         static Vector3[] MatrixToPositionArray(ModelDefinition model, Matrix<double> positionMatrix) {
             Vector3[] positions = new Vector3[model.JointCount];
 

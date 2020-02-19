@@ -1,7 +1,8 @@
 ﻿using System;
+using MoshPlayer.Scripts.SMPLModel;
 using UnityEngine;
 
-namespace MoshPlayer.Scripts.BML.SMPLModel {
+namespace MoshPlayer.Scripts.Playback {
     public class MoshAnimation {
         
         readonly Vector3[]     translations;
@@ -16,8 +17,8 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         public readonly ModelDefinition Model;
         CharacterPoser characterPoser;
         readonly Playback playback;
-        AnimationControlEvents animationControlEvents;
-        public string animationName;
+        readonly AnimationControlEvents animationControlEvents;
+        public readonly string AnimationName;
 
 
         public MoshAnimation(ModelDefinition model, PlaybackOptions playbackOptions,
@@ -37,7 +38,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
             this.rawBodyShapeWeightBetas = rawBodyShapeWeightBetas;
             this.translations = translations;
             this.allPoses = allPoses;
-            this.animationName = animationName;
+            AnimationName = animationName;
 
         }
 

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace MoshPlayer.Scripts.BML.SMPLModel {
+namespace MoshPlayer.Scripts.SMPLModel {
     public class CharacterEvents {
         
         public delegate void BodyChangedEvent(IndividualizedBody body);

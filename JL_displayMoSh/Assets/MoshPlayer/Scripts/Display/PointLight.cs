@@ -1,9 +1,10 @@
 using System;
-using MoshPlayer.Scripts.BML.SMPLModel;
+using MoshPlayer.Scripts.SMPLModel;
 using UnityEngine;
+
 // ReSharper disable ParameterHidesMember
 
-namespace MoshPlayer.Scripts.BML.Display {
+namespace MoshPlayer.Scripts.Display {
     
     /// <summary>
     /// A single point light for displaying a joint's location.
@@ -44,11 +45,11 @@ namespace MoshPlayer.Scripts.BML.Display {
             }
             
         }
-        
+
         /// <summary>
         /// Colors the sides of body differently
         /// </summary>
-        /// <param animationName="bone"></param>
+        /// <param name="bone"></param>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         void ColorBySideOfBody(Transform bone) {
             SideOfBody side = Bones.GetSideOfBody(bone.name);

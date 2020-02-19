@@ -1,4 +1,4 @@
-﻿namespace MoshPlayer.Scripts.BML.SMPLModel {
+﻿namespace MoshPlayer.Scripts.SMPLModel {
     /// <summary>
     /// Enum for Male and Female.
     /// </summary>

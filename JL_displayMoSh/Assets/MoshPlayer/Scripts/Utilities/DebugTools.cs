@@ -1,37 +1,18 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Text;
+using JetBrains.Annotations;
+using UnityEngine;
 
-
-public class DebugTools : MonoBehaviour
-{
-    SkinnedMeshRenderer skinnedMeshRenderer;
-
-    // Start is called before the first frame update
-    void Awake() {
-        
-    }
-
-    [ContextMenu("Get Tip Of Finger")]
-    void GetTipOfFinger() {
-        
-        skinnedMeshRenderer = GetComponent<SkinnedMeshRenderer>();
-        
-        //get tip of right middle finger
-        var max = Vector3.zero;
-        var newMesh = new Mesh();
-        skinnedMeshRenderer.BakeMesh(newMesh);
-            
-        foreach (var vertex in newMesh.vertices)
+namespace MoshPlayer.Scripts.Utilities {
+    public class DebugTools : MonoBehaviour
+    {
+        [PublicAPI]
+        static void DebugArray(string name, IList list)
         {
-            if (vertex.x > max.x) {
-                max = vertex;
-            }
-                
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine($"{name}: length {list.Count}");
+            foreach (var item in list) sb.AppendLine(item.ToString());
+            Debug.Log(sb);
         }
-            
-        Debug.Log($"max: {max.ToString("F6")}");
-        Vector3 pelv = skinnedMeshRenderer.bones[0].position;
-        Vector3 local = max - pelv;
-        Debug.Log($"pelv world: {pelv} max local: {local.ToString("F6")}");
-
     }
 }

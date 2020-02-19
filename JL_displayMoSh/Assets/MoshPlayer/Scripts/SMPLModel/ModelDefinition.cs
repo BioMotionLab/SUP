@@ -1,8 +1,10 @@
 using System;
+using MoshPlayer.Scripts.FileLoaders;
 using UnityEngine;
 using UnityEngine.Serialization;
+// ReSharper disable InconsistentNaming
 
-namespace MoshPlayer.Scripts.BML.SMPLModel {
+namespace MoshPlayer.Scripts.SMPLModel {
     
     [CreateAssetMenu]
     public class ModelDefinition : ScriptableObject {

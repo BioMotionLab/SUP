@@ -1,23 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using JetBrains.Annotations;
-using MoshPlayer.Scripts.BML.Display;
+using MoshPlayer.Scripts.Playback;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-namespace MoshPlayer.Scripts.BML.SMPLModel {
+namespace MoshPlayer.Scripts.SMPLModel {
 	public class MoshViewerComponent : MonoBehaviour {
-	
-		const string DefaultSelectPathText = "Select...";
-		
 		[SerializeField]
 		SettingsMain SettingsMain = default;
 
 		MoshAnimationPlayer moshAnimationPlayer;
 
+		[FormerlySerializedAs("playbackOptions")]
 		[SerializeField]
-		PlaybackOptions playbackOptions = default;
+		PlaybackOptions PlaybackOptions = default;
 		
 		AnimationLoader loader;
 		bool doneLoading = false;
@@ -39,13 +36,13 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
 			if (!File.Exists(listFile)) throw new IOException($"Can't find List of Animations file {listFile}");
 			
 			loader = gameObject.AddComponent<AnimationLoader>();
-			loader.Init(listFile, SettingsMain, playbackOptions, animationsFolder, DoneLoading);
+			loader.Init(listFile, SettingsMain, PlaybackOptions, animationsFolder, DoneLoading);
 		}
 
 
 		void DoneLoading(List<List<MoshAnimation>> animationSequence) {
 			doneLoading = true;
-			moshAnimationPlayer = new MoshAnimationPlayer(animationSequence, SettingsMain, playbackOptions);
+			moshAnimationPlayer = new MoshAnimationPlayer(animationSequence, SettingsMain, PlaybackOptions);
 			Destroy(loader);
 		}
 		

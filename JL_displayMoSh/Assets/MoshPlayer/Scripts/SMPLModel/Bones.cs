@@ -3,7 +3,7 @@ using UnityEngine;
 
 // ReSharper disable MemberCanBePrivate.Global
 
-namespace MoshPlayer.Scripts.BML.SMPLModel {
+namespace MoshPlayer.Scripts.SMPLModel {
     public static class Bones {
         public const string LeftPrefix1  = "L_";
         public const string RightPrefix1 = "R_";
@@ -253,10 +253,7 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         /// Position of bones must be adjusted carefully, since moving a parent after setting the child's
         /// position will then move the child away from desired location. This function traverses through
         /// a hierarchy to ensure this never happens.
-        /// </summary>
-        /// <param animationName="parentBone"></param>
-        /// <param animationName="rootCoordinateTransform"></param>
-        /// <param animationName="jointPositions"></param>
+        /// </summary>>
         public static void SetPositionDownwardsThroughHierarchy(Transform parentBone, Transform rootCoordinateTransform,
                                                                 Vector3[] jointPositions) {
             string boneName = parentBone.name;
@@ -274,9 +271,6 @@ namespace MoshPlayer.Scripts.BML.SMPLModel {
         /// position will then move the child away from desired location. This function traverses through
         /// a hierarchy to ensure this never happens. 
         /// </summary>
-        /// <param animationName="parentBone"></param>
-        /// <param animationName="rootCoordinateTransform"></param>
-        /// <param animationName="originalPositions"></param>
         public static void ResetBonesDownwardsThroughHierarchy(Transform parentBone, Transform rootCoordinateTransform,
                                                                Vector3[] originalPositions) {
             string boneName = parentBone.name;

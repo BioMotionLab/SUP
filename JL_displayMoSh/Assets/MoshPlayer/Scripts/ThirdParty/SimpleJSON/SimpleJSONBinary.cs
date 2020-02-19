@@ -38,6 +38,7 @@
 
 using System;
 using System.IO;
+// ReSharper disable All
 
 namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
 {

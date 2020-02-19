@@ -1,7 +1,7 @@
-﻿using MoshPlayer.Scripts.BML.SMPLModel;
+﻿using MoshPlayer.Scripts.SMPLModel;
 using UnityEngine;
 
-namespace MoshPlayer.Scripts.BML.Display {
+namespace MoshPlayer.Scripts.Display {
     
     /// <summary>
     /// This renders point lights (spheres) for the joints of a body.
@@ -31,11 +31,11 @@ namespace MoshPlayer.Scripts.BML.Display {
             pointLightContainer.transform.parent = transform;
             CreatePointLightsInBoneHierarchy(meshRenderer.bones[0]);
         }
-        
+
         /// <summary>
         /// Walks down Bone Hierarchy to create linked point lights
         /// </summary>
-        /// <param animationName="parent"></param>
+        /// <param name="parent"></param>
         void CreatePointLightsInBoneHierarchy(Transform parent) {
             PointLight newPointLight = Instantiate(PointLightPrefab, pointLightContainer.transform);
             newPointLight.AttachBone(this, parent, moshCharacter.DisplayOptions.PointLightDisplayOptions);
