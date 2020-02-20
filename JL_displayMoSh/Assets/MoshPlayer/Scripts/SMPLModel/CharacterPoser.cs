@@ -102,8 +102,26 @@ namespace MoshPlayer.Scripts.SMPLModel {
         }
 
         public void UpdateTranslation(Vector3 trans) {
-            if (!moshCharacter.RenderOptions.UpdatePosesLive || moshCharacter.RenderOptions.AllowPoseManipulation) return;
-            moshCharacter.gameObject.transform.localPosition = trans;
+            if(moshCharacter.RenderOptions.AllowPoseManipulation) return;
+
+
+            if (!moshCharacter.RenderOptions.UpdateTranslationLiveY &&
+                !moshCharacter.RenderOptions.UpdateTranslationLiveXZ) 
+                return;
+            
+            Vector3 finalTrans = Vector3.zero;
+            if (moshCharacter.RenderOptions.UpdateTranslationLiveY) {
+                finalTrans.y = trans.y;
+                
+            }
+            if (moshCharacter.RenderOptions.UpdateTranslationLiveXZ) {
+                finalTrans.x = trans.x;
+                finalTrans.z = trans.z;
+            }
+            moshCharacter.gameObject.transform.localPosition = finalTrans;
+
+
+
         }
 
         [ContextMenu("ResetToTPose")]

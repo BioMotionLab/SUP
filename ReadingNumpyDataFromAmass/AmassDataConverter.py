@@ -1,23 +1,20 @@
-#%%
+# Imports
 import numpy as np
 import json
-import sys
 # noinspection PyPep8Naming
 from scipy.spatial.transform import Rotation
 
-#%%
-npzFileName = 'AMASS_Data/20160330_03333/punching_poses.npz'
 
-#%%
-print(sys.version)
-#%%
+# This class converts AMASS SMPLH .npz body animation files into Unity-readable .json files.
+# See AMASSConverterExamples file for an example on how to use this class.
+class AMASSJsonSMPLHDataConverter:
 
-
-class AMASSJsonDataConverter:
+    # SMPLH Parameters
     JOINTS = 52
     ROTATION_VECTOR_DIMENSIONS = 3
     QUATERNION_DIMENSIONS = 4
 
+    # Local variable initialization for static-typing (stupid python)
     gender: np.ndarray
     betas: np.ndarray
     poses: np.ndarray
@@ -26,18 +23,21 @@ class AMASSJsonDataConverter:
     frames: int
     poses_as_quaternion: np.ndarray
 
+    # Constructor for class
     def __init__(self, npz_file_path: str):
         self.npzFile = npz_file_path
+
+        # Load npz file
         self.data = self.load_data()
+
+        # Read data from loaded file
         self.read_data()
 
-        print(f'poses shape: {self.poses.shape}')
-        print(f'poses[0] shape {self.poses[0].shape}')
+        # AMASS poses are exponential rotation vectors, unity needs quaternions.
         reshaped_poses = np.reshape(self.poses, [self.poses.shape[0], self.JOINTS, self.ROTATION_VECTOR_DIMENSIONS])
         self.convert_poses_to_quaternions(reshaped_poses)
-        print(f'poses as quat shape {self.poses_as_quaternion.shape}')
-        print(f'p as q [0]\n {self.poses_as_quaternion[0]}')
 
+        # convert data to dicts, since JSON is dictionary-based format
         self.data_as_dict = {
             "gender": self.gender,
             "trans": self.trans,
@@ -46,6 +46,7 @@ class AMASSJsonDataConverter:
             "dmpls": self.dmpls,
         }
 
+    # Converts poses from exponential rotation vectors to quaternions
     def convert_poses_to_quaternions(self, reshaped_poses):
         poses_as_quaternion = np.empty([self.frames, self.JOINTS, self.QUATERNION_DIMENSIONS])
         for frameIndex in range(0, self.frames):
@@ -56,6 +57,7 @@ class AMASSJsonDataConverter:
                 poses_as_quaternion[frameIndex][poseIndex] = quaternion
         self.poses_as_quaternion = poses_as_quaternion
 
+    # This sets up the converter from numpy arrays to json. Will spit error if not numpy.
     @staticmethod
     def default_encoding(obj):
         if type(obj).__module__ == np.__name__:
@@ -65,11 +67,13 @@ class AMASSJsonDataConverter:
                 return obj.item()
         raise TypeError('Unknown type:', type(obj))
 
+    # Finishes conversion and saves dicts into JSON format
     def write_to_json(self, json_path: str):
         dumped = json.dumps(self.data_as_dict, default=self.default_encoding, indent=4)
         with open(json_path, 'w') as f:
             f.write(dumped)
 
+    # Reads data from loaded npz file and creates internal objects
     def read_data(self):
         self.gender = self.data['gender'].astype(str)
         self.betas = self.data['betas']
@@ -84,29 +88,12 @@ class AMASSJsonDataConverter:
         print(f'trans: {self.trans.shape}')
         print(f'frames detected: {self.frames}')
 
+    # Loads npz file into data structure
     def load_data(self):
         # noinspection PyBroadException
         try:
             data = np.load(self.npzFile)
             return data
         except Exception:
-            print(f'Could not read {npzFileName}! Skipping...')
+            print(f'Could not read {self.npzFile}! Skipping...')
 
-
-#%%
-converter = AMASSJsonDataConverter(npzFileName)
-#%%
-converter.write_to_json('test_data.json')
-print("done conversion.")
-
-#%%
-sample = "amass_sample.npz"
-converter = AMASSJsonDataConverter(sample)
-converter.write_to_json('amass_sample.json')
-
-
-
-#%%
-sample = "amass_sample.npz"
-converter = AMASSJsonDataConverter(sample)
-print(converter.poses[0])

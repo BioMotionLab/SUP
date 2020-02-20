@@ -19,20 +19,19 @@ namespace MoshPlayer.Scripts.SMPLModel {
         SkinnedMeshRenderer skinnedMeshRenderer;
         ModelDefinition model;
         JointRegressor jointRegressor;
-        Vector3 newPelvisPosition;
 
         [SerializeField]
         // ReSharper disable once InconsistentNaming
         float[] bodyShapeBetas;
 
         MoshCharacter moshCharacter;
-
-        Vector3 pelvisOffsetFromReshape;
-
+        
 
         AverageBody averageBody;
         Vector3[] updatedVertices;
         float minimumYVertex;
+        Vector3 pelvisResetPosition;
+        Vector3 pelvisNewLocation;
 
         void OnEnable() {
             moshCharacter = GetComponentInParent<MoshCharacter>();
@@ -51,8 +50,9 @@ namespace MoshPlayer.Scripts.SMPLModel {
             
             
             jointRegressor = SMPLHRegressorFromJSON.LoadRegressorFromJSON(model.RegressorFile(moshCharacter.Gender));
-            
-            
+
+            pelvisResetPosition = skinnedMeshRenderer.bones[model.PelvisIndex].localPosition;
+
         }
         
         void OnDisable() {
@@ -71,10 +71,9 @@ namespace MoshPlayer.Scripts.SMPLModel {
             // Need to start with fresh body, since everything is calculated relative to it.
             averageBody.Restore();
             SetBindPoses();
-            
+
             AdjustBonePositions();
             AdjustMeshToNewBones();
-            
             
             UpdateBodyShapeBlendshapes(bodyShapeBetas);
             SetBindPoses();
@@ -93,6 +92,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
         void AdjustBonePositions()
         {
             Vector3[] newJointPositions = jointRegressor.JointPositionFrom(model, bodyShapeBetas);
+            pelvisNewLocation = newJointPositions[model.PelvisIndex];
             Bones.SetPositionDownwardsThroughHierarchy(skinnedMeshRenderer.bones[model.PelvisIndex], 
                                                  skinnedMeshRenderer.transform, 
                                                  newJointPositions);
@@ -202,10 +202,11 @@ namespace MoshPlayer.Scripts.SMPLModel {
         /// </summary>
         [ContextMenu("reground")]
         void SetFeetOnGround() {
-            Vector3 offsetFromGround = new Vector3(0, -minimumYVertex, 0) - moshCharacter.OffsetErrorBetweenPelvisAndZero;
+            float offsetFromGround = minimumYVertex + moshCharacter.OffsetErrorBetweenPelvisAndZero.y + pelvisResetPosition.y - pelvisNewLocation.y;
+            Vector3 offsetFromGroundVector = new Vector3(0, offsetFromGround, 0);
             //Debug.Log($"offset: {offsetFromGround.ToString("f4")}");
             Transform pelvis = skinnedMeshRenderer.bones[model.PelvisIndex];
-            pelvis.localPosition += offsetFromGround;
+            pelvis.localPosition = offsetFromGroundVector;
         }
         
         

@@ -22,6 +22,9 @@ namespace MoshPlayer.Scripts.SMPLModel {
         [FormerlySerializedAs("UpdateBlendshapesLive")]
         public bool UpdatePoseBlendshapesLive;
         public bool AllowPoseManipulation;
+        [FormerlySerializedAs("UpdateTranslationLive")]
+        public bool UpdateTranslationLiveY;
+        public bool UpdateTranslationLiveXZ;
     }
 
     [Serializable]

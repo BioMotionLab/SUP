@@ -176,7 +176,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Load Samples
+  m_text: Load Built-In Samples
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -245,10 +245,10 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 36254190}
-    characterCount: 12
+    characterCount: 21
     spriteCount: 0
-    spaceCount: 1
-    wordCount: 2
+    spaceCount: 2
+    wordCount: 3
     linkCount: 0
     lineCount: 1
     pageCount: 1
@@ -2172,7 +2172,7 @@ PrefabInstance:
     - target: {fileID: 5100136094089617265, guid: 214f2428e1f4c274da4fa6d27a3d44a3,
         type: 3}
       propertyPath: characterRenderOptions.UpdateBodyShapeLive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5100136094089617265, guid: 214f2428e1f4c274da4fa6d27a3d44a3,
         type: 3}
@@ -2249,6 +2249,21 @@ PrefabInstance:
       propertyPath: characterDisplayOptions.MeshDisplayOptions.Opaque
       value: 
       objectReference: {fileID: 2100000, guid: 42058d9077f8acf4f81e8b6c5d4917fc, type: 2}
+    - target: {fileID: 5100136094089617265, guid: 214f2428e1f4c274da4fa6d27a3d44a3,
+        type: 3}
+      propertyPath: characterRenderOptions.UpdateTranslationLive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5100136094089617265, guid: 214f2428e1f4c274da4fa6d27a3d44a3,
+        type: 3}
+      propertyPath: characterRenderOptions.UpdateTranslationLiveY
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5100136094089617265, guid: 214f2428e1f4c274da4fa6d27a3d44a3,
+        type: 3}
+      propertyPath: characterRenderOptions.UpdateTranslationLiveXZ
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5100136094089617294, guid: 214f2428e1f4c274da4fa6d27a3d44a3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2690,7 +2705,7 @@ MonoBehaviour:
   m_IgnoreLayout: 0
   m_MinWidth: -1
   m_MinHeight: 25
-  m_PreferredWidth: 90
+  m_PreferredWidth: 150
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
@@ -7086,7 +7101,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  m_IsOn: 0
+  m_IsOn: 1
 --- !u!1 &1175508077
 GameObject:
   m_ObjectHideFlags: 0
@@ -10284,7 +10299,7 @@ GameObject:
   - component: {fileID: 1724377098}
   - component: {fileID: 1724377097}
   m_Layer: 0
-  m_Name: Canvas
+  m_Name: Loader Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12274,7 +12289,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '[Don''t Click! Coming soon]'
+  m_Text: Update Body Shape Live
 --- !u!222 &2036970577
 CanvasRenderer:
   m_ObjectHideFlags: 0
