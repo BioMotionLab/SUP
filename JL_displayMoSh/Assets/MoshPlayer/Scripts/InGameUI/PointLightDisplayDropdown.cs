@@ -17,11 +17,13 @@ namespace MoshPlayer.Scripts.InGameUI {
         }
 
         void Start() {
-            enumDropDown.PopulateOptions(tmpDropdown, PointLightDisplayState.Off);
+            if (tmpDropdown == null) return;
+            enumDropDown?.PopulateOptions(tmpDropdown, PointLightDisplayState.Off);
         }
 
         [PublicAPI]
         public void DropdownIndexChanged(int index) {
+            if (tmpDropdown == null) return;
             PointLightDisplayState pointLightDisplayState = enumDropDown.EnumFrom(index);
             PlaybackEventSystem.PointLightDisplayStateChanged(pointLightDisplayState);
         }

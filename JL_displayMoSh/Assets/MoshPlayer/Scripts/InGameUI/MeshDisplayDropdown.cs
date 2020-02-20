@@ -17,11 +17,13 @@ namespace MoshPlayer.Scripts.InGameUI {
         }
  
         void Start() {
-            enumDropDown.PopulateOptions(tmpDropdown);
+            if (tmpDropdown == null) return;
+            enumDropDown?.PopulateOptions(tmpDropdown);
         }
  
         [PublicAPI]
         public void DropdownIndexChanged(int index) {
+            if (tmpDropdown == null) return;
             MeshDisplayState meshDisplayState = enumDropDown.EnumFrom(index);
             PlaybackEventSystem.MeshDisplayStateChanged(meshDisplayState);
         }

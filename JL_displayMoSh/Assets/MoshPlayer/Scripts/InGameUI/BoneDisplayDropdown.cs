@@ -17,11 +17,13 @@ namespace MoshPlayer.Scripts.InGameUI {
         }
 
         void Start() {
-            enumDropDown.PopulateOptions(tmpDropdown, BoneDisplayState.Off);
+            if (tmpDropdown == null) return;
+            enumDropDown?.PopulateOptions(tmpDropdown, BoneDisplayState.Off);
         }
 
         [PublicAPI]
         public void DropdownIndexChanged(int index) {
+            if (tmpDropdown == null) return;
             BoneDisplayState boneDisplayState = enumDropDown.EnumFrom(index);
             PlaybackEventSystem.BoneDisplayStateChanged(boneDisplayState);
         }

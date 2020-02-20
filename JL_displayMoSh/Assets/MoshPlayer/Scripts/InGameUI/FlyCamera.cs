@@ -34,8 +34,12 @@ namespace MoshPlayer.Scripts.InGameUI {
 			// nop:
 			//transform.position.Set(0,8,-32);
 			//transform.rotation.Set(15,0,0,1);
+			Recenter();
+		}
+
+		public void Recenter() {
 			transform.position = startingPosition;
-			transform.LookAt(new Vector3(0,0,0));
+			transform.LookAt(new Vector3(0, 0, 0));
 		}
 
 

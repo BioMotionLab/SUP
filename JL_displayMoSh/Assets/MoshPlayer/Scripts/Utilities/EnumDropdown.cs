@@ -15,6 +15,7 @@ namespace MoshPlayer.Scripts.Utilities {
         }
 
         public void PopulateOptions(TMP_Dropdown dropdown, int defaultValue = 0) {
+            if (dropdown == null) return;
             string[] enumNames = Enum.GetNames(typeof(T));
             List<string> namesList = enumNames.ToList();
             dropdown.ClearOptions();
@@ -23,6 +24,7 @@ namespace MoshPlayer.Scripts.Utilities {
         }
 
         public void PopulateOptions(TMP_Dropdown dropdown, T defaultOption) {
+            if (dropdown == null) return;
             int index = Convert.ToInt32(defaultOption); 
             PopulateOptions(dropdown, index );
         }
