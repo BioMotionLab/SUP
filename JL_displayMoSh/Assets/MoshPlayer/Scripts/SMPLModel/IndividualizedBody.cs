@@ -63,10 +63,6 @@ namespace MoshPlayer.Scripts.SMPLModel {
             bodyShapeBetas = betas;
             UpdateBody();
         }
-
-        void Update() {
-            if (moshCharacter.RenderOptions.UpdateBodyShapeLive) UpdateBody();
-        }
         
 
         [ContextMenu("Update With Current Betas")]
@@ -74,12 +70,15 @@ namespace MoshPlayer.Scripts.SMPLModel {
             
             // Need to start with fresh body, since everything is calculated relative to it.
             averageBody.Restore();
+            SetBindPoses();
             
             AdjustBonePositions();
             AdjustMeshToNewBones();
             
+            
             UpdateBodyShapeBlendshapes(bodyShapeBetas);
-
+            SetBindPoses();
+            
             if (moshCharacter.SetFeetOnGround) SetFeetOnGround();
         }
 
@@ -111,23 +110,23 @@ namespace MoshPlayer.Scripts.SMPLModel {
             
             //vertices doesn't return the actual current vertexes, it's the vertexes before skinning.
             //You need to bake the skinned mesh into a mesh object to retrieve the deformed vertices
-            Mesh bakedMesh = new Mesh();
-            skinnedMeshRenderer.BakeMesh(bakedMesh);
+            //Mesh bakedMesh = new Mesh();
+            //skinnedMeshRenderer.BakeMesh(bakedMesh);
             
             
             // Important Optimization! Needs to cache vertex arrays since these calls are VERY expensive.
             // Not doing this will decrease FPS by 1000x
             Vector3[] sharedMeshVertices = skinnedMeshRenderer.sharedMesh.vertices;
-            Vector3[] bakedMeshVertices = bakedMesh.vertices;
+            //Vector3[] bakedMeshVertices = bakedMesh.vertices;
             
             
             //For optimization purposes, this minY calculation needs to occur during this loop.
             minimumYVertex = Mathf.Infinity;
             
             for (int i = 0; i < skinnedMeshRenderer.sharedMesh.vertexCount; i++) {
-                Vector3 correctedVertex;
+                Vector3 correctedVertex = sharedMeshVertices[i];
                 //These functions are run in same loop for heavy optimization.
-                correctedVertex = AccountForUnwantedLinearBlendSkinning(sharedMeshVertices[i], bakedMeshVertices[i], averageBody.Vertices[i]);
+                //correctedVertex = AccountForUnwantedLinearBlendSkinning(sharedMeshVertices[i], bakedMeshVertices[i], averageBody.Vertices[i]);
 
                 correctedVertex = CorrectMeshToRigOffset(correctedVertex);
                 updatedVertices[i] = correctedVertex;
@@ -203,10 +202,31 @@ namespace MoshPlayer.Scripts.SMPLModel {
         /// </summary>
         [ContextMenu("reground")]
         void SetFeetOnGround() {
-            Vector3 offsetFromGround = new Vector3(0, minimumYVertex, 0) + moshCharacter.OffsetErrorBetweenPelvisAndZero;
+            Vector3 offsetFromGround = new Vector3(0, -minimumYVertex, 0) - moshCharacter.OffsetErrorBetweenPelvisAndZero;
             //Debug.Log($"offset: {offsetFromGround.ToString("f4")}");
             Transform pelvis = skinnedMeshRenderer.bones[model.PelvisIndex];
             pelvis.localPosition += offsetFromGround;
+        }
+        
+        
+        void SetBindPoses()
+        {
+            Matrix4x4[] bindPoses = skinnedMeshRenderer.sharedMesh.bindposes;
+
+            Transform avatarRootTransform = skinnedMeshRenderer.transform.parent;
+
+            Transform[] bones = skinnedMeshRenderer.bones;
+            for (int i=0; i < bones.Length; i++)
+            {
+                // The bind pose is bone's inverse transformation matrix.
+                // Make this matrix relative to the avatar root so that we can move the root game object around freely.            
+                bindPoses[i] = bones[i].worldToLocalMatrix * avatarRootTransform.localToWorldMatrix;
+            }
+
+            
+            Mesh sharedMesh = skinnedMeshRenderer.sharedMesh;
+            sharedMesh.bindposes = bindPoses;
+            skinnedMeshRenderer.sharedMesh = sharedMesh;
         }
     }
 }

@@ -17,6 +17,10 @@ namespace MoshPlayer.Scripts.SMPLModel {
         Vector3 OffsetErrorInFbxBetweenRigAndMesh { get; }
         Vector3 CombinedOffset { get; }
         Gender Gender { get; }
+
+        IndividualizedBody Body {
+            get;
+        }
         void StartAnimation(MoshAnimation moshAnimation, PlaybackOptions playbackOptions, CharacterDisplayOptions displayOptions, CharacterRenderOptions renderOptions);
         void InterruptAnimation();
     }

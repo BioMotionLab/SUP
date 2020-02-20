@@ -12,7 +12,12 @@ namespace MoshPlayer.Scripts.Playback {
         
         public Gender Gender { get; }
         public bool Finished => playback.Finished;
-        
+
+        public IndividualizedBody Body {
+            get => individualizedBody;
+            set => individualizedBody = value;
+        }
+
         IndividualizedBody individualizedBody;
         public readonly ModelDefinition Model;
         CharacterPoser characterPoser;
@@ -45,8 +50,8 @@ namespace MoshPlayer.Scripts.Playback {
         public void AttachSkin(SkinnedMeshRenderer skinnedMeshRendererToAttach, PlaybackOptions playbackOptions) {
             SkinnedMeshRenderer meshRenderer = skinnedMeshRendererToAttach;
 
-            individualizedBody = meshRenderer.GetComponent<IndividualizedBody>();
-            individualizedBody.UpdateBodyWithBetas(rawBodyShapeWeightBetas);
+            Body = meshRenderer.GetComponent<IndividualizedBody>();
+            Body.UpdateBodyWithBetas(rawBodyShapeWeightBetas);
 
             characterPoser = meshRenderer.gameObject.GetComponent<CharacterPoser>();
             if (characterPoser == null) throw new NullReferenceException("Can't find CharacterPoser component");

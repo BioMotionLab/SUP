@@ -40,6 +40,12 @@ namespace MoshPlayer.Scripts.SMPLModel {
 
         void Update() {
 
+            
+            if (moshCharacter.RenderOptions.UpdateBodyShapeLive) {
+                ResetToTPose();
+                moshCharacter.Body.UpdateBody();
+            }
+            
 
             if (moshCharacter.RenderOptions.AllowPoseManipulation) {
                 poses = GatherPosesFromBones();
