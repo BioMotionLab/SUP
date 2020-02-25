@@ -6,6 +6,7 @@
     <e p="C:\Users\BioMotion\Documents\GitHub\UpdatingMoshAndSMPL\JL_displayMoSh" t="IncludeRecursive">
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
+        <e p="ChangeFileButton.cs" t="Include" />
         <e p="MoshPlayer" t="Include">
           <e p="Scripts" t="Include">
             <e p="Display" t="Include">
@@ -110,6 +111,8 @@
           <e p="single.txt" t="Include" />
           <e p="test.txt" t="Include" />
         </e>
+        <e p="ReviewPanel.cs" t="Include" />
+        <e p="ShowHidePanelButton.cs" t="Include" />
         <e p="TextMesh Pro" t="Include">
           <e p="Fonts" t="Include">
             <e p="LiberationSans - OFL.txt" t="Include" />
