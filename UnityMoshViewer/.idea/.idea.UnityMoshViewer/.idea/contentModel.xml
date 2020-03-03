@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Users\BioMotion\.Rider2019.3\system\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\BioMotion\.Rider2019.3\system\resharper-host\local\Transient\ReSharperHost\v193\SolutionCaches\_UnityMoshViewer.-411699254.00" t="ExcludeRecursive" />
+    <e p="C:\Users\BioMotion\Documents\GitHub\UpdatingMoshAndSMPL\UnityMoshViewer" t="IncludeRecursive">
+      <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
+      <e p="Assets" t="Include">
+        <e p="MoshPlayer" t="Include">
+          <e p="AnimationReviewer" t="Include">
+            <e p="ChangeFileButton.cs" t="Include" />
+            <e p="ReviewPanel.cs" t="Include" />
+            <e p="SaveNoteButton.cs" t="Include" />
+            <e p="ShowHidePanelButton.cs" t="Include" />
+          </e>
+          <e p="Scripts" t="Include">
+            <e p="Display" t="Include">
+              <e p="BoneDisplay.cs" t="Include" />
+              <e p="BoneDisplayState.cs" t="Include" />
+              <e p="BoneLine.cs" t="Include" />
+              <e p="MeshDisplay.cs" t="Include" />
+              <e p="MeshDisplayState.cs" t="Include" />
+              <e p="PointLight.cs" t="Include" />
+              <e p="PointLightDisplay.cs" t="Include" />
+              <e p="PointLightDisplayState.cs" t="Include" />
+            </e>
+            <e p="FileLoaders" t="Include">
+              <e p="JSONModelKeys.cs" t="Include" />
+              <e p="MoshAnimationFromJSON.cs" t="Include" />
+              <e p="SMPLHRegressorFromJSON.cs" t="Include" />
+            </e>
+            <e p="InGameUI" t="Include">
+              <e p="AnimationDisplayMainPanel.cs" t="Include" />
+              <e p="AnimationPanel.cs" t="Include" />
+              <e p="BoneDisplayDropdown.cs" t="Include" />
+              <e p="FlyCamera.cs" t="Include" />
+              <e p="FrameListener.cs" t="Include" />
+              <e p="FrameSlider.cs" t="Include" />
+              <e p="MeshDisplayDropdown.cs" t="Include" />
+              <e p="NextAnimationButton.cs" t="Include" />
+              <e p="PlayerProgressText.cs" t="Include" />
+              <e p="PointLightDisplayDropdown.cs" t="Include" />
+              <e p="RenderSelector.cs" t="Include" />
+              <e p="SelectAnimationsPanel.cs" t="Include" />
+              <e p="UIEnabler.cs" t="Include" />
+              <e p="ValueFromSliderDisplay.cs" t="Include" />
+            </e>
+            <e p="Playback" t="Include">
+              <e p="AnimationControlEvents.cs" t="Include" />
+              <e p="AnimationLoader.cs" t="Include" />
+              <e p="MoshAnimation.cs" t="Include" />
+              <e p="MoshAnimationPlayer.cs" t="Include" />
+              <e p="Playback.cs" t="Include" />
+              <e p="PlaybackEventSystem.cs" t="Include" />
+              <e p="PlaybackOptions.cs" t="Include" />
+            </e>
+            <e p="SMPLModel" t="Include">
+              <e p="AverageBody.cs" t="Include" />
+              <e p="Bones.cs" t="Include" />
+              <e p="CharacterEvents.cs" t="Include" />
+              <e p="CharacterPoser.cs" t="Include" />
+              <e p="CharacterRenderOptions.cs" t="Include" />
+              <e p="ForwardsResampledFrame.cs" t="Include" />
+              <e p="Gender.cs" t="Include" />
+              <e p="IndividualizedBody.cs" t="Include" />
+              <e p="JointRegressor.cs" t="Include" />
+              <e p="ModelDefinition.cs" t="Include" />
+              <e p="Models.cs" t="Include" />
+              <e p="MoshCharacter.cs" t="Include" />
+              <e p="MoshCharacterComponent.cs" t="Include" />
+              <e p="MoshMesh.cs" t="Include" />
+              <e p="MoshViewerComponent.cs" t="Include" />
+              <e p="SideOfBody.cs" t="Include" />
+              <e p="SMPLConstants.cs" t="Include" />
+            </e>
+            <e p="ThirdParty" t="Include">
+              <e p="SimpleJSON" t="Include">
+                <e p="SimpleJSON.cs" t="Include" />
+                <e p="SimpleJSONBinary.cs" t="Include" />
+                <e p="SimpleJSONUnity.cs" t="Include" />
+              </e>
+            </e>
+            <e p="Utilities" t="Include">
+              <e p="DebugTools.cs" t="Include" />
+              <e p="EnumDropdown.cs" t="Include" />
+              <e p="MatrixUtilities.cs" t="Include" />
+              <e p="QuaternionExtensions.cs" t="Include" />
+              <e p="Vector3Extensions.cs" t="Include" />
+            </e>
+          </e>
+          <e p="ThirdParty" t="Include">
+            <e p="StandaloneFileBrowser" t="Include">
+              <e p="IStandaloneFileBrowser.cs" t="Include" />
+              <e p="Sample" t="Include">
+                <e p="BasicSample.cs" t="Include" />
+                <e p="CanvasSampleOpenFileImage.cs" t="Include" />
+                <e p="CanvasSampleOpenFileText.cs" t="Include" />
+                <e p="CanvasSampleOpenFileTextMultiple.cs" t="Include" />
+                <e p="CanvasSampleSaveFileImage.cs" t="Include" />
+                <e p="CanvasSampleSaveFileText.cs" t="Include" />
+              </e>
+              <e p="StandaloneFileBrowser.cs" t="Include" />
+              <e p="StandaloneFileBrowserEditor.cs" t="Include" />
+              <e p="StandaloneFileBrowserLinux.cs" t="Include" />
+              <e p="StandaloneFileBrowserMac.cs" t="Include" />
+              <e p="StandaloneFileBrowserWindows.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="StreamingAssets" t="Include">
+          <e p="sampleAnimationList.txt" t="Include" />
+        </e>
+        <e p="TextMesh Pro" t="Include">
+          <e p="Fonts" t="Include">
+            <e p="LiberationSans - OFL.txt" t="Include" />
+          </e>
+          <e p="Resources" t="Include">
+            <e p="LineBreaking Following Characters.txt" t="Include" />
+            <e p="LineBreaking Leading Characters.txt" t="Include" />
+            <e p="Shaders" t="Include">
+              <e p="TMP_Bitmap-Custom-Atlas.shader" t="Include" />
+              <e p="TMP_Bitmap-Mobile.shader" t="Include" />
+              <e p="TMP_Bitmap.shader" t="Include" />
+              <e p="TMP_SDF Overlay.shader" t="Include" />
+              <e p="TMP_SDF-Mobile Masking.shader" t="Include" />
+              <e p="TMP_SDF-Mobile Overlay.shader" t="Include" />
+              <e p="TMP_SDF-Mobile.shader" t="Include" />
+              <e p="TMP_SDF-Surface-Mobile.shader" t="Include" />
+              <e p="TMP_SDF-Surface.shader" t="Include" />
+              <e p="TMP_SDF.shader" t="Include" />
+              <e p="TMP_Sprite.shader" t="Include" />
+              <e p="TMPro.cginc" t="Include" />
+              <e p="TMPro_Properties.cginc" t="Include" />
+              <e p="TMPro_Surface.cginc" t="Include" />
+            </e>
+          </e>
+          <e p="Sprites" t="Include">
+            <e p="EmojiOne Attribution.txt" t="Include" />
+          </e>
+        </e>
+      </e>
+      <e p="obj" t="ExcludeRecursive" />
+      <e p="Packages" t="ExcludeRecursive" />
+      <e p="Temp\bin" t="ExcludeRecursive" />
+      <e p="UnityMoshViewer.sln" t="IncludeFlat" />
+    </e>
+  </component>
+</project>

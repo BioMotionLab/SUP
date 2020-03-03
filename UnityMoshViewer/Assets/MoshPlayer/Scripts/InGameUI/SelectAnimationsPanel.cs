@@ -57,9 +57,8 @@ namespace MoshPlayer.Scripts.InGameUI {
     
         [PublicAPI]
         public void LoadSamples() {
-            animationsFolder =
-                @"C:\Users\BioMotion\Documents\GitHub\UpdatingMoshAndSMPL\JL_displayMoSh\Assets\Resources\NewAnimations";
-            listFile = @"C:\Users\BioMotion\Documents\GitHub\UpdatingMoshAndSMPL\JL_displayMoSh\Assets\Resources\new_animations.txt";
+            animationsFolder = Application.streamingAssetsPath + "//SampleAnimations";
+            listFile = Application.streamingAssetsPath + "//SampleAnimationList.txt";
             PlaybackEventSystem.LoadAnimations(listFile, animationsFolder);
             gameObject.SetActive(false);
         }

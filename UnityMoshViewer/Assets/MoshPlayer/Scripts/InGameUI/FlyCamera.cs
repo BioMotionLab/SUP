@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using JetBrains.Annotations;
+using UnityEngine;
 // ReSharper disable All
 
 namespace MoshPlayer.Scripts.InGameUI {
@@ -29,6 +30,9 @@ namespace MoshPlayer.Scripts.InGameUI {
 		private float   totalRun  = 1.0f;
 		public  float   forwardSpeed;
 		public  float   panSpeed;
+		
+		public bool Frozen;
+		
 		void Awake() {
 			//Debug.Log ("FlyCamera Awake() - RESETTING CAMERA POSITION"); // nop?
 			// nop:
@@ -42,9 +46,15 @@ namespace MoshPlayer.Scripts.InGameUI {
 			transform.LookAt(new Vector3(0, 0, 0));
 		}
 
+		[PublicAPI]
+		public void ToggleFrozen() {
+			Frozen = !Frozen;
+		}
 
 		void Update () {
 
+			if (Frozen) return;
+			
 			if (Input.GetMouseButtonDown(1))
 			{
 				lastMouse = Input.mousePosition; // $CTK reset when we begin
