@@ -1,10 +1,8 @@
 #if UNITY_STANDALONE_OSX
-
 using System;
 using System.Runtime.InteropServices;
-using MoshPlayer.ThirdParty.StandaloneFileBrowser;
 
-namespace SFB {
+namespace MoshPlayer.ThirdParty.StandaloneFileBrowser {
     public class StandaloneFileBrowserMac : IStandaloneFileBrowser {
         private static Action<string[]> _openFileCb;
         private static Action<string[]> _openFolderCb;
