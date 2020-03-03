@@ -12,7 +12,7 @@ using UnityEngine.Serialization;
 namespace MoshPlayer.Scripts.Playback {
     public class AnimationLoader : MonoBehaviour {
 		
-        SettingsMain settingsMain;
+        Models models;
         string       animFolder;
 
         public bool                  DoneLoading;
@@ -24,9 +24,9 @@ namespace MoshPlayer.Scripts.Playback {
 
 
         [SuppressMessage("ReSharper", "ParameterHidesMember")]
-        public void Init(string animationsToPlayFile, SettingsMain settingsMain, PlaybackOptions playbackOptions, string animFolder, Action<List<List<MoshAnimation>>> doneAction) {
+        public void Init(string animationsToPlayFile, Models models, PlaybackOptions playbackOptions, string animFolder, Action<List<List<MoshAnimation>>> doneAction) {
             doThisWhenDoneAction = doneAction;
-            this.settingsMain = settingsMain;
+            this.models = models;
             this.animFolder = animFolder;
             this.playbackOptions = playbackOptions;
 
@@ -77,7 +77,7 @@ namespace MoshPlayer.Scripts.Playback {
                 try {
                     string animationFileString = LoadAnimFileAsString(filename);
                     MoshAnimation loadedAnimation =
-                        new MoshAnimationFromJSON(animationFileString, settingsMain, playbackOptions, filename)
+                        new MoshAnimationFromJSON(animationFileString, models, playbackOptions, filename)
                             .BuildWithSettings();
                     animations.Add(loadedAnimation);
                 }

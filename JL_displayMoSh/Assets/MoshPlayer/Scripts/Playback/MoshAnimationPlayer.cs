@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using MoshPlayer.Scripts.SMPLModel;
 using UnityEngine;
@@ -49,17 +50,22 @@ namespace MoshPlayer.Scripts.Playback {
                              $"({animationGroup.Count} chars)";
             Debug.Log(updateMessage);
             PlaybackEventSystem.UpdatePlayerProgress(updateMessage);
-		
+
+            string animations = "";
+            
             List<MoshCharacter> newCharacters = new List<MoshCharacter>();
             for (int animationIndex = 0; animationIndex < animationGroup.Count; animationIndex++) {
                 MoshAnimation moshAnimation = animationGroup[animationIndex];
+                animations += moshAnimation.AnimationName + " ";
+                
                 string characterName = $"{moshAnimation.Gender} Character {animationIndex}";
                 MoshCharacter moshCharacter = moshAnimation.Model.CreateNewCharacter(characterName, moshAnimation.Gender);
                 
                 newCharacters.Add(moshCharacter);
                 moshCharacter.StartAnimation(moshAnimation, playbackOptions, displayOptions, renderOptions);
             }
-
+            PlaybackEventSystem.PlayingNewAnimationSet(animations.Trim());
+            
             return newCharacters;
         }
 

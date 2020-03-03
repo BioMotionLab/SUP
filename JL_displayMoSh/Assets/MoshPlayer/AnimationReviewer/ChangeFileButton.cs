@@ -22,7 +22,7 @@ public class ChangeFileButton : MonoBehaviour
     }
 
     public void CreateFile() {
-        string file = StandaloneFileBrowser.SaveFilePanel("Create New File", "", "review", ".txt");
+        string file = StandaloneFileBrowser.SaveFilePanel("Create New File", "", "review", "txt");
         using(StreamWriter sw = File.AppendText(file))
         {
             sw.WriteLine("Animations, Note");

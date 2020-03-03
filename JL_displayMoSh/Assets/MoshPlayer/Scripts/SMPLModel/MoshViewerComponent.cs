@@ -9,8 +9,9 @@ using UnityEngine.Serialization;
 
 namespace MoshPlayer.Scripts.SMPLModel {
 	public class MoshViewerComponent : MonoBehaviour {
+		[FormerlySerializedAs("SettingsMain")]
 		[SerializeField]
-		SettingsMain SettingsMain = default;
+		Models Models = default;
 
 		MoshAnimationPlayer moshAnimationPlayer;
 
@@ -63,7 +64,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
 			if (!File.Exists(listFile)) throw new IOException($"Can't find List of Animations file {listFile}");
 			
 			loader = gameObject.AddComponent<AnimationLoader>();
-			loader.Init(listFile, SettingsMain, PlaybackOptions, animationsFolder, DoneLoading);
+			loader.Init(listFile, Models, PlaybackOptions, animationsFolder, DoneLoading);
 		}
 
 

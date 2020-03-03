@@ -29,6 +29,7 @@ namespace MoshPlayer.Scripts.InGameUI {
         [PublicAPI]
         public void SelectFolder() {
             var paths = StandaloneFileBrowser.OpenFolderPanel("Select Folder", "", false);
+            if (paths.Length == 0) return;
             animationsFolder = paths[0].Replace("\\", "\\\\");
             Debug.Log(animationsFolder);
             FolderText.text = animationsFolder;

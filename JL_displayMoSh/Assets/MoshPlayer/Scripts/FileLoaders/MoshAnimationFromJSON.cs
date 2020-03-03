@@ -21,13 +21,13 @@ namespace MoshPlayer.Scripts.FileLoaders {
         Quaternion[,] poses;
         string name;
         ModelDefinition matchedModel;
-        readonly SettingsMain settingsMain;
+        readonly Models models;
         readonly PlaybackOptions playbackOptions;
 
-        public MoshAnimationFromJSON(string jsonFileWholeString, SettingsMain settingsMain, PlaybackOptions playbackOptions, string name)  {
+        public MoshAnimationFromJSON(string jsonFileWholeString, Models models, PlaybackOptions playbackOptions, string name)  {
             if (jsonFileWholeString == null) throw new NullReferenceException("Tried to instantiate Animation JSON with null TextAsset");
-            if (settingsMain == null) throw new NullReferenceException("No SettingsMain specified");
-            this.settingsMain = settingsMain;
+            if (models == null) throw new NullReferenceException("No Models specified");
+            this.models = models;
             this.playbackOptions = playbackOptions;
             // AB: This is where the load speed bottleneck is. It seems to have trouble parsing even fairly small ~1MB files (~100ms or more).
             // Once parsed it seems to be very fast to load (< 5 ms)
@@ -50,7 +50,7 @@ namespace MoshPlayer.Scripts.FileLoaders {
             JSONNode transNode = null;
             JSONNode posesNode = null;
 
-            foreach (var model in settingsMain.ModelParameters) {
+            foreach (var model in models.ModelDefinitions) {
                 genderNode = moshJSON[model.JsonKeys.Gender];
                 betasNode = moshJSON[model.JsonKeys.Betas];
                 fpsNode = moshJSON[model.JsonKeys.FPS];
@@ -76,7 +76,7 @@ namespace MoshPlayer.Scripts.FileLoaders {
             //Debug.Log($"fps: {fps}");
             LoadBetas(betasNode);
             if (fps == 0) {
-                //Debug.Log($"No fps specified, defaulting to {settingsMain.FallbackFPS}");
+                //Debug.Log($"No fps specified, defaulting to {models.FallbackFPS}");
                 fps = playbackOptions.FallbackFPS;
             }
             

@@ -10,6 +10,7 @@ public class ReviewPanel : MonoBehaviour {
     
     string reviewFilePath;
 
+    public string ReviewFilePath => reviewFilePath;
 
     public void FileSelected(string[] files) {
         if (files.Length == 0) return;

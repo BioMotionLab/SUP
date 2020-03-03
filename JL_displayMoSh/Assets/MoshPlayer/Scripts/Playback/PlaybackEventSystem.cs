@@ -172,5 +172,14 @@ namespace MoshPlayer.Scripts.Playback {
         public static void StopPlayingAllAnimations() {
             OnStopAllAnimations?.Invoke();
         }
+
+
+        public delegate void PlayingNewAnimationSetEvent(string animations);
+        
+        public static event PlayingNewAnimationSetEvent OnPlayingNewAnimationSet;
+        
+        public static void PlayingNewAnimationSet(string animations) {
+            OnPlayingNewAnimationSet?.Invoke(animations);
+        }
     }
 }
