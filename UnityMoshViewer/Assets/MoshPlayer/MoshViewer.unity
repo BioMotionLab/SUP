@@ -2559,6 +2559,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4171260099290101751, guid: 438a8b53a2a645e49a2c1832a7b464b8,
+        type: 3}
+      propertyPath: near clip plane
+      value: 0.05
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 438a8b53a2a645e49a2c1832a7b464b8, type: 3}
 --- !u!1001 &8159167210457398640
@@ -2666,12 +2671,12 @@ PrefabInstance:
     - target: {fileID: 8159167209851810836, guid: 6f7d7cab49bbbdf4d9b4252103aaca9e,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 118.3
       objectReference: {fileID: 0}
     - target: {fileID: 8159167209851810836, guid: 6f7d7cab49bbbdf4d9b4252103aaca9e,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 226.6
       objectReference: {fileID: 0}
     - target: {fileID: 8159167209851810836, guid: 6f7d7cab49bbbdf4d9b4252103aaca9e,
         type: 3}
