@@ -153,6 +153,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
 
         public void InterruptAnimation() {
             if (this == null || gameObject == null) return; // order of check important here. 
+            moshAnimation.End();
             
             //Debug.Log($"{gameObject.animationName}'s Animation Interrupted");
             DestroyCharacter();

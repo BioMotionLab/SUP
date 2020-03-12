@@ -12,7 +12,10 @@ namespace MoshPlayer.Scripts.Playback {
         [FormerlySerializedAs("nextKeys")]
         [SerializeField]
         List<KeyCode> NextKeys = new List<KeyCode>();
-    
+
+        [SerializeField]
+        KeyCode PrevKey = default;
+        
         [FormerlySerializedAs("quitKeys")]
         [SerializeField]
         List<KeyCode> QuitKeys = new List<KeyCode>();
@@ -38,6 +41,11 @@ namespace MoshPlayer.Scripts.Playback {
                 }
             }
 
+            if (Input.GetKeyDown(PrevKey)) {
+                Debug.Log("Delete");
+                GoToPreviousAnimation();
+            }
+            
             foreach (KeyCode key in QuitKeys) {
                 if (Input.GetKeyDown(key)) {
                     Quit();
@@ -138,6 +146,14 @@ namespace MoshPlayer.Scripts.Playback {
         public static void GoToNextAnimation() {
             StopPlayingAllAnimations();
             OnNextAnimation?.Invoke();
+        }
+
+        public delegate void PreviousAnimationEvent( );
+
+        public static event PreviousAnimationEvent OnPreviousAnimation;
+
+        public static void GoToPreviousAnimation( ) {
+            OnPreviousAnimation?.Invoke();
         }
 
         public delegate void PlayerProgressTextEvent(string text);

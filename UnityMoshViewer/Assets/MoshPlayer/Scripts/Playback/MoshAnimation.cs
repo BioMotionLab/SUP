@@ -20,9 +20,12 @@ namespace MoshPlayer.Scripts.Playback {
 
         IndividualizedBody individualizedBody;
         public readonly ModelDefinition Model;
+        readonly PlaybackOptions playbackOptions;
+        readonly int sourceTotalFrameCount;
+        readonly int sourceFPS;
         CharacterPoser characterPoser;
-        readonly Playback playback;
-        readonly AnimationControlEvents animationControlEvents;
+        Playback playback;
+        AnimationControlEvents animationControlEvents;
         public readonly string AnimationName;
 
 
@@ -36,29 +39,40 @@ namespace MoshPlayer.Scripts.Playback {
                              string animationName) {
             Gender = gender;
             Model = model;
-            
-            animationControlEvents = new AnimationControlEvents();
-            playback = new Playback(sourceTotalFrameCount, sourceFPS, playbackOptions, animationControlEvents);
-            
+            this.playbackOptions = playbackOptions;
+            this.sourceTotalFrameCount = sourceTotalFrameCount;
+            this.sourceFPS = sourceFPS;
+
+
             this.rawBodyShapeWeightBetas = rawBodyShapeWeightBetas;
             this.translations = translations;
             this.allPoses = allPoses;
             AnimationName = animationName;
 
+            Setup();
+        }
+
+        void Setup() {
+            animationControlEvents = new AnimationControlEvents();
+            playback = new Playback(sourceTotalFrameCount, sourceFPS, playbackOptions, animationControlEvents);
         }
 
         public void AttachSkin(SkinnedMeshRenderer skinnedMeshRendererToAttach, PlaybackOptions playbackOptions) {
+            Reset();
             SkinnedMeshRenderer meshRenderer = skinnedMeshRendererToAttach;
-
-            Body = meshRenderer.GetComponent<IndividualizedBody>();
-            Body.UpdateBodyWithBetas(rawBodyShapeWeightBetas);
-
+            
             characterPoser = meshRenderer.gameObject.GetComponent<CharacterPoser>();
             if (characterPoser == null) throw new NullReferenceException("Can't find CharacterPoser component");
             
+            Body = meshRenderer.GetComponent<IndividualizedBody>();
+            Body.UpdateBodyWithBetas(rawBodyShapeWeightBetas);
         }
 
-        
+        public void Reset() {
+            Setup();
+        }
+
+
         public void PlayCurrentFrame() {
             bool firstUpdate = false;
             if (playback.Finished) return;
@@ -92,7 +106,7 @@ namespace MoshPlayer.Scripts.Playback {
             SetPosesAndTranslationFromFrame(resampledFrame);
             characterPoser.ForceUpdate();
         }
-        
+
         Vector3 GetTranslationAtFrame(ResampledFrame resampledFrame) {
             if (resampledFrame.IsFirstFrame) return translations[0];
             
@@ -109,7 +123,7 @@ namespace MoshPlayer.Scripts.Playback {
             return resampledTranslation;
         }
 
-        
+
         /// <summary>
         /// PopulateOptions an array with rotations of each joint at thisFrame. 
         /// </summary>
@@ -130,6 +144,9 @@ namespace MoshPlayer.Scripts.Playback {
             }
             return posesThisFrame;
         }
-        
+
+        public void End() {
+            playback.Finish();
+        }
     }
 }

@@ -35,6 +35,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
 
 		void OnEnable() {
 			PlaybackEventSystem.OnNextAnimation += GoToNextAnimation;
+			PlaybackEventSystem.OnPreviousAnimation += GoToPrevAnimation;
 			PlaybackEventSystem.OnLoadAnimations += LoadAnimations;
 			
 			PlaybackEventSystem.OnMeshDisplayStateChanged += MeshDisplayStateChanged;
@@ -51,6 +52,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
 
 		void OnDisable() {
 			PlaybackEventSystem.OnNextAnimation -= GoToNextAnimation;
+			PlaybackEventSystem.OnPreviousAnimation -= GoToPrevAnimation;
 			PlaybackEventSystem.OnLoadAnimations -= LoadAnimations;
 			
 			PlaybackEventSystem.OnMeshDisplayStateChanged -= MeshDisplayStateChanged;
@@ -105,6 +107,13 @@ namespace MoshPlayer.Scripts.SMPLModel {
 			else {
 				moshAnimationPlayer.GoToNextAnimation();
 			}
+		}
+
+		public void GoToPrevAnimation() {
+			if (moshAnimationPlayer == null) return;
+
+			moshAnimationPlayer.GoToPrevAnimation();
+
 		}
 
 		void SetSnapToGround(bool snapToGround) {

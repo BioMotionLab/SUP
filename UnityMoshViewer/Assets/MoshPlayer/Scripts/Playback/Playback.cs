@@ -84,7 +84,7 @@ namespace MoshPlayer.Scripts.Playback {
             return resampledFrame;
         }
 
-        void Finish() {
+        public void Finish() {
             Finished = true;
             //Debug.Log("playback ended");
             controlEvents.BroadCastAnimationEnded();

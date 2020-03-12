@@ -30,7 +30,7 @@ namespace MoshPlayer.Scripts.Playback {
 
 
         public void StartPlayingAnimations() {
-            currentCharacters = StartAnimation(); //play the first animation!
+           StartAnimation(); //play the first animation!
         }
 
         void StopCurrentAnimations() {
@@ -43,7 +43,8 @@ namespace MoshPlayer.Scripts.Playback {
         /// <summary>
         /// Play the animation for both characters at specified position in sequence of files.
         /// </summary>
-        List<MoshCharacter> StartAnimation() {
+        void StartAnimation() {
+            Debug.Log($"currentIndex = {currentAnimationIndex}");
             List<MoshAnimation> animationGroup = animationSequence[currentAnimationIndex];
 
             string updateMessage = $"Playing animation set {currentAnimationIndex+1} of {animationSequence.Count}. " +
@@ -56,6 +57,8 @@ namespace MoshPlayer.Scripts.Playback {
             List<MoshCharacter> newCharacters = new List<MoshCharacter>();
             for (int animationIndex = 0; animationIndex < animationGroup.Count; animationIndex++) {
                 MoshAnimation moshAnimation = animationGroup[animationIndex];
+                moshAnimation.Reset();
+                
                 Debug.Log($"Animation name {moshAnimation.AnimationName}");
                 animationStrings += moshAnimation.AnimationName + " ";
                 
@@ -68,7 +71,7 @@ namespace MoshPlayer.Scripts.Playback {
             Debug.Log($"animationStrings {animationStrings}");
             PlaybackEventSystem.PlayingNewAnimationSet(animationStrings.Trim());
             
-            return newCharacters;
+            currentCharacters = newCharacters;
         }
 
         public void GoToNextAnimation() {
@@ -80,7 +83,17 @@ namespace MoshPlayer.Scripts.Playback {
                 PlaybackEventSystem.UpdatePlayerProgress(updateMessage);
                 return;
             }
-            currentCharacters = StartAnimation();
+            StartAnimation();
+        }
+
+        public void GoToPrevAnimation() {
+            currentAnimationIndex = currentAnimationIndex - 1;
+            if (currentAnimationIndex < 0) {
+                currentAnimationIndex = 0;
+                return;
+            }
+            StopCurrentAnimations();
+            StartAnimation();
         }
     }
 }
