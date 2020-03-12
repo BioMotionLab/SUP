@@ -51,12 +51,13 @@ namespace MoshPlayer.Scripts.Playback {
             Debug.Log(updateMessage);
             PlaybackEventSystem.UpdatePlayerProgress(updateMessage);
 
-            string animations = "";
+            string animationStrings = "";
             
             List<MoshCharacter> newCharacters = new List<MoshCharacter>();
             for (int animationIndex = 0; animationIndex < animationGroup.Count; animationIndex++) {
                 MoshAnimation moshAnimation = animationGroup[animationIndex];
-                animations += moshAnimation.AnimationName + " ";
+                Debug.Log($"Animation name {moshAnimation.AnimationName}");
+                animationStrings += moshAnimation.AnimationName + " ";
                 
                 string characterName = $"{moshAnimation.Gender} Character {animationIndex}";
                 MoshCharacter moshCharacter = moshAnimation.Model.CreateNewCharacter(characterName, moshAnimation.Gender);
@@ -64,7 +65,8 @@ namespace MoshPlayer.Scripts.Playback {
                 newCharacters.Add(moshCharacter);
                 moshCharacter.StartAnimation(moshAnimation, playbackOptions, displayOptions, renderOptions);
             }
-            PlaybackEventSystem.PlayingNewAnimationSet(animations.Trim());
+            Debug.Log($"animationStrings {animationStrings}");
+            PlaybackEventSystem.PlayingNewAnimationSet(animationStrings.Trim());
             
             return newCharacters;
         }

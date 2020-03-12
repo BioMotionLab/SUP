@@ -14,31 +14,20 @@ public class SaveNoteButton : MonoBehaviour {
 
     [SerializeField]
     TMP_InputField noteText = default;
-
-
-    string currentAnims;
-
-    void OnEnable() {
-        PlaybackEventSystem.OnPlayingNewAnimationSet += AnimationSetChanged;
-    }
     
-    void OnDisable() {
-        PlaybackEventSystem.OnPlayingNewAnimationSet -= AnimationSetChanged;
-    }
-
-    void AnimationSetChanged(string animations) {
-        currentAnims = animations;
-    }
-
     
     [PublicAPI]
     public void SaveNoteToFile() {
         string note = noteText.text;
+        string newLine = ReviewPanel.CurrentAnims + "," + note + "\n";
+        
         Debug.Log(note);
         if (string.IsNullOrWhiteSpace(note)) return;
         
+        if (string.IsNullOrWhiteSpace(ReviewPanel.CurrentAnims)) Debug.LogWarning("Review pane could not gather current anims");
+        
         if (File.Exists(ReviewPanel.ReviewFilePath)) {
-            string newLine = currentAnims + "," + note + "\n";
+            
             File.AppendAllText(ReviewPanel.ReviewFilePath, newLine);
         }
         else {
