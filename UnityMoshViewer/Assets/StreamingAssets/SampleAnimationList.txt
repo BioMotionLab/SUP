@@ -1,2 +1,3 @@
-test_data.json amass_sample.json
-amass_sample.json
+woman_punching.json
+man_unscrewing_jar.json
+woman_punching.json man_unscrewing_jar.json

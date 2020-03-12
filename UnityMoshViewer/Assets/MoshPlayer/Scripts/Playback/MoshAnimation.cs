@@ -110,7 +110,6 @@ namespace MoshPlayer.Scripts.Playback {
         }
 
         
-
         /// <summary>
         /// PopulateOptions an array with rotations of each joint at thisFrame. 
         /// </summary>
@@ -131,7 +130,6 @@ namespace MoshPlayer.Scripts.Playback {
             }
             return posesThisFrame;
         }
-
-
+        
     }
 }
