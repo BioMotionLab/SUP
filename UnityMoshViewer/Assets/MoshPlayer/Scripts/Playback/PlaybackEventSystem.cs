@@ -181,5 +181,31 @@ namespace MoshPlayer.Scripts.Playback {
         public static void PlayingNewAnimationSet(string animations) {
             OnPlayingNewAnimationSet?.Invoke(animations);
         }
+
+
+        public delegate void ChangeSnapToGroundEvent(bool snapToGround);
+
+        public static event ChangeSnapToGroundEvent OnChangeSnapToGround;
+
+        public static void ChangeSnapToGround(bool snapToGround) {
+            OnChangeSnapToGround?.Invoke(snapToGround);
+        }
+
+        public delegate void ChangeUpdateYTranslationEvent(bool updateYTranslation);
+
+        public static event ChangeUpdateYTranslationEvent OnChangeUpdateYTranslation;
+
+        public static void ChangeUpdateYTranslation(bool updateYTranslation) {
+            OnChangeUpdateYTranslation?.Invoke(updateYTranslation);
+        }
+
+        public delegate void ChangeUpdateXzTranslationEvent(bool changeUpdateXzTranslation);
+
+        public static event ChangeUpdateXzTranslationEvent OnChangeUpdateXzTranslation;
+
+        public static void ChangeUpdateXzTranslation(bool changeUpdateXzTranslation) {
+            OnChangeUpdateXzTranslation?.Invoke(changeUpdateXzTranslation);
+        }
+        
     }
 }

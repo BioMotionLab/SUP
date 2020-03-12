@@ -13,10 +13,22 @@ namespace MoshPlayer.Scripts.SMPLModel {
         float Frame { get; }
     }
 
+
+    public class FirstFrameGuaranteed : ResampledFrame {
+        public bool IsFirstFrame => true;
+        public bool IsLastFrame => false;
+        public int FrameBeforeThis => 0;
+        public int FrameAfterThis => 1;
+        public float PercentageElapsedSinceLastFrame => 0f;
+        public float Frame => 0;
+        public static ResampledFrame Instance => new FirstFrameGuaranteed();
+    }
+    
     public class ForwardsResampledFrame : ResampledFrame {
         
         public float Frame => decimalFrameIndex;
-        
+
+      
         readonly int totalFrameCount;
         readonly float decimalFrameIndex;
         
@@ -28,7 +40,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
             FrameAfterThis = Mathf.Clamp(Mathf.CeilToInt(decimalFrameIndex), 0, totalFrameCount-1);
             PercentageElapsedSinceLastFrame = decimalFrameIndex - FrameBeforeThis;
         }
-        
+
         public bool IsFirstFrame => Math.Abs(decimalFrameIndex) < 0.0001f;
         public bool IsLastFrame => FrameAfterThis >= totalFrameCount-1;
         public int FrameBeforeThis { get; }
@@ -36,6 +48,8 @@ namespace MoshPlayer.Scripts.SMPLModel {
         public int FrameAfterThis { get; }
 
         public float PercentageElapsedSinceLastFrame { get; }
+        
+        
     }
     
 }

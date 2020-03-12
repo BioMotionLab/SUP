@@ -59,21 +59,38 @@ namespace MoshPlayer.Scripts.Playback {
         }
 
         
-
         public void PlayCurrentFrame() {
+            bool firstUpdate = false;
             if (playback.Finished) return;
             if (!playback.Started) {
                 AnimationControlEvents.BroadCastAnimationStarted(this, animationControlEvents);
                 playback.Start();
+                firstUpdate = true;
             }
+            
+            if (firstUpdate) {
+                SetPosesAndTranslationForFirstFrame(FirstFrameGuaranteed.Instance);
+            }
+            else {
+                SetPosesAndTranslationFromFrame(playback.GetResampledFrame());
+            }
+        }
 
-            ResampledFrame resampledFrame = playback.GetResampledFrame();
-            
-            Vector3 translationThisFrame = GetTranslationAtFrame(resampledFrame);
+        void SetPosesAndTranslationFromFrame(ResampledFrame resampledFrame) {
             Quaternion[] posesThisFrame = GetPosesAtFrame(resampledFrame);
-            
+            Vector3 translationThisFrame = GetTranslationAtFrame(resampledFrame);
             characterPoser.SetPoses(posesThisFrame);
-            characterPoser.UpdateTranslation(translationThisFrame);
+            characterPoser.SetTranslation(translationThisFrame);
+        }
+
+        /// <summary>
+        /// Ensures Poser initialization is done on the first real frame every time
+        /// it's played back, so that it's not dependent on frame rendering time.
+        /// </summary>
+        void SetPosesAndTranslationForFirstFrame(ResampledFrame resampledFrame) {
+            characterPoser.NotifyFirstFrame();
+            SetPosesAndTranslationFromFrame(resampledFrame);
+            characterPoser.ForceUpdate();
         }
         
         Vector3 GetTranslationAtFrame(ResampledFrame resampledFrame) {

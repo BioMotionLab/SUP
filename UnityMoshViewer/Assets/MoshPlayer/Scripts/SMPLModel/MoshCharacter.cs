@@ -9,8 +9,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
         GameObject gameObject { get;  }
         ModelDefinition Model { get; }
         CharacterEvents Events { get; }
-        bool SetFeetOnGround { get; }
-        
+
         CharacterRenderOptions RenderOptions { get; }
         CharacterDisplayOptions DisplayOptions { get; }
         Vector3 OffsetErrorBetweenPelvisAndZero { get; }

@@ -31,7 +31,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
         Vector3[] updatedVertices;
         float minimumYVertex;
         Vector3 pelvisResetPosition;
-        Vector3 pelvisNewLocation;
+        public Vector3 pelvisNewLocation;
 
         void OnEnable() {
             moshCharacter = GetComponentInParent<MoshCharacter>();
@@ -42,7 +42,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
             skinnedMeshRenderer.bones[model.PelvisIndex].localPosition = Vector3.zero;
             
             averageBody = new AverageBody(skinnedMeshRenderer, model);
-            SetFeetOnGround();
+            //SetFeetOnGround2();
             
             //pre-create arrays for optimization.
             bodyShapeBetas = new float[model.BodyShapeBetaCount];
@@ -78,7 +78,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
             UpdateBodyShapeBlendshapes(bodyShapeBetas);
             SetBindPoses();
             
-            if (moshCharacter.SetFeetOnGround) SetFeetOnGround();
+            //if (moshCharacter.SetFeetOnGround) SetFeetOnGround2();
         }
 
         /// <summary>
@@ -208,6 +208,8 @@ namespace MoshPlayer.Scripts.SMPLModel {
             Transform pelvis = skinnedMeshRenderer.bones[model.PelvisIndex];
             pelvis.localPosition = offsetFromGroundVector;
         }
+
+   
         
         
         void SetBindPoses()

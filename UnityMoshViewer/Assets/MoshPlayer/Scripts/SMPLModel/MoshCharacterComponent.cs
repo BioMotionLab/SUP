@@ -33,8 +33,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
         [SerializeField]
         // ReSharper disable once InconsistentNaming
         CharacterRenderOptions characterRenderOptions = default;
-
-        public bool SetFeetOnGround => setFeetOnGround;
+        
         public CharacterRenderOptions RenderOptions => characterRenderOptions;
         
         [FormerlySerializedAs("displayOptions")]

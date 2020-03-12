@@ -25,6 +25,8 @@ namespace MoshPlayer.Scripts.SMPLModel {
         [FormerlySerializedAs("UpdateTranslationLive")]
         public bool UpdateTranslationLiveY;
         public bool UpdateTranslationLiveXZ;
+        [FormerlySerializedAs("SnapToground")]
+        public bool SnapToGroundFirstFrame;
     }
 
     [Serializable]

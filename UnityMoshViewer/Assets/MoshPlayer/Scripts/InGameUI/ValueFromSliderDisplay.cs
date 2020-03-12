@@ -14,6 +14,7 @@ namespace MoshPlayer.Scripts.InGameUI {
 
         [PublicAPI]
         public void UpdateValue(float value) {
+            if (textComponent == null) return;
             float percentage = Mathf.RoundToInt(value * 100);
             textComponent.text = $"{percentage} %";
         }

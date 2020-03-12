@@ -44,6 +44,9 @@ namespace MoshPlayer.Scripts.SMPLModel {
 			PlaybackEventSystem.OnChangeLivePoseBlendshapes += SetLivePoseBlendshapes;
 			PlaybackEventSystem.OnChangeLiveBodyShape += SetLiveBodyShape;
 			PlaybackEventSystem.OnChangeManualPosing += SetManualPosing;
+			PlaybackEventSystem.OnChangeSnapToGround += SetSnapToGround;
+			PlaybackEventSystem.OnChangeUpdateYTranslation += SetUpdateYTranslation;
+			PlaybackEventSystem.OnChangeUpdateXzTranslation += SetUpdateXzTranslation;
 		}
 
 		void OnDisable() {
@@ -57,6 +60,9 @@ namespace MoshPlayer.Scripts.SMPLModel {
 			PlaybackEventSystem.OnChangeLivePoseBlendshapes -= SetLivePoseBlendshapes;
 			PlaybackEventSystem.OnChangeLiveBodyShape -= SetLiveBodyShape;
 			PlaybackEventSystem.OnChangeManualPosing -= SetManualPosing;
+			PlaybackEventSystem.OnChangeSnapToGround -= SetSnapToGround;
+			PlaybackEventSystem.OnChangeUpdateYTranslation -= SetUpdateYTranslation;
+			PlaybackEventSystem.OnChangeUpdateXzTranslation -= SetUpdateXzTranslation;
 		}
 
 		void LoadAnimations(string listFile, string animationsFolder) {
@@ -73,8 +79,8 @@ namespace MoshPlayer.Scripts.SMPLModel {
 			moshAnimationPlayer = new MoshAnimationPlayer(animationSequence, PlaybackOptions, characterDisplayOptions, characterRenderOptions);
 			Destroy(loader);
 		}
-		
-		
+
+
 		void Update() {
 			if (!doneLoading) return;
 			if (moshAnimationPlayer == null) return;
@@ -100,8 +106,20 @@ namespace MoshPlayer.Scripts.SMPLModel {
 				moshAnimationPlayer.GoToNextAnimation();
 			}
 		}
-		
-		
+
+		void SetSnapToGround(bool snapToGround) {
+			characterRenderOptions.SnapToGroundFirstFrame = snapToGround;
+		}
+
+		void SetUpdateYTranslation(bool changeUpdateYTranslation) {
+			characterRenderOptions.UpdateTranslationLiveY = changeUpdateYTranslation;
+		}
+
+		void SetUpdateXzTranslation(bool changeUpdateXzTranslation) {
+			characterRenderOptions.UpdateTranslationLiveXZ = changeUpdateXzTranslation;
+		}
+
+
 		void SetManualPosing(bool manualPosing) {
 			characterRenderOptions.AllowPoseManipulation = manualPosing;
 		}

@@ -1,5 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
+using System.Runtime.CompilerServices;
+using JetBrains.Annotations;
 using MoshPlayer.Scripts.Utilities;
 using UnityEngine;
 
@@ -17,6 +20,10 @@ namespace MoshPlayer.Scripts.SMPLModel {
         Quaternion[]        currentTempPoses;
         MoshCharacter       moshCharacter;
         Quaternion[] poses;
+        float feetOffset = 0;
+        bool firstFrame = false;
+        Vector3 translation;
+        Vector3 firstTranslation;
 
         void OnEnable() {
             moshCharacter = GetComponentInParent<MoshCharacter>();
@@ -39,7 +46,6 @@ namespace MoshPlayer.Scripts.SMPLModel {
         }
 
         void Update() {
-
             
             if (moshCharacter.RenderOptions.UpdateBodyShapeLive) {
                 ResetToTPose();
@@ -64,6 +70,16 @@ namespace MoshPlayer.Scripts.SMPLModel {
             else {
                 ResetPoseDependentBlendShapesToZero();
             }
+            
+            UpdateTranslation();
+            
+            if (firstFrame) {
+                firstTranslation = translation;
+                CalculateFeetOffset();
+                firstFrame = false;
+                UpdateTranslation();
+            }
+            
         }
 
 
@@ -90,40 +106,78 @@ namespace MoshPlayer.Scripts.SMPLModel {
         void UpdatePoses() {
             for (int boneIndex = 0; boneIndex < bones.Length; boneIndex++) {
                 string boneName = bones[boneIndex].name;
-                if (boneName == Bones.Pelvis) continue;
+                
                 try {
+                    
+                    //to deal with pelvis's rotation, it's rotated by -90 degrees on x axis because maya
+                    //uses z=up rather than unity's y=up. So to deal with that we have to add this correction.
+                    //But since the order matters for multiple rotations, this complicates things,
+                    //meaning we have to reset the rotation to zero first, then apply them additively in a particular order.
+                    bones[boneIndex].transform.localEulerAngles = Vector3.zero;
+                    
+                    if (boneName == Bones.Pelvis) {
+                        bones[boneIndex].transform.Rotate(-90, 0, 0, Space.Self);
+                    }
+                    
                     int poseIndex = Bones.NameToJointIndex[boneName];
-                    bones[boneIndex].localRotation = poses[poseIndex];
+                    bones[boneIndex].localRotation = bones[boneIndex].localRotation * poses[poseIndex];
+                    
+
                 }
                 catch (KeyNotFoundException) {
                     throw new KeyNotFoundException($"Bone Not in dictionary: boneIndex: {boneIndex}, animationName: {boneName}");
                 }
-            }
-        }
-
-        public void UpdateTranslation(Vector3 trans) {
-            if(moshCharacter.RenderOptions.AllowPoseManipulation) return;
-
-
-            if (!moshCharacter.RenderOptions.UpdateTranslationLiveY &&
-                !moshCharacter.RenderOptions.UpdateTranslationLiveXZ) 
-                return;
-            
-            Vector3 finalTrans = Vector3.zero;
-            if (moshCharacter.RenderOptions.UpdateTranslationLiveY) {
-                finalTrans.y = trans.y;
+                
                 
             }
-            if (moshCharacter.RenderOptions.UpdateTranslationLiveXZ) {
-                finalTrans.x = trans.x;
-                finalTrans.z = trans.z;
-            }
-            moshCharacter.gameObject.transform.localPosition = finalTrans;
-
-
-
         }
 
+        public void SetTranslation(Vector3 trans) {
+            translation = trans;
+        }
+        
+        void UpdateTranslation() {
+            
+            if(moshCharacter.RenderOptions.AllowPoseManipulation) return;
+            
+            Vector3 finalTrans = Vector3.zero;
+            
+            //height needs to be dealt with separately because of ground-snapping
+            finalTrans.y = moshCharacter.RenderOptions.UpdateTranslationLiveY ? translation.y : firstTranslation.y;
+            if (moshCharacter.RenderOptions.SnapToGroundFirstFrame) finalTrans.y += feetOffset;
+            
+            //Horizontal plane simple enough
+            finalTrans.x = moshCharacter.RenderOptions.UpdateTranslationLiveXZ ? translation.x : firstTranslation.x;
+            finalTrans.z = moshCharacter.RenderOptions.UpdateTranslationLiveXZ ? translation.z : firstTranslation.z;
+            
+            moshCharacter.gameObject.transform.localPosition = finalTrans;
+            
+        }
+
+        void CalculateFeetOffset() {
+            Mesh bakedMesh = new Mesh();
+            skinnedMeshRenderer.BakeMesh(bakedMesh);
+
+            Vector3[] vertices = bakedMesh.vertices;
+
+            float miny = Mathf.Infinity;
+            foreach (Vector3 vertex in vertices) {
+                miny = Mathf.Min(vertex.y, miny);
+            }
+
+
+            Debug.Log($"newPelvisPos = {moshCharacter.Body.pelvisNewLocation.ToString("F4")}");
+            Transform pelvis = skinnedMeshRenderer.bones[model.PelvisIndex];
+            Debug.Log($"miny = {miny}");
+
+            Vector3 worldv = pelvis.parent.TransformPoint(new Vector3(0, miny, 0));
+
+            feetOffset = -worldv.y;//+ moshCharacter.Body.pelvisNewLocation.y;
+
+        }
+        
+        
+        
         [ContextMenu("ResetToTPose")]
         public void ResetToTPose() {
             ResetPoses();
@@ -193,6 +247,14 @@ namespace MoshPlayer.Scripts.SMPLModel {
             float scaledWeight = rawWeight * model.PoseBlendshapeScalingFactor * model.UnityBlendShapeScaleFactor;
             return scaledWeight;
 
+        }
+
+        public void NotifyFirstFrame() {
+            firstFrame = true;
+        }
+
+        public void ForceUpdate() {
+            Update();
         }
     }
     

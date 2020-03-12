@@ -1517,7 +1517,7 @@ GameObject:
   - component: {fileID: 6891566159017520019}
   - component: {fileID: 9148669948084084627}
   m_Layer: 0
-  m_Name: Male SMPLH Character
+  m_Name: SMPLH Character Male
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1553,12 +1553,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gender: 0
   setFeetOnGround: 1
-  options:
+  characterRenderOptions:
     UpdateBodyShapeLive: 0
-    UpdatePosesLive: 1
-    UpdatePoseBlendshapesLive: 1
+    UpdatePosesLive: 0
+    UpdatePoseBlendshapesLive: 0
     AllowPoseManipulation: 0
-  displayOptions:
+    UpdateTranslationLiveY: 0
+    UpdateTranslationLiveXZ: 1
+  characterDisplayOptions:
     DisplayBones: 1
     DisplayPointLights: 1
     MeshDisplayState: 0
@@ -1580,7 +1582,6 @@ MonoBehaviour:
     MeshDisplayOptions:
       Opaque: {fileID: 2100000, guid: 42058d9077f8acf4f81e8b6c5d4917fc, type: 2}
       SemiTransparent: {fileID: 2100000, guid: 390d20f60d542454993698b34318161d, type: 2}
-  settingsMain: {fileID: 11400000, guid: 2313800435c61b84ea16a728169d71c1, type: 2}
   offsetErrorBetweenPelvisAndZero: {x: 0.00217, y: 0.972724, z: 0.028858}
   offsetErrorInFbxBetweenRigAndMesh: {x: 0.00217, y: -0.240791, z: 0.028858}
   combinedOffsets: {x: 0, y: 1.213515, z: 0}
