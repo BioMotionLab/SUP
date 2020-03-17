@@ -758,6 +758,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 3216821332106621278}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1228042995 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8159167210646847327, guid: 6f7d7cab49bbbdf4d9b4252103aaca9e,
+    type: 3}
+  m_PrefabInstance: {fileID: 8159167210457398640}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1410367538 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8159167209525961343, guid: 6f7d7cab49bbbdf4d9b4252103aaca9e,
@@ -776,7 +788,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f0b9a230c693b64ea13904cb6927f0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  filePathDisplay: {fileID: 0}
+  filePathDisplay: {fileID: 1228042995}
   currentAnims: 
 --- !u!4 &1701981297 stripped
 Transform:
@@ -3247,6 +3259,11 @@ PrefabInstance:
     - target: {fileID: 8159167209573399636, guid: 6f7d7cab49bbbdf4d9b4252103aaca9e,
         type: 3}
       propertyPath: ReviewPanel
+      value: 
+      objectReference: {fileID: 1410367541}
+    - target: {fileID: 8159167209573399636, guid: 6f7d7cab49bbbdf4d9b4252103aaca9e,
+        type: 3}
+      propertyPath: reviewPanel
       value: 
       objectReference: {fileID: 1410367541}
     - target: {fileID: 8159167209573399663, guid: 6f7d7cab49bbbdf4d9b4252103aaca9e,
