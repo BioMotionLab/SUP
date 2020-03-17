@@ -27,7 +27,6 @@ public class ReviewPanel : MonoBehaviour {
 
     void AnimationSetChanged(string animations) {
         currentAnims = animations;
-        Debug.Log($"current anim registered: {currentAnims}");
     }
 
     

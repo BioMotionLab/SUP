@@ -44,7 +44,6 @@ namespace MoshPlayer.Scripts.Playback {
         /// Play the animation for both characters at specified position in sequence of files.
         /// </summary>
         void StartAnimation() {
-            Debug.Log($"currentIndex = {currentAnimationIndex}");
             List<MoshAnimation> animationGroup = animationSequence[currentAnimationIndex];
 
             string updateMessage = $"Playing animation set {currentAnimationIndex+1} of {animationSequence.Count}. " +
@@ -58,8 +57,6 @@ namespace MoshPlayer.Scripts.Playback {
             for (int animationIndex = 0; animationIndex < animationGroup.Count; animationIndex++) {
                 MoshAnimation moshAnimation = animationGroup[animationIndex];
                 moshAnimation.Reset();
-                
-                Debug.Log($"Animation name {moshAnimation.AnimationName}");
                 animationStrings += moshAnimation.AnimationName + " ";
                 
                 string characterName = $"{moshAnimation.Gender} Character {animationIndex}";
@@ -68,7 +65,6 @@ namespace MoshPlayer.Scripts.Playback {
                 newCharacters.Add(moshCharacter);
                 moshCharacter.StartAnimation(moshAnimation, playbackOptions, displayOptions, renderOptions);
             }
-            Debug.Log($"animationStrings {animationStrings}");
             PlaybackEventSystem.PlayingNewAnimationSet(animationStrings.Trim());
             
             currentCharacters = newCharacters;
@@ -97,6 +93,7 @@ namespace MoshPlayer.Scripts.Playback {
         }
 
         public void RestartAnimations() {
+            Debug.Log("Restarting All Animations");
             currentAnimationIndex = 0;
             StopCurrentAnimations();
             StartAnimation();

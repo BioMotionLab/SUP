@@ -43,7 +43,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
 
         public CharacterDisplayOptions DisplayOptions => characterDisplayOptions;
         public Gender Gender => gender;
-        public IndividualizedBody Body => moshAnimation.Body;
+        public IndividualizedBody Body => moshAnimation?.Body;
 
 
         [FormerlySerializedAs("OffsetErrorBetweenPelvisAndZero")]

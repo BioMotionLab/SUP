@@ -56,7 +56,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
 		void OnDisable() {
 			PlaybackEventSystem.OnNextAnimation -= GoToNextAnimation;
 			PlaybackEventSystem.OnPreviousAnimation -= GoToPrevAnimation;
-			PlaybackEventSystem.OnPreviousAnimation -= GoToPrevAnimation;
+			PlaybackEventSystem.OnRestartAnimations -= RestartAnimations;
 			PlaybackEventSystem.OnLoadAnimations -= LoadAnimations;
 			
 			PlaybackEventSystem.OnMeshDisplayStateChanged -= MeshDisplayStateChanged;
@@ -121,7 +121,6 @@ namespace MoshPlayer.Scripts.SMPLModel {
 		}
 		
 		void RestartAnimations() {
-			
 			if (moshAnimationPlayer == null) return;
 			
 			if (!started) {

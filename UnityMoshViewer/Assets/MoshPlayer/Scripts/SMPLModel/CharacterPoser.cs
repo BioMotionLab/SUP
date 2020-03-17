@@ -1,8 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Data.Common;
-using System.Runtime.CompilerServices;
-using JetBrains.Annotations;
 using MoshPlayer.Scripts.Utilities;
 using UnityEngine;
 
@@ -81,8 +78,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
             }
             
         }
-
-
+        
         Quaternion[] GatherPosesFromBones() {
             Quaternion[] currentPoses = new Quaternion[model.JointCount];
             for (int boneIndex = 0; boneIndex < skinnedMeshRenderer.bones.Length; boneIndex++) {
@@ -128,7 +124,6 @@ namespace MoshPlayer.Scripts.SMPLModel {
                     throw new KeyNotFoundException($"Bone Not in dictionary: boneIndex: {boneIndex}, animationName: {boneName}");
                 }
                 
-                
             }
         }
 
@@ -164,12 +159,9 @@ namespace MoshPlayer.Scripts.SMPLModel {
             foreach (Vector3 vertex in vertices) {
                 miny = Mathf.Min(vertex.y, miny);
             }
-
-
-            Debug.Log($"newPelvisPos = {moshCharacter.Body.pelvisNewLocation.ToString("F4")}");
+            
             Transform pelvis = skinnedMeshRenderer.bones[model.PelvisIndex];
-            Debug.Log($"miny = {miny}");
-
+            
             Vector3 worldv = pelvis.parent.TransformPoint(new Vector3(0, miny, 0));
 
             feetOffset = -worldv.y;//+ moshCharacter.Body.pelvisNewLocation.y;
