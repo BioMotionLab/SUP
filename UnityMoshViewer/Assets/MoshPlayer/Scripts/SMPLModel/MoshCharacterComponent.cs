@@ -12,81 +12,50 @@ namespace MoshPlayer.Scripts.SMPLModel {
     /// </summary>
     [SelectionBase]
     public class MoshCharacterComponent : MonoBehaviour, MoshCharacter {
-    
-        MoshAnimation moshAnimation;
-        Mesh          smplMeshClone;
-        SkinnedMeshRenderer skinnedMeshRenderer;
-        MoshMesh moshMesh;
-
+        
         [SerializeField]
-        // ReSharper disable once InconsistentNaming
         Gender gender = default;
+        public Gender Gender => gender;
 
-        
         [SerializeField]
-        // ReSharper disable once InconsistentNaming
-        public bool setFeetOnGround = default;
-        
-        [FormerlySerializedAs("CharacterRenderOptions")]
-        [FormerlySerializedAs("characterOptions")]
-        [FormerlySerializedAs("renderOptions")]
-        [SerializeField]
-        // ReSharper disable once InconsistentNaming
         CharacterRenderOptions characterRenderOptions = default;
-        
         public CharacterRenderOptions RenderOptions => characterRenderOptions;
         
-        [FormerlySerializedAs("displayOptions")]
         [SerializeField]
-        // ReSharper disable once InconsistentNaming
         CharacterDisplayOptions characterDisplayOptions = default;
-
         public CharacterDisplayOptions DisplayOptions => characterDisplayOptions;
-        public Gender Gender => gender;
-        public IndividualizedBody Body => moshAnimation?.Body;
-
-
-        [FormerlySerializedAs("OffsetErrorBetweenPelvisAndZero")]
+        
         [SerializeField]
-        //new Vector3(.00217f,0.972724f,0.02858f);
-        // ReSharper disable once InconsistentNaming
         Vector3 offsetErrorBetweenPelvisAndZero = default;
-
         public Vector3 OffsetErrorBetweenPelvisAndZero => offsetErrorBetweenPelvisAndZero;
 
-        [FormerlySerializedAs("OffsetErrorInFbxBetweenRigAndMesh")]
         [SerializeField]
-        // ReSharper disable once InconsistentNaming
         Vector3 offsetErrorInFbxBetweenRigAndMesh = default;
-
         public Vector3 OffsetErrorInFbxBetweenRigAndMesh => offsetErrorInFbxBetweenRigAndMesh;
 
         [SerializeField]
-        // ReSharper disable once InconsistentNaming
         Vector3 combinedOffsets = default;
+        public Vector3 CombinedOffset => combinedOffsets;
+        
+        [SerializeField]
+        ModelDefinition model = default;
+        public ModelDefinition Model => model;
+
+
+        public IndividualizedBody Body => moshAnimation?.Body;
+
+        Mesh originalMesh;
+        MoshAnimation moshAnimation;
+        MoshMesh moshMesh;
+        
+        SkinnedMeshRenderer skinnedMeshRenderer;
+        public SkinnedMeshRenderer SkinnedMeshRender => skinnedMeshRenderer;
+
+        CharacterEvents events;
+        public CharacterEvents Events => events ?? (events = new CharacterEvents());
 
         void OnValidate() {
             combinedOffsets = offsetErrorBetweenPelvisAndZero - offsetErrorInFbxBetweenRigAndMesh;
-        }
-
-        public Vector3 CombinedOffset => combinedOffsets;
-
-        Mesh originalMesh;
-        
-        [SerializeField]
-        // ReSharper disable once InconsistentNaming
-        ModelDefinition model = default;
-        public ModelDefinition Model => model;
-        
-        // ReSharper disable once ConvertToAutoPropertyWithPrivateSetter
-        public SkinnedMeshRenderer SkinnedMeshRender => skinnedMeshRenderer;
-        CharacterEvents events;
-
-        public CharacterEvents Events {
-            get {
-                if (events == null) events = new CharacterEvents();
-                return events;
-            }
         }
 
         void OnEnable() {
@@ -96,9 +65,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
             
             //Create clone of mesh so original is not affected by any of our fiddling
             originalMesh = skinnedMeshRenderer.sharedMesh;
-            skinnedMeshRenderer.sharedMesh = Instantiate( skinnedMeshRenderer.sharedMesh);
-
-    
+            skinnedMeshRenderer.sharedMesh = Instantiate( originalMesh);
         }
 
         void OnDestroy() {
@@ -111,9 +78,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
         /// JL: this seems weird. 
         /// </summary>
         void RotateToUnityCoordinates() {
-            
             transform.Rotate(-90f, 0f, 0f);
-            
         }
     
         /// <summary>
