@@ -1,6 +1,7 @@
 # Imports
 import numpy as np
 import json
+import sys
 # noinspection PyPep8Naming
 from scipy.spatial.transform import Rotation
 
@@ -97,3 +98,13 @@ class AMASSDataToJSON:
         except Exception:
             print(f'Could not read {self.npzFile}! Skipping...')
 
+
+def main():
+    if len(sys.argv) != 3:
+        print("Not the right number of arguments. first should be source npz file path, second should be destination json path.")
+        return
+    converter = AMASSDataToJSON(sys.argv[1])
+    converter.write_to_json(sys.argv[2])
+
+if __name__ == "__main__":
+    main()
