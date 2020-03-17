@@ -1,38 +1,36 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using JetBrains.Annotations;
-using MoshPlayer.Scripts.Playback;
 using TMPro;
 using UnityEngine;
 
-public class SaveNoteButton : MonoBehaviour {
+namespace MoshPlayer.AnimationReviewer {
+    public class SaveNoteButton : MonoBehaviour {
 
-    [SerializeField]
-    ReviewPanel ReviewPanel = default;
+        [SerializeField]
+        ReviewPanel reviewPanel = default;
 
-    [SerializeField]
-    TMP_InputField noteText = default;
+        [SerializeField]
+        TMP_InputField noteText = default;
     
     
-    [PublicAPI]
-    public void SaveNoteToFile() {
-        string note = noteText.text;
-        string newLine = ReviewPanel.CurrentAnims + "," + note + "\n";
+        [PublicAPI]
+        public void SaveNoteToFile() {
+            string note = noteText.text;
+            string newLine = reviewPanel.CurrentAnims + "," + note + "\n";
         
-        Debug.Log(note);
-        if (string.IsNullOrWhiteSpace(note)) return;
+            Debug.Log(note);
+            if (string.IsNullOrWhiteSpace(note)) return;
         
-        if (string.IsNullOrWhiteSpace(ReviewPanel.CurrentAnims)) Debug.LogWarning("Review pane could not gather current anims");
+            if (string.IsNullOrWhiteSpace(reviewPanel.CurrentAnims)) Debug.LogWarning("Review pane could not gather current anims");
         
-        if (File.Exists(ReviewPanel.ReviewFilePath)) {
+            if (File.Exists(reviewPanel.ReviewFilePath)) {
             
-            File.AppendAllText(ReviewPanel.ReviewFilePath, newLine);
-        }
-        else {
-            noteText.text = "NO REVIEW FILE FOUND";
-        }
+                File.AppendAllText(reviewPanel.ReviewFilePath, newLine);
+            }
+            else {
+                noteText.text = "NO REVIEW FILE FOUND";
+            }
 
+        }
     }
 }

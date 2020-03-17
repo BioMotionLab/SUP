@@ -10,7 +10,7 @@ namespace MoshPlayer.Scripts.FileLoaders {
     /// Reads the regressor JSON file and loads it into Unity-Compatible formats.
     /// File should contain a Joint template and Joint regressor to fit formula
     /// JointLocations = JointTemplate + JointRegressor * Betas
-    /// I wrote a pythong script included in the github repository to extract the necessary matricies
+    /// I wrote a python script included in the github repository to extract the necessary matrices
     /// from the model.npz files provided by MPI
     /// </summary>
     public class SMPLHRegressorFromJSON {
@@ -73,7 +73,7 @@ namespace MoshPlayer.Scripts.FileLoaders {
         void LoadJointRegressor(JSONNode regressorJSONNode) {
             JSONNode regressorNode = regressorJSONNode[JointRegressorJSONKey];
 
-            //joint jointRegressor stored as 52x3x16 jointTemplate, need to decompose into 3 separate 52x16 matricies.
+            //joint jointRegressor stored as 52x3x16 jointTemplate, need to decompose into 3 separate 52x16 matrices.
             double[,] jointRegressorX = new double[SMPLHJointCount, SMPLHBetaCount];
             double[,] jointRegressorY = new double[SMPLHJointCount, SMPLHBetaCount];
             double[,] jointRegressorZ = new double[SMPLHJointCount, SMPLHBetaCount];

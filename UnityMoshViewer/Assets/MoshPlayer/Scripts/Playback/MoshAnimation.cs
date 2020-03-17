@@ -13,9 +13,10 @@ namespace MoshPlayer.Scripts.Playback {
         public Gender Gender { get; }
         public bool Finished => playback.Finished;
 
+        // ReSharper disable once ConvertToAutoProperty
         public IndividualizedBody Body {
             get => individualizedBody;
-            set => individualizedBody = value;
+            private set => individualizedBody = value;
         }
 
         IndividualizedBody individualizedBody;
@@ -57,7 +58,7 @@ namespace MoshPlayer.Scripts.Playback {
             playback = new Playback(sourceTotalFrameCount, sourceFPS, playbackOptions, animationControlEvents);
         }
 
-        public void AttachSkin(SkinnedMeshRenderer skinnedMeshRendererToAttach, PlaybackOptions playbackOptions) {
+        public void AttachSkin(SkinnedMeshRenderer skinnedMeshRendererToAttach) {
             Reset();
             SkinnedMeshRenderer meshRenderer = skinnedMeshRendererToAttach;
             
@@ -110,7 +111,7 @@ namespace MoshPlayer.Scripts.Playback {
         Vector3 GetTranslationAtFrame(ResampledFrame resampledFrame) {
             if (resampledFrame.IsFirstFrame) return translations[0];
             
-            //Debug.Log($"finished: {Finished} FrameINdex {resampledFrame.FrameBeforeThis} count: {translations.Length}");
+            //Debug.Log($"finished: {Finished} FrameIndex {resampledFrame.FrameBeforeThis} count: {translations.Length}");
             Vector3 translationAtFrameBeforeThis = translations[resampledFrame.FrameBeforeThis];
             
             if (resampledFrame.IsLastFrame) return translationAtFrameBeforeThis;

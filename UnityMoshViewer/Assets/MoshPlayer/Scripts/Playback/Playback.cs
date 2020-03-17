@@ -4,7 +4,6 @@ using UnityEngine;
 namespace MoshPlayer.Scripts.Playback {
     public class Playback {
         
-        readonly int   sourceFPS;
         readonly int   sourceTotalFrameCount;
         readonly float sourceDuration;
         
@@ -22,15 +21,15 @@ namespace MoshPlayer.Scripts.Playback {
 
         public Playback(int sourceTotalFrameCount,
                         int sourceFPS, PlaybackOptions playbackOptions, AnimationControlEvents animationControlEvents) {
-            this.sourceFPS = sourceFPS;
-            if (sourceFPS <= 0) {
-                this.sourceFPS = 60;
+            int actualFPS = sourceFPS;
+            if (actualFPS <= 0) {
+                actualFPS = 60;
                 Debug.Log("Defaulting fps");
             }
 
             this.sourceTotalFrameCount = sourceTotalFrameCount;
             this.playbackOptions = playbackOptions;
-            sourceDuration = this.sourceTotalFrameCount / (float) this.sourceFPS;
+            sourceDuration = this.sourceTotalFrameCount / (float) actualFPS;
 
             PlaybackEventSystem.OnPauseToggleEvent += TogglePause;
             PlaybackEventSystem.OnBroadcastDisplaySpeed += UpdatePlaybackSpeed;

@@ -243,11 +243,6 @@ namespace MoshPlayer.Scripts.SMPLModel {
             }
         }
 
-        public static bool IsFootBone(Transform bone) {
-            string boneName = bone.name;
-            return boneName == LeftFoot || boneName == RightFoot;
-        }
-
         /// <summary>
         /// Sets bone positions to given array.
         /// Position of bones must be adjusted carefully, since moving a parent after setting the child's

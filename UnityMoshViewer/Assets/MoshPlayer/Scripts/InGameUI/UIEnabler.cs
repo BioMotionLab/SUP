@@ -1,48 +1,52 @@
-﻿
-using MoshPlayer.Scripts.Playback;
+﻿using MoshPlayer.Scripts.Playback;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-public class UIEnabler : MonoBehaviour {
+namespace MoshPlayer.Scripts.InGameUI {
+    public class UIEnabler : MonoBehaviour {
 
-    [SerializeField]
-    GameObject PlaybackCanvas = default;
+        [FormerlySerializedAs("PlaybackCanvas")] 
+        [SerializeField]
+        GameObject playbackCanvas = default;
 
-    [SerializeField]
-    GameObject AnimationControls = default;
+        [FormerlySerializedAs("AnimationControls")] 
+        [SerializeField]
+        GameObject animationControls = default;
+        
+        [FormerlySerializedAs("CameraControls")] 
+        [SerializeField]
+        GameObject cameraControls = default;
+        
+        [FormerlySerializedAs("ProgressTextPanel")] 
+        [SerializeField]
+        GameObject progressTextPanel = default;
 
-    
-    [SerializeField]
-    GameObject CameraControls = default;
+        void OnEnable() {
+            PlaybackEventSystem.OnDoneLoadingAnimations += ActivatePlaybackUi;
+            PlaybackEventSystem.OnLoadAnimations += ActivateProgressText;
+        }
 
-    
-    [SerializeField]
-    GameObject ProgressTextPanel = default;
+        void OnDisable() {
+            PlaybackEventSystem.OnLoadAnimations -= ActivateProgressText;
+            PlaybackEventSystem.OnDoneLoadingAnimations -= ActivatePlaybackUi;
+        }
 
-    void OnEnable() {
-        PlaybackEventSystem.OnDoneLoadingAnimations += ActivatePlaybackUi;
-        PlaybackEventSystem.OnLoadAnimations += ActivateProgressText;
-    }
+        void Start()
+        {
+            playbackCanvas.SetActive(false);
+            animationControls.SetActive(false);
+            progressTextPanel.SetActive(false);
+            cameraControls.SetActive(false);
+        }
 
-    void OnDisable() {
-        PlaybackEventSystem.OnLoadAnimations -= ActivateProgressText;
-        PlaybackEventSystem.OnDoneLoadingAnimations -= ActivatePlaybackUi;
-    }
+        void ActivateProgressText(string unused, string unused2) {
+            progressTextPanel.SetActive(true);
+        }
 
-    void Start()
-    {
-        PlaybackCanvas.SetActive(false);
-        AnimationControls.SetActive(false);
-        ProgressTextPanel.SetActive(false);
-        CameraControls.SetActive(false);
-    }
-
-    void ActivateProgressText(string unused, string unused2) {
-        ProgressTextPanel.SetActive(true);
-    }
-
-    void ActivatePlaybackUi() {
-        PlaybackCanvas.SetActive(true);
-        AnimationControls.SetActive(true);
-        CameraControls.SetActive(true);
+        void ActivatePlaybackUi() {
+            playbackCanvas.SetActive(true);
+            animationControls.SetActive(true);
+            cameraControls.SetActive(true);
+        }
     }
 }

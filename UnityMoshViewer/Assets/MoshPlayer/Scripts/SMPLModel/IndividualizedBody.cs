@@ -172,31 +172,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
         Vector3 CorrectMeshToRigOffset(Vector3 vertex) {
             return vertex - moshCharacter.CombinedOffset;
         }
-
-        /// <summary>
-        /// Since the bones are being moved, Unity deforms the mesh automatically to
-        /// compensate for these changes using linear blend skinning.
-        /// This presents a problem since the blendshapes are computed relative to the average body.
-        /// We need to undo this automatic linear blend skinning by applying a correction.
-        ///
-        /// The body shape blendshapes (betas) were calculated as deformations to the average mesh,
-        /// not the new bone-deformed mesh. That is why this is necessary.
-        /// </summary>
-        static Vector3  AccountForUnwantedLinearBlendSkinning(Vector3 vertex, Vector3 bakedVertex, Vector3 averageVertex) {
-            
-            //Use This to output the correct values for combined offset error, if needed.
-            //Ensure everything is set to zero first (mesh root, gameObject root, pelvis, etc.
-            //var combinedErrorValue = averageVertex - bakedVertex;
-            //Debug.Log(combinedErrorValue.ToString("f8"));
-            
-            
-            // this is heavily optimized to reduce frame rate lag caused by garbage collection.
-            // averageVertex-bakedVertex is the deformation caused by LBS, we're adding it back on.
-            return vertex + averageVertex - bakedVertex;
-           
-        }
-
-
+        
         /// <summary>
         /// Used to move pelvis upwards to plant feet on ground based on the lowest Y vertex in the Mesh.
         /// </summary>
@@ -209,9 +185,6 @@ namespace MoshPlayer.Scripts.SMPLModel {
             pelvis.localPosition = offsetFromGroundVector;
         }
 
-   
-        
-        
         void SetBindPoses()
         {
             Matrix4x4[] bindPoses = skinnedMeshRenderer.sharedMesh.bindposes;

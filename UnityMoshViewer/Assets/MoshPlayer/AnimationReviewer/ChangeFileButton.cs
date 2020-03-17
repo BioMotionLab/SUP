@@ -1,38 +1,37 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using JetBrains.Annotations;
 using MoshPlayer.ThirdParty.StandaloneFileBrowser;
 using UnityEngine;
 
-public class ChangeFileButton : MonoBehaviour
-{
-    ReviewPanel reviewPanel;
+namespace MoshPlayer.AnimationReviewer {
+    public class ChangeFileButton : MonoBehaviour
+    {
+        ReviewPanel reviewPanel;
 
-    void Awake() {
-        reviewPanel = GetComponentInParent<ReviewPanel>();
-    }
-
-
-    [PublicAPI]
-    public void SelectFile() {
-        string[] file = StandaloneFileBrowser.OpenFilePanel("Open File", "", "", false);
-        reviewPanel.FileSelected(file);
-    }
-
-    public void CreateFile() {
-        string file = StandaloneFileBrowser.SaveFilePanel("Create New File", "", "review", "txt");
-        
-        if (string.IsNullOrEmpty(file)) {
-            Debug.LogWarning("empty file given");
-            return;
+        void Awake() {
+            reviewPanel = GetComponentInParent<ReviewPanel>();
         }
-        
-        using(StreamWriter sw = File.AppendText(file))
-        {
-            sw.WriteLine("Animations, Note");
+
+
+        [PublicAPI]
+        public void SelectFile() {
+            string[] file = StandaloneFileBrowser.OpenFilePanel("Open File", "", "", false);
+            reviewPanel.FileSelected(file);
         }
-        reviewPanel.FileSelected(file);
+
+        public void CreateFile() {
+            string file = StandaloneFileBrowser.SaveFilePanel("Create New File", "", "review", "txt");
+        
+            if (string.IsNullOrEmpty(file)) {
+                Debug.LogWarning("empty file given");
+                return;
+            }
+        
+            using(StreamWriter sw = File.AppendText(file))
+            {
+                sw.WriteLine("Animations, Note");
+            }
+            reviewPanel.FileSelected(file);
+        }
     }
 }

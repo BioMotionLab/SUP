@@ -10,11 +10,8 @@ namespace MoshPlayer.Scripts.SMPLModel {
     public class CharacterPoser : MonoBehaviour {
 
         SkinnedMeshRenderer skinnedMeshRenderer;
-        Vector3[]           tPoseVertexes;
         Transform[]         bones;
         ModelDefinition     model;
-        
-        Quaternion[]        currentTempPoses;
         MoshCharacter       moshCharacter;
         Quaternion[] poses;
         float feetOffset = 0;
@@ -31,7 +28,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
 
             skinnedMeshRenderer = GetComponent<SkinnedMeshRenderer>();
             if (skinnedMeshRenderer == null)
-                throw new NullReferenceException("Not attached to object with a skinnedMeshrenderer");
+                throw new NullReferenceException("Not attached to object with a skinnedMeshRenderer");
 
             bones = skinnedMeshRenderer.bones;
             
@@ -81,8 +78,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
         
         Quaternion[] GatherPosesFromBones() {
             Quaternion[] currentPoses = new Quaternion[model.JointCount];
-            for (int boneIndex = 0; boneIndex < skinnedMeshRenderer.bones.Length; boneIndex++) {
-                Transform bone = skinnedMeshRenderer.bones[boneIndex];
+            foreach (Transform bone in skinnedMeshRenderer.bones) {
                 int poseIndex = Bones.NameToJointIndex[bone.name];
                 currentPoses[poseIndex] = bone.localRotation;
             }
@@ -161,10 +157,9 @@ namespace MoshPlayer.Scripts.SMPLModel {
             }
             
             Transform pelvis = skinnedMeshRenderer.bones[model.PelvisIndex];
-            
-            Vector3 worldv = pelvis.parent.TransformPoint(new Vector3(0, miny, 0));
+            Vector3 worldVector = pelvis.parent.TransformPoint(new Vector3(0, miny, 0));
 
-            feetOffset = -worldv.y;//+ moshCharacter.Body.pelvisNewLocation.y;
+            feetOffset = -worldVector.y;//+ moshCharacter.Body.pelvisNewLocation.y;
 
         }
         
@@ -177,7 +172,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
         }
 
         void ResetPoses() {
-            foreach (var bone in bones) {
+            foreach (Transform bone in bones) {
                 bone.rotation = Quaternion.identity;
             }
         }

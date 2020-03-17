@@ -1,4 +1,5 @@
 using System;
+// ReSharper disable InconsistentNaming
 
 namespace MoshPlayer.Scripts.Playback {
     [Serializable]
@@ -7,7 +8,6 @@ namespace MoshPlayer.Scripts.Playback {
         public bool PlayBackwards = false;
         public int FallbackFPS = 120;
         
-        //TODO Loop
         public bool Loop;
     }
 }

@@ -1,31 +1,30 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using JetBrains.Annotations;
+﻿using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class ShowHidePanelButton : MonoBehaviour {
+namespace MoshPlayer.AnimationReviewer {
+    public class ShowHidePanelButton : MonoBehaviour {
 
-    [FormerlySerializedAs("ReviewPanel")]
-    [SerializeField]
-    GameObject LinkedPanel = default;
+        [FormerlySerializedAs("ReviewPanel")]
+        [FormerlySerializedAs("LinkedPanel")]
+        [SerializeField]
+        GameObject linkedPanel = default;
+        
+        [SerializeField]
+        bool startEnabled = default;
 
-    [FormerlySerializedAs("startEnabled")]
-    [SerializeField]
-    bool StartEnabled = default;
+        public void OnEnable() {
+            SetState(startEnabled);
+        }
 
-    public void OnEnable() {
-        SetState(StartEnabled);
+        [PublicAPI]
+        public void ToggleShow() {
+            SetState(!linkedPanel.activeSelf);
+        }
+
+        void SetState(bool state) {
+            linkedPanel.SetActive(state);
+        }
+
     }
-
-    [PublicAPI]
-    public void ToggleShow() {
-        SetState(!LinkedPanel.activeSelf);
-    }
-
-    void SetState(bool state) {
-        LinkedPanel.SetActive(state);
-    }
-
 }

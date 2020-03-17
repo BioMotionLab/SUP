@@ -27,8 +27,9 @@ namespace MoshPlayer.Scripts.Display {
             this.displaySettings = displaySettings;
             this.pointLightDisplay = pointLightDisplay;
             name = $"PointLight for {bone.name}";
-            transform.localPosition = Vector3.zero;
-            transform.localScale = new Vector3(displaySettings.PointLightDisplaySize,
+            var cachedTransform = transform;
+            cachedTransform.localPosition = Vector3.zero;
+            cachedTransform.localScale = new Vector3(displaySettings.PointLightDisplaySize,
                                              displaySettings.PointLightDisplaySize,
                                              displaySettings.PointLightDisplaySize);
             

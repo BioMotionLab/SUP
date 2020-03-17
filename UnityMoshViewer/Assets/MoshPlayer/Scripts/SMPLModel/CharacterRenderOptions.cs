@@ -2,6 +2,7 @@ using System;
 using MoshPlayer.Scripts.Display;
 using UnityEngine;
 using UnityEngine.Serialization;
+// ReSharper disable InconsistentNaming
 
 namespace MoshPlayer.Scripts.SMPLModel {
 
@@ -33,7 +34,6 @@ namespace MoshPlayer.Scripts.SMPLModel {
     public class PointLightDisplayOptions {
         public float PointLightDisplaySize = 0.02f;
         public bool DrawSidesDifferentColors;
-        public Material NoSideMaterial;
         public Material LeftSideMaterial;
         public Material RightSideMaterial;
     }

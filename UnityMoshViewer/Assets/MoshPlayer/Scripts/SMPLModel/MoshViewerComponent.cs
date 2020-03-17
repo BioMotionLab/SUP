@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using JetBrains.Annotations;
 using MoshPlayer.Scripts.Display;
 using MoshPlayer.Scripts.Playback;
 using UnityEngine;
@@ -9,15 +7,15 @@ using UnityEngine.Serialization;
 
 namespace MoshPlayer.Scripts.SMPLModel {
 	public class MoshViewerComponent : MonoBehaviour {
+		[FormerlySerializedAs("Models")]
 		[FormerlySerializedAs("SettingsMain")]
 		[SerializeField]
-		Models Models = default;
+		Models models = default;
 
 		MoshAnimationPlayer moshAnimationPlayer;
 
-		[FormerlySerializedAs("playbackOptions")]
-		[SerializeField]
-		PlaybackOptions PlaybackOptions = default;
+		[FormerlySerializedAs("PlaybackOptions")] [SerializeField]
+		PlaybackOptions playbackOptions = default;
 
 		[FormerlySerializedAs("characterRenderRenderOptions")]
 		[FormerlySerializedAs("CharacterRenderRenderOptions")]
@@ -76,13 +74,13 @@ namespace MoshPlayer.Scripts.SMPLModel {
 			if (!File.Exists(listFile)) throw new IOException($"Can't find List of Animations file {listFile}");
 			
 			loader = gameObject.AddComponent<AnimationLoader>();
-			loader.Init(listFile, Models, PlaybackOptions, animationsFolder, DoneLoading);
+			loader.Init(listFile, models, playbackOptions, animationsFolder, DoneLoading);
 		}
 
 
 		void DoneLoading(List<List<MoshAnimation>> animationSequence) {
 			doneLoading = true;
-			moshAnimationPlayer = new MoshAnimationPlayer(animationSequence, PlaybackOptions, characterDisplayOptions, characterRenderOptions);
+			moshAnimationPlayer = new MoshAnimationPlayer(animationSequence, playbackOptions, characterDisplayOptions, characterRenderOptions);
 			Destroy(loader);
 		}
 

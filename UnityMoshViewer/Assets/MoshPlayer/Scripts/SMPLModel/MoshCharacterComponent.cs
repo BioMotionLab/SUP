@@ -1,8 +1,6 @@
 ﻿using System;
-using MoshPlayer.Scripts.Display;
 using MoshPlayer.Scripts.Playback;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace MoshPlayer.Scripts.SMPLModel {
     /// <summary>
@@ -92,7 +90,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
             if (model.RotateToUnityCoords) RotateToUnityCoordinates();
         
             gameObject.SetActive(true);
-            moshAnimation.AttachSkin(skinnedMeshRenderer, playbackOptions);
+            moshAnimation.AttachSkin(skinnedMeshRenderer);
             UpdateAnimation();
         }
     

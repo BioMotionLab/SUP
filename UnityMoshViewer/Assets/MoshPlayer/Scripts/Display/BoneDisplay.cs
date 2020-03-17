@@ -1,5 +1,6 @@
 using MoshPlayer.Scripts.SMPLModel;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace MoshPlayer.Scripts.Display {
 
@@ -7,11 +8,10 @@ namespace MoshPlayer.Scripts.Display {
     /// Adapted from https://forum.unity.com/threads/rendering-bones.34863/ 
     /// </summary>
     public class BoneDisplay : MonoBehaviour {
-
-        Transform pelvisBone;
         
         [SerializeField]
-        public BoneLine BonePrefab;
+        [FormerlySerializedAs("BonePrefab")]
+        public BoneLine bonePrefab;
 
         SkinnedMeshRenderer skinnedMeshRenderer;
 
@@ -35,7 +35,7 @@ namespace MoshPlayer.Scripts.Display {
         void CreateBoneDisplays(Transform parent) {
             foreach (Transform child in parent) {
                 if (!Bones.IsBone(child)) continue;
-                BoneLine newBone = Instantiate(BonePrefab, boneDisplayContainer.transform);
+                BoneLine newBone = Instantiate(bonePrefab, boneDisplayContainer.transform);
                 newBone.Init(this, parent, child, BoneDisplayOptions);
                 SetupBones(child);
             }

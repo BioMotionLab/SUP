@@ -8,17 +8,14 @@ using UnityEngine.Serialization;
 namespace MoshPlayer.Scripts.InGameUI {
     public class SelectAnimationsPanel : MonoBehaviour {
 
-        [FormerlySerializedAs("folderText")]
-        [SerializeField]
-        TextMeshProUGUI FolderText = default;
+        [FormerlySerializedAs("FolderText")] [SerializeField]
+        TextMeshProUGUI folderText = default;
 
-        [FormerlySerializedAs("fileText")]
-        [SerializeField]
-        TextMeshProUGUI FileText = default;
+        [FormerlySerializedAs("FileText")] [SerializeField]
+        TextMeshProUGUI fileText = default;
 
-        [FormerlySerializedAs("errorText")]
-        [SerializeField]
-        TextMeshProUGUI ErrorText = default;
+        [FormerlySerializedAs("ErrorText")] [SerializeField]
+        TextMeshProUGUI errorText = default;
 
         string animationsFolder;
         string listFile;
@@ -32,7 +29,7 @@ namespace MoshPlayer.Scripts.InGameUI {
             if (paths.Length == 0) return;
             animationsFolder = paths[0].Replace("\\", "\\\\");
             Debug.Log(animationsFolder);
-            FolderText.text = animationsFolder;
+            folderText.text = animationsFolder;
             folderSelected = true;
         }
 
@@ -41,14 +38,14 @@ namespace MoshPlayer.Scripts.InGameUI {
             string[] file = StandaloneFileBrowser.OpenFilePanel("Open File", "", "", false);
             listFile = file[0].Replace("\\", "\\\\");
             Debug.Log(listFile);
-            FileText.text = listFile;
+            fileText.text = listFile;
             listSelected = true;
         }
 
         [PublicAPI]
         public void LoadAnimations() {
             if (!folderSelected || !listSelected) {
-                ErrorText.text = "Missing list file or animation folder!";
+                errorText.text = "Missing list file or animation folder!";
                 return;
             }
             PlaybackEventSystem.LoadAnimations(listFile, animationsFolder);
