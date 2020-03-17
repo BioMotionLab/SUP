@@ -422,7 +422,7 @@ GameObject:
   - component: {fileID: 1315281579488417444}
   - component: {fileID: 5034181962094594137}
   - component: {fileID: 1552268534529904801}
-  - component: {fileID: 3014476568461022740}
+  - component: {fileID: 4810480864074893655}
   m_Layer: 5
   m_Name: Prev Animation Button
   m_TagString: Untagged
@@ -529,8 +529,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3014476568461022740}
-        m_MethodName: PlayNextAnimation
+      - m_Target: {fileID: 4810480864074893655}
+        m_MethodName: PlayPrevAnimation
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -560,7 +560,7 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
---- !u!114 &3014476568461022740
+--- !u!114 &4810480864074893655
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -569,7 +569,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2058096017961768300}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17690b8d68b555a40816aacbb46c6e60, type: 3}
+  m_Script: {fileID: 11500000, guid: cd66e69b5dfb49ac8f0e11ae14aecabd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &2384220663909276965
