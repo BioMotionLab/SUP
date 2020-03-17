@@ -156,6 +156,14 @@ namespace MoshPlayer.Scripts.Playback {
             OnPreviousAnimation?.Invoke();
         }
 
+        public delegate void RestartAnimationsEvent();
+
+        public static event RestartAnimationsEvent OnRestartAnimations;
+        
+        public static void RestartAnimations() {
+            OnRestartAnimations?.Invoke();
+        }
+
         public delegate void PlayerProgressTextEvent(string text);
 
         public static event PlayerProgressTextEvent OnUpdatePlayerProgress;
@@ -168,15 +176,16 @@ namespace MoshPlayer.Scripts.Playback {
         public delegate void LoadAnimationsEvent(string listFile, string animationsFolder);
 
         public static event LoadAnimationsEvent OnLoadAnimations;
+
         public static void LoadAnimations(string listFile, string animationsFolder) {
             OnLoadAnimations?.Invoke(listFile, animationsFolder);
         }
-        
-        
+
+
         public delegate void DoneLoadingAnimationsEvent();
 
         public static event DoneLoadingAnimationsEvent OnDoneLoadingAnimations;
-        
+
         public static void AnimationsDoneLoading( ){
             OnDoneLoadingAnimations?.Invoke();
         }
@@ -184,16 +193,16 @@ namespace MoshPlayer.Scripts.Playback {
         public delegate void StopAllAnimationsEvent();
 
         public static event StopAllAnimationsEvent OnStopAllAnimations;
-        
+
         public static void StopPlayingAllAnimations() {
             OnStopAllAnimations?.Invoke();
         }
 
 
         public delegate void PlayingNewAnimationSetEvent(string animations);
-        
+
         public static event PlayingNewAnimationSetEvent OnPlayingNewAnimationSet;
-        
+
         public static void PlayingNewAnimationSet(string animations) {
             OnPlayingNewAnimationSet?.Invoke(animations);
         }
@@ -222,6 +231,5 @@ namespace MoshPlayer.Scripts.Playback {
         public static void ChangeUpdateXzTranslation(bool changeUpdateXzTranslation) {
             OnChangeUpdateXzTranslation?.Invoke(changeUpdateXzTranslation);
         }
-        
     }
 }

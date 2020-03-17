@@ -42,6 +42,7 @@
               <e p="PointLightDisplayDropdown.cs" t="Include" />
               <e p="PrevAnimationButton.cs" t="Include" />
               <e p="RenderSelector.cs" t="Include" />
+              <e p="RestartAnimationsButton.cs" t="Include" />
               <e p="SelectAnimationsPanel.cs" t="Include" />
               <e p="UIEnabler.cs" t="Include" />
               <e p="ValueFromSliderDisplay.cs" t="Include" />

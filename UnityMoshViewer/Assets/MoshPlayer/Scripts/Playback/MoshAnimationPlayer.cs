@@ -95,5 +95,11 @@ namespace MoshPlayer.Scripts.Playback {
             StopCurrentAnimations();
             StartAnimation();
         }
+
+        public void RestartAnimations() {
+            currentAnimationIndex = 0;
+            StopCurrentAnimations();
+            StartAnimation();
+        }
     }
 }

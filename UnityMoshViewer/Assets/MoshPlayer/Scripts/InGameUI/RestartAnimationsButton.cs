@@ -3,12 +3,11 @@ using MoshPlayer.Scripts.Playback;
 using UnityEngine;
 
 namespace MoshPlayer.Scripts.InGameUI {
-    
-    public class PrevAnimationButton : MonoBehaviour
+    public class RestartAnimationsButton : MonoBehaviour
     {
         [PublicAPI]
-        public void PlayPreviousAnimation() {
-            PlaybackEventSystem.GoToPreviousAnimation();
+        public void RestartAnimations() {
+            PlaybackEventSystem.RestartAnimations();
         }
     }
 }
