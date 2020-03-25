@@ -25,7 +25,8 @@ class AMASSDataToJSON:
     poses_as_quaternion: np.ndarray
 
     # Constructor for class
-    def __init__(self, npz_file_path: str):
+    def __init__(self, npz_file_path: str, show_messages=True):
+        self.show_messages = show_messages
         self.npzFile = npz_file_path
 
         # Load npz file
@@ -82,12 +83,13 @@ class AMASSDataToJSON:
         self.dmpls = self.data['dmpls']
         self.trans = self.data['trans']
         self.frames = self.poses.shape[0]
-        print(f'gender: {self.gender}')
-        print(f'betas: {self.betas.shape}')
-        print(f'poses: {self.poses.shape}')
-        print(f'dmpls: {self.dmpls.shape}')
-        print(f'trans: {self.trans.shape}')
-        print(f'frames detected: {self.frames}')
+        if self.show_messages:
+            print(f'gender: {self.gender}')
+            print(f'betas: {self.betas.shape}')
+            print(f'poses: {self.poses.shape}')
+            print(f'dmpls: {self.dmpls.shape}')
+            print(f'trans: {self.trans.shape}')
+            print(f'frames detected: {self.frames}')
 
     # Loads npz file into data structure
     def load_data(self):
@@ -101,10 +103,12 @@ class AMASSDataToJSON:
 
 def main():
     if len(sys.argv) != 3:
-        print("Not the right number of arguments. first should be source npz file path, second should be destination json path.")
+        print("Not the right number of arguments. First should be source npz file path, second should be destination "
+              "json path.")
         return
     converter = AMASSDataToJSON(sys.argv[1])
     converter.write_to_json(sys.argv[2])
+
 
 if __name__ == "__main__":
     main()
