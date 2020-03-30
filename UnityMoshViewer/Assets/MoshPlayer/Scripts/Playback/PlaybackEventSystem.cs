@@ -181,6 +181,13 @@ namespace MoshPlayer.Scripts.Playback {
             OnLoadAnimations?.Invoke(listFile, animationsFolder);
         }
 
+        public delegate void LoadSingleAnimationEvent(string singleFile);
+
+        public static event LoadSingleAnimationEvent OnLoadSingleAnimation;
+
+        public static void LoadSingleAnimation(string singleFile) {
+            OnLoadSingleAnimation?.Invoke(singleFile);
+        }
 
         public delegate void DoneLoadingAnimationsEvent();
 
@@ -231,5 +238,7 @@ namespace MoshPlayer.Scripts.Playback {
         public static void ChangeUpdateXzTranslation(bool changeUpdateXzTranslation) {
             OnChangeUpdateXzTranslation?.Invoke(changeUpdateXzTranslation);
         }
+
+       
     }
 }

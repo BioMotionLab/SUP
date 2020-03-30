@@ -36,6 +36,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
 			PlaybackEventSystem.OnPreviousAnimation += GoToPrevAnimation;
 			PlaybackEventSystem.OnRestartAnimations += RestartAnimations;
 			PlaybackEventSystem.OnLoadAnimations += LoadAnimations;
+			PlaybackEventSystem.OnLoadSingleAnimation += LoadSingleAnimation;
 			
 			PlaybackEventSystem.OnMeshDisplayStateChanged += MeshDisplayStateChanged;
 			PlaybackEventSystem.OnBoneDisplayStateChanged += BoneDisplayStateChanged;
@@ -51,11 +52,13 @@ namespace MoshPlayer.Scripts.SMPLModel {
 
 	
 
+
 		void OnDisable() {
 			PlaybackEventSystem.OnNextAnimation -= GoToNextAnimation;
 			PlaybackEventSystem.OnPreviousAnimation -= GoToPrevAnimation;
 			PlaybackEventSystem.OnRestartAnimations -= RestartAnimations;
 			PlaybackEventSystem.OnLoadAnimations -= LoadAnimations;
+			PlaybackEventSystem.OnLoadSingleAnimation -= LoadSingleAnimation;
 			
 			PlaybackEventSystem.OnMeshDisplayStateChanged -= MeshDisplayStateChanged;
 			PlaybackEventSystem.OnBoneDisplayStateChanged -= BoneDisplayStateChanged;
@@ -77,7 +80,13 @@ namespace MoshPlayer.Scripts.SMPLModel {
 			loader.Init(listFile, models, playbackOptions, animationsFolder, DoneLoading);
 		}
 
-
+		void LoadSingleAnimation(string singlefile) {
+			if (!File.Exists(singlefile)) throw new IOException($"Can't find Animation file {singlefile}");
+			loader = gameObject.AddComponent<AnimationLoader>();
+			loader.Init(singlefile, models, playbackOptions, DoneLoading);
+		}
+		
+		
 		void DoneLoading(List<List<MoshAnimation>> animationSequence) {
 			doneLoading = true;
 			moshAnimationPlayer = new MoshAnimationPlayer(animationSequence, playbackOptions, characterDisplayOptions, characterRenderOptions);

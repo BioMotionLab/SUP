@@ -11,9 +11,15 @@ namespace MoshPlayer.Scripts.InGameUI {
         [FormerlySerializedAs("FolderText")] [SerializeField]
         TextMeshProUGUI folderText = default;
 
+        [SerializeField]
+        TextMeshProUGUI singleFileText = default;
+        
         [FormerlySerializedAs("FileText")] [SerializeField]
         TextMeshProUGUI fileText = default;
 
+        [SerializeField]
+        TextMeshProUGUI singleErrorText = default;
+        
         [FormerlySerializedAs("ErrorText")] [SerializeField]
         TextMeshProUGUI errorText = default;
 
@@ -22,7 +28,11 @@ namespace MoshPlayer.Scripts.InGameUI {
 
         bool folderSelected = false;
         bool listSelected   = false;
-    
+        string singleFile;
+        bool singleFileSelected = false;
+        
+
+
         [PublicAPI]
         public void SelectFolder() {
             var paths = StandaloneFileBrowser.OpenFolderPanel("Select Folder", "", false);
@@ -34,12 +44,23 @@ namespace MoshPlayer.Scripts.InGameUI {
         }
 
         [PublicAPI]
-        public void SelectFile() {
+        public void SelectListFile() {
             string[] file = StandaloneFileBrowser.OpenFilePanel("Open File", "", "", false);
             listFile = file[0].Replace("\\", "\\\\");
             Debug.Log(listFile);
             fileText.text = listFile;
             listSelected = true;
+        }
+
+        [PublicAPI]
+        public void SelectSingleFile() {
+            string[] file = StandaloneFileBrowser.OpenFilePanel("Open File", "", "json", false);
+            if (file.Length < 1) return;
+            singleFile = file[0].Replace("\\", "\\\\");
+            Debug.Log(singleFile);
+            singleFileText.text = singleFile;
+            singleErrorText.text = "";
+            singleFileSelected = true;
         }
 
         [PublicAPI]
@@ -49,6 +70,17 @@ namespace MoshPlayer.Scripts.InGameUI {
                 return;
             }
             PlaybackEventSystem.LoadAnimations(listFile, animationsFolder);
+            gameObject.SetActive(false);
+        }
+        
+        
+        [PublicAPI]
+        public void LoadSingleAnimation() {
+            if (!singleFileSelected) {
+                singleErrorText.text = "Missing single file";
+                return;
+            }
+            PlaybackEventSystem.LoadSingleAnimation(singleFile);
             gameObject.SetActive(false);
         }
     

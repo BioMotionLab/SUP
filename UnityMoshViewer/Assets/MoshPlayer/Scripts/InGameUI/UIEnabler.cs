@@ -24,11 +24,13 @@ namespace MoshPlayer.Scripts.InGameUI {
         void OnEnable() {
             PlaybackEventSystem.OnDoneLoadingAnimations += ActivatePlaybackUi;
             PlaybackEventSystem.OnLoadAnimations += ActivateProgressText;
+            PlaybackEventSystem.OnLoadSingleAnimation += ActivateProgressText;
         }
 
         void OnDisable() {
             PlaybackEventSystem.OnLoadAnimations -= ActivateProgressText;
             PlaybackEventSystem.OnDoneLoadingAnimations -= ActivatePlaybackUi;
+            PlaybackEventSystem.OnLoadSingleAnimation -= ActivateProgressText;
         }
 
         void Start()
@@ -40,6 +42,13 @@ namespace MoshPlayer.Scripts.InGameUI {
         }
 
         void ActivateProgressText(string unused, string unused2) {
+            ActivatePanel();
+        }
+        void ActivateProgressText(string unused) {
+            ActivatePanel();
+        }
+
+        void ActivatePanel() {
             progressTextPanel.SetActive(true);
         }
 

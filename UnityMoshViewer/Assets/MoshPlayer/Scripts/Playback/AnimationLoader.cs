@@ -40,6 +40,24 @@ namespace MoshPlayer.Scripts.Playback {
 
             StartCoroutine(LoadAnimations());
         }
+        
+        public void Init(string animationFile, Models models, PlaybackOptions playbackOptions, Action<List<List<MoshAnimation>>> doneAction) {
+            doThisWhenDoneAction = doneAction;
+            this.models = models;
+            this.animFolder = Path.GetDirectoryName(animationFile);
+            this.playbackOptions = playbackOptions;
+
+            animLines = new string[1];
+            animLines[0] = Path.GetFileName(animationFile);
+
+            string updateMessage = $"Loading {animLines.Length} animations from files. If there are a lot, this could take a few seconds...";
+            Debug.Log(updateMessage);
+            PlaybackEventSystem.UpdatePlayerProgress(updateMessage);
+
+            AnimationSequence = new List<List<MoshAnimation>>();
+
+            StartCoroutine(LoadAnimations());
+        }
 
         IEnumerator LoadAnimations() {
             for (int lineIndex = 0; lineIndex < animLines.Length; lineIndex++) {
@@ -108,6 +126,8 @@ namespace MoshPlayer.Scripts.Playback {
             string animText1 = File.ReadAllText(animFilePath);
             return animText1;
         }
+
+      
     }
 
     public class FileMissingFromFolderException : Exception {
