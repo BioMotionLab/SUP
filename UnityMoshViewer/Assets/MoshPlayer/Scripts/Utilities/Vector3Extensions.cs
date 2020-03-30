@@ -6,7 +6,9 @@ namespace MoshPlayer.Scripts.Utilities {
         
         /// <summary>
         /// Converts from Maya Coords to Unity coords
-        /// X axis flipped negative, and z is now forward not up as in Maya.
+        /// X axis flipped negative,
+        /// z axis is now forward not up as in Maya (swap y and z)
+        /// z axis also flipped negative
         /// </summary>
         public static Vector3 ConvertTranslationFromMayaToUnity(this Vector3 rightHanded) {
             float x = -rightHanded.x;
