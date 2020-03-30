@@ -22,6 +22,7 @@ class AMASSDataToJSON:
     dmpls: np.ndarray
     trans: np.ndarray
     frames: int
+    fps: int
     poses_as_quaternion: np.ndarray
 
     # Constructor for class
@@ -46,6 +47,7 @@ class AMASSDataToJSON:
             "poses": self.poses_as_quaternion,
             "betas": self.betas,
             "dmpls": self.dmpls,
+            "fps": self.fps,
         }
 
     # Converts poses from exponential rotation vectors to quaternions
@@ -83,6 +85,8 @@ class AMASSDataToJSON:
         self.dmpls = self.data['dmpls']
         self.trans = self.data['trans']
         self.frames = self.poses.shape[0]
+        print(self.data['mocap_framerate'])
+        self.fps = round(int(np.rint(self.data['mocap_framerate'])))
         if self.show_messages:
             print(f'gender: {self.gender}')
             print(f'betas: {self.betas.shape}')
@@ -90,6 +94,7 @@ class AMASSDataToJSON:
             print(f'dmpls: {self.dmpls.shape}')
             print(f'trans: {self.trans.shape}')
             print(f'frames detected: {self.frames}')
+            print(f'fps: {self.fps}')
 
     # Loads npz file into data structure
     def load_data(self):
