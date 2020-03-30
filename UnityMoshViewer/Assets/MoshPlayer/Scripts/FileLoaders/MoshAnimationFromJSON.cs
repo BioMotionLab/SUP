@@ -76,7 +76,7 @@ namespace MoshPlayer.Scripts.FileLoaders {
             //Debug.Log($"fps: {fps}");
             LoadBetas(betasNode);
             if (fps == 0) {
-                //Debug.Log($"No fps specified, defaulting to {models.FallbackFPS}");
+                Debug.LogWarning($"No fps specified, defaulting to {playbackOptions.FallbackFPS} fps");
                 fps = playbackOptions.FallbackFPS;
             }
             
@@ -112,7 +112,7 @@ namespace MoshPlayer.Scripts.FileLoaders {
         void LoadTranslationFromJoint(JSONNode transNode, int frameIndex) {
             JSONNode thisTranslation = transNode[frameIndex];
             Vector3 translationInMayaCoords = new Vector3(thisTranslation[0], thisTranslation[1], thisTranslation[2]);
-            Vector3 translationInUnityCoords = translationInMayaCoords.ToLeftHanded();
+            Vector3 translationInUnityCoords = translationInMayaCoords.ConvertTranslationFromMayaToUnity();
             translations[frameIndex] = translationInUnityCoords;
         }
 

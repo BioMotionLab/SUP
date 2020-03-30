@@ -6,7 +6,7 @@ namespace MoshPlayer.Scripts.Playback {
     public class PlaybackOptions {
         
         public bool PlayBackwards = false;
-        public int FallbackFPS = 120;
+        public int FallbackFPS = 60;
         
         public bool Loop;
     }

@@ -16,8 +16,8 @@ namespace MoshPlayer.Scripts.SMPLModel {
         Quaternion[] poses;
         float feetOffset = 0;
         bool firstFrame = false;
-        Vector3 translation;
-        Vector3 firstTranslation;
+        public Vector3 translation;
+        public Vector3 firstTranslation;
 
         void OnEnable() {
             moshCharacter = GetComponentInParent<MoshCharacter>();
@@ -125,6 +125,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
 
         public void SetTranslation(Vector3 trans) {
             translation = trans;
+            //Debug.Log($"setting trans: {translation.ToString("F4")}");
         }
         
         void UpdateTranslation() {

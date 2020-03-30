@@ -111,7 +111,6 @@ namespace MoshPlayer.Scripts.Playback {
         Vector3 GetTranslationAtFrame(ResampledFrame resampledFrame) {
             if (resampledFrame.IsFirstFrame) return translations[0];
             
-            //Debug.Log($"finished: {Finished} FrameIndex {resampledFrame.FrameBeforeThis} count: {translations.Length}");
             Vector3 translationAtFrameBeforeThis = translations[resampledFrame.FrameBeforeThis];
             
             if (resampledFrame.IsLastFrame) return translationAtFrameBeforeThis;

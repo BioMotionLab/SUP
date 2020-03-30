@@ -41,7 +41,7 @@ namespace MoshPlayer.Scripts.Playback {
 
         void JumpToFrame(float frame) {
             elapsedTime = (frame / sourceTotalFrameCount) * sourceDuration;
-            Debug.Log($"frame: {frame} Jumped to time {elapsedTime}");
+            //Debug.Log($"frame: {frame} Jumped to time {elapsedTime}");
         }
 
         void UpdatePlaybackSpeed(float updatedPlaybackSpeed) {

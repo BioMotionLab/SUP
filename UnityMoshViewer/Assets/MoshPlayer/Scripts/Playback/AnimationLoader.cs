@@ -46,10 +46,10 @@ namespace MoshPlayer.Scripts.Playback {
                 StringBuilder log = new StringBuilder();
                 string line = animLines[lineIndex];
                 List<MoshAnimation> allAnimationsInThisLine = GetAnimationsFromLine(line);
-                log.Append($"Loaded {lineIndex} of {animLines.Length} (Model:{allAnimationsInThisLine[0].Model.ModelName})");
+                log.Append($"Loaded {lineIndex} of {animLines.Length}");
                 if (allAnimationsInThisLine.Count > 0) {
                     AnimationSequence.Add(allAnimationsInThisLine);
-                    log.Append($", containing animations for {allAnimationsInThisLine.Count} characters");
+                    log.Append($" (Model:{allAnimationsInThisLine[0].Model.ModelName}), containing animations for {allAnimationsInThisLine.Count} characters");
                 }
                 else {
                     log.Append(", which resulted in no successfully loaded animations. Skipping line.");
@@ -87,7 +87,7 @@ namespace MoshPlayer.Scripts.Playback {
                                    $"\n\t\tFolder: {animFolder} ");
                 }
                 catch (FileMissingFromFolderException) {
-                    Debug.Log("Folder exists, but listed file not found inside it." +
+                    Debug.LogError("Folder exists, but listed file not found inside it." +
                         $"\n\t\tFileName: {filename}" +
                         $"\n\t\tFolder: {animFolder} ");
                 }
