@@ -11,7 +11,7 @@ namespace MoshPlayer.Scripts.Utilities {
         public static Vector3 ConvertTranslationFromMayaToUnity(this Vector3 rightHanded) {
             float x = -rightHanded.x;
             float y = rightHanded.z;
-            float z = rightHanded.y;
+            float z = -rightHanded.y;
             Vector3 leftHandedVector = new Vector3(x, y, z);
             return leftHandedVector;
         }
