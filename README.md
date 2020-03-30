@@ -21,6 +21,8 @@ Features:
 
 The AMASS data comes in .npz format, which is not readable by Unity. This repository contains a python tool to convert .npz files into a Unity-friendly .json files. The folder containing the required scripts is contained within the root directory of the repository. There is a jupyter notebook with example code demonstrating how to use the conversion scripts.
 
+link to example: [here.](https://github.com/BioMotionLab/UpdatingMoshToSMPLH/blob/master/NumpyToJSONConversionForAMASS/AMASSConverterExamples.ipynb)
+
 To run the MoshViewer application, the programs needs a path to a folder containing .json animations, and a text file containing a list of which animations to play in that folder and in what order.
 
 The format of the list file should be:
