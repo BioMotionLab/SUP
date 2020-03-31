@@ -37,6 +37,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
 			PlaybackEventSystem.OnRestartAnimations += RestartAnimations;
 			PlaybackEventSystem.OnLoadAnimations += LoadAnimations;
 			PlaybackEventSystem.OnLoadSingleAnimation += LoadSingleAnimation;
+			PlaybackEventSystem.OnLoadNewAnimations += LoadNewAnimations;
 			
 			PlaybackEventSystem.OnMeshDisplayStateChanged += MeshDisplayStateChanged;
 			PlaybackEventSystem.OnBoneDisplayStateChanged += BoneDisplayStateChanged;
@@ -49,6 +50,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
 			PlaybackEventSystem.OnChangeUpdateYTranslation += SetUpdateYTranslation;
 			PlaybackEventSystem.OnChangeUpdateXzTranslation += SetUpdateXzTranslation;
 			PlaybackEventSystem.OnChangeIndividualizedBody += SetIndividualizedBodyState;
+			PlaybackEventSystem.OnChangeLoopState += SetLoopState;
 		}
 
 	
@@ -60,6 +62,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
 			PlaybackEventSystem.OnRestartAnimations -= RestartAnimations;
 			PlaybackEventSystem.OnLoadAnimations -= LoadAnimations;
 			PlaybackEventSystem.OnLoadSingleAnimation -= LoadSingleAnimation;
+			PlaybackEventSystem.OnLoadNewAnimations -= LoadNewAnimations;
 			
 			PlaybackEventSystem.OnMeshDisplayStateChanged -= MeshDisplayStateChanged;
 			PlaybackEventSystem.OnBoneDisplayStateChanged -= BoneDisplayStateChanged;
@@ -72,9 +75,15 @@ namespace MoshPlayer.Scripts.SMPLModel {
 			PlaybackEventSystem.OnChangeUpdateYTranslation -= SetUpdateYTranslation;
 			PlaybackEventSystem.OnChangeUpdateXzTranslation -= SetUpdateXzTranslation;
 			PlaybackEventSystem.OnChangeIndividualizedBody -= SetIndividualizedBodyState;
+			PlaybackEventSystem.OnChangeLoopState -= SetLoopState;
 		}
 
 		
+
+		void LoadNewAnimations() {
+			moshAnimationPlayer = null;
+			loader = null;
+		}
 
 		void LoadAnimations(string listFile, string animationsFolder) {
 			
@@ -104,7 +113,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
 			if (moshAnimationPlayer.AllAnimsComplete) return;
 
 			if (!started && notYetNotified) {
-				string updateMessage = $"Waiting to start playing... press \"Next Animation\" to continue";
+				string updateMessage = $"Waiting to start playing... press \"Next\" button to continue";
 				Debug.Log(updateMessage);
 				PlaybackEventSystem.UpdatePlayerProgress(updateMessage);
 				notYetNotified = false;
@@ -187,6 +196,11 @@ namespace MoshPlayer.Scripts.SMPLModel {
 		void SetIndividualizedBodyState(bool newState) {
 			characterRenderOptions.ShowIndividualizedBody = newState;
 		}
+		
+		void SetLoopState(bool state) {
+			playbackOptions.Loop = state;
+		}
+
 	}
 	
 }

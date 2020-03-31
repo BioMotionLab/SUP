@@ -33,7 +33,7 @@ namespace MoshPlayer.Scripts.InGameUI {
 
         void Ended() {
             animationDisplayMainPanel.OpenPanels.Remove(moshAnimation);
-            Destroy(gameObject);
+            if (gameObject != null) Destroy(gameObject);
             animationControlEvents.OnAnimationEnded -= Ended;
         }
     }

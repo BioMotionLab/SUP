@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using MoshPlayer.Scripts.Display;
+using MoshPlayer.Scripts.InGameUI;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -270,6 +271,22 @@ namespace MoshPlayer.Scripts.Playback {
 
         public static void ChangeIndividualizedBody(bool showIndividualizedBody) {
             OnChangeIndividualizedBody?.Invoke(showIndividualizedBody);
+        }
+
+        public delegate void LoadNewAnimationsEvent();
+
+        public static event LoadNewAnimationsEvent OnLoadNewAnimations;
+
+        public static void LoadNewAnimations() {
+            OnLoadNewAnimations?.Invoke();
+        }
+
+        public delegate void ChangeLoopStateEvent(bool state);
+
+        public static event ChangeLoopStateEvent OnChangeLoopState;
+
+        public static void ChangeLoopState(bool state) {
+            OnChangeLoopState?.Invoke(state);
         }
 
        

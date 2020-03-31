@@ -54,6 +54,7 @@ namespace MoshPlayer.Scripts.Playback {
 
         public void Start() {
             Started = true;
+            lastUpdateTime = Time.time;
             elapsedTime = 0;
             
             controlEvents.BroadcastTotalFrames(sourceTotalFrameCount);
@@ -76,6 +77,7 @@ namespace MoshPlayer.Scripts.Playback {
             
             if (resampledFrame.IsLastFrame) {
                 //TODO loop
+                Debug.Log("Last Frame");
                 if (playbackOptions.Loop) elapsedTime = 0;
                 else Finish();
             }

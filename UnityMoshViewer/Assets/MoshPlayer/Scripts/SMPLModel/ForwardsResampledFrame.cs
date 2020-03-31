@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 namespace MoshPlayer.Scripts.SMPLModel {
@@ -35,14 +36,17 @@ namespace MoshPlayer.Scripts.SMPLModel {
         public ForwardsResampledFrame(float elapsedTime, int totalFrameCount, float duration) {
             this.totalFrameCount = totalFrameCount;
             float proportionComplete = elapsedTime / duration;
+            Debug.Log($"prop {proportionComplete}");
             decimalFrameIndex = proportionComplete * totalFrameCount;
+            Debug.Log($"frame {decimalFrameIndex}");
             FrameBeforeThis = Mathf.Clamp(Mathf.FloorToInt(decimalFrameIndex), 0, totalFrameCount-1);
             FrameAfterThis = Mathf.Clamp(Mathf.CeilToInt(decimalFrameIndex), 0, totalFrameCount-1);
             PercentageElapsedSinceLastFrame = decimalFrameIndex - FrameBeforeThis;
         }
 
         public bool IsFirstFrame => Math.Abs(decimalFrameIndex) < 0.0001f;
-        public bool IsLastFrame => FrameAfterThis >= totalFrameCount-1;
+        public bool IsLastFrame => FrameAfterThis >= totalFrameCount - 1;
+
         public int FrameBeforeThis { get; }
 
         public int FrameAfterThis { get; }
