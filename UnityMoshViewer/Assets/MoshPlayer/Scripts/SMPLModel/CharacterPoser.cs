@@ -53,33 +53,25 @@ namespace MoshPlayer.Scripts.SMPLModel {
                 ResetToTPose();
                 moshCharacter.Body.UpdateBody();
             }
-            
+
 
             if (moshCharacter.RenderOptions.AllowPoseManipulation) {
                 poses = GatherPosesFromBones();
                 UpdatePoses();
             }
-            else if (moshCharacter.RenderOptions.UpdatePosesLive) {
-                UpdatePoses();
-            }
-            else {
-                ResetPoses();
-            }
+            else if (moshCharacter.RenderOptions.UpdatePosesLive) UpdatePoses();
+            else ResetPoses();
+            
 
-            if (moshCharacter.RenderOptions.UpdatePoseBlendshapesLive) {
-                AddPoseDependentBlendShapes(poses);
-            }
-            else {
-                ResetPoseDependentBlendShapesToZero();
-            }
+            if (moshCharacter.RenderOptions.UpdatePoseBlendshapesLive) AddPoseDependentBlendShapes(poses);
+            else ResetPoseDependentBlendShapesToZero();
             
             UpdateTranslation();
             
             if (firstFrame) StoreOffsetsFromFirstFrame();
             
-            
-            if (!firstFrame && bodyChanged) UpdateFootOffset();
-            
+            if (!moshCharacter.RenderOptions.UpdatePosesLive) UpdateFootOffset();
+            else if (!firstFrame && bodyChanged && moshCharacter.RenderOptions.SnapToGroundFirstFrame) UpdateFootOffset();
             
         }
 
@@ -153,18 +145,34 @@ namespace MoshPlayer.Scripts.SMPLModel {
             
             if(moshCharacter.RenderOptions.AllowPoseManipulation) return;
             
+            
             Vector3 finalTrans = Vector3.zero;
-            
-            //height needs to be dealt with separately because of ground-snapping
-            finalTrans.y = moshCharacter.RenderOptions.UpdateTranslationLiveY ? translation.y : firstTranslation.y;
-            if (moshCharacter.RenderOptions.SnapToGroundFirstFrame) finalTrans.y += feetOffset;
-            
-            //Horizontal plane simple enough
-            finalTrans.x = moshCharacter.RenderOptions.UpdateTranslationLiveXZ ? translation.x : firstTranslation.x;
-            finalTrans.z = moshCharacter.RenderOptions.UpdateTranslationLiveXZ ? translation.z : firstTranslation.z;
-            
+
+            finalTrans = UpdateVerticalTranslation(finalTrans);
+            finalTrans = UpdateHorizontalTranslation(finalTrans);
+
             moshCharacter.gameObject.transform.localPosition = finalTrans;
             
+        }
+
+        Vector3 UpdateVerticalTranslation(Vector3 finalTrans) {
+            //height needs to be dealt with separately because of ground-snapping
+            if (moshCharacter.RenderOptions.UpdateTranslationLiveY && moshCharacter.RenderOptions.UpdatePosesLive)
+                finalTrans.y = translation.y;
+            else
+                finalTrans.y = firstTranslation.y;
+            if (moshCharacter.RenderOptions.SnapToGroundFirstFrame) finalTrans.y += feetOffset;
+            return finalTrans;
+        }
+
+        Vector3 UpdateHorizontalTranslation(Vector3 finalTrans) {
+            if (moshCharacter.RenderOptions.UpdatePosesLive) {
+                //Horizontal plane simple enough
+                finalTrans.x = moshCharacter.RenderOptions.UpdateTranslationLiveXZ ? translation.x : firstTranslation.x;
+                finalTrans.z = moshCharacter.RenderOptions.UpdateTranslationLiveXZ ? translation.z : firstTranslation.z;
+            }
+
+            return finalTrans;
         }
 
         float CalculateFeetOffset() {
@@ -183,7 +191,6 @@ namespace MoshPlayer.Scripts.SMPLModel {
             Vector3 worldVector = pelvis.parent.TransformPoint(new Vector3(0, miny, 0));
 
             float currentFeetOffset = -worldVector.y;
-            Debug.Log($"Regrounding, feetoffset {feetOffset:F2}");
             return currentFeetOffset;
 
         }
