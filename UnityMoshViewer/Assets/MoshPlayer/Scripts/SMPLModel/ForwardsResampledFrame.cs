@@ -36,9 +36,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
         public ForwardsResampledFrame(float elapsedTime, int totalFrameCount, float duration) {
             this.totalFrameCount = totalFrameCount;
             float proportionComplete = elapsedTime / duration;
-            Debug.Log($"prop {proportionComplete}");
             decimalFrameIndex = proportionComplete * totalFrameCount;
-            Debug.Log($"frame {decimalFrameIndex}");
             FrameBeforeThis = Mathf.Clamp(Mathf.FloorToInt(decimalFrameIndex), 0, totalFrameCount-1);
             FrameAfterThis = Mathf.Clamp(Mathf.CeilToInt(decimalFrameIndex), 0, totalFrameCount-1);
             PercentageElapsedSinceLastFrame = decimalFrameIndex - FrameBeforeThis;

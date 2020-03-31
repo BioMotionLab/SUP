@@ -76,8 +76,6 @@ namespace MoshPlayer.Scripts.Playback {
             //Debug.Log($"totalframes: {sourceTotalFrameCount}, current frame: {resampledFrame.Frame}");
             
             if (resampledFrame.IsLastFrame) {
-                //TODO loop
-                Debug.Log("Last Frame");
                 if (playbackOptions.Loop) elapsedTime = 0;
                 else Finish();
             }
