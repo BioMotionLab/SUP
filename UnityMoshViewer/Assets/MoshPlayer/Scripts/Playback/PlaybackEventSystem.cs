@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using JetBrains.Annotations;
 using MoshPlayer.Scripts.Display;
 using UnityEngine;
@@ -20,7 +21,26 @@ namespace MoshPlayer.Scripts.Playback {
         [SerializeField]
         List<KeyCode> QuitKeys = new List<KeyCode>();
 
+        bool allowKeyboardControls;
+
+        void OnEnable() {
+            KeyboardControlEvents.OnDisableKeyboardControls += DisableKeyboardControls;
+            KeyboardControlEvents.OnEnableKeyboardControls += EnableKeyboardControls;
+        }
         
+        void OnDisable() {
+            KeyboardControlEvents.OnDisableKeyboardControls -= DisableKeyboardControls;
+            KeyboardControlEvents.OnEnableKeyboardControls -= EnableKeyboardControls;
+        }
+
+        void EnableKeyboardControls() {
+            allowKeyboardControls = true;
+        }
+
+        void DisableKeyboardControls() {
+            allowKeyboardControls = false;
+        }
+
 
         [PublicAPI]
         public void UpdateDisplaySpeed(float displaySpeed) {
@@ -35,6 +55,12 @@ namespace MoshPlayer.Scripts.Playback {
         }
 
         public void Update() {
+            if (allowKeyboardControls) {
+                ListenForKeyboardPresses();
+            }
+        }
+
+        void ListenForKeyboardPresses() {
             foreach (KeyCode key in NextKeys) {
                 if (Input.GetKeyDown(key)) {
                     GoToNextAnimation();
@@ -45,13 +71,12 @@ namespace MoshPlayer.Scripts.Playback {
                 Debug.Log("Delete");
                 GoToPreviousAnimation();
             }
-            
+
             foreach (KeyCode key in QuitKeys) {
                 if (Input.GetKeyDown(key)) {
                     Quit();
                 }
             }
-        
         }
 
         static void Quit() {

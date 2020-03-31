@@ -1,4 +1,5 @@
-﻿using JetBrains.Annotations;
+﻿using System.Windows.Forms;
+using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -24,6 +25,8 @@ namespace MoshPlayer.AnimationReviewer {
 
         void SetState(bool state) {
             linkedPanel.SetActive(state);
+            if (state) KeyboardControlEvents.DisableKeyboardControls();
+            else KeyboardControlEvents.EnableKeyboardControls();
         }
 
     }

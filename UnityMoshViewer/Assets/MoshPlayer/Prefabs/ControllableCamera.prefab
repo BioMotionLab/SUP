@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4171260099290101751}
   - component: {fileID: 4171260099290101748}
   - component: {fileID: 4171260099290101753}
+  - component: {fileID: 3399784681008114333}
   m_Layer: 0
   m_Name: ControllableCamera
   m_TagString: Untagged
@@ -105,3 +106,16 @@ MonoBehaviour:
   movementStaysFlat: 1
   forwardSpeed: 0.25
   panSpeed: 0.25
+  Frozen: 0
+--- !u!114 &3399784681008114333
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4171260099290101749}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c34863a332f3aa488157f70f7db9ae0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

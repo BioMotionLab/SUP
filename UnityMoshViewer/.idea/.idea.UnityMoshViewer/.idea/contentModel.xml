@@ -6,6 +6,7 @@
     <e p="E:\GitHub\UpdatingMoshToSMPLH\UnityMoshViewer" t="IncludeRecursive">
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
+        <e p="CameraControlsToggler.cs" t="Include" />
         <e p="MoshPlayer" t="Include">
           <e p="AnimationReviewer" t="Include">
             <e p="ChangeFileButton.cs" t="Include" />
@@ -36,6 +37,7 @@
               <e p="FlyCamera.cs" t="Include" />
               <e p="FrameListener.cs" t="Include" />
               <e p="FrameSlider.cs" t="Include" />
+              <e p="KeyboardControlEvents.cs" t="Include" />
               <e p="MeshDisplayDropdown.cs" t="Include" />
               <e p="NextAnimationButton.cs" t="Include" />
               <e p="PlayerProgressText.cs" t="Include" />
