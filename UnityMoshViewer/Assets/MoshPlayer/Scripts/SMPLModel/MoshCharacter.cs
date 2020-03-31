@@ -20,6 +20,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
         IndividualizedBody Body {
             get;
         }
+        
         void StartAnimation(MoshAnimation moshAnimation, PlaybackOptions playbackOptions, CharacterDisplayOptions displayOptions, CharacterRenderOptions renderOptions);
         void InterruptAnimation();
     }

@@ -18,15 +18,13 @@ namespace MoshPlayer.Scripts.SMPLModel {
     
     [Serializable]
     public class CharacterRenderOptions {
+        public bool ShowIndividualizedBody;
         public bool UpdateBodyShapeLive;
         public bool UpdatePosesLive;
-        [FormerlySerializedAs("UpdateBlendshapesLive")]
         public bool UpdatePoseBlendshapesLive;
         public bool AllowPoseManipulation;
-        [FormerlySerializedAs("UpdateTranslationLive")]
         public bool UpdateTranslationLiveY;
         public bool UpdateTranslationLiveXZ;
-        [FormerlySerializedAs("SnapToground")]
         public bool SnapToGroundFirstFrame;
     }
 

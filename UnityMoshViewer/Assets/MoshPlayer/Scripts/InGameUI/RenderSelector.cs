@@ -42,6 +42,10 @@ namespace MoshPlayer.Scripts.InGameUI {
         public void ChangeUpdateXzTranslation(bool changeUpdateXzTranslation) {
             PlaybackEventSystem.ChangeUpdateXzTranslation(changeUpdateXzTranslation);
         }
+
+        public void ChangeShowIndividualizedBody(bool changeShowIndividualizedBody) {
+            PlaybackEventSystem.ChangeIndividualizedBody(changeShowIndividualizedBody);
+        }
     
     
     }

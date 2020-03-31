@@ -48,6 +48,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
 			PlaybackEventSystem.OnChangeSnapToGround += SetSnapToGround;
 			PlaybackEventSystem.OnChangeUpdateYTranslation += SetUpdateYTranslation;
 			PlaybackEventSystem.OnChangeUpdateXzTranslation += SetUpdateXzTranslation;
+			PlaybackEventSystem.OnChangeIndividualizedBody += SetIndividualizedBodyState;
 		}
 
 	
@@ -70,7 +71,10 @@ namespace MoshPlayer.Scripts.SMPLModel {
 			PlaybackEventSystem.OnChangeSnapToGround -= SetSnapToGround;
 			PlaybackEventSystem.OnChangeUpdateYTranslation -= SetUpdateYTranslation;
 			PlaybackEventSystem.OnChangeUpdateXzTranslation -= SetUpdateXzTranslation;
+			PlaybackEventSystem.OnChangeIndividualizedBody -= SetIndividualizedBodyState;
 		}
+
+		
 
 		void LoadAnimations(string listFile, string animationsFolder) {
 			
@@ -178,6 +182,10 @@ namespace MoshPlayer.Scripts.SMPLModel {
 		
 		void MeshDisplayStateChanged(MeshDisplayState newState) {
 			characterDisplayOptions.MeshDisplayState = newState;
+		}
+		
+		void SetIndividualizedBodyState(bool newState) {
+			characterRenderOptions.ShowIndividualizedBody = newState;
 		}
 	}
 	

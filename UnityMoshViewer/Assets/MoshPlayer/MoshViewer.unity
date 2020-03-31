@@ -404,6 +404,22 @@ PrefabInstance:
       propertyPath: characterRenderOptions.SnapToGroundFirstFrame
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5100136094089617265, guid: 214f2428e1f4c274da4fa6d27a3d44a3,
+        type: 3}
+      propertyPath: models
+      value: 
+      objectReference: {fileID: 11400000, guid: 2313800435c61b84ea16a728169d71c1,
+        type: 2}
+    - target: {fileID: 5100136094089617265, guid: 214f2428e1f4c274da4fa6d27a3d44a3,
+        type: 3}
+      propertyPath: playbackOptions.FallbackFPS
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 5100136094089617265, guid: 214f2428e1f4c274da4fa6d27a3d44a3,
+        type: 3}
+      propertyPath: characterRenderOptions.ShowIndividualizedBody
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5100136094089617294, guid: 214f2428e1f4c274da4fa6d27a3d44a3,
         type: 3}
       propertyPath: m_LocalPosition.x

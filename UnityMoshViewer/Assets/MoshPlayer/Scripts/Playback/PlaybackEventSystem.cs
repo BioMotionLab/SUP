@@ -264,6 +264,14 @@ namespace MoshPlayer.Scripts.Playback {
             OnChangeUpdateXzTranslation?.Invoke(changeUpdateXzTranslation);
         }
 
+        public delegate void ChangeIndividualizedBodyEvent(bool showIndividualizedBody);
+
+        public static event ChangeIndividualizedBodyEvent OnChangeIndividualizedBody;
+
+        public static void ChangeIndividualizedBody(bool showIndividualizedBody) {
+            OnChangeIndividualizedBody?.Invoke(showIndividualizedBody);
+        }
+
        
     }
 }

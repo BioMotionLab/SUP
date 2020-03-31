@@ -1,4 +1,5 @@
-﻿using MoshPlayer.Scripts.FileLoaders;
+﻿using System.Linq;
+using MoshPlayer.Scripts.FileLoaders;
 using UnityEngine;
 
 namespace MoshPlayer.Scripts.SMPLModel {
@@ -23,6 +24,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
         [SerializeField]
         // ReSharper disable once InconsistentNaming
         float[] bodyShapeBetas;
+        float[] lastFrameBetas;
 
         MoshCharacter moshCharacter;
         
@@ -72,13 +74,32 @@ namespace MoshPlayer.Scripts.SMPLModel {
             averageBody.Restore();
             SetBindPoses();
 
+            float[] savedBetas = (float[])bodyShapeBetas.Clone();
+            
+            //if showing averaged body, set betas to zero;
+            if (!moshCharacter.RenderOptions.ShowIndividualizedBody) {
+                bodyShapeBetas = new float[bodyShapeBetas.Length];
+            }
+
             AdjustBonePositions();
             AdjustMeshToNewBones();
-            
+        
             UpdateBodyShapeBlendshapes(bodyShapeBetas);
             SetBindPoses();
             
-            //if (moshCharacter.SetFeetOnGround) SetFeetOnGround2();
+            
+
+            if (lastFrameBetas == null || !Enumerable.SequenceEqual(lastFrameBetas, bodyShapeBetas)) {
+                moshCharacter.Events.BroadcastBodyChange();
+            }
+            lastFrameBetas = (float[]) bodyShapeBetas.Clone();
+            
+            
+            //restoreBetas to actual values;
+            if (!moshCharacter.RenderOptions.ShowIndividualizedBody) {
+                bodyShapeBetas = savedBetas;
+            }
+           
         }
 
         /// <summary>

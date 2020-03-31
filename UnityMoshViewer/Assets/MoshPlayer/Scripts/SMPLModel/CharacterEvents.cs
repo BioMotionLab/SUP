@@ -3,11 +3,11 @@ using UnityEngine;
 namespace MoshPlayer.Scripts.SMPLModel {
     public class CharacterEvents {
         
-        public delegate void BodyChangedEvent(IndividualizedBody body);
+        public delegate void BodyChangedEvent();
         public event BodyChangedEvent OnBodyChanged;
 
-        public void BroadcastBodyChange(IndividualizedBody body) {
-            OnBodyChanged?.Invoke(body);
+        public void BroadcastBodyChange() {
+            OnBodyChanged?.Invoke();
         }
 
         
@@ -17,5 +17,6 @@ namespace MoshPlayer.Scripts.SMPLModel {
         public void BroadcastGroundOffset(Vector3 groundOffset) {
             OnReground?.Invoke(groundOffset);
         }
+        
     }
 }

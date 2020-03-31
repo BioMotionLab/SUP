@@ -18,6 +18,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
         bool firstFrame = false;
         public Vector3 translation;
         public Vector3 firstTranslation;
+        bool bodyChanged = false;
 
         void OnEnable() {
             moshCharacter = GetComponentInParent<MoshCharacter>();
@@ -33,10 +34,17 @@ namespace MoshPlayer.Scripts.SMPLModel {
             bones = skinnedMeshRenderer.bones;
             
             poses = new Quaternion[model.JointCount];
+
+            moshCharacter.Events.OnBodyChanged += BodyChanged;
+        }
+
+        void BodyChanged() {
+            bodyChanged = true;
         }
 
         void OnDisable() {
             ResetToTPose();
+            moshCharacter.Events.OnBodyChanged -= BodyChanged;
         }
 
         void Update() {
@@ -67,15 +75,28 @@ namespace MoshPlayer.Scripts.SMPLModel {
             
             UpdateTranslation();
             
-            if (firstFrame) {
-                firstTranslation = translation;
-                CalculateFeetOffset();
-                firstFrame = false;
-                UpdateTranslation();
-            }
+            if (firstFrame) StoreOffsetsFromFirstFrame();
+            
+            
+            if (!firstFrame && bodyChanged) UpdateFootOffset();
+            
             
         }
-        
+
+        void UpdateFootOffset() {
+            bodyChanged = false;
+            float newFeetOffset = CalculateFeetOffset();
+            feetOffset += newFeetOffset;
+            UpdateTranslation();
+        }
+
+        void StoreOffsetsFromFirstFrame() {
+            firstTranslation = translation;
+            feetOffset = CalculateFeetOffset();
+            firstFrame = false;
+            UpdateTranslation();
+        }
+
         Quaternion[] GatherPosesFromBones() {
             Quaternion[] currentPoses = new Quaternion[model.JointCount];
             foreach (Transform bone in skinnedMeshRenderer.bones) {
@@ -146,7 +167,8 @@ namespace MoshPlayer.Scripts.SMPLModel {
             
         }
 
-        void CalculateFeetOffset() {
+        float CalculateFeetOffset() {
+            
             Mesh bakedMesh = new Mesh();
             skinnedMeshRenderer.BakeMesh(bakedMesh);
 
@@ -160,7 +182,9 @@ namespace MoshPlayer.Scripts.SMPLModel {
             Transform pelvis = skinnedMeshRenderer.bones[model.PelvisIndex];
             Vector3 worldVector = pelvis.parent.TransformPoint(new Vector3(0, miny, 0));
 
-            feetOffset = -worldVector.y;//+ moshCharacter.Body.pelvisNewLocation.y;
+            float currentFeetOffset = -worldVector.y;
+            Debug.Log($"Regrounding, feetoffset {feetOffset:F2}");
+            return currentFeetOffset;
 
         }
         
