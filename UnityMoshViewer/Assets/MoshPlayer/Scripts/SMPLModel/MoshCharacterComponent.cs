@@ -110,7 +110,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
 
         void StopAnimation() {
             if (gameObject == null) return;
-            Debug.Log($"{gameObject.name}'s Animation Complete");
+            Debug.Log($"\t{gameObject.name}'s Animation Complete");
             DestroyCharacter();
         }
 
