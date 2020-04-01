@@ -1,4 +1,5 @@
-﻿using JetBrains.Annotations;
+﻿using System.IO;
+using JetBrains.Annotations;
 using MoshPlayer.Scripts.Playback;
 using MoshPlayer.ThirdParty.StandaloneFileBrowser;
 using TMPro;
@@ -58,7 +59,7 @@ namespace MoshPlayer.Scripts.InGameUI {
             if (file.Length < 1) return;
             singleFile = file[0].Replace("\\", "\\\\");
             Debug.Log(singleFile);
-            singleFileText.text = singleFile;
+            singleFileText.text = Path.GetFileName(singleFile);
             singleErrorText.text = "";
             singleFileSelected = true;
         }

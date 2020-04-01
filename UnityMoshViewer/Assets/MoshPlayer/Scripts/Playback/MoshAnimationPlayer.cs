@@ -33,6 +33,7 @@ namespace MoshPlayer.Scripts.Playback {
         }
 
         void StopCurrentAnimations() {
+            if (currentCharacters == null) return;
             foreach (MoshCharacter character in currentCharacters) {
                 if (character == null) continue;
                 character.InterruptAnimation();
