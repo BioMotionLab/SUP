@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using JetBrains.Annotations;
 using MoshPlayer.Scripts.Display;
 using MoshPlayer.Scripts.InGameUI;
+using MoshPlayer.Scripts.SMPLModel;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -241,12 +242,12 @@ namespace MoshPlayer.Scripts.Playback {
         }
 
 
-        public delegate void ChangeSnapToGroundEvent(bool snapToGround);
+        public delegate void ChangeSnapToGroundEvent(GroundSnapType snapType);
 
         public static event ChangeSnapToGroundEvent OnChangeSnapToGround;
 
-        public static void ChangeSnapToGround(bool snapToGround) {
-            OnChangeSnapToGround?.Invoke(snapToGround);
+        public static void ChangeSnapToGround(GroundSnapType snapType) {
+            OnChangeSnapToGround?.Invoke(snapType);
         }
 
         public delegate void ChangeUpdateYTranslationEvent(bool updateYTranslation);

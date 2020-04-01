@@ -152,10 +152,6 @@ namespace MoshPlayer.Scripts.SMPLModel {
 			}
 		}
 
-		void SetSnapToGround(bool snapToGround) {
-			characterRenderOptions.SnapToGroundFirstFrame = snapToGround;
-		}
-
 		void SetUpdateYTranslation(bool changeUpdateYTranslation) {
 			characterRenderOptions.UpdateTranslationLiveY = changeUpdateYTranslation;
 		}
@@ -201,6 +197,10 @@ namespace MoshPlayer.Scripts.SMPLModel {
 			playbackOptions.Loop = state;
 		}
 
+		void SetSnapToGround(GroundSnapType snaptype) {
+			characterRenderOptions.GroundSnap = snaptype;
+		}
+		
 	}
 	
 }

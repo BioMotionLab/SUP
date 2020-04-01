@@ -30,10 +30,6 @@ namespace MoshPlayer.Scripts.InGameUI {
             PlaybackEventSystem.ChangeManualPosing(manualPosing);
         }
 
-        public void ChangeSnapToGround(bool snapToGround) {
-            PlaybackEventSystem.ChangeSnapToGround(snapToGround);
-        }
-
         public void ChangeUpdateYTranslation(bool changeUpdateYTranslation) {
             PlaybackEventSystem.ChangeUpdateYTranslation(changeUpdateYTranslation);
         }

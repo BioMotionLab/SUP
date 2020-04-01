@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using MoshPlayer.Scripts.Playback;
 using MoshPlayer.Scripts.Utilities;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace MoshPlayer.Scripts.SMPLModel {
     /// <summary>
@@ -14,11 +16,13 @@ namespace MoshPlayer.Scripts.SMPLModel {
         ModelDefinition     model;
         MoshCharacter       moshCharacter;
         Quaternion[] poses;
-        float feetOffset = 0;
+
         bool firstFrame = false;
         public Vector3 translation;
-        public Vector3 firstTranslation;
+        public Vector3 firstFrameTranslation;
         bool bodyChanged = false;
+
+        [SerializeField] Grounder grounder;
 
         void OnEnable() {
             moshCharacter = GetComponentInParent<MoshCharacter>();
@@ -33,22 +37,28 @@ namespace MoshPlayer.Scripts.SMPLModel {
 
             bones = skinnedMeshRenderer.bones;
             
+            grounder = new Grounder(moshCharacter, skinnedMeshRenderer);
             poses = new Quaternion[model.JointCount];
 
             moshCharacter.Events.OnBodyChanged += BodyChanged;
+            PlaybackEventSystem.OnStopAllAnimations += ResetCommonGround;
+            PlaybackEventSystem.OnChangeSnapToGround += GroundingChanged;
         }
 
-        void BodyChanged() {
-            bodyChanged = true;
+        void ResetCommonGround() {
+            grounder.ResetCommonGround();
         }
 
         void OnDisable() {
             ResetToTPose();
             moshCharacter.Events.OnBodyChanged -= BodyChanged;
+            PlaybackEventSystem.OnStopAllAnimations -= ResetCommonGround;
+            PlaybackEventSystem.OnChangeSnapToGround -= GroundingChanged;
         }
 
+      
+
         void Update() {
-            
             if (moshCharacter.RenderOptions.UpdateBodyShapeLive) {
                 ResetToTPose();
                 moshCharacter.Body.UpdateBody();
@@ -68,23 +78,31 @@ namespace MoshPlayer.Scripts.SMPLModel {
             
             UpdateTranslation();
             
-            if (firstFrame) StoreOffsetsFromFirstFrame();
-            
+            if (firstFrame) {
+                Debug.Log("FirstFrame");
+                bodyChanged = false;
+                StoreOffsetsFromFirstFrame();
+            }
+
             if (!moshCharacter.RenderOptions.UpdatePosesLive) UpdateFootOffset();
-            else if (!firstFrame && bodyChanged && moshCharacter.RenderOptions.SnapToGroundFirstFrame) UpdateFootOffset();
+            else if (!firstFrame && bodyChanged) UpdateFootOffset();
             
         }
 
         void UpdateFootOffset() {
             bodyChanged = false;
-            float newFeetOffset = CalculateFeetOffset();
-            feetOffset += newFeetOffset;
+            grounder.UpdateGround();
+            UpdateTranslation();
+        }
+        
+        void GroundingChanged(GroundSnapType unused) {
             UpdateTranslation();
         }
 
         void StoreOffsetsFromFirstFrame() {
-            firstTranslation = translation;
-            feetOffset = CalculateFeetOffset();
+            firstFrameTranslation = translation;
+            grounder.InitGround();
+            
             firstFrame = false;
             UpdateTranslation();
         }
@@ -103,7 +121,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
             poses = newPoses;
         }
 
-        
+
         /// <summary>
         /// Updates the bones based on new newPoses and translation of pelvis
         /// </summary>
@@ -140,11 +158,10 @@ namespace MoshPlayer.Scripts.SMPLModel {
             translation = trans;
             //Debug.Log($"setting trans: {translation.ToString("F4")}");
         }
-        
+
         void UpdateTranslation() {
             
             if(moshCharacter.RenderOptions.AllowPoseManipulation) return;
-            
             
             Vector3 finalTrans = Vector3.zero;
 
@@ -160,43 +177,23 @@ namespace MoshPlayer.Scripts.SMPLModel {
             if (moshCharacter.RenderOptions.UpdateTranslationLiveY && moshCharacter.RenderOptions.UpdatePosesLive)
                 finalTrans.y = translation.y;
             else
-                finalTrans.y = firstTranslation.y;
-            if (moshCharacter.RenderOptions.SnapToGroundFirstFrame) finalTrans.y += feetOffset;
+                finalTrans.y = firstFrameTranslation.y;
+
+            finalTrans = grounder.ApplyGround(finalTrans, firstFrame);
             return finalTrans;
         }
 
         Vector3 UpdateHorizontalTranslation(Vector3 finalTrans) {
             if (moshCharacter.RenderOptions.UpdatePosesLive) {
                 //Horizontal plane simple enough
-                finalTrans.x = moshCharacter.RenderOptions.UpdateTranslationLiveXZ ? translation.x : firstTranslation.x;
-                finalTrans.z = moshCharacter.RenderOptions.UpdateTranslationLiveXZ ? translation.z : firstTranslation.z;
+                finalTrans.x = moshCharacter.RenderOptions.UpdateTranslationLiveXZ ? translation.x : firstFrameTranslation.x;
+                finalTrans.z = moshCharacter.RenderOptions.UpdateTranslationLiveXZ ? translation.z : firstFrameTranslation.z;
             }
 
             return finalTrans;
         }
-
-        float CalculateFeetOffset() {
-            
-            Mesh bakedMesh = new Mesh();
-            skinnedMeshRenderer.BakeMesh(bakedMesh);
-
-            Vector3[] vertices = bakedMesh.vertices;
-
-            float miny = Mathf.Infinity;
-            foreach (Vector3 vertex in vertices) {
-                miny = Mathf.Min(vertex.y, miny);
-            }
-            
-            Transform pelvis = skinnedMeshRenderer.bones[model.PelvisIndex];
-            Vector3 worldVector = pelvis.parent.TransformPoint(new Vector3(0, miny, 0));
-
-            float currentFeetOffset = -worldVector.y;
-            return currentFeetOffset;
-
-        }
         
-        
-        
+
         [ContextMenu("ResetToTPose")]
         public void ResetToTPose() {
             ResetPoses();
@@ -248,7 +245,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
             
             
         }
-        
+
         [ContextMenu("ResetPoseBlendshapes")]
         public void ResetPoseDependentBlendShapesToZero() {
             int startingJoint =  model.FirstPoseIsPelvisTranslation ? 1 : 0;
@@ -275,6 +272,9 @@ namespace MoshPlayer.Scripts.SMPLModel {
         public void ForceUpdate() {
             Update();
         }
+
+        void BodyChanged() {
+            bodyChanged = true;
+        }
     }
-    
 }

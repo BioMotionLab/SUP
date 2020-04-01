@@ -84,6 +84,7 @@ namespace MoshPlayer.Scripts.Playback {
             }
             
             if (firstUpdate) {
+                Debug.Log("firstUpdate");
                 SetPosesAndTranslationForFirstFrame(FirstFrameGuaranteed.Instance);
             }
             else {

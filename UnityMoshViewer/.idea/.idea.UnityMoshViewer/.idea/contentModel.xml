@@ -7,12 +7,6 @@
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
         <e p="MoshPlayer" t="Include">
-          <e p="AnimationReviewer" t="Include">
-            <e p="ChangeFileButton.cs" t="Include" />
-            <e p="ReviewPanel.cs" t="Include" />
-            <e p="SaveNoteButton.cs" t="Include" />
-            <e p="ShowHidePanelButton.cs" t="Include" />
-          </e>
           <e p="Scripts" t="Include">
             <e p="Display" t="Include">
               <e p="BoneDisplay.cs" t="Include" />
@@ -32,6 +26,12 @@
             <e p="InGameUI" t="Include">
               <e p="AnimationDisplayMainPanel.cs" t="Include" />
               <e p="AnimationPanel.cs" t="Include" />
+              <e p="AnimationReviewer" t="Include">
+                <e p="ChangeFileButton.cs" t="Include" />
+                <e p="ReviewPanel.cs" t="Include" />
+                <e p="SaveNoteButton.cs" t="Include" />
+                <e p="ShowHidePanelButton.cs" t="Include" />
+              </e>
               <e p="BoneDisplayDropdown.cs" t="Include" />
               <e p="CameraControlsToggler.cs" t="Include" />
               <e p="FlyCamera.cs" t="Include" />
@@ -48,6 +48,7 @@
               <e p="RenderSelector.cs" t="Include" />
               <e p="RestartAnimationsButton.cs" t="Include" />
               <e p="SelectAnimationsPanel.cs" t="Include" />
+              <e p="SnapToGroundDropdown.cs" t="Include" />
               <e p="UIEnabler.cs" t="Include" />
               <e p="ValueFromSliderDisplay.cs" t="Include" />
             </e>
@@ -68,6 +69,7 @@
               <e p="CharacterRenderOptions.cs" t="Include" />
               <e p="ForwardsResampledFrame.cs" t="Include" />
               <e p="Gender.cs" t="Include" />
+              <e p="Grounder.cs" t="Include" />
               <e p="IndividualizedBody.cs" t="Include" />
               <e p="JointRegressor.cs" t="Include" />
               <e p="ModelDefinition.cs" t="Include" />

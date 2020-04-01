@@ -25,7 +25,15 @@ namespace MoshPlayer.Scripts.SMPLModel {
         public bool AllowPoseManipulation;
         public bool UpdateTranslationLiveY;
         public bool UpdateTranslationLiveXZ;
-        public bool SnapToGroundFirstFrame;
+        public GroundSnapType GroundSnap;
+    }
+
+    public enum GroundSnapType {
+        // First option is default.
+        Common,
+        Individual,
+        None,
+        CustomValue_UnityEditorOnly
     }
 
     [Serializable]
