@@ -39,7 +39,10 @@ animation1A.json animation1B.json
 animation2A.json animation2B.json
 ```
 
+You can also specify files inside subfolders:
 
-
-
+```
+Set1/animationA.json Set1/animationB.json
+Set2/animationA.json Set2/animationB.json
+```
 
