@@ -2,6 +2,7 @@ import numpy as np
 import json
 import sys
 
+
 # This class converts a model.npz into a Unity-readable Json file.
 # See the AMASSConverterExamples file to see how it is used.
 class SMPLHRegressorToJSON:
