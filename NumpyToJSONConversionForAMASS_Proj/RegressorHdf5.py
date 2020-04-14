@@ -61,25 +61,4 @@ class SMPLHRegressorToHdf5():
                 return obj.item()
         raise TypeError('Unknown type:', type(obj))
 
-    # Write dicts to json.
-    def write_to_h5(self, h5_path: str):
-        with (h5py.File(h5_path, 'w')) as hf:
-            for file in self.data.files:
-                file_data = self.data[file]
-                print(f"{file}: {file_data.shape}")
-                hf.create_dataset(file, data=file_data);
-            hf.create_dataset('fbx_joint_template', data=self.joint_template)
-            hf.create_dataset('fbx_joint_regressor', data=self.joint_regressor)
-        print('\n*** DONE CONVERSION ***\n')
 
-
-#%%
-model_path = 'Models/smplh_model_from_mano_f.npz'
-h5_name = 'test.h5'
-converter = SMPLHRegressorToHdf5(model_path)
-
-#%%
-converter.write_to_h5(h5_name)
-with h5py.File(h5_name, 'r') as hf:
-    print(hf.keys())
-    print(hf['J'].shape)

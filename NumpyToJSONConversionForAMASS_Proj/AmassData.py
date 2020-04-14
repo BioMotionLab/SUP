@@ -2,13 +2,14 @@
 import numpy as np
 import json
 import sys
+import h5py
 # noinspection PyPep8Naming
 from scipy.spatial.transform import Rotation
 
 
 # This class converts AMASS SMPLH .npz body animation files into Unity-readable .json files.
 # See AMASSConverterExamples file for an example on how to use this class.
-class AMASSDataToJSON:
+class AMASSDataConverter:
 
     # SMPLH Parameters
     JOINTS = 52
@@ -71,11 +72,7 @@ class AMASSDataToJSON:
                 return obj.item()
         raise TypeError('Unknown type:', type(obj))
 
-    # Finishes conversion and saves dicts into JSON format
-    def write_to_json(self, json_path: str):
-        dumped = json.dumps(self.data_as_dict, default=self.default_encoding, indent=4)
-        with open(json_path, 'w') as f:
-            f.write(dumped)
+
 
     # Reads data from loaded npz file and creates internal objects
     def read_data(self):
@@ -104,13 +101,29 @@ class AMASSDataToJSON:
         except Exception:
             print(f'Could not read {self.npzFile}! Skipping...')
 
+    # Finishes conversion and saves dicts into JSON format
+    def write_to_json(self, json_path: str):
+        dumped = json.dumps(self.data_as_dict, default=self.default_encoding, indent=4)
+        with open(json_path, 'w') as f:
+            f.write(dumped)
+
+    # Write to h5.
+    def write_to_h5(self, h5_path: str):
+        with (h5py.File(h5_path, 'w')) as hf:
+            for file in self.data.files:
+                file_data = self.data[file]
+                if self.show_messages:
+                    print(f"{file}: {file_data.shape}")
+                hf.create_dataset(file, data=file_data);
+        if self.show_messages:
+            print('\n\t*** DONE CONVERSION ***\n')
 
 def main():
     if len(sys.argv) != 3:
         print("Not the right number of arguments. First should be source npz file path, second should be destination "
               "json path.")
         return
-    converter = AMASSDataToJSON(sys.argv[1])
+    converter = AMASSDataConverter(sys.argv[1])
     converter.write_to_json(sys.argv[2])
 
 

@@ -1,11 +1,11 @@
 import numpy as np
 import json
 import sys
+import h5py
 
-
-# This class converts a model.npz into a Unity-readable Json file.
+# This class converts a model.npz into a Unity-readable Json or h5 file.
 # See the AMASSConverterExamples file to see how it is used.
-class SMPLHRegressorToJSON:
+class SMPLHRegressorConverter:
 
     # Initialize static-typed variables
     J_regressor: np.ndarray
@@ -68,13 +68,44 @@ class SMPLHRegressorToJSON:
         with open(json_path, 'w') as f:
             f.write(dumped)
 
+    # Write to h5.
+    def write_to_h5(self, h5_path: str):
+        with (h5py.File(h5_path, 'w')) as hf:
+            for file in self.data.files:
+                file_data = self.data[file]
+                print(f"{file}: {file_data.shape}")
+                hf.create_dataset(file, data=file_data);
+            hf.create_dataset('fbx_joint_template', data=self.joint_template)
+            hf.create_dataset('fbx_joint_regressor', data=self.joint_regressor)
+        print('\n*** DONE CONVERSION ***\n')
+
 
 def main():
     if len(sys.argv) != 3:
         print("Not the right number of arguments. first should be source npz file path, second should be destination json path.")
         return
-    converter = SMPLHRegressorToJSON(sys.argv[1])
+    converter = SMPLHRegressorConverter(sys.argv[1])
     converter.write_to_json(sys.argv[2])
 
 if __name__ == "__main__":
     main()
+
+
+
+#%%
+
+#%%
+model_path = 'Models/smplh_model_from_mano_f.npz'
+h5_name = 'test.h5'
+converter = SMPLHRegressorConverter(model_path)
+
+#%%
+converter.write_to_h5(h5_name)
+with h5py.File(h5_name, 'r') as hf:
+    print(hf.keys())
+    J = hf['J']
+    print(J.shape)
+    print(J.dtype)
+    for i in range(0, 24):
+        print(J[i])
+

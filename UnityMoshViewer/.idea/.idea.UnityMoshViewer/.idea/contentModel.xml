@@ -20,7 +20,9 @@
             </e>
             <e p="FileLoaders" t="Include">
               <e p="JSONModelKeys.cs" t="Include" />
+              <e p="loadFromH5.cs" t="Include" />
               <e p="MoshAnimationFromJSON.cs" t="Include" />
+              <e p="OpenedH5DataSet.cs" t="Include" />
               <e p="SMPLHRegressorFromJSON.cs" t="Include" />
             </e>
             <e p="InGameUI" t="Include">
