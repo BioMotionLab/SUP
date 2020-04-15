@@ -24,6 +24,9 @@ namespace MoshPlayer.Scripts.SMPLModel {
         [SerializeField]
         JSONModelKeys jsonKeys = new JSONModelKeys();
 
+        [SerializeField]
+        H5ModelKeys h5Keys = new H5ModelKeys();
+        
         [SerializeField] 
         MoshCharacterComponent MaleCharacterPrefab = default;
         
@@ -49,6 +52,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
         public int   PoseDependentBlendshapeCount => poseDependentBlendshapeCount;
 
         public JSONModelKeys JsonKeys => jsonKeys;
+        public H5ModelKeys H5Keys => h5Keys;
         public bool RotateToUnityCoords = false;
 
         public int PelvisIndex = 0;

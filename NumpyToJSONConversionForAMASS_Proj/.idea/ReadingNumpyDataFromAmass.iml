@@ -6,7 +6,7 @@
       <excludeFolder url="file://$MODULE_DIR$/venv" />
       <excludeFolder url="file://$MODULE_DIR$/venv_desktop" />
     </content>
-    <orderEntry type="jdk" jdkName="Python 3.7 (NumpyToJSONConversionForAMASS)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Python 3.8 (NumpyToJSONConversionForAMASS_Proj)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="PyDocumentationSettings">

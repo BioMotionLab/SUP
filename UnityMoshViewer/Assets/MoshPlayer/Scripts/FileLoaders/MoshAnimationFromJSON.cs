@@ -6,13 +6,27 @@ using MoshPlayer.Scripts.Utilities;
 using UnityEngine;
 
 namespace MoshPlayer.Scripts.FileLoaders {
+
+    
+    public class AnimationData {
+        public ModelDefinition model;
+        public Gender        gender;
+        public float[]       betas;
+        public int           fps;
+        public int           frameCount;
+        public Vector3[]     translations;
+        public Quaternion[,] poses;
+    }
+    
+    
     /// <summary>
     /// Subclass of MoshAnimation for specific data format (JSON).
     /// This class can serve as a guide for extending BMLMoShAnimation to other 
     /// data formats in future. 
     /// </summary>
-    public class MoshAnimationFromJSON {
+    public class MoshAnimationFromJSON : AnimationFileLoader {
 
+        
         Gender        gender;
         float[]       betas;
         int           fps;

@@ -19,6 +19,8 @@
               <e p="PointLightDisplayState.cs" t="Include" />
             </e>
             <e p="FileLoaders" t="Include">
+              <e p="AnimationFileLoader.cs" t="Include" />
+              <e p="H5ModelKeys.cs" t="Include" />
               <e p="JSONModelKeys.cs" t="Include" />
               <e p="loadFromH5.cs" t="Include" />
               <e p="MoshAnimationFromJSON.cs" t="Include" />
