@@ -1,16 +1,11 @@
 ﻿using System;
+using MoshPlayer.Scripts.FileLoaders;
 using MoshPlayer.Scripts.SMPLModel;
 using UnityEngine;
 
 namespace MoshPlayer.Scripts.Playback {
     public class MoshAnimation {
         
-        readonly Vector3[]     translations;
-        readonly Quaternion[,] allPoses;
-        readonly float[]       rawBodyShapeWeightBetas;
-        
-        
-        public Gender Gender { get; }
         public bool Finished => playback.Finished;
 
         // ReSharper disable once ConvertToAutoProperty
@@ -19,43 +14,29 @@ namespace MoshPlayer.Scripts.Playback {
             private set => individualizedBody = value;
         }
 
+        public AnimationData Data => data;
+
+        readonly AnimationData data;
+        
         IndividualizedBody individualizedBody;
-        public readonly ModelDefinition Model;
         readonly PlaybackOptions playbackOptions;
-        readonly int sourceTotalFrameCount;
-        readonly int sourceFPS;
+
         CharacterPoser characterPoser;
         Playback playback;
         AnimationControlEvents animationControlEvents;
         public readonly string AnimationName;
 
 
-        public MoshAnimation(ModelDefinition model, PlaybackOptions playbackOptions,
-                             Gender gender,
-                             int             sourceTotalFrameCount,
-                             int             sourceFPS,
-                             float[]         rawBodyShapeWeightBetas,
-                             Vector3[]       translations,
-                             Quaternion[,]   allPoses,
-                             string animationName) {
-            Gender = gender;
-            Model = model;
+        public MoshAnimation(AnimationData data, PlaybackOptions playbackOptions, string animationName) {
+            this.data = data;
             this.playbackOptions = playbackOptions;
-            this.sourceTotalFrameCount = sourceTotalFrameCount;
-            this.sourceFPS = sourceFPS;
-
-
-            this.rawBodyShapeWeightBetas = rawBodyShapeWeightBetas;
-            this.translations = translations;
-            this.allPoses = allPoses;
             AnimationName = animationName;
-
             Setup();
         }
 
         void Setup() {
             animationControlEvents = new AnimationControlEvents();
-            playback = new Playback(sourceTotalFrameCount, sourceFPS, playbackOptions, animationControlEvents);
+            playback = new Playback(Data.FrameCount, Data.Fps, playbackOptions, animationControlEvents);
         }
 
         public void AttachSkin(SkinnedMeshRenderer skinnedMeshRendererToAttach) {
@@ -66,7 +47,7 @@ namespace MoshPlayer.Scripts.Playback {
             if (characterPoser == null) throw new NullReferenceException("Can't find CharacterPoser component");
             
             Body = meshRenderer.GetComponent<IndividualizedBody>();
-            Body.UpdateBodyWithBetas(rawBodyShapeWeightBetas);
+            Body.UpdateBodyWithBetas(Data.Betas);
         }
 
         public void Reset() {
@@ -84,7 +65,7 @@ namespace MoshPlayer.Scripts.Playback {
             }
             
             if (firstUpdate) {
-                Debug.Log("firstUpdate");
+                //Debug.Log("firstUpdate");
                 SetPosesAndTranslationForFirstFrame(FirstFrameGuaranteed.Instance);
             }
             else {
@@ -110,13 +91,13 @@ namespace MoshPlayer.Scripts.Playback {
         }
 
         Vector3 GetTranslationAtFrame(ResampledFrame resampledFrame) {
-            if (resampledFrame.IsFirstFrame) return translations[0];
+            if (resampledFrame.IsFirstFrame) return Data.Translations[0];
             
-            Vector3 translationAtFrameBeforeThis = translations[resampledFrame.FrameBeforeThis];
+            Vector3 translationAtFrameBeforeThis = Data.Translations[resampledFrame.FrameBeforeThis];
             
             if (resampledFrame.IsLastFrame) return translationAtFrameBeforeThis;
             
-            Vector3 translationAtFrameAfterThis = translations[resampledFrame.FrameAfterThis];
+            Vector3 translationAtFrameAfterThis = Data.Translations[resampledFrame.FrameAfterThis];
             
             Vector3 resampledTranslation = Vector3.Lerp(translationAtFrameBeforeThis, 
                                                         translationAtFrameAfterThis, 
@@ -130,15 +111,15 @@ namespace MoshPlayer.Scripts.Playback {
         /// </summary>
         Quaternion[] GetPosesAtFrame(ResampledFrame resampledFrame) {
             
-            Quaternion[] posesThisFrame = new Quaternion[Model.JointCount];
+            Quaternion[] posesThisFrame = new Quaternion[Data.Model.JointCount];
             
-            for (int jointIndex = 0; jointIndex < Model.JointCount; jointIndex++) {
+            for (int jointIndex = 0; jointIndex < Data.Model.JointCount; jointIndex++) {
                 
-                if (resampledFrame.IsFirstFrame) posesThisFrame[jointIndex] = allPoses[0, jointIndex];
-                else if (resampledFrame.IsLastFrame) posesThisFrame[jointIndex] = allPoses[resampledFrame.FrameBeforeThis, jointIndex];
+                if (resampledFrame.IsFirstFrame) posesThisFrame[jointIndex] = Data.Poses[0, jointIndex];
+                else if (resampledFrame.IsLastFrame) posesThisFrame[jointIndex] = Data.Poses[resampledFrame.FrameBeforeThis, jointIndex];
                 else {
-                    Quaternion rotationAtFrameBeforeThis = allPoses[resampledFrame.FrameBeforeThis, jointIndex];
-                    Quaternion rotationAtFrameAfterThis = allPoses[resampledFrame.FrameAfterThis, jointIndex];
+                    Quaternion rotationAtFrameBeforeThis = Data.Poses[resampledFrame.FrameBeforeThis, jointIndex];
+                    Quaternion rotationAtFrameAfterThis = Data.Poses[resampledFrame.FrameAfterThis, jointIndex];
                     posesThisFrame[jointIndex] = Quaternion.Slerp(rotationAtFrameBeforeThis, rotationAtFrameAfterThis,
                                                                   resampledFrame.PercentageElapsedSinceLastFrame);
                 }

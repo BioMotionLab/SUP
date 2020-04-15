@@ -79,7 +79,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
             UpdateTranslation();
             
             if (firstFrame) {
-                Debug.Log("FirstFrame");
+                //Debug.Log("FirstFrame");
                 bodyChanged = false;
                 StoreOffsetsFromFirstFrame();
             }

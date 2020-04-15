@@ -59,8 +59,8 @@ namespace MoshPlayer.Scripts.Playback {
                 moshAnimation.Reset();
                 animationStrings += moshAnimation.AnimationName + " ";
                 
-                string characterName = $"{moshAnimation.Gender} Character {animationIndex}";
-                MoshCharacter moshCharacter = moshAnimation.Model.CreateNewCharacter(characterName, moshAnimation.Gender);
+                string characterName = $"{moshAnimation.Data.Gender} Character {animationIndex}";
+                MoshCharacter moshCharacter = moshAnimation.Data.Model.CreateNewCharacter(characterName, moshAnimation.Data.Gender);
                 
                 newCharacters.Add(moshCharacter);
                 moshCharacter.StartAnimation(moshAnimation, playbackOptions, displayOptions, renderOptions);

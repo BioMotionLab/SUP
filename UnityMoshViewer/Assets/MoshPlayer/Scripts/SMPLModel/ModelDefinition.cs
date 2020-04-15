@@ -59,6 +59,8 @@ namespace MoshPlayer.Scripts.SMPLModel {
 
         public MoshCharacter CreateNewCharacter(string characterName, Gender gender) {
             MoshCharacter genderedPrefab = GetCharacterPrefab(gender);
+            if (genderedPrefab == null) throw new NullReferenceException("Gender Prefab is null");
+            
             GameObject newCharacter = Instantiate(genderedPrefab.gameObject);
             //Debug.Log("Instantiating char");
             newCharacter.name = characterName;
