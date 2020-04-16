@@ -46,7 +46,7 @@ namespace MoshPlayer.Scripts.Playback {
         void StartAnimation() {
             List<MoshAnimation> animationGroup = animationSequence[currentAnimationIndex];
 
-            string updateMessage = $"Playing animation set {currentAnimationIndex+1} of {animationSequence.Count}. " +
+            string updateMessage = $"\tPlaying animation set {currentAnimationIndex+1} of {animationSequence.Count}. " +
                              $"({animationGroup.Count} chars)";
             Debug.Log(updateMessage);
             PlaybackEventSystem.UpdatePlayerProgress(updateMessage);
