@@ -85,13 +85,14 @@ class AMASSDataConverter:
         self.frames = self.poses.shape[0]
         self.fps = round(int(np.rint(self.data['mocap_framerate'])))
         if self.show_messages:
-            print(f'gender: {self.gender}')
-            print(f'betas: {self.betas.shape}')
-            print(f'poses: {self.poses.shape}')
-            print(f'dmpls: {self.dmpls.shape}')
-            print(f'trans: {self.trans.shape}')
-            print(f'frames detected: {self.frames}')
-            print(f'fps: {self.fps}')
+            print(f"File: {self.npzFile}")
+            print(f'\tgender: {self.gender}')
+            print(f'\tbetas: {self.betas.shape}')
+            print(f'\tposes: {self.poses.shape}')
+            print(f'\tdmpls: {self.dmpls.shape}')
+            print(f'\ttrans: {self.trans.shape}')
+            print(f'\tframes detected: {self.frames}')
+            print(f'\tfps: {self.fps}')
 
     # Loads npz file into data structure
     def load_data(self):
@@ -105,8 +106,11 @@ class AMASSDataConverter:
     # Finishes conversion and saves dicts into JSON format
     def write_to_json(self, json_path: str):
         filename, file_extension = os.path.splitext(json_path)
+
         if file_extension != '.json':
             print(f"Incorrect extension specified ({file_extension}). Needs to be .json.")
+            return
+
         dumped = json.dumps(self.data_as_dict, default=self.default_encoding, indent=4)
         with open(json_path, 'w') as f:
             f.write(dumped)
@@ -114,16 +118,27 @@ class AMASSDataConverter:
     # Write to h5.
     def write_to_h5(self, h5_path: str):
         filename, file_extension = os.path.splitext(h5_path)
+
         if file_extension != '.h5':
             print(f"Incorrect extension specified ({file_extension}). Needs to be .h5.")
+            return
+
         with (h5py.File(h5_path, 'w')) as hf:
             for file in self.data.files:
                 file_data = self.data[file]
                 if self.show_messages:
-                    print(f"{file}: {file_data.shape}")
-                hf.create_dataset(file, data=file_data);
+                    print(f"{file}: shape: {file_data.shape}")
+
+                try:
+                    hf.create_dataset(file, data=file_data)
+                except TypeError:
+                    print("\tData is probably formatted as unicode, converting to string for h5 compatibility")
+                    file_data_converted = file_data.astype(np.string_)
+                    hf.create_dataset(file, data=file_data_converted)
+
         if self.show_messages:
             print('\n\t*** DONE CONVERSION ***\n')
+
 
 def main():
     if len(sys.argv) != 3:
