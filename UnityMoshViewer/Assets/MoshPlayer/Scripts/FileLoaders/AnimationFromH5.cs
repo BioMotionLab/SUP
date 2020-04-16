@@ -120,6 +120,7 @@ namespace MoshPlayer.Scripts.FileLoaders {
             Quaternion quaternionInMayaCoords = RotationVectorToQuaternion(rotationVectorInMayaCoords);
             //Debug.Log($"Frame: {frameIndex}, Joint: {jointIndex}: rotvec: {rotationVectorInMayaCoords.ToString("F4")} quat: {quaternionInMayaCoords.ToString("F4")}");
             Quaternion quaternionInUnityCoords = quaternionInMayaCoords.ToLeftHanded();
+            
             Data.Poses[frameIndex, jointIndex] = quaternionInUnityCoords;
         }
 
@@ -131,6 +132,9 @@ namespace MoshPlayer.Scripts.FileLoaders {
         /// <returns></returns>
         Quaternion RotationVectorToQuaternion(Vector3 rotationVector) {
 
+            //Important to avoid dividing by zero errors due to sinC
+            if (rotationVector == Vector3.zero) return Quaternion.identity;
+            
             float theta = rotationVector.magnitude;
             
             var qx = 0.5f * SinC(0.5f * (theta/Mathf.PI))*rotationVector.x;
@@ -138,6 +142,8 @@ namespace MoshPlayer.Scripts.FileLoaders {
             var qz = 0.5f * SinC(0.5f * (theta/Mathf.PI))*rotationVector.z;
             var qw = Mathf.Cos(0.5f * theta);
             Quaternion quat = new Quaternion(qx, qy, qz, qw);
+            
+            Debug.Log($"quat {quat.ToString("F4")} rotationVector: {rotationVector.ToString("F2")}");
             return quat;
         }
 

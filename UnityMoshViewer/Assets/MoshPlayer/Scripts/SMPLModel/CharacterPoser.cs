@@ -145,6 +145,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
                     int poseIndex = Bones.NameToJointIndex[boneName];
                     bones[boneIndex].localRotation = bones[boneIndex].localRotation * poses[poseIndex];
                     
+                    
 
                 }
                 catch (KeyNotFoundException) {
