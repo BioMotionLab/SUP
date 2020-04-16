@@ -15,10 +15,9 @@ namespace MoshPlayer.Scripts.Playback {
         Models models;
         string       animFolder;
 
-        public bool                  DoneLoading;
         [FormerlySerializedAs("animationSequence")]
         public List<List<MoshAnimation>> AnimationSequence;
-        string[]                     animLines;
+        string[] animLines;
         Action<List<List<MoshAnimation>>>                       doThisWhenDoneAction;
         PlaybackOptions playbackOptions;
 
@@ -64,13 +63,13 @@ namespace MoshPlayer.Scripts.Playback {
                 StringBuilder log = new StringBuilder();
                 string line = animLines[lineIndex];
                 List<MoshAnimation> allAnimationsInThisLine = GetAnimationsFromLine(line);
-                log.Append($"Loaded {lineIndex} of {animLines.Length}");
+                log.Append($"Loaded {lineIndex+1} of {animLines.Length}");
                 if (allAnimationsInThisLine.Count > 0) {
                     AnimationSequence.Add(allAnimationsInThisLine);
-                    log.Append($" (Model:{allAnimationsInThisLine[0].Model.ModelName}), containing animations for {allAnimationsInThisLine.Count} characters");
+                    log.Append($" (Model:{allAnimationsInThisLine[0].Data.Model.ModelName}), containing animations for {allAnimationsInThisLine.Count} characters");
                 }
                 else {
-                    log.Append(", which resulted in no successfully loaded animations. Skipping line.");
+                    log.Append(" [WITH ERRORS]. Skipping line.");
                 }
 
                 string finalLog = $"\t...{log}";
@@ -93,10 +92,19 @@ namespace MoshPlayer.Scripts.Playback {
             List<MoshAnimation> animations = new List<MoshAnimation>();
             foreach (string filename in fileNames) {
                 try {
-                    string animationFileString = LoadAnimFileAsString(filename);
-                    MoshAnimation loadedAnimation =
-                        new MoshAnimationFromJSON(animationFileString, models, playbackOptions, filename)
-                            .BuildWithSettings();
+                    if (!Directory.Exists(animFolder)) throw new DirectoryNotFoundException(animFolder);
+                    string animFilePath = Path.Combine(animFolder, filename);
+                    
+                    
+                    AnimationFileLoader loader;
+                    string extension = Path.GetExtension(animFilePath);
+                    if (extension == ".json") loader = new AnimationFromJSON(animFilePath, models, playbackOptions);
+                    else if (extension == ".h5")
+                        loader = new AnimationFromH5(animFilePath, models, playbackOptions);
+                    else throw new UnsupportedFileTypeException($"Extension {extension} is unsupported");
+                    AnimationData animationData = loader.Data;
+                    
+                    MoshAnimation loadedAnimation = new MoshAnimation(animationData, playbackOptions, filename);
                     animations.Add(loadedAnimation);
                 }
                 catch (FileNotFoundException) {
@@ -106,26 +114,23 @@ namespace MoshPlayer.Scripts.Playback {
                 }
                 catch (FileMissingFromFolderException) {
                     Debug.LogError("Folder exists, but listed file not found inside it." +
-                        $"\n\t\tFileName: {filename}" +
-                        $"\n\t\tFolder: {animFolder} ");
+                                   $"\n\t\tFileName: {filename}" +
+                                   $"\n\t\tFolder: {animFolder} ");
                 }
+                catch (Exception e) when 
+                    (e is DataReadException || 
+                     e is UnsupportedFileTypeException) {
+                    
+                    Debug.LogError(e.Message +
+                                   $"\n\t\tFileName: {filename}" +
+                                   $"\n\t\tFolder: {animFolder} ");
+                }
+                
             }
             return animations;
         }
 		
-        string LoadAnimFileAsString(string filename) {
-            string animFilePath = Path.Combine(animFolder, filename);
-            
-            if (Directory.Exists(animFolder)) {
-                if (!File.Exists(animFilePath)) {
-                    throw new FileMissingFromFolderException();
-                }
-            }
-
-            //Debug.Log(animFilePath);
-            string animText1 = File.ReadAllText(animFilePath);
-            return animText1;
-        }
+        
 
       
     }
@@ -136,6 +141,26 @@ namespace MoshPlayer.Scripts.Playback {
         }
 
         public FileMissingFromFolderException(string e) : base(e) {
+        }
+
+    }
+    
+    public class UnsupportedFileTypeException : Exception {
+
+        public UnsupportedFileTypeException() {
+        }
+
+        public UnsupportedFileTypeException(string e) : base(e) {
+        }
+
+    }
+    
+    public class DataReadException : Exception {
+
+        public DataReadException() {
+        }
+
+        public DataReadException(string e) : base(e) {
         }
 
     }

@@ -24,6 +24,9 @@ namespace MoshPlayer.Scripts.SMPLModel {
         [SerializeField]
         JSONModelKeys jsonKeys = new JSONModelKeys();
 
+        [SerializeField]
+        H5ModelKeys h5Keys = new H5ModelKeys();
+        
         [SerializeField] 
         MoshCharacterComponent MaleCharacterPrefab = default;
         
@@ -49,12 +52,15 @@ namespace MoshPlayer.Scripts.SMPLModel {
         public int   PoseDependentBlendshapeCount => poseDependentBlendshapeCount;
 
         public JSONModelKeys JsonKeys => jsonKeys;
+        public H5ModelKeys H5Keys => h5Keys;
         public bool RotateToUnityCoords = false;
 
         public int PelvisIndex = 0;
 
         public MoshCharacter CreateNewCharacter(string characterName, Gender gender) {
             MoshCharacter genderedPrefab = GetCharacterPrefab(gender);
+            if (genderedPrefab == null) throw new NullReferenceException("Gender Prefab is null");
+            
             GameObject newCharacter = Instantiate(genderedPrefab.gameObject);
             //Debug.Log("Instantiating char");
             newCharacter.name = characterName;

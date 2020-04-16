@@ -79,7 +79,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
             UpdateTranslation();
             
             if (firstFrame) {
-                Debug.Log("FirstFrame");
+                //Debug.Log("FirstFrame");
                 bodyChanged = false;
                 StoreOffsetsFromFirstFrame();
             }
@@ -144,6 +144,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
                     
                     int poseIndex = Bones.NameToJointIndex[boneName];
                     bones[boneIndex].localRotation = bones[boneIndex].localRotation * poses[poseIndex];
+                    
                     
 
                 }

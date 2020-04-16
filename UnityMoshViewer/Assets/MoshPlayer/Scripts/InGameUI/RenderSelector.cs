@@ -5,7 +5,7 @@ using UnityEngine;
 namespace MoshPlayer.Scripts.InGameUI {
     public class RenderSelector : MonoBehaviour {
 
-        [SerializeField] GameObject manualPoseManipulationPanel;
+        [SerializeField] GameObject manualPoseManipulationPanel = default;
 
         void Awake() {
             if (!Application.isEditor) manualPoseManipulationPanel.SetActive(false);
