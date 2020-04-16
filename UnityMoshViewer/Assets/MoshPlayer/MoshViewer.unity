@@ -510,6 +510,10 @@ MonoBehaviour:
   NextKeys: 20000000
   PrevKey: 127
   QuitKeys: 1b000000
+  ToggleAllUIKey: 117
+  ui:
+  - {fileID: 780763111}
+  - {fileID: 1456900893}
 --- !u!4 &407463849
 Transform:
   m_ObjectHideFlags: 0
@@ -618,6 +622,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &780763111 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8159167210604422375, guid: 6f7d7cab49bbbdf4d9b4252103aaca9e,
+    type: 3}
+  m_PrefabInstance: {fileID: 8159167210457398640}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1228042995 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8159167210646847327, guid: 6f7d7cab49bbbdf4d9b4252103aaca9e,
@@ -700,6 +710,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 2
   m_VerticalFit: 2
+--- !u!1 &1456900893 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3216821332557362094, guid: 4ed003a4ef51d63439792770080d116e,
+    type: 3}
+  m_PrefabInstance: {fileID: 3216821332106621278}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1701981297 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5100136094089617294, guid: 214f2428e1f4c274da4fa6d27a3d44a3,

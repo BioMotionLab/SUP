@@ -23,6 +23,11 @@ namespace MoshPlayer.Scripts.Playback {
         [SerializeField]
         List<KeyCode> QuitKeys = new List<KeyCode>();
 
+        [SerializeField] KeyCode ToggleAllUIKey = KeyCode.U;
+
+        [SerializeField] List<GameObject> ui = default;
+
+        bool uiOn = true;
         bool allowKeyboardControls;
 
         void OnEnable() {
@@ -63,6 +68,11 @@ namespace MoshPlayer.Scripts.Playback {
         }
 
         void ListenForKeyboardPresses() {
+
+            if (Input.GetKeyDown(ToggleAllUIKey)) {
+                ToggleAllUI();
+            }
+            
             foreach (KeyCode key in NextKeys) {
                 if (Input.GetKeyDown(key)) {
                     GoToNextAnimation();
@@ -79,6 +89,14 @@ namespace MoshPlayer.Scripts.Playback {
                     Quit();
                 }
             }
+        }
+
+        void ToggleAllUI() {
+            uiOn = !uiOn;
+            foreach (GameObject uiObject in ui) {
+                uiObject.SetActive(!uiObject.activeSelf);
+            }
+            
         }
 
         static void Quit() {
