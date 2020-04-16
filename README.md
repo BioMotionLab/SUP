@@ -1,6 +1,6 @@
 # MoshViewer
 
-![screenshit](Images/MoshViewer%20Capture.PNG)
+![screenshot](Images/MoshViewer%20Capture.PNG)
 
 Moshviewer is a tool to display animations from the AMASS database in Unity. 
 
@@ -19,11 +19,22 @@ Features:
 
 ## Using the player
 
-The AMASS data comes in .npz format, which is not readable by Unity. This repository contains a python tool to convert .npz files into a Unity-friendly .json files. The folder containing the required scripts is contained within the root directory of the repository. There is a jupyter notebook with example code demonstrating how to use the conversion scripts.
+The AMASS data comes in .npz format, which is not readable by Unity. This repository contains a python tool to convert .npz files into a Unity-friendly .hf (preferred) or .json files. The folder containing the scripts is contained within the root directory of the repository. There is a jupyter notebook with example code demonstrating how to use the conversion scripts.
 
-link to example: [here.](https://github.com/BioMotionLab/UpdatingMoshToSMPLH/blob/master/NumpyToJSONConversionForAMASS/AMASSConverterExamples.ipynb)
+* **.h5:** Faster, smaller, binary (not human-readable), edit in python
+* **.json:** Slower, bigger, human-readable, edit in any text editor. 
 
-To run the MoshViewer application, the programs needs a path to a folder containing .json animations, and a text file containing a list of which animations to play in that folder and in what order.
+link to example converter: [here.](https://github.com/BioMotionLab/UpdatingMoshToSMPLH/blob/master/NumpyToJSONConversionForAMASS/AMASSConverterExamples.ipynb)
+
+
+## Loading animations
+
+Upon running the program a load screen will appear. Animations can be loaded as single file, a batch of files, or alternatively there are some included samples.
+
+
+### Batch running:
+
+To run the MoshViewer application on several files in sequence  , the programs needs a path to a folder containing animations in the correct format, and a text file containing a list of which animations to play in that folder and in what order.
 
 The format of the list file should be:
 

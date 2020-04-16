@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using JetBrains.Annotations;
 using MoshPlayer.Scripts.Playback;
 using MoshPlayer.ThirdParty.StandaloneFileBrowser;
@@ -31,8 +32,11 @@ namespace MoshPlayer.Scripts.InGameUI {
         bool listSelected   = false;
         string singleFile;
         bool singleFileSelected = false;
-        
+        ExtensionFilter supportedExtensions;
 
+        void Start() {
+            supportedExtensions = new ExtensionFilter {Extensions = new[] {"json", "h5"}};
+        }
 
         [PublicAPI]
         public void SelectFolder() {
@@ -55,7 +59,7 @@ namespace MoshPlayer.Scripts.InGameUI {
 
         [PublicAPI]
         public void SelectSingleFile() {
-            string[] file = StandaloneFileBrowser.OpenFilePanel("Open File", "", "json", false);
+            string[] file = StandaloneFileBrowser.OpenFilePanel("Open File", "", new[] {supportedExtensions}, false);
             if (file.Length < 1) return;
             singleFile = file[0].Replace("\\", "\\\\");
             Debug.Log(singleFile);

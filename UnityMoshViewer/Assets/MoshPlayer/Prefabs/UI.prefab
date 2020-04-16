@@ -20614,10 +20614,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Unity cannot read .NPZ files. Therefore we have provided python scripts
-    to convert .NPZ animation files into a .JSON format readable by Unity. These
-    conversion scripts are packaged with this viewer. See included example or documentation
-    on GitHub for more information.
+  m_text: Unity cannot read .npz files. Therefore we have provided python scripts
+    to convert .npz animation files into either .h5 (recommended) or .json format
+    readable by Unity. These conversion scripts are packaged with this viewer. See
+    included example or documentation on GitHub for more information.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -20666,7 +20666,7 @@ MonoBehaviour:
   m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
-  m_firstOverflowCharacterIndex: 223
+  m_firstOverflowCharacterIndex: 238
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_isTextTruncated: 0
@@ -20690,10 +20690,10 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 1951837288352637383}
-    characterCount: 268
+    characterCount: 294
     spriteCount: 0
-    spaceCount: 40
-    wordCount: 41
+    spaceCount: 43
+    wordCount: 44
     linkCount: 0
     lineCount: 3
     pageCount: 1

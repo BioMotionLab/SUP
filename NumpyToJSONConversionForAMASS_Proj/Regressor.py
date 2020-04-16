@@ -82,30 +82,13 @@ class SMPLHRegressorConverter:
 
 def main():
     if len(sys.argv) != 3:
-        print("Not the right number of arguments. first should be source npz file path, second should be destination json path.")
+        print("Not the right number of arguments. first should be source npz file path, second should be destination "
+              "json path.")
         return
     converter = SMPLHRegressorConverter(sys.argv[1])
     converter.write_to_json(sys.argv[2])
 
+
 if __name__ == "__main__":
     main()
-
-
-
-#%%
-
-#%%
-model_path = 'Models/smplh_model_from_mano_f.npz'
-h5_name = 'test.h5'
-converter = SMPLHRegressorConverter(model_path)
-
-#%%
-converter.write_to_h5(h5_name)
-with h5py.File(h5_name, 'r') as hf:
-    print(hf.keys())
-    J = hf['J']
-    print(J.shape)
-    print(J.dtype)
-    for i in range(0, 24):
-        print(J[i])
 

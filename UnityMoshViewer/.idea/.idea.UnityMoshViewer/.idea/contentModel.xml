@@ -19,7 +19,6 @@
               <e p="PointLightDisplayState.cs" t="Include" />
             </e>
             <e p="FileLoaders" t="Include">
-              <e p="AnimationData.cs" t="Include" />
               <e p="AnimationFileLoader.cs" t="Include" />
               <e p="AnimationFromH5.cs" t="Include" />
               <e p="AnimationFromJSON.cs" t="Include" />
@@ -68,6 +67,7 @@
               <e p="PlaybackOptions.cs" t="Include" />
             </e>
             <e p="SMPLModel" t="Include">
+              <e p="AnimationData.cs" t="Include" />
               <e p="AverageBody.cs" t="Include" />
               <e p="Bones.cs" t="Include" />
               <e p="CharacterEvents.cs" t="Include" />

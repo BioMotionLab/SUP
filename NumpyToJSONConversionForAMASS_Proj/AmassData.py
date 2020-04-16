@@ -1,5 +1,6 @@
 # Imports
 import numpy as np
+import os
 import json
 import sys
 import h5py
@@ -103,12 +104,18 @@ class AMASSDataConverter:
 
     # Finishes conversion and saves dicts into JSON format
     def write_to_json(self, json_path: str):
+        filename, file_extension = os.path.splitext(json_path)
+        if file_extension != '.json':
+            print(f"Incorrect extension specified ({file_extension}). Needs to be .json.")
         dumped = json.dumps(self.data_as_dict, default=self.default_encoding, indent=4)
         with open(json_path, 'w') as f:
             f.write(dumped)
 
     # Write to h5.
     def write_to_h5(self, h5_path: str):
+        filename, file_extension = os.path.splitext(h5_path)
+        if file_extension != '.h5':
+            print(f"Incorrect extension specified ({file_extension}). Needs to be .h5.")
         with (h5py.File(h5_path, 'w')) as hf:
             for file in self.data.files:
                 file_data = self.data[file]
