@@ -106,9 +106,6 @@ namespace MoshPlayer.Scripts.FileLoaders {
                     GetPosesAtFrame(frameIndex, jointIndex, posesVectorized);
                 }
             }
-           
-
-         
         }
 
         void GetPosesAtFrame(int frameIndex, int jointIndex, float[] posesVectorized) {
@@ -143,7 +140,7 @@ namespace MoshPlayer.Scripts.FileLoaders {
             var qw = Mathf.Cos(0.5f * theta);
             Quaternion quat = new Quaternion(qx, qy, qz, qw);
             
-            Debug.Log($"quat {quat.ToString("F4")} rotationVector: {rotationVector.ToString("F2")}");
+            //Debug.Log($"quat {quat.ToString("F4")} rotationVector: {rotationVector.ToString("F2")}");
             return quat;
         }
 

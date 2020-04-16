@@ -85,7 +85,7 @@ class AMASSDataConverter:
         self.frames = self.poses.shape[0]
         self.fps = round(int(np.rint(self.data['mocap_framerate'])))
         if self.show_messages:
-            print(f"File: {self.npzFile}")
+            print(f"Created converter for file: {self.npzFile}")
             print(f'\tgender: {self.gender}')
             print(f'\tbetas: {self.betas.shape}')
             print(f'\tposes: {self.poses.shape}')
@@ -105,6 +105,8 @@ class AMASSDataConverter:
 
     # Finishes conversion and saves dicts into JSON format
     def write_to_json(self, json_path: str):
+        if self.show_messages:
+            print(f"\nWriting to h5... {json_path}")
         filename, file_extension = os.path.splitext(json_path)
 
         if file_extension != '.json':
@@ -114,6 +116,8 @@ class AMASSDataConverter:
         dumped = json.dumps(self.data_as_dict, default=self.default_encoding, indent=4)
         with open(json_path, 'w') as f:
             f.write(dumped)
+        if self.show_messages:
+            print('\n  *** DONE CONVERSION ***\n')
 
     # Write to h5.
     def write_to_h5(self, h5_path: str):
@@ -124,20 +128,23 @@ class AMASSDataConverter:
             return
 
         with (h5py.File(h5_path, 'w')) as hf:
+            if self.show_messages:
+                print(f"\nWriting to h5... {h5_path}")
+                print("  WARNING: defaulting to model: \"smplh\".")
             for file in self.data.files:
                 file_data = self.data[file]
                 if self.show_messages:
-                    print(f"{file}: shape: {file_data.shape}")
+                    print(f"\twriting... {file}")
 
                 try:
                     hf.create_dataset(file, data=file_data)
                 except TypeError:
-                    print("\tData is probably formatted as unicode, converting to string for h5 compatibility")
+                    print(f"\t\tData is probably formatted as unicode, converting {file} to string for h5 compatibility")
                     file_data_converted = file_data.astype(np.string_)
                     hf.create_dataset(file, data=file_data_converted)
-
+            hf.create_dataset("model", data="smplh")
         if self.show_messages:
-            print('\n\t*** DONE CONVERSION ***\n')
+            print('\n  *** DONE CONVERSION ***\n')
 
 
 def main():

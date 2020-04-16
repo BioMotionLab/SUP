@@ -2,30 +2,33 @@
 
 ![screenshot](Images/MoshViewer%20Capture.PNG)
 
-Moshviewer is a tool to display animations from the AMASS database in Unity. 
+Moshviewer is a tool to display animations from the [AMASS database](https://amass.is.tue.mpg.de/) in Unity. 
 
-[Link to AMASS dataset](https://amass.is.tue.mpg.de/)
+
 
 It reads and plays animation files with several render settings and allows using SMPL-H models in Unity for any purpose. 
 
 Features:
 * Simple controls to move the camera that match the controls in the Unity Editor Scene View. 
-* Simple controls for playback of the animations including Play/Pause, playspeed, and there is a "scrubber" to jump to a particular part of an animation.
-* Can toggle between rendering: opaque mesh, semi-transparent mesh, bones, and point-lights for joints.
+* Simple controls for playback of the animations including: 
+    * Play/Pause
+    * Playback speed
+    * A "scrubber" to jump to a particular part of an animation.
+* Can toggle between rendering modes:
+    * Opaque mesh, semi-transparent mesh
+    * Bones
+    * Point-lights for joints.
 * Play multiple animations at once
 * Save notes about animations while viewing them using the Review Panel.
 
-
+To show/hide the entire user-interface (UI) press the "U" key. This is useful for screen capturing and recording.
 
 ## Using the player
 
-The AMASS data comes in .npz format, which is not readable by Unity. This repository contains a python tool to convert .npz files into a Unity-friendly .hf (preferred) or .json files. The folder containing the scripts is contained within the root directory of the repository. There is a jupyter notebook with example code demonstrating how to use the conversion scripts.
+The AMASS data comes in .npz format, which is not readable by Unity. This repository contains a python tool to convert .npz files into a Unity-friendly .hf (preferred) or .json files. The folder containing the scripts is contained within the root directory of the repository. There is a [Jupyter Notebook](https://github.com/BioMotionLab/UpdatingMoshToSMPLH/blob/master/NumpyToJSONConversionForAMASS/AMASSConverterExamples.ipynb) in this folder with example code demonstrating how to use the conversion scripts.
 
 * **.h5:** Faster, smaller, binary (not human-readable), edit in python
 * **.json:** Slower, bigger, human-readable, edit in any text editor. 
-
-link to example converter: [here.](https://github.com/BioMotionLab/UpdatingMoshToSMPLH/blob/master/NumpyToJSONConversionForAMASS/AMASSConverterExamples.ipynb)
-
 
 ## Loading animations
 
