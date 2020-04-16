@@ -1,4 +1,7 @@
 using System;
+#if UNITY_STANDALONE_LINUX
+using SFB;
+#endif
 
 
 namespace MoshPlayer.ThirdParty.StandaloneFileBrowser {
