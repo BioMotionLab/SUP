@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Windows.Forms;
 using MoshPlayer.Scripts.Playback;
 using MoshPlayer.Scripts.Utilities;
 using UnityEngine;
@@ -15,48 +16,37 @@ namespace MoshPlayer.Scripts.SMPLModel {
         Transform[]         bones;
         ModelDefinition     model;
         MoshCharacter       moshCharacter;
-        Quaternion[] poses;
-
+        
         bool firstFrame = false;
-        public Vector3 translation;
-        public Vector3 firstFrameTranslation;
         bool bodyChanged = false;
-
+        
+        [SerializeField] Vector3 translation;
+        [SerializeField] Vector3 firstFrameTranslation;
+        [SerializeField] Quaternion[] poses;
         [SerializeField] Grounder grounder;
 
-        void OnEnable() {
+        void Awake() {
             moshCharacter = GetComponentInParent<MoshCharacter>();
             if (moshCharacter == null) throw new NullReferenceException("Can't find MoshCharacter component");
-            
-            
-            model = moshCharacter.Model;
 
             skinnedMeshRenderer = GetComponent<SkinnedMeshRenderer>();
-            if (skinnedMeshRenderer == null)
-                throw new NullReferenceException("Not attached to object with a skinnedMeshRenderer");
-
+            if (skinnedMeshRenderer == null) throw new NullReferenceException("Can't find SkinnedMeshRenderer component");
+            model = moshCharacter.Model;
             bones = skinnedMeshRenderer.bones;
             
             grounder = new Grounder(moshCharacter, skinnedMeshRenderer);
             poses = new Quaternion[model.JointCount];
 
             moshCharacter.Events.OnBodyChanged += BodyChanged;
-            PlaybackEventSystem.OnStopAllAnimations += ResetCommonGround;
             PlaybackEventSystem.OnChangeSnapToGround += GroundingChanged;
         }
-
-        void ResetCommonGround() {
-            grounder.ResetCommonGround();
-        }
-
-        void OnDisable() {
+        
+        void OnDestroy() {
             ResetToTPose();
             moshCharacter.Events.OnBodyChanged -= BodyChanged;
-            PlaybackEventSystem.OnStopAllAnimations -= ResetCommonGround;
             PlaybackEventSystem.OnChangeSnapToGround -= GroundingChanged;
+            grounder.Destory();
         }
-
-      
 
         void Update() {
             if (moshCharacter.RenderOptions.UpdateBodyShapeLive) {
@@ -78,11 +68,8 @@ namespace MoshPlayer.Scripts.SMPLModel {
             
             UpdateTranslation();
             
-            if (firstFrame) {
-                //Debug.Log("FirstFrame");
-                bodyChanged = false;
-                StoreOffsetsFromFirstFrame();
-            }
+            if (firstFrame) ConfigureFirstFrame();
+            
 
             if (!moshCharacter.RenderOptions.UpdatePosesLive) UpdateFootOffset();
             else if (!firstFrame && bodyChanged) UpdateFootOffset();
@@ -94,16 +81,16 @@ namespace MoshPlayer.Scripts.SMPLModel {
             grounder.UpdateGround();
             UpdateTranslation();
         }
-        
-        void GroundingChanged(GroundSnapType unused) {
+
+        void ConfigureFirstFrame() {
+            firstFrameTranslation = translation;
+            grounder.InitGround();
+            bodyChanged = false;
+            firstFrame = false;
             UpdateTranslation();
         }
 
-        void StoreOffsetsFromFirstFrame() {
-            firstFrameTranslation = translation;
-            grounder.InitGround();
-            
-            firstFrame = false;
+        void GroundingChanged(GroundSnapType unused) {
             UpdateTranslation();
         }
 
@@ -195,7 +182,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
         }
         
 
-        [ContextMenu("ResetToTPose")]
+        [UnityEngine.ContextMenu("ResetToTPose")]
         public void ResetToTPose() {
             ResetPoses();
             ResetPoseDependentBlendShapesToZero();
@@ -247,7 +234,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
             
         }
 
-        [ContextMenu("ResetPoseBlendshapes")]
+        [UnityEngine.ContextMenu("ResetPoseBlendshapes")]
         public void ResetPoseDependentBlendShapesToZero() {
             int startingJoint =  model.FirstPoseIsPelvisTranslation ? 1 : 0;
             for (int jointIndex = startingJoint; jointIndex < model.JointCount; jointIndex++) {

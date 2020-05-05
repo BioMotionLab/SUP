@@ -191,7 +191,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
         /// was slowing it down. Now I precompute the addition since it stays constant.
         /// </summary>
         Vector3 CorrectMeshToRigOffset(Vector3 vertex) {
-            return vertex - moshCharacter.CombinedOffset;
+            return vertex - moshCharacter.MeshCorrection.CombinedOffset;
         }
         
         /// <summary>
@@ -199,7 +199,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
         /// </summary>
         [ContextMenu("reground")]
         void SetFeetOnGround() {
-            float offsetFromGround = minimumYVertex + moshCharacter.OffsetErrorBetweenPelvisAndZero.y + pelvisResetPosition.y - pelvisNewLocation.y;
+            float offsetFromGround = minimumYVertex + moshCharacter.MeshCorrection.OffsetErrorBetweenPelvisAndZero.y + pelvisResetPosition.y - pelvisNewLocation.y;
             Vector3 offsetFromGroundVector = new Vector3(0, offsetFromGround, 0);
             //Debug.Log($"offset: {offsetFromGround.ToString("f4")}");
             Transform pelvis = skinnedMeshRenderer.bones[model.PelvisIndex];

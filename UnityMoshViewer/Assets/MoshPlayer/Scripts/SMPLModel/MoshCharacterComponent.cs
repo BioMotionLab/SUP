@@ -22,18 +22,10 @@ namespace MoshPlayer.Scripts.SMPLModel {
         [SerializeField]
         CharacterDisplayOptions characterDisplayOptions = default;
         public CharacterDisplayOptions DisplayOptions => characterDisplayOptions;
-        
-        [SerializeField]
-        Vector3 offsetErrorBetweenPelvisAndZero = default;
-        public Vector3 OffsetErrorBetweenPelvisAndZero => offsetErrorBetweenPelvisAndZero;
 
-        [SerializeField]
-        Vector3 offsetErrorInFbxBetweenRigAndMesh = default;
-        public Vector3 OffsetErrorInFbxBetweenRigAndMesh => offsetErrorInFbxBetweenRigAndMesh;
 
-        [SerializeField]
-        Vector3 combinedOffsets = default;
-        public Vector3 CombinedOffset => combinedOffsets;
+        [SerializeField] MeshCorrection meshCorrection = default;
+        public MeshCorrection MeshCorrection => meshCorrection;
         
         [SerializeField]
         ModelDefinition model = default;
@@ -51,10 +43,6 @@ namespace MoshPlayer.Scripts.SMPLModel {
 
         CharacterEvents events;
         public CharacterEvents Events => events ?? (events = new CharacterEvents());
-
-        void OnValidate() {
-            combinedOffsets = offsetErrorBetweenPelvisAndZero - offsetErrorInFbxBetweenRigAndMesh;
-        }
 
         void OnEnable() {
             moshMesh = GetComponentInChildren<MoshMesh>();

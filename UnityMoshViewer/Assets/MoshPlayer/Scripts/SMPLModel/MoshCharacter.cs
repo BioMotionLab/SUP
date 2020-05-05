@@ -12,9 +12,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
 
         CharacterRenderOptions RenderOptions { get; }
         CharacterDisplayOptions DisplayOptions { get; }
-        Vector3 OffsetErrorBetweenPelvisAndZero { get; }
-        Vector3 OffsetErrorInFbxBetweenRigAndMesh { get; }
-        Vector3 CombinedOffset { get; }
+        MeshCorrection MeshCorrection { get; }
         Gender Gender { get; }
 
         IndividualizedBody Body {
