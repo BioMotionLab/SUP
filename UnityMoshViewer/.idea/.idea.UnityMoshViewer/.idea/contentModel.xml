@@ -70,6 +70,7 @@
               <e p="AnimationData.cs" t="Include" />
               <e p="AverageBody.cs" t="Include" />
               <e p="Bones.cs" t="Include" />
+              <e p="CharacterComponent.cs" t="Include" />
               <e p="CharacterEvents.cs" t="Include" />
               <e p="CharacterPoser.cs" t="Include" />
               <e p="CharacterRenderOptions.cs" t="Include" />
@@ -83,7 +84,6 @@
               <e p="ModelDefinition.cs" t="Include" />
               <e p="Models.cs" t="Include" />
               <e p="MoshCharacter.cs" t="Include" />
-              <e p="MoshCharacterComponent.cs" t="Include" />
               <e p="MoshMesh.cs" t="Include" />
               <e p="MoshViewerComponent.cs" t="Include" />
               <e p="SideOfBody.cs" t="Include" />

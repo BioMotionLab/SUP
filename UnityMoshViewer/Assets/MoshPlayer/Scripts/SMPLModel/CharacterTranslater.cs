@@ -5,8 +5,8 @@ using UnityEngine;
 namespace MoshPlayer.Scripts.SMPLModel {
     
     public class CharacterTranslater : MonoBehaviour {
-        [SerializeField] Vector3 translation;
-        [SerializeField] Vector3 firstFrameTranslation;
+        [SerializeField] Vector3 currentTranslation;
+        Vector3 firstFrameTranslation;
         
         [SerializeField] Grounder grounder;
         
@@ -46,7 +46,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
         }
         
         void ConfigureFirstFrame() {
-            firstFrameTranslation = translation;
+            firstFrameTranslation = currentTranslation;
             grounder.InitGround();
             bodyChanged = false;
             firstFrame = false;
@@ -65,7 +65,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
         }
         
         public void SetTranslation(Vector3 trans) {
-            translation = trans;
+            currentTranslation = trans;
             //Debug.Log($"setting trans: {translation.ToString("F4")}");
         }
 
@@ -87,7 +87,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
         Vector3 UpdateVerticalTranslation(Vector3 finalTrans) {
             //height needs to be dealt with separately because of ground-snapping
             if (moshCharacter.RenderOptions.UpdateTranslationLiveY && moshCharacter.RenderOptions.UpdatePosesLive)
-                finalTrans.y = translation.y;
+                finalTrans.y = currentTranslation.y;
             else
                 finalTrans.y = firstFrameTranslation.y;
 
@@ -98,8 +98,8 @@ namespace MoshPlayer.Scripts.SMPLModel {
         Vector3 UpdateHorizontalTranslation(Vector3 finalTrans) {
             if (moshCharacter.RenderOptions.UpdatePosesLive) {
                 //Horizontal plane simple enough
-                finalTrans.x = moshCharacter.RenderOptions.UpdateTranslationLiveXZ ? translation.x : firstFrameTranslation.x;
-                finalTrans.z = moshCharacter.RenderOptions.UpdateTranslationLiveXZ ? translation.z : firstFrameTranslation.z;
+                finalTrans.x = moshCharacter.RenderOptions.UpdateTranslationLiveXZ ? currentTranslation.x : firstFrameTranslation.x;
+                finalTrans.z = moshCharacter.RenderOptions.UpdateTranslationLiveXZ ? currentTranslation.z : firstFrameTranslation.z;
             }
 
             return finalTrans;

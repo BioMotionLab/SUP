@@ -25,6 +25,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
             this.skinnedMeshRenderer = skinnedMeshRenderer;
             
             PlaybackEventSystem.OnStopAllAnimations += ResetCommonGround;
+            moshCharacter.Events.OnBodyChanged += ResetCommonGround;
         }
 
         public void InitGround() {
@@ -94,15 +95,16 @@ namespace MoshPlayer.Scripts.SMPLModel {
             public CommonGround(float feetOffset) {
                 Offset = feetOffset;
             }
+            
         }
 
         public void UpdateGround() {
-            Debug.Log("Updating grounding");
             individualFootOffset += CalculateGround();
         }
 
         public void Destory() {
             PlaybackEventSystem.OnStopAllAnimations -= ResetCommonGround;
+            moshCharacter.Events.OnBodyChanged -= ResetCommonGround;
         }
     }
 }

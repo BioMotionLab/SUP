@@ -9,7 +9,13 @@ namespace MoshPlayer.Scripts.SMPLModel {
     /// This is setup to handle loading a MoSh animation without prior knowledge of gender, swapping in the correct SMPLConstants model.
     /// </summary>
     [SelectionBase]
-    public class MoshCharacterComponent : MonoBehaviour, MoshCharacter {
+    public class CharacterComponent : MonoBehaviour, MoshCharacter {
+          
+        
+        [SerializeField]
+        ModelDefinition model = default;
+        public ModelDefinition Model => model;
+        
         
         [SerializeField]
         Gender gender = default;
@@ -26,10 +32,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
 
         [SerializeField] MeshCorrection meshCorrection = default;
         public MeshCorrection MeshCorrection => meshCorrection;
-        
-        [SerializeField]
-        ModelDefinition model = default;
-        public ModelDefinition Model => model;
+      
 
 
         public IndividualizedBody Body => moshAnimation?.Body;

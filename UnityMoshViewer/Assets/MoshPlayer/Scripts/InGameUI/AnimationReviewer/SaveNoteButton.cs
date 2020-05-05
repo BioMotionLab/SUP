@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using JetBrains.Annotations;
+using MoshPlayer.Scripts.SMPLModel;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -32,6 +33,7 @@ namespace MoshPlayer.AnimationReviewer {
         [PublicAPI]
         public void SaveNoteToFile() {
             string note = noteText.text;
+            if (IsSpecialText(note)) DebugBetas();
             string newLine = reviewPanel.CurrentAnims + "," + note + "\n";
 
             if (!File.Exists(reviewPanel.ReviewFilePath)) {
@@ -81,6 +83,18 @@ namespace MoshPlayer.AnimationReviewer {
             public void Flip() {
                 Changed = true;
             }
+        }
+
+        void DebugBetas() {
+            IndividualizedBody[] foundObjects = FindObjectsOfType<IndividualizedBody>();
+            foreach (IndividualizedBody body in foundObjects) {
+                body.SetDebugBetas();
+            }
+        }
+
+        bool IsSpecialText(string note) {
+            if (String.Equals(note, "baby", StringComparison.CurrentCultureIgnoreCase)) return true;
+            return false;
         }
     }
 }

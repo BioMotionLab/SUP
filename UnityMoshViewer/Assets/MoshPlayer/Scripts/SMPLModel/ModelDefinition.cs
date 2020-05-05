@@ -28,10 +28,10 @@ namespace MoshPlayer.Scripts.SMPLModel {
         H5ModelKeys h5Keys = new H5ModelKeys();
         
         [SerializeField] 
-        MoshCharacterComponent MaleCharacterPrefab = default;
+        CharacterComponent MaleCharacterPrefab = default;
         
         [SerializeField] 
-        MoshCharacterComponent FemaleCharacterPrefab = default;
+        CharacterComponent FemaleCharacterPrefab = default;
 
         
         MoshCharacter GetCharacterPrefab(Gender gender) {
