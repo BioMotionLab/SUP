@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using MoshPlayer.Scripts.FileLoaders;
 using UnityEngine;
 
@@ -35,12 +36,11 @@ namespace MoshPlayer.Scripts.SMPLModel {
         Vector3 pelvisResetPosition;
         public Vector3 pelvisNewLocation;
 
-        void OnEnable() {
-            moshCharacter = GetComponentInParent<MoshCharacter>();
+        void Awake() {
+            moshCharacter = GetComponent<MoshCharacter>();
             model = moshCharacter.Model;
+            skinnedMeshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
 
-            skinnedMeshRenderer = GetComponent<SkinnedMeshRenderer>();
-            
             skinnedMeshRenderer.bones[model.PelvisIndex].localPosition = Vector3.zero;
             
             averageBody = new AverageBody(skinnedMeshRenderer, model);
@@ -57,7 +57,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
 
         }
         
-        void OnDisable() {
+        void OnDestroy() {
             averageBody.Restore();
         }
         
@@ -89,7 +89,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
             
             
 
-            if (lastFrameBetas == null || !Enumerable.SequenceEqual(lastFrameBetas, bodyShapeBetas)) {
+            if (lastFrameBetas == null || !lastFrameBetas.SequenceEqual(bodyShapeBetas)) {
                 moshCharacter.Events.BroadcastBodyChange();
             }
             lastFrameBetas = (float[]) bodyShapeBetas.Clone();

@@ -73,6 +73,7 @@
               <e p="CharacterEvents.cs" t="Include" />
               <e p="CharacterPoser.cs" t="Include" />
               <e p="CharacterRenderOptions.cs" t="Include" />
+              <e p="CharacterTranslater.cs" t="Include" />
               <e p="ForwardsResampledFrame.cs" t="Include" />
               <e p="Gender.cs" t="Include" />
               <e p="Grounder.cs" t="Include" />

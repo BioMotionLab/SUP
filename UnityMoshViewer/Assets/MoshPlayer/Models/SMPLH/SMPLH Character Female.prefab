@@ -601,8 +601,6 @@ GameObject:
   - component: {fileID: 7156366582436795156}
   - component: {fileID: 1961055748531697558}
   - component: {fileID: 3311496318657198890}
-  - component: {fileID: 7848642788271741866}
-  - component: {fileID: 9033997643542601292}
   m_Layer: 0
   m_Name: fSMPLH
   m_TagString: Untagged
@@ -739,38 +737,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dc5722248e1bff498fcec5c3cfb707d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &7848642788271741866
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2199527655509483232}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f20a120a496df47cc84fb0ef6d2d0efb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bodyShapeBetas: []
-  pelvisNewLocation: {x: 0, y: 0, z: 0}
---- !u!114 &9033997643542601292
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2199527655509483232}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6a59b913eb14f93a6d1bd9ea6fc5a2f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  translation: {x: 0, y: 0, z: 0}
-  firstFrameTranslation: {x: 0, y: 0, z: 0}
-  grounder:
-    individualFootOffset: 0
-    customOffset: 0
-    commonFootOffset: 0
 --- !u!1 &2559637637536048256
 GameObject:
   m_ObjectHideFlags: 0
@@ -969,6 +935,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2089303025534577222}
   - component: {fileID: 8904340602749300597}
+  - component: {fileID: 3109664510212701152}
+  - component: {fileID: 3356666305127337785}
+  - component: {fileID: 151995499933712589}
   - component: {fileID: -4975064893371522861}
   - component: {fileID: 7820144681494808313}
   - component: {fileID: 651955664311623034}
@@ -1041,10 +1010,52 @@ MonoBehaviour:
   meshCorrection:
     OffsetErrorBetweenPelvisAndZero: {x: 0.00088, y: 0.90931, z: 0.02782}
     OffsetErrorInFbxBetweenRigAndMesh: {x: 0.00088, y: -0.211423, z: 0.02782}
-  offsetErrorBetweenPelvisAndZero: {x: 0.00088, y: 0.90931, z: 0.02782}
-  offsetErrorInFbxBetweenRigAndMesh: {x: 0.00088, y: -0.211423, z: 0.02782}
-  combinedOffsets: {x: 0, y: 1.120733, z: 0}
   model: {fileID: 11400000, guid: 914a54cb7fbcabe41a0ee32110e356c8, type: 2}
+--- !u!114 &3109664510212701152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3073121602938198101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f20a120a496df47cc84fb0ef6d2d0efb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bodyShapeBetas: []
+  pelvisNewLocation: {x: 0, y: 0, z: 0}
+--- !u!114 &3356666305127337785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3073121602938198101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 452bc92b1f454c71824f802ba62d6caf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  translation: {x: 0, y: 0, z: 0}
+  firstFrameTranslation: {x: 0, y: 0, z: 0}
+  grounder:
+    individualFootOffset: 0
+    customOffset: 0
+    commonFootOffset: 0
+--- !u!114 &151995499933712589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3073121602938198101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6a59b913eb14f93a6d1bd9ea6fc5a2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  poses: []
 --- !u!114 &-4975064893371522861
 MonoBehaviour:
   m_ObjectHideFlags: 0

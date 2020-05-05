@@ -447,8 +447,6 @@ GameObject:
   - component: {fileID: 2565436633673997596}
   - component: {fileID: 8253448867301248658}
   - component: {fileID: 1863311491264807779}
-  - component: {fileID: 595144080561940032}
-  - component: {fileID: 3663453371877652233}
   m_Layer: 0
   m_Name: mSMPLH
   m_TagString: Untagged
@@ -512,7 +510,7 @@ SkinnedMeshRenderer:
   serializedVersion: 2
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
-  m_SkinnedMotionVectors: 1
+  m_SkinnedMotionVectors: 0
   m_Mesh: {fileID: -541940830321011496, guid: af9bb6ce23fd5b74aa1f38ce7569e2f2, type: 3}
   m_Bones:
   - {fileID: 4140213020296603311}
@@ -1060,54 +1058,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dc5722248e1bff498fcec5c3cfb707d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &595144080561940032
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1581063302087026097}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6a59b913eb14f93a6d1bd9ea6fc5a2f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  translation: {x: 0, y: 0, z: 0}
-  firstFrameTranslation: {x: 0, y: 0, z: 0}
-  grounder:
-    individualFootOffset: 0
-    customOffset: 0
-    commonFootOffset: 0
---- !u!114 &3663453371877652233
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1581063302087026097}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f20a120a496df47cc84fb0ef6d2d0efb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bodyShapeBetas:
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  pelvisNewLocation: {x: 0, y: 0, z: 0}
 --- !u!1 &1622510034189216803
 GameObject:
   m_ObjectHideFlags: 0
@@ -1520,6 +1470,9 @@ GameObject:
   m_Component:
   - component: {fileID: 468496888432368408}
   - component: {fileID: 7845027693450683428}
+  - component: {fileID: 5038612077550290046}
+  - component: {fileID: 7552645467354629408}
+  - component: {fileID: 4754875800019002503}
   - component: {fileID: 3755340494992920777}
   - component: {fileID: 6891566159017520019}
   - component: {fileID: 9148669948084084627}
@@ -1592,10 +1545,68 @@ MonoBehaviour:
   meshCorrection:
     OffsetErrorBetweenPelvisAndZero: {x: 0.00217, y: 0.972724, z: 0.028858}
     OffsetErrorInFbxBetweenRigAndMesh: {x: 0.00217, y: -0.240791, z: 0.028858}
-  offsetErrorBetweenPelvisAndZero: {x: 0.00217, y: 0.972724, z: 0.028858}
-  offsetErrorInFbxBetweenRigAndMesh: {x: 0.00217, y: -0.240791, z: 0.028858}
-  combinedOffsets: {x: 0, y: 1.213515, z: 0}
   model: {fileID: 11400000, guid: 914a54cb7fbcabe41a0ee32110e356c8, type: 2}
+--- !u!114 &5038612077550290046
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3520467633113000203}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f20a120a496df47cc84fb0ef6d2d0efb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bodyShapeBetas:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  pelvisNewLocation: {x: 0, y: 0, z: 0}
+--- !u!114 &7552645467354629408
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3520467633113000203}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 452bc92b1f454c71824f802ba62d6caf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  translation: {x: 0, y: 0, z: 0}
+  firstFrameTranslation: {x: 0, y: 0, z: 0}
+  grounder:
+    individualFootOffset: 0
+    customOffset: 0
+    commonFootOffset: 0
+--- !u!114 &4754875800019002503
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3520467633113000203}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6a59b913eb14f93a6d1bd9ea6fc5a2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  poses: []
 --- !u!114 &3755340494992920777
 MonoBehaviour:
   m_ObjectHideFlags: 0
