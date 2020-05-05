@@ -25,6 +25,7 @@ namespace MoshPlayer.Scripts.Playback {
         Playback playback;
         AnimationControlEvents animationControlEvents;
         public readonly string AnimationName;
+        CharacterTranslater characterTranslater;
 
 
         public MoshAnimation(AnimationData data, PlaybackOptions playbackOptions, string animationName) {
@@ -43,10 +44,11 @@ namespace MoshPlayer.Scripts.Playback {
             Reset();
             SkinnedMeshRenderer meshRenderer = skinnedMeshRendererToAttach;
             
-            characterPoser = meshRenderer.gameObject.GetComponent<CharacterPoser>();
+            characterPoser = meshRenderer.gameObject.GetComponentInParent<CharacterPoser>();
+            characterTranslater = meshRenderer.gameObject.GetComponentInParent<CharacterTranslater>();
             if (characterPoser == null) throw new NullReferenceException("Can't find CharacterPoser component");
             
-            Body = meshRenderer.GetComponent<IndividualizedBody>();
+            Body = meshRenderer.GetComponentInParent<IndividualizedBody>();
             Body.UpdateBodyWithBetas(Data.Betas);
         }
 
@@ -75,9 +77,10 @@ namespace MoshPlayer.Scripts.Playback {
 
         void SetPosesAndTranslationFromFrame(ResampledFrame resampledFrame) {
             Quaternion[] posesThisFrame = GetPosesAtFrame(resampledFrame);
-            Vector3 translationThisFrame = GetTranslationAtFrame(resampledFrame);
             characterPoser.SetPoses(posesThisFrame);
-            characterPoser.SetTranslation(translationThisFrame);
+            
+            Vector3 translationThisFrame = GetTranslationAtFrame(resampledFrame);
+            characterTranslater.SetTranslation(translationThisFrame);
         }
 
         /// <summary>
@@ -85,9 +88,12 @@ namespace MoshPlayer.Scripts.Playback {
         /// it's played back, so that it's not dependent on frame rendering time.
         /// </summary>
         void SetPosesAndTranslationForFirstFrame(ResampledFrame resampledFrame) {
-            characterPoser.NotifyFirstFrame();
+            
+            characterTranslater.NotifyFirstFrame();
+            
             SetPosesAndTranslationFromFrame(resampledFrame);
             characterPoser.ForceUpdate();
+            characterTranslater.ForceUpdate();
         }
 
         Vector3 GetTranslationAtFrame(ResampledFrame resampledFrame) {

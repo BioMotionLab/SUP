@@ -1,70 +1,43 @@
 using System;
 using System.Collections.Generic;
-using MoshPlayer.Scripts.Playback;
 using MoshPlayer.Scripts.Utilities;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace MoshPlayer.Scripts.SMPLModel {
     /// <summary>
     /// Poses the body and adjust pose-dependent blendshapes accordingly.
     /// </summary>
     public class CharacterPoser : MonoBehaviour {
-
+        
+        MoshCharacter       moshCharacter;
         SkinnedMeshRenderer skinnedMeshRenderer;
         Transform[]         bones;
         ModelDefinition     model;
-        MoshCharacter       moshCharacter;
-        Quaternion[] poses;
 
-        bool firstFrame = false;
-        public Vector3 translation;
-        public Vector3 firstFrameTranslation;
-        bool bodyChanged = false;
-
-        [SerializeField] Grounder grounder;
-
-        void OnEnable() {
-            moshCharacter = GetComponentInParent<MoshCharacter>();
+        [SerializeField] Quaternion[] poses;
+        
+        void Awake() {
+            moshCharacter = GetComponent<MoshCharacter>();
             if (moshCharacter == null) throw new NullReferenceException("Can't find MoshCharacter component");
-            
-            
+
+            skinnedMeshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
+            if (skinnedMeshRenderer == null) throw new NullReferenceException("Can't find SkinnedMeshRenderer component");
             model = moshCharacter.Model;
-
-            skinnedMeshRenderer = GetComponent<SkinnedMeshRenderer>();
-            if (skinnedMeshRenderer == null)
-                throw new NullReferenceException("Not attached to object with a skinnedMeshRenderer");
-
             bones = skinnedMeshRenderer.bones;
             
-            grounder = new Grounder(moshCharacter, skinnedMeshRenderer);
             poses = new Quaternion[model.JointCount];
-
-            moshCharacter.Events.OnBodyChanged += BodyChanged;
-            PlaybackEventSystem.OnStopAllAnimations += ResetCommonGround;
-            PlaybackEventSystem.OnChangeSnapToGround += GroundingChanged;
         }
-
-        void ResetCommonGround() {
-            grounder.ResetCommonGround();
-        }
-
-        void OnDisable() {
+        
+        void OnDestroy() {
             ResetToTPose();
-            moshCharacter.Events.OnBodyChanged -= BodyChanged;
-            PlaybackEventSystem.OnStopAllAnimations -= ResetCommonGround;
-            PlaybackEventSystem.OnChangeSnapToGround -= GroundingChanged;
         }
-
-      
 
         void Update() {
             if (moshCharacter.RenderOptions.UpdateBodyShapeLive) {
                 ResetToTPose();
                 moshCharacter.Body.UpdateBody();
             }
-
-
+            
             if (moshCharacter.RenderOptions.AllowPoseManipulation) {
                 poses = GatherPosesFromBones();
                 UpdatePoses();
@@ -75,36 +48,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
 
             if (moshCharacter.RenderOptions.UpdatePoseBlendshapesLive) AddPoseDependentBlendShapes(poses);
             else ResetPoseDependentBlendShapesToZero();
-            
-            UpdateTranslation();
-            
-            if (firstFrame) {
-                //Debug.Log("FirstFrame");
-                bodyChanged = false;
-                StoreOffsetsFromFirstFrame();
-            }
 
-            if (!moshCharacter.RenderOptions.UpdatePosesLive) UpdateFootOffset();
-            else if (!firstFrame && bodyChanged) UpdateFootOffset();
-            
-        }
-
-        void UpdateFootOffset() {
-            bodyChanged = false;
-            grounder.UpdateGround();
-            UpdateTranslation();
-        }
-        
-        void GroundingChanged(GroundSnapType unused) {
-            UpdateTranslation();
-        }
-
-        void StoreOffsetsFromFirstFrame() {
-            firstFrameTranslation = translation;
-            grounder.InitGround();
-            
-            firstFrame = false;
-            UpdateTranslation();
         }
 
         Quaternion[] GatherPosesFromBones() {
@@ -145,8 +89,6 @@ namespace MoshPlayer.Scripts.SMPLModel {
                     int poseIndex = Bones.NameToJointIndex[boneName];
                     bones[boneIndex].localRotation = bones[boneIndex].localRotation * poses[poseIndex];
                     
-                    
-
                 }
                 catch (KeyNotFoundException) {
                     throw new KeyNotFoundException($"Bone Not in dictionary: boneIndex: {boneIndex}, animationName: {boneName}");
@@ -154,46 +96,6 @@ namespace MoshPlayer.Scripts.SMPLModel {
                 
             }
         }
-
-        public void SetTranslation(Vector3 trans) {
-            translation = trans;
-            //Debug.Log($"setting trans: {translation.ToString("F4")}");
-        }
-
-        void UpdateTranslation() {
-            
-            if(moshCharacter.RenderOptions.AllowPoseManipulation) return;
-            
-            Vector3 finalTrans = Vector3.zero;
-
-            finalTrans = UpdateVerticalTranslation(finalTrans);
-            finalTrans = UpdateHorizontalTranslation(finalTrans);
-
-            moshCharacter.gameObject.transform.localPosition = finalTrans;
-            
-        }
-
-        Vector3 UpdateVerticalTranslation(Vector3 finalTrans) {
-            //height needs to be dealt with separately because of ground-snapping
-            if (moshCharacter.RenderOptions.UpdateTranslationLiveY && moshCharacter.RenderOptions.UpdatePosesLive)
-                finalTrans.y = translation.y;
-            else
-                finalTrans.y = firstFrameTranslation.y;
-
-            finalTrans = grounder.ApplyGround(finalTrans, firstFrame);
-            return finalTrans;
-        }
-
-        Vector3 UpdateHorizontalTranslation(Vector3 finalTrans) {
-            if (moshCharacter.RenderOptions.UpdatePosesLive) {
-                //Horizontal plane simple enough
-                finalTrans.x = moshCharacter.RenderOptions.UpdateTranslationLiveXZ ? translation.x : firstFrameTranslation.x;
-                finalTrans.z = moshCharacter.RenderOptions.UpdateTranslationLiveXZ ? translation.z : firstFrameTranslation.z;
-            }
-
-            return finalTrans;
-        }
-        
 
         [ContextMenu("ResetToTPose")]
         public void ResetToTPose() {
@@ -206,8 +108,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
                 bone.rotation = Quaternion.identity;
             }
         }
-
-
+        
         /// <summary>
         /// Updates all pose-dependent blendshapes this frame.
         /// 
@@ -266,16 +167,9 @@ namespace MoshPlayer.Scripts.SMPLModel {
 
         }
 
-        public void NotifyFirstFrame() {
-            firstFrame = true;
-        }
-
         public void ForceUpdate() {
             Update();
         }
-
-        void BodyChanged() {
-            bodyChanged = true;
-        }
+        
     }
 }

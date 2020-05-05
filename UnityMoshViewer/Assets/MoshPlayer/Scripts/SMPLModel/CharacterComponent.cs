@@ -9,7 +9,13 @@ namespace MoshPlayer.Scripts.SMPLModel {
     /// This is setup to handle loading a MoSh animation without prior knowledge of gender, swapping in the correct SMPLConstants model.
     /// </summary>
     [SelectionBase]
-    public class MoshCharacterComponent : MonoBehaviour, MoshCharacter {
+    public class CharacterComponent : MonoBehaviour, MoshCharacter {
+          
+        
+        [SerializeField]
+        ModelDefinition model = default;
+        public ModelDefinition Model => model;
+        
         
         [SerializeField]
         Gender gender = default;
@@ -22,22 +28,11 @@ namespace MoshPlayer.Scripts.SMPLModel {
         [SerializeField]
         CharacterDisplayOptions characterDisplayOptions = default;
         public CharacterDisplayOptions DisplayOptions => characterDisplayOptions;
-        
-        [SerializeField]
-        Vector3 offsetErrorBetweenPelvisAndZero = default;
-        public Vector3 OffsetErrorBetweenPelvisAndZero => offsetErrorBetweenPelvisAndZero;
 
-        [SerializeField]
-        Vector3 offsetErrorInFbxBetweenRigAndMesh = default;
-        public Vector3 OffsetErrorInFbxBetweenRigAndMesh => offsetErrorInFbxBetweenRigAndMesh;
 
-        [SerializeField]
-        Vector3 combinedOffsets = default;
-        public Vector3 CombinedOffset => combinedOffsets;
-        
-        [SerializeField]
-        ModelDefinition model = default;
-        public ModelDefinition Model => model;
+        [SerializeField] MeshCorrection meshCorrection = default;
+        public MeshCorrection MeshCorrection => meshCorrection;
+      
 
 
         public IndividualizedBody Body => moshAnimation?.Body;
@@ -51,10 +46,6 @@ namespace MoshPlayer.Scripts.SMPLModel {
 
         CharacterEvents events;
         public CharacterEvents Events => events ?? (events = new CharacterEvents());
-
-        void OnValidate() {
-            combinedOffsets = offsetErrorBetweenPelvisAndZero - offsetErrorInFbxBetweenRigAndMesh;
-        }
 
         void OnEnable() {
             moshMesh = GetComponentInChildren<MoshMesh>();

@@ -50,9 +50,12 @@ namespace MoshPlayer.Scripts.InGameUI {
 
         [PublicAPI]
         public void UserChangedFrame(string value) {
-            float floatValue = float.Parse(value);
-            UserChangedFrame(floatValue);
-            Debug.Log($"Typed {floatValue}");
+            try {
+                float floatValue = float.Parse(value);
+                UserChangedFrame(floatValue);
+                Debug.Log($"Typed {floatValue}");
+            }
+            catch (FormatException) { }
         }
     }
 }

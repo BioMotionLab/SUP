@@ -6,7 +6,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
         public delegate void BodyChangedEvent();
         public event BodyChangedEvent OnBodyChanged;
 
-        public void BroadcastBodyChange() {
+        public void BodyHasChanged() {
             OnBodyChanged?.Invoke();
         }
 

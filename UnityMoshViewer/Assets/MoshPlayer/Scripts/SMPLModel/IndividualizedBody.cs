@@ -1,6 +1,8 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using MoshPlayer.Scripts.FileLoaders;
 using UnityEngine;
+using UnityEngine.Assertions.Comparers;
 
 namespace MoshPlayer.Scripts.SMPLModel {
     /// <summary>
@@ -33,14 +35,13 @@ namespace MoshPlayer.Scripts.SMPLModel {
         Vector3[] updatedVertices;
         float minimumYVertex;
         Vector3 pelvisResetPosition;
-        public Vector3 pelvisNewLocation;
+        Vector3 pelvisNewLocation;
 
-        void OnEnable() {
-            moshCharacter = GetComponentInParent<MoshCharacter>();
+        void Awake() {
+            moshCharacter = GetComponent<MoshCharacter>();
             model = moshCharacter.Model;
+            skinnedMeshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
 
-            skinnedMeshRenderer = GetComponent<SkinnedMeshRenderer>();
-            
             skinnedMeshRenderer.bones[model.PelvisIndex].localPosition = Vector3.zero;
             
             averageBody = new AverageBody(skinnedMeshRenderer, model);
@@ -57,7 +58,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
 
         }
         
-        void OnDisable() {
+        void OnDestroy() {
             averageBody.Restore();
         }
         
@@ -86,16 +87,13 @@ namespace MoshPlayer.Scripts.SMPLModel {
         
             UpdateBodyShapeBlendshapes(bodyShapeBetas);
             SetBindPoses();
-            
-            
 
-            if (lastFrameBetas == null || !Enumerable.SequenceEqual(lastFrameBetas, bodyShapeBetas)) {
-                moshCharacter.Events.BroadcastBodyChange();
+            if (lastFrameBetas == null || !lastFrameBetas.SequenceEqual(bodyShapeBetas)) {
+                moshCharacter.Events.BodyHasChanged();
             }
             lastFrameBetas = (float[]) bodyShapeBetas.Clone();
             
-            
-            //restoreBetas to actual values;
+            //restore Betas to actual values saved above;
             if (!moshCharacter.RenderOptions.ShowIndividualizedBody) {
                 bodyShapeBetas = savedBetas;
             }
@@ -124,35 +122,23 @@ namespace MoshPlayer.Scripts.SMPLModel {
         /// Result is still NOT the correct individualized mesh,
         /// just the average mesh that's been skinned to updated bone locations.
         ///
-        /// This is an EXPENSIVE call. I've optimized it heavily. It seems that the biggest slowdown now is the call to
-        /// BakeMesh(), which takes almost 15ms. The rest of the code takes around 3ms by my calculations.
+        /// This is an EXPENSIVE call. I've optimized it heavily.
         /// </summary>
         void AdjustMeshToNewBones() {
-            
-            //vertices doesn't return the actual current vertexes, it's the vertexes before skinning.
-            //You need to bake the skinned mesh into a mesh object to retrieve the deformed vertices
-            //Mesh bakedMesh = new Mesh();
-            //skinnedMeshRenderer.BakeMesh(bakedMesh);
-            
-            
+
             // Important Optimization! Needs to cache vertex arrays since these calls are VERY expensive.
             // Not doing this will decrease FPS by 1000x
             Vector3[] sharedMeshVertices = skinnedMeshRenderer.sharedMesh.vertices;
-            //Vector3[] bakedMeshVertices = bakedMesh.vertices;
-            
-            
+
             //For optimization purposes, this minY calculation needs to occur during this loop.
             minimumYVertex = Mathf.Infinity;
             
             for (int i = 0; i < skinnedMeshRenderer.sharedMesh.vertexCount; i++) {
                 Vector3 correctedVertex = sharedMeshVertices[i];
-                //These functions are run in same loop for heavy optimization.
-                //correctedVertex = AccountForUnwantedLinearBlendSkinning(sharedMeshVertices[i], bakedMeshVertices[i], averageBody.Vertices[i]);
-
+                
                 correctedVertex = CorrectMeshToRigOffset(correctedVertex);
                 updatedVertices[i] = correctedVertex;
-                
-                
+
                 // Calculate Minimum Y here, to avoid looping through all ~7000 vertices again later.
                 minimumYVertex = Mathf.Min(minimumYVertex, correctedVertex.y);
             }
@@ -191,7 +177,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
         /// was slowing it down. Now I precompute the addition since it stays constant.
         /// </summary>
         Vector3 CorrectMeshToRigOffset(Vector3 vertex) {
-            return vertex - moshCharacter.CombinedOffset;
+            return vertex - moshCharacter.MeshCorrection.CombinedOffset;
         }
         
         /// <summary>
@@ -199,7 +185,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
         /// </summary>
         [ContextMenu("reground")]
         void SetFeetOnGround() {
-            float offsetFromGround = minimumYVertex + moshCharacter.OffsetErrorBetweenPelvisAndZero.y + pelvisResetPosition.y - pelvisNewLocation.y;
+            float offsetFromGround = minimumYVertex + moshCharacter.MeshCorrection.OffsetErrorBetweenPelvisAndZero.y + pelvisResetPosition.y - pelvisNewLocation.y;
             Vector3 offsetFromGroundVector = new Vector3(0, offsetFromGround, 0);
             //Debug.Log($"offset: {offsetFromGround.ToString("f4")}");
             Transform pelvis = skinnedMeshRenderer.bones[model.PelvisIndex];
@@ -224,6 +210,23 @@ namespace MoshPlayer.Scripts.SMPLModel {
             Mesh sharedMesh = skinnedMeshRenderer.sharedMesh;
             sharedMesh.bindposes = bindPoses;
             skinnedMeshRenderer.sharedMesh = sharedMesh;
+        }
+
+        public void SetDebugBetas() {
+            moshCharacter.RenderOptions.ShowIndividualizedBody = true;
+            Debug.LogWarning("Mode Enabled.");
+            float[] debugBetas = new float[16];
+            switch (moshCharacter.Gender) {
+                case Gender.Male:
+                    debugBetas = new[] {13, -4.4f, 2.62f, -4.38f, 0.64f, 0.58f, 0,0,0,0,0,0,0,0,0,0};
+                    break;
+                case Gender.Female:
+                    debugBetas = new[] {-13.4f, -3.43f, 0f, 5f, 1.8f, -1.47f, -.42f, -.12f, 11f, -.42f, 3f, .68f,-2.2f, 0,0,0 };
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+            UpdateBodyWithBetas(debugBetas);
         }
     }
 }
