@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using MoshPlayer.Scripts.Display;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -57,6 +58,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
         public Material Opaque;
         public Material SemiTransparent;
 
+        public List<Material> OptionalMaterialList = new List<Material>();
     }
     
     

@@ -21,5 +21,8 @@ namespace MoshPlayer.Scripts.SMPLModel {
         
         void StartAnimation(MoshAnimation moshAnimation, PlaybackOptions playbackOptions, CharacterDisplayOptions displayOptions, CharacterRenderOptions renderOptions);
         void InterruptAnimation();
+
+        void SetIndex(int animationIndex);
+
     }
 }

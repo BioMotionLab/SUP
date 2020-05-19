@@ -15,7 +15,10 @@ namespace MoshPlayer.Scripts.SMPLModel {
 
         bool firstFrame = false;
         bool bodyChanged = false;
-        
+
+        PlaybackOptions playbackOptions;
+        int index;
+
         void Awake() {
             moshCharacter = GetComponent<MoshCharacter>();
             if (moshCharacter == null) throw new NullReferenceException("Can't find MoshCharacter component");
@@ -78,6 +81,8 @@ namespace MoshPlayer.Scripts.SMPLModel {
             finalTrans = UpdateVerticalTranslation(finalTrans);
             finalTrans = UpdateHorizontalTranslation(finalTrans);
 
+            finalTrans += GetOffsetFromIndex();
+
             moshCharacter.gameObject.transform.localPosition = finalTrans;
             
         }
@@ -115,6 +120,25 @@ namespace MoshPlayer.Scripts.SMPLModel {
         
         void BodyChanged() {
             bodyChanged = true;
+        }
+
+        public void AddOffset(int animationIndex) {
+            this.index = animationIndex;
+        }
+
+        Vector3 GetOffsetFromIndex() {
+            if (playbackOptions == null) return Vector3.zero;
+            Vector3 offsetSpacing = playbackOptions.OffSetSpacing;
+            Vector3 translationOffset = new Vector3(offsetSpacing.x * index, offsetSpacing.y * index,
+                offsetSpacing.z * index);
+            if (index % 2 > 0)
+                translationOffset =
+                    -1 * (translationOffset - new Vector3(-offsetSpacing.x, -offsetSpacing.y, -offsetSpacing.z));
+            return translationOffset;
+        }
+
+        public void SetPlaybackOptions(PlaybackOptions playbackOptions) {
+            this.playbackOptions = playbackOptions;
         }
     }
 }

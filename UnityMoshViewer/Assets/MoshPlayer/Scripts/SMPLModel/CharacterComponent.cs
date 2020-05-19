@@ -1,4 +1,5 @@
 ﻿using System;
+using MoshPlayer.Scripts.Display;
 using MoshPlayer.Scripts.Playback;
 using UnityEngine;
 
@@ -45,6 +46,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
         public SkinnedMeshRenderer SkinnedMeshRender => skinnedMeshRenderer;
 
         CharacterEvents events;
+        int animationIndex;
         public CharacterEvents Events => events ?? (events = new CharacterEvents());
 
         void OnEnable() {
@@ -76,15 +78,25 @@ namespace MoshPlayer.Scripts.SMPLModel {
         public void StartAnimation(MoshAnimation animationToStart, PlaybackOptions playbackOptions, CharacterDisplayOptions displayOptions, CharacterRenderOptions renderOptions) {
             characterRenderOptions = renderOptions;
             characterDisplayOptions = displayOptions;
-            
             moshAnimation = animationToStart;
             if (model.RotateToUnityCoords) RotateToUnityCoordinates();
         
             gameObject.SetActive(true);
             moshAnimation.AttachSkin(skinnedMeshRenderer);
             UpdateAnimation();
+
+            SetOffsetsFromIndex(playbackOptions);
+            SetMaterialFromIndex(displayOptions.MeshDisplayOptions);
         }
-    
+
+        void SetOffsetsFromIndex(PlaybackOptions playbackOptions) {
+            if (playbackOptions.OffsetMultipleAnimations) {
+                CharacterTranslater translater = GetComponent<CharacterTranslater>();
+                translater.SetPlaybackOptions(playbackOptions);
+                translater.AddOffset(animationIndex);
+            }
+        }
+
         void Update() {
             UpdateAnimation();
         }
@@ -111,6 +123,18 @@ namespace MoshPlayer.Scripts.SMPLModel {
             
             //Debug.Log($"{gameObject.animationName}'s Animation Interrupted");
             DestroyCharacter();
+        }
+
+        public void SetIndex(int animationIndex) {
+            this.animationIndex = animationIndex;
+        }
+
+        void SetMaterialFromIndex(MeshDisplayOptions displayOptions) {
+            Debug.Log($"index: {animationIndex}, count:{displayOptions.OptionalMaterialList.Count}");
+            if (animationIndex < displayOptions.OptionalMaterialList.Count) {
+                MeshDisplay meshDisplay = GetComponent<MeshDisplay>();
+               meshDisplay.overwriteMaterial = displayOptions.OptionalMaterialList[animationIndex];
+            }
         }
 
         void DestroyCharacter() {
