@@ -61,6 +61,8 @@ namespace MoshPlayer.Scripts.Playback {
                 
                 string characterName = $"{moshAnimation.Data.Gender} Character {animationIndex}";
                 MoshCharacter moshCharacter = moshAnimation.Data.Model.CreateNewCharacter(characterName, moshAnimation.Data.Gender);
+                moshCharacter.SetIndex(animationIndex);
+                
                 
                 newCharacters.Add(moshCharacter);
                 moshCharacter.StartAnimation(moshAnimation, playbackOptions, displayOptions, renderOptions);

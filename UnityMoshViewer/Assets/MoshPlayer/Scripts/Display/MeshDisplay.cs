@@ -8,6 +8,7 @@ namespace MoshPlayer.Scripts.Display {
         
         MoshCharacter moshCharacter;
 
+        public Material overwriteMaterial;
         MeshDisplayState   MeshDisplayState   => moshCharacter.DisplayOptions.MeshDisplayState;
         MeshDisplayOptions MeshDisplayOptions => moshCharacter.DisplayOptions.MeshDisplayOptions;
 
@@ -16,8 +17,12 @@ namespace MoshPlayer.Scripts.Display {
         }
 
         // Update is called once per frame
-        void Update()
-        {
+        void Update() {
+            if (overwriteMaterial != null) {
+                moshCharacter.SkinnedMeshRender.material = overwriteMaterial;
+                return;
+            }
+
             switch (MeshDisplayState) {
                 case MeshDisplayState.On:
                     moshCharacter.SkinnedMeshRender.material = MeshDisplayOptions.Opaque;

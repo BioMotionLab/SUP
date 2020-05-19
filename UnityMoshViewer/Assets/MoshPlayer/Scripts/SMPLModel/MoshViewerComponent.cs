@@ -51,6 +51,8 @@ namespace MoshPlayer.Scripts.SMPLModel {
 			PlaybackEventSystem.OnChangeUpdateXzTranslation += SetUpdateXzTranslation;
 			PlaybackEventSystem.OnChangeIndividualizedBody += SetIndividualizedBodyState;
 			PlaybackEventSystem.OnChangeLoopState += SetLoopState;
+
+			
 		}
 
 	
@@ -104,6 +106,9 @@ namespace MoshPlayer.Scripts.SMPLModel {
 			doneLoading = true;
 			moshAnimationPlayer = new MoshAnimationPlayer(animationSequence, playbackOptions, characterDisplayOptions, characterRenderOptions);
 			Destroy(loader);
+			if (playbackOptions.OffsetMultipleAnimations) {
+				Debug.LogWarning("Warning, you have selected to offset multiple animations from each other! This could cause unwanted results.", this);;
+			}
 		}
 
 
