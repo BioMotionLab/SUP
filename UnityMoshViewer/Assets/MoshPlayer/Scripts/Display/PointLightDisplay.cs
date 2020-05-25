@@ -14,7 +14,7 @@ namespace MoshPlayer.Scripts.Display {
         PointLight PointLightPrefab = default;
 
         MoshCharacter moshCharacter;
-        public bool DisplayPointLights => moshCharacter.DisplayOptions.DisplayPointLights == PointLightDisplayState.On;
+        public bool DisplayPointLights => moshCharacter.DisplaySettings.DisplayPointLights == PointLightDisplayState.On;
 
         GameObject pointLightContainer;
 
@@ -38,7 +38,7 @@ namespace MoshPlayer.Scripts.Display {
         /// <param name="parent"></param>
         void CreatePointLightsInBoneHierarchy(Transform parent) {
             PointLight newPointLight = Instantiate(PointLightPrefab, pointLightContainer.transform);
-            newPointLight.AttachBone(this, parent, moshCharacter.DisplayOptions.PointLightDisplayOptions);
+            newPointLight.AttachBone(moshCharacter, this, parent);
             foreach (Transform child in parent) {
                 if (Bones.IsBone(child)) {
                     CreatePointLightsInBoneHierarchy(child);

@@ -14,7 +14,7 @@ namespace MoshPlayer.Scripts.FileLoaders {
         const int MaxBodyShapeBetaCount = 100;
         const int MaxStringLengthForReading = 20;
 
-        public AnimationFromH5(string filePath, Models possibleModels, PlaybackOptions playbackOptions) : base(filePath, possibleModels, playbackOptions) { }
+        public AnimationFromH5(string filePath, Models possibleModels, PlaybackSettings playbackSettings) : base(filePath, possibleModels, playbackSettings) { }
         protected override void LoadData() {
             //no need to pre load H5
         }
@@ -41,8 +41,8 @@ namespace MoshPlayer.Scripts.FileLoaders {
                 Data.Gender = ReadGender(fileId);
                 Data.Fps = ReadFPS(fileId);
                 if (Data.Fps == 0) {
-                    Debug.LogWarning($"No fps specified, defaulting to {playbackOptions.FallbackFPS} fps");
-                    Data.Fps = playbackOptions.FallbackFPS;
+                    Debug.LogWarning($"No fps specified, defaulting to {PlaybackSettings.FallbackFPS} fps");
+                    Data.Fps = PlaybackSettings.FallbackFPS;
                 }
 
                 LoadTranslationAndPosesFromJoints(fileId);

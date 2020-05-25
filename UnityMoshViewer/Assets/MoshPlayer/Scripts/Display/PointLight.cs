@@ -11,29 +11,39 @@ namespace MoshPlayer.Scripts.Display {
     /// </summary>
     [ExecuteInEditMode]
     public class PointLight : MonoBehaviour {
+        
+
+        [SerializeField]
+        PointLightDisplaySettings defaultPointlightDisplaySettings;
+
+        PointLightDisplaySettings Settings {
+            get {
+                if (moshCharacter != null && moshCharacter.DisplaySettings != null) {
+                    return moshCharacter.DisplaySettings.PointLightDisplaySettings;
+                }
+                return defaultPointlightDisplaySettings;
+            }
+        }
         Transform linkedBone;
-        PointLightDisplayOptions displaySettings;
         MeshRenderer meshRenderer;
         PointLightDisplay pointLightDisplay;
-        
+        MoshCharacter moshCharacter;
         void OnEnable() {
             meshRenderer = GetComponent<MeshRenderer>();
         }
         
-        public void AttachBone(PointLightDisplay pointLightDisplay, 
-                               Transform bone,
-                               PointLightDisplayOptions    displaySettings) {
+        public void AttachBone(MoshCharacter moshCharacter, PointLightDisplay pointLightDisplay, 
+                               Transform bone) {
             linkedBone = bone;
-            this.displaySettings = displaySettings;
             this.pointLightDisplay = pointLightDisplay;
             name = $"PointLight for {bone.name}";
             var cachedTransform = transform;
             cachedTransform.localPosition = Vector3.zero;
-            cachedTransform.localScale = new Vector3(displaySettings.PointLightDisplaySize,
-                                             displaySettings.PointLightDisplaySize,
-                                             displaySettings.PointLightDisplaySize);
+            cachedTransform.localScale = new Vector3(Settings.PointLightDisplaySize,
+                                             Settings.PointLightDisplaySize,
+                                             Settings.PointLightDisplaySize);
             
-            if (displaySettings.DrawSidesDifferentColors) ColorBySideOfBody(bone);
+            if (Settings.DrawSidesDifferentColors) ColorBySideOfBody(bone);
         }
 
         void LateUpdate() {
@@ -56,10 +66,10 @@ namespace MoshPlayer.Scripts.Display {
             SideOfBody side = Bones.GetSideOfBody(bone.name);
             switch (side) {
                 case SideOfBody.Left:
-                    meshRenderer.sharedMaterial = displaySettings.LeftSideMaterial;
+                    meshRenderer.sharedMaterial = Settings.LeftSideMaterial;
                     break;
                 case SideOfBody.Right:
-                    meshRenderer.sharedMaterial = displaySettings.RightSideMaterial;
+                    meshRenderer.sharedMaterial = Settings.RightSideMaterial;
                     break;
                 case SideOfBody.Center:
                     break;

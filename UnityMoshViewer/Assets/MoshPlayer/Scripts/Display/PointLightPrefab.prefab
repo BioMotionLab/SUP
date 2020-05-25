@@ -106,3 +106,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08b04b40dc3d4bd789e3f64421aaba8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  defaultPointlightDisplaySettings: {fileID: 11400000, guid: ffac44d6ae7d0d64c9d3d187b4feae97,
+    type: 2}

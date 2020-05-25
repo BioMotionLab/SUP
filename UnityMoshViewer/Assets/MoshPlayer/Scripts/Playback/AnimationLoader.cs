@@ -19,15 +19,15 @@ namespace MoshPlayer.Scripts.Playback {
         public List<List<MoshAnimation>> AnimationSequence;
         string[] animLines;
         Action<List<List<MoshAnimation>>>                       doThisWhenDoneAction;
-        PlaybackOptions playbackOptions;
+        PlaybackSettings playbackSettings;
 
 
         [SuppressMessage("ReSharper", "ParameterHidesMember")]
-        public void Init(string animationsToPlayFile, Models models, PlaybackOptions playbackOptions, string animFolder, Action<List<List<MoshAnimation>>> doneAction) {
+        public void Init(string animationsToPlayFile, Models models, PlaybackSettings playbackSettings, string animFolder, Action<List<List<MoshAnimation>>> doneAction) {
             doThisWhenDoneAction = doneAction;
             this.models = models;
             this.animFolder = animFolder;
-            this.playbackOptions = playbackOptions;
+            this.playbackSettings = playbackSettings;
 
             animLines = File.ReadAllLines(animationsToPlayFile);
 
@@ -40,11 +40,11 @@ namespace MoshPlayer.Scripts.Playback {
             StartCoroutine(LoadAnimations());
         }
         
-        public void Init(string animationFile, Models models, PlaybackOptions playbackOptions, Action<List<List<MoshAnimation>>> doneAction) {
+        public void Init(string animationFile, Models models, PlaybackSettings playbackSettings, Action<List<List<MoshAnimation>>> doneAction) {
             doThisWhenDoneAction = doneAction;
             this.models = models;
             this.animFolder = Path.GetDirectoryName(animationFile);
-            this.playbackOptions = playbackOptions;
+            this.playbackSettings = playbackSettings;
 
             animLines = new string[1];
             animLines[0] = Path.GetFileName(animationFile);
@@ -98,13 +98,13 @@ namespace MoshPlayer.Scripts.Playback {
                     
                     AnimationFileLoader loader;
                     string extension = Path.GetExtension(animFilePath);
-                    if (extension == ".json") loader = new AnimationFromJSON(animFilePath, models, playbackOptions);
+                    if (extension == ".json") loader = new AnimationFromJSON(animFilePath, models, playbackSettings);
                     else if (extension == ".h5")
-                        loader = new AnimationFromH5(animFilePath, models, playbackOptions);
+                        loader = new AnimationFromH5(animFilePath, models, playbackSettings);
                     else throw new UnsupportedFileTypeException($"Extension {extension} is unsupported");
                     AnimationData animationData = loader.Data;
                     
-                    MoshAnimation loadedAnimation = new MoshAnimation(animationData, playbackOptions, filename);
+                    MoshAnimation loadedAnimation = new MoshAnimation(animationData, playbackSettings, filename);
                     animations.Add(loadedAnimation);
                 }
                 catch (FileNotFoundException) {

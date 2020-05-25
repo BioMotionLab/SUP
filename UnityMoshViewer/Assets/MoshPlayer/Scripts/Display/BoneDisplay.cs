@@ -17,13 +17,13 @@ namespace MoshPlayer.Scripts.Display {
 
         GameObject boneDisplayContainer;
         MoshCharacter moshCharacter;
-        public bool DisplayBones => moshCharacter.DisplayOptions.DisplayBones == BoneDisplayState.On;
-        public BoneDisplayOptions BoneDisplayOptions => moshCharacter.DisplayOptions.BoneDisplayOptions;
+        public bool DisplayBones => moshCharacter.DisplaySettings.DisplayBones == BoneDisplayState.On;
+     
         
         void OnEnable() {
             moshCharacter = GetComponent<MoshCharacter>();
+            if (moshCharacter == null) Debug.LogError("Can't find MoshCharacter");
             skinnedMeshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
-            
             SetupBones(skinnedMeshRenderer.bones[moshCharacter.Model.PelvisIndex]);
         }
 
@@ -36,7 +36,7 @@ namespace MoshPlayer.Scripts.Display {
             foreach (Transform child in parent) {
                 if (!Bones.IsBone(child)) continue;
                 BoneLine newBone = Instantiate(bonePrefab, boneDisplayContainer.transform);
-                newBone.Init(this, parent, child, BoneDisplayOptions);
+                newBone.Init(moshCharacter, this, parent, child);
                 SetupBones(child);
             }
         }

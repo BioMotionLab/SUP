@@ -12,9 +12,9 @@ namespace MoshPlayer.Scripts.FileLoaders {
         public AnimationData Data => animationData;
 
         readonly Models possibleModels;
-        protected readonly PlaybackOptions playbackOptions;
+        protected readonly PlaybackSettings PlaybackSettings;
 
-        protected FileLoaderBase(string filePath, Models possibleModels, PlaybackOptions playbackOptions) {
+        protected FileLoaderBase(string filePath, Models possibleModels, PlaybackSettings playbackSettings) {
             if (possibleModels == null) throw new NullReferenceException("No Models specified");
             
             this.filePath = filePath ?? throw new NullReferenceException("Tried to instantiate Animation JSON with null TextAsset");
@@ -25,7 +25,7 @@ namespace MoshPlayer.Scripts.FileLoaders {
             }
             
             this.possibleModels = possibleModels;
-            this.playbackOptions = playbackOptions;
+            this.PlaybackSettings = playbackSettings;
             
             animationData = new AnimationData();
             Init();

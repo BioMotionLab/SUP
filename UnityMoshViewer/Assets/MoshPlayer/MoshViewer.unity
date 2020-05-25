@@ -235,7 +235,7 @@ PrefabInstance:
     - target: {fileID: 5100136094089617264, guid: 214f2428e1f4c274da4fa6d27a3d44a3,
         type: 3}
       propertyPath: m_Name
-      value: AnimationViewer
+      value: MoshViewer
       objectReference: {fileID: 0}
     - target: {fileID: 5100136094089617264, guid: 214f2428e1f4c274da4fa6d27a3d44a3,
         type: 3}
@@ -450,6 +450,36 @@ PrefabInstance:
       propertyPath: characterDisplayOptions.MeshDisplayOptions.OptionalMaterialList.Array.data[2]
       value: 
       objectReference: {fileID: 2100000, guid: b7c5e61b20d0d2843ac333b6f6ba460a, type: 2}
+    - target: {fileID: 5100136094089617265, guid: 214f2428e1f4c274da4fa6d27a3d44a3,
+        type: 3}
+      propertyPath: bodyUpdateOptions
+      value: 
+      objectReference: {fileID: 11400000, guid: fedfe4bc52c3f834f9eefa1222f36e43,
+        type: 2}
+    - target: {fileID: 5100136094089617265, guid: 214f2428e1f4c274da4fa6d27a3d44a3,
+        type: 3}
+      propertyPath: bodyOptions
+      value: 
+      objectReference: {fileID: 11400000, guid: fedfe4bc52c3f834f9eefa1222f36e43,
+        type: 2}
+    - target: {fileID: 5100136094089617265, guid: 214f2428e1f4c274da4fa6d27a3d44a3,
+        type: 3}
+      propertyPath: characterDisplayOptions
+      value: 
+      objectReference: {fileID: 11400000, guid: b4a81df35cb748b4fb3db24eea37e036,
+        type: 2}
+    - target: {fileID: 5100136094089617265, guid: 214f2428e1f4c274da4fa6d27a3d44a3,
+        type: 3}
+      propertyPath: playbackSettings
+      value: 
+      objectReference: {fileID: 11400000, guid: 4b81560bdf21baf45b8d2acad6f33a35,
+        type: 2}
+    - target: {fileID: 5100136094089617265, guid: 214f2428e1f4c274da4fa6d27a3d44a3,
+        type: 3}
+      propertyPath: characterSettings
+      value: 
+      objectReference: {fileID: 11400000, guid: 0e4d1afa9676df64b89b6b93e5ce0fbb,
+        type: 2}
     - target: {fileID: 5100136094089617294, guid: 214f2428e1f4c274da4fa6d27a3d44a3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -626,9 +656,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 3
+  serializedVersion: 4
   m_Convex: 0
-  m_CookingOptions: 14
+  m_CookingOptions: 30
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!33 &420909883
 MeshFilter:
@@ -650,7 +680,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &780763111 stripped
 GameObject:
@@ -705,6 +735,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0.392}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2583,7 +2614,7 @@ PrefabInstance:
     - target: {fileID: 3216821332557362094, guid: 4ed003a4ef51d63439792770080d116e,
         type: 3}
       propertyPath: m_Name
-      value: UI
+      value: MoshViewer_UI
       objectReference: {fileID: 0}
     - target: {fileID: 3216821332557362095, guid: 4ed003a4ef51d63439792770080d116e,
         type: 3}
@@ -4537,7 +4568,7 @@ PrefabInstance:
     - target: {fileID: 4171260099290101750, guid: 438a8b53a2a645e49a2c1832a7b464b8,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4171260099290101750, guid: 438a8b53a2a645e49a2c1832a7b464b8,
         type: 3}
@@ -4791,7 +4822,7 @@ PrefabInstance:
     - target: {fileID: 8159167210604422375, guid: 6f7d7cab49bbbdf4d9b4252103aaca9e,
         type: 3}
       propertyPath: m_Name
-      value: Reviewer
+      value: MoshViewer_Reviewer
       objectReference: {fileID: 0}
     - target: {fileID: 8159167210604422376, guid: 6f7d7cab49bbbdf4d9b4252103aaca9e,
         type: 3}

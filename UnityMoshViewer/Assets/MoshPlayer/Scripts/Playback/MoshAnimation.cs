@@ -19,7 +19,7 @@ namespace MoshPlayer.Scripts.Playback {
         readonly AnimationData data;
         
         IndividualizedBody individualizedBody;
-        readonly PlaybackOptions playbackOptions;
+        readonly PlaybackSettings playbackSettings;
 
         CharacterPoser characterPoser;
         Playback playback;
@@ -28,16 +28,16 @@ namespace MoshPlayer.Scripts.Playback {
         CharacterTranslater characterTranslater;
 
 
-        public MoshAnimation(AnimationData data, PlaybackOptions playbackOptions, string animationName) {
+        public MoshAnimation(AnimationData data, PlaybackSettings playbackSettings, string animationName) {
             this.data = data;
-            this.playbackOptions = playbackOptions;
+            this.playbackSettings = playbackSettings;
             AnimationName = animationName;
             Setup();
         }
 
         void Setup() {
             animationControlEvents = new AnimationControlEvents();
-            playback = new Playback(Data.FrameCount, Data.Fps, playbackOptions, animationControlEvents);
+            playback = new Playback(Data.FrameCount, Data.Fps, playbackSettings, animationControlEvents);
         }
 
         public void AttachSkin(SkinnedMeshRenderer skinnedMeshRendererToAttach) {

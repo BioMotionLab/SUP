@@ -14,13 +14,13 @@ namespace MoshPlayer.Scripts.Playback {
 
         bool paused = false;
         
-        readonly PlaybackOptions playbackOptions;
+        readonly PlaybackSettings playbackSettings;
         float elapsedTime;
         float playbackSpeed = 1;
         readonly AnimationControlEvents controlEvents;
 
         public Playback(int sourceTotalFrameCount,
-                        int sourceFPS, PlaybackOptions playbackOptions, AnimationControlEvents animationControlEvents) {
+                        int sourceFPS, PlaybackSettings playbackSettings, AnimationControlEvents animationControlEvents) {
             int actualFPS = sourceFPS;
             if (actualFPS <= 0) {
                 actualFPS = 60;
@@ -28,7 +28,7 @@ namespace MoshPlayer.Scripts.Playback {
             }
 
             this.sourceTotalFrameCount = sourceTotalFrameCount;
-            this.playbackOptions = playbackOptions;
+            this.playbackSettings = playbackSettings;
             sourceDuration = this.sourceTotalFrameCount / (float) actualFPS;
 
             PlaybackEventSystem.OnPauseToggleEvent += TogglePause;
@@ -65,7 +65,7 @@ namespace MoshPlayer.Scripts.Playback {
         public ResampledFrame GetResampledFrame() {
 
             float signedPlaybackSpeed = playbackSpeed;
-            if (playbackOptions.PlayBackwards) {
+            if (playbackSettings.PlayBackwards) {
                 signedPlaybackSpeed = -signedPlaybackSpeed;
             }
             if (!paused) elapsedTime += (Time.time - lastUpdateTime) * signedPlaybackSpeed;
@@ -76,7 +76,7 @@ namespace MoshPlayer.Scripts.Playback {
             //Debug.Log($"totalframes: {sourceTotalFrameCount}, current frame: {resampledFrame.Frame}");
             
             if (resampledFrame.IsLastFrame) {
-                if (playbackOptions.Loop) elapsedTime = 0;
+                if (playbackSettings.Loop) elapsedTime = 0;
                 else Finish();
             }
 
