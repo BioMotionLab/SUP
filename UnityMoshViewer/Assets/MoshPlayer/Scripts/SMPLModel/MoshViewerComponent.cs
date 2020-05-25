@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
-using MoshPlayer.Scripts.Display;
 using MoshPlayer.Scripts.Playback;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -10,31 +10,36 @@ namespace MoshPlayer.Scripts.SMPLModel {
 
 		[SerializeField]
 		Models models = default;
-
 		
 		[SerializeField]
 		BodyOptions bodyOptions = default;
+		public BodyOptions RuntimeBodyOptions { get; private set; }
 
-		public BodyOptions BodyOptions { get; private set; }
-
-		[FormerlySerializedAs("characterse")] [FormerlySerializedAs("characterDisplayOptions")] [SerializeField]
+		
+		[SerializeField]
 		DisplaySettings characterSettings = default;
+		public DisplaySettings RuntimeCharacterSettings { get; private set; }
 
-		public DisplaySettings CharacterSettings { get; private set; }
-
+		
 		[SerializeField]
 		PlaybackSettings playbackSettings = default;
-		
-		public PlaybackSettings PlaybackSettings { get; private set; }
-		
-		MoshAnimationPlayer moshAnimationPlayer;
+		public PlaybackSettings RuntimePlaybackSettings { get; private set; }
 		
 		AnimationLoader loader;
 		bool doneLoading = false;
+		
+		List<List<MoshAnimation>> animationSequence;
+		public bool AllAnimsComplete => currentAnimationIndex >= animationSequence.Count;
+		int currentAnimationIndex = 0;
+		
 		bool started = false;
 		bool notYetNotified = true;
-
+		UserModifiedSettingsHandler userModifiedSettingsHandler;
+		
+		List<MoshCharacter> currentCharacters;
+		
 		void OnEnable() {
+
 			PlaybackEventSystem.OnNextAnimation += GoToNextAnimation;
 			PlaybackEventSystem.OnPreviousAnimation += GoToPrevAnimation;
 			PlaybackEventSystem.OnRestartAnimations += RestartAnimations;
@@ -42,25 +47,14 @@ namespace MoshPlayer.Scripts.SMPLModel {
 			PlaybackEventSystem.OnLoadSingleAnimation += LoadSingleAnimation;
 			PlaybackEventSystem.OnLoadNewAnimations += LoadNewAnimations;
 			
-			PlaybackEventSystem.OnMeshDisplayStateChanged += MeshDisplayStateChanged;
-			PlaybackEventSystem.OnBoneDisplayStateChanged += BoneDisplayStateChanged;
-			PlaybackEventSystem.OnPointLightDisplayStateChanged += PointLightDisplayStateChanged;
-			PlaybackEventSystem.OnChangeLivePoses += SetLivePoses;
-			PlaybackEventSystem.OnChangeLivePoseBlendshapes += SetLivePoseBlendshapes;
-			PlaybackEventSystem.OnChangeLiveBodyShape += SetLiveBodyShape;
-			PlaybackEventSystem.OnChangeManualPosing += SetManualPosing;
-			PlaybackEventSystem.OnChangeSnapToGround += SetSnapToGround;
-			PlaybackEventSystem.OnChangeUpdateYTranslation += SetUpdateYTranslation;
-			PlaybackEventSystem.OnChangeUpdateXzTranslation += SetUpdateXzTranslation;
-			PlaybackEventSystem.OnChangeIndividualizedBody += SetIndividualizedBodyState;
-			PlaybackEventSystem.OnChangeLoopState += SetLoopState;
+			userModifiedSettingsHandler = new UserModifiedSettingsHandler(this);
+		}
 
-			BodyOptions = Instantiate(bodyOptions);
-			CharacterSettings = Instantiate(characterSettings);
-			PlaybackSettings = Instantiate(playbackSettings);
+		void Awake() {
+			CacheRuntimeSettings();
 		}
 		
-
+		
 		void OnDisable() {
 			PlaybackEventSystem.OnNextAnimation -= GoToNextAnimation;
 			PlaybackEventSystem.OnPreviousAnimation -= GoToPrevAnimation;
@@ -69,24 +63,18 @@ namespace MoshPlayer.Scripts.SMPLModel {
 			PlaybackEventSystem.OnLoadSingleAnimation -= LoadSingleAnimation;
 			PlaybackEventSystem.OnLoadNewAnimations -= LoadNewAnimations;
 			
-			PlaybackEventSystem.OnMeshDisplayStateChanged -= MeshDisplayStateChanged;
-			PlaybackEventSystem.OnBoneDisplayStateChanged -= BoneDisplayStateChanged;
-			PlaybackEventSystem.OnPointLightDisplayStateChanged += PointLightDisplayStateChanged;
-			PlaybackEventSystem.OnChangeLivePoses -= SetLivePoses;
-			PlaybackEventSystem.OnChangeLivePoseBlendshapes -= SetLivePoseBlendshapes;
-			PlaybackEventSystem.OnChangeLiveBodyShape -= SetLiveBodyShape;
-			PlaybackEventSystem.OnChangeManualPosing -= SetManualPosing;
-			PlaybackEventSystem.OnChangeSnapToGround -= SetSnapToGround;
-			PlaybackEventSystem.OnChangeUpdateYTranslation -= SetUpdateYTranslation;
-			PlaybackEventSystem.OnChangeUpdateXzTranslation -= SetUpdateXzTranslation;
-			PlaybackEventSystem.OnChangeIndividualizedBody -= SetIndividualizedBodyState;
-			PlaybackEventSystem.OnChangeLoopState -= SetLoopState;
+			userModifiedSettingsHandler.Destroy();
 		}
 
-		
+
+		void CacheRuntimeSettings() {
+			RuntimeBodyOptions = Instantiate(bodyOptions);
+			RuntimeCharacterSettings = Instantiate(characterSettings);
+			RuntimePlaybackSettings = Instantiate(playbackSettings);
+		}
 
 		void LoadNewAnimations() {
-			moshAnimationPlayer = null;
+			currentAnimationIndex = 0;
 			loader = null;
 		}
 
@@ -95,21 +83,21 @@ namespace MoshPlayer.Scripts.SMPLModel {
 			if (!File.Exists(listFile)) throw new IOException($"Can't find List of Animations file {listFile}");
 			
 			loader = gameObject.AddComponent<AnimationLoader>();
-			loader.Init(listFile, models, PlaybackSettings, animationsFolder, DoneLoading);
+			loader.Init(listFile, models, RuntimePlaybackSettings, animationsFolder, DoneLoading);
 		}
 
 		void LoadSingleAnimation(string singlefile) {
 			if (!File.Exists(singlefile)) throw new IOException($"Can't find Animation file {singlefile}");
 			loader = gameObject.AddComponent<AnimationLoader>();
-			loader.Init(singlefile, models, PlaybackSettings, DoneLoading);
+			loader.Init(singlefile, models, RuntimePlaybackSettings, DoneLoading);
 		}
-		
-		
-		void DoneLoading(List<List<MoshAnimation>> animationSequence) {
+
+
+		void DoneLoading(List<List<MoshAnimation>> loadedAnimationSequence) {
+			animationSequence = loadedAnimationSequence;
 			doneLoading = true;
-			moshAnimationPlayer = new MoshAnimationPlayer(animationSequence, PlaybackSettings, CharacterSettings, BodyOptions);
 			Destroy(loader);
-			if (PlaybackSettings.OffsetMultipleAnimations) {
+			if (RuntimePlaybackSettings.OffsetMultipleAnimations) {
 				Debug.LogWarning("Warning, you have selected to offset multiple animations from each other! This could cause unwanted results.", this);;
 			}
 		}
@@ -117,8 +105,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
 
 		void Update() {
 			if (!doneLoading) return;
-			if (moshAnimationPlayer == null) return;
-			if (moshAnimationPlayer.AllAnimsComplete) return;
+			if (AllAnimsComplete) return;
 
 			if (!started && notYetNotified) {
 				string updateMessage = $"Waiting to start playing... press \"Next\" button to continue";
@@ -128,87 +115,96 @@ namespace MoshPlayer.Scripts.SMPLModel {
 			}
 		}
 
+		/// <summary>
+		/// Play the animation for both characters at specified position in sequence of files.
+		/// </summary>
+		void StartAnimation() {
+			List<MoshAnimation> animationGroup = animationSequence[currentAnimationIndex];
+
+			string updateMessage = $"\tPlaying animation set {currentAnimationIndex+1} of {animationSequence.Count}. " +
+			                       $"({animationGroup.Count} chars)";
+			Debug.Log(updateMessage);
+			PlaybackEventSystem.UpdatePlayerProgress(updateMessage);
+
+			string animationStrings = "";
+            
+			List<MoshCharacter> newCharacters = new List<MoshCharacter>();
+			for (int animationIndex = 0; animationIndex < animationGroup.Count; animationIndex++) {
+				MoshAnimation moshAnimation = animationGroup[animationIndex];
+				moshAnimation.Reset();
+				animationStrings += moshAnimation.AnimationName + " ";
+                
+				string characterName = $"{moshAnimation.Data.Gender} Character {animationIndex}";
+				MoshCharacter moshCharacter = moshAnimation.Data.Model.CreateNewCharacter(characterName, moshAnimation.Data.Gender);
+				moshCharacter.SetIndex(animationIndex);
+                
+                
+				newCharacters.Add(moshCharacter);
+				moshCharacter.StartAnimation(moshAnimation, RuntimePlaybackSettings, RuntimeCharacterSettings, RuntimeBodyOptions);
+			}
+			PlaybackEventSystem.PlayingNewAnimationSet(animationStrings.Trim());
+            
+			currentCharacters = newCharacters;
+		}
+		
+		void StopCurrentAnimations() {
+			if (currentCharacters == null) return;
+			foreach (MoshCharacter character in currentCharacters) {
+				if (character == null) continue;
+				character.InterruptAnimation();
+			}
+		}
+		
+		
+		public void StartPlayingAnimations() {
+			StartAnimation(); //play the first animation!
+		}
+		
 		void GoToNextAnimation() {
-			if (moshAnimationPlayer == null) return;
 			
 			if (!started) {
-				moshAnimationPlayer.StartPlayingAnimations();
+				StartPlayingAnimations();
 				started = true;
 			}
 			else {
-				moshAnimationPlayer.GoToNextAnimation();
+				StopCurrentAnimations();
+				currentAnimationIndex++;
+				if (AllAnimsComplete) {
+					string updateMessage = "All Animations Complete";
+					Debug.Log(updateMessage);
+					PlaybackEventSystem.UpdatePlayerProgress(updateMessage);
+					return;
+				}
+				StartAnimation();
 			}
 		}
 
 		void GoToPrevAnimation() {
-			if (moshAnimationPlayer == null) return;
 
-			moshAnimationPlayer.GoToPrevAnimation();
+			currentAnimationIndex = currentAnimationIndex - 1;
+			if (currentAnimationIndex < 0) {
+				currentAnimationIndex = 0;
+				return;
+			}
+			StopCurrentAnimations();
+			StartAnimation();
 			started = true;
 
 		}
 		
 		void RestartAnimations() {
-			if (moshAnimationPlayer == null) return;
-			
+
 			if (!started) {
-				moshAnimationPlayer.StartPlayingAnimations();
+				StartPlayingAnimations();
 				started = true;
 			}
 			else {
-				moshAnimationPlayer.RestartAnimations();
+				Debug.Log("Restarting All Animations");
+				currentAnimationIndex = 0;
+				StopCurrentAnimations();
+				StartAnimation();
 			}
 		}
-
-		void SetUpdateYTranslation(bool changeUpdateYTranslation) {
-			BodyOptions.UpdateTranslationLiveY = changeUpdateYTranslation;
-		}
-
-		void SetUpdateXzTranslation(bool changeUpdateXzTranslation) {
-			BodyOptions.UpdateTranslationLiveXZ = changeUpdateXzTranslation;
-		}
-
-
-		void SetManualPosing(bool manualPosing) {
-			BodyOptions.AllowPoseManipulation = manualPosing;
-		}
-
-		void SetLiveBodyShape(bool liveBodyShape) {
-			BodyOptions.UpdateBodyShapeLive = liveBodyShape;
-		}
-
-		void SetLivePoseBlendshapes(bool livePoseBlendshapes) {
-			BodyOptions.UpdatePoseBlendshapesLive = livePoseBlendshapes;
-		}
-
-		void SetLivePoses(bool livePoses) {
-			BodyOptions.UpdatePosesLive = livePoses;
-		}
-
-		void PointLightDisplayStateChanged(PointLightDisplayState pointLightDisplayState) {
-			CharacterSettings.DisplayPointLights = pointLightDisplayState;
-		}
-
-		void BoneDisplayStateChanged(BoneDisplayState boneDisplayState) {
-			CharacterSettings.DisplayBones = boneDisplayState;
-		}
-		
-		void MeshDisplayStateChanged(MeshDisplayState newState) {
-			CharacterSettings.DisplayMeshAs = newState;
-		}
-		
-		void SetIndividualizedBodyState(bool newState) {
-			BodyOptions.ShowIndividualizedBody = newState;
-		}
-		
-		void SetLoopState(bool state) {
-			PlaybackSettings.Loop = state;
-		}
-
-		void SetSnapToGround(GroundSnapType snaptype) {
-			BodyOptions.GroundSnap = snaptype;
-		}
-		
 	}
 	
 }
