@@ -14,7 +14,7 @@ namespace MoshPlayer.Scripts.Display {
         
 
         [SerializeField]
-        PointLightDisplaySettings defaultPointlightDisplaySettings;
+        PointLightDisplaySettings defaultPointlightDisplaySettings = default;
 
         PointLightDisplaySettings Settings {
             get {
@@ -34,6 +34,7 @@ namespace MoshPlayer.Scripts.Display {
         
         public void AttachBone(MoshCharacter moshCharacter, PointLightDisplay pointLightDisplay, 
                                Transform bone) {
+            this.moshCharacter = moshCharacter;
             linkedBone = bone;
             this.pointLightDisplay = pointLightDisplay;
             name = $"PointLight for {bone.name}";

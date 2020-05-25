@@ -39,7 +39,6 @@ namespace MoshPlayer.Scripts.SMPLModel {
 		List<MoshCharacter> currentCharacters;
 		
 		void OnEnable() {
-
 			PlaybackEventSystem.OnNextAnimation += GoToNextAnimation;
 			PlaybackEventSystem.OnPreviousAnimation += GoToPrevAnimation;
 			PlaybackEventSystem.OnRestartAnimations += RestartAnimations;
