@@ -18,9 +18,9 @@ namespace MoshPlayer.Scripts.SMPLModel {
 		public BodyOptions BodyOptions { get; private set; }
 
 		[FormerlySerializedAs("characterse")] [FormerlySerializedAs("characterDisplayOptions")] [SerializeField]
-		CharacterSettings characterSettings = default;
+		DisplaySettings characterSettings = default;
 
-		public CharacterSettings CharacterSettings { get; private set; }
+		public DisplaySettings CharacterSettings { get; private set; }
 
 		[SerializeField]
 		PlaybackSettings playbackSettings = default;
@@ -194,7 +194,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
 		}
 		
 		void MeshDisplayStateChanged(MeshDisplayState newState) {
-			CharacterSettings.MeshDisplayState = newState;
+			CharacterSettings.DisplayMeshAs = newState;
 		}
 		
 		void SetIndividualizedBodyState(bool newState) {

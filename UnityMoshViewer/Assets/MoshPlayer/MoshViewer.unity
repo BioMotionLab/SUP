@@ -468,6 +468,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: b4a81df35cb748b4fb3db24eea37e036,
         type: 2}
+    - target: {fileID: 5100136094089617265, guid: 214f2428e1f4c274da4fa6d27a3d44a3,
+        type: 3}
+      propertyPath: playbackSettings
+      value: 
+      objectReference: {fileID: 11400000, guid: 4b81560bdf21baf45b8d2acad6f33a35,
+        type: 2}
+    - target: {fileID: 5100136094089617265, guid: 214f2428e1f4c274da4fa6d27a3d44a3,
+        type: 3}
+      propertyPath: characterSettings
+      value: 
+      objectReference: {fileID: 11400000, guid: 0e4d1afa9676df64b89b6b93e5ce0fbb,
+        type: 2}
     - target: {fileID: 5100136094089617294, guid: 214f2428e1f4c274da4fa6d27a3d44a3,
         type: 3}
       propertyPath: m_LocalPosition.x

@@ -14,7 +14,7 @@ namespace MoshPlayer.Scripts.Display {
         PointLight PointLightPrefab = default;
 
         MoshCharacter moshCharacter;
-        public bool DisplayPointLights => moshCharacter.CharacterSettings.DisplayPointLights == PointLightDisplayState.On;
+        public bool DisplayPointLights => moshCharacter.DisplaySettings.DisplayPointLights == PointLightDisplayState.On;
 
         GameObject pointLightContainer;
 

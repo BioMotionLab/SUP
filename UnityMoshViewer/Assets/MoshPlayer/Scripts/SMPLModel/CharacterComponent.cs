@@ -28,10 +28,11 @@ namespace MoshPlayer.Scripts.SMPLModel {
         BodyOptions bodyOptions = default;
         public BodyOptions RenderOptions => bodyOptions;
         
+        [FormerlySerializedAs("characterSetings")]
         [FormerlySerializedAs("characterDisplayOptions")] 
         [SerializeField]
-        CharacterSettings characterSetings = default;
-        public CharacterSettings CharacterSettings => characterSetings;
+        DisplaySettings displaySetings = default;
+        public DisplaySettings DisplaySettings => displaySetings;
 
 
         [SerializeField] MeshCorrection meshCorrection = default;
@@ -78,9 +79,9 @@ namespace MoshPlayer.Scripts.SMPLModel {
         /// <summary>
         /// Sets up and plays a mosh animation.
         /// </summary>
-        public void StartAnimation(MoshAnimation animationToStart, PlaybackSettings playbackSettings, CharacterSettings characterSettings, BodyOptions renderOptions) {
+        public void StartAnimation(MoshAnimation animationToStart, PlaybackSettings playbackSettings, DisplaySettings characterSettings, BodyOptions renderOptions) {
             bodyOptions = renderOptions;
-            characterSetings = characterSettings;
+            displaySetings = characterSettings;
             moshAnimation = animationToStart;
             if (model.RotateToUnityCoords) RotateToUnityCoordinates();
         
@@ -89,7 +90,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
             UpdateAnimation();
 
             SetOffsetsFromIndex(playbackSettings);
-            SetMaterialFromIndex(characterSettings.MeshDisplayOptions);
+            SetMaterialFromIndex(characterSettings.MeshDisplaySettings);
         }
 
         void SetOffsetsFromIndex(PlaybackSettings playbackSettings) {

@@ -24,8 +24,8 @@ namespace MoshPlayer.Scripts.Display {
 
         BoneDisplaySettings Settings {
             get {
-                if (moshCharacter.CharacterSettings != null && moshCharacter.CharacterSettings.BoneDisplayOptions != null)
-                    return moshCharacter.CharacterSettings.BoneDisplayOptions;
+                if (moshCharacter.DisplaySettings != null && moshCharacter.DisplaySettings.BoneDisplaySettings != null)
+                    return moshCharacter.DisplaySettings.BoneDisplaySettings;
                 
                 return defaultBoneDisplaySettings;
             }

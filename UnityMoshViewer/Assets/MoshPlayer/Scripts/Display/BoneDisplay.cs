@@ -17,7 +17,7 @@ namespace MoshPlayer.Scripts.Display {
 
         GameObject boneDisplayContainer;
         MoshCharacter moshCharacter;
-        public bool DisplayBones => moshCharacter.CharacterSettings.DisplayBones == BoneDisplayState.On;
+        public bool DisplayBones => moshCharacter.DisplaySettings.DisplayBones == BoneDisplayState.On;
      
         
         void OnEnable() {

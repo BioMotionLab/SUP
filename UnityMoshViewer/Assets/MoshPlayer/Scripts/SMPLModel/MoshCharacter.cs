@@ -11,7 +11,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
         CharacterEvents Events { get; }
 
         BodyOptions RenderOptions { get; }
-        CharacterSettings CharacterSettings { get; }
+        DisplaySettings DisplaySettings { get; }
         MeshCorrection MeshCorrection { get; }
         Gender Gender { get; }
 
@@ -19,7 +19,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
             get;
         }
         
-        void StartAnimation(MoshAnimation moshAnimation, PlaybackSettings playbackSettings, CharacterSettings characterSettings, BodyOptions renderOptions);
+        void StartAnimation(MoshAnimation moshAnimation, PlaybackSettings playbackSettings, DisplaySettings characterSettings, BodyOptions renderOptions);
         void InterruptAnimation();
 
         void SetIndex(int animationIndex);

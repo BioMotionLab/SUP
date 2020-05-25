@@ -18,8 +18,8 @@ namespace MoshPlayer.Scripts.Display {
 
         PointLightDisplaySettings Settings {
             get {
-                if (moshCharacter != null && moshCharacter.CharacterSettings != null) {
-                    return moshCharacter.CharacterSettings.PointLightDisplaySettings;
+                if (moshCharacter != null && moshCharacter.DisplaySettings != null) {
+                    return moshCharacter.DisplaySettings.PointLightDisplaySettings;
                 }
                 return defaultPointlightDisplaySettings;
             }

@@ -10,7 +10,7 @@ namespace MoshPlayer.Scripts.Playback {
 	
         readonly List<List<MoshAnimation>> animationSequence;
         readonly PlaybackSettings playbackSettings;
-        readonly CharacterSettings displayOptions;
+        readonly DisplaySettings displayOptions;
         readonly BodyOptions bodyOptions;
 
         public bool AllAnimsComplete => currentAnimationIndex >= animationSequence.Count;
@@ -20,7 +20,7 @@ namespace MoshPlayer.Scripts.Playback {
         List<MoshCharacter> currentCharacters;
         
 
-        public MoshAnimationPlayer(List<List<MoshAnimation>> animationSequence, PlaybackSettings playbackSettings, CharacterSettings displayOptions, BodyOptions bodyOptions) {
+        public MoshAnimationPlayer(List<List<MoshAnimation>> animationSequence, PlaybackSettings playbackSettings, DisplaySettings displayOptions, BodyOptions bodyOptions) {
             this.animationSequence = animationSequence;
             this.playbackSettings = playbackSettings;
             this.displayOptions = displayOptions;
