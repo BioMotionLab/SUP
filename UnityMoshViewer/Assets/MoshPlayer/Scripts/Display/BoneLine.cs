@@ -9,14 +9,27 @@ namespace MoshPlayer.Scripts.Display {
     /// Draws a boneDisplay between two joints.
     /// </summary>
     public class BoneLine : MonoBehaviour {
-
+        
+        [SerializeField]
+        BoneDisplaySettings defaultBoneDisplaySettings = default;
+        
+        
         LineRenderer lineRenderer;
 
         Transform childBone;
         Transform parentBone;
-
-        BoneDisplayOptions boneDisplayOptions;
+        
         BoneDisplay boneDisplay;
+        MoshCharacter moshCharacter;
+
+        BoneDisplaySettings Settings {
+            get {
+                if (moshCharacter.CharacterSettings != null && moshCharacter.CharacterSettings.BoneDisplayOptions != null)
+                    return moshCharacter.CharacterSettings.BoneDisplayOptions;
+                
+                return defaultBoneDisplaySettings;
+            }
+        }
 
         void OnEnable() {
             lineRenderer = GetComponent<LineRenderer>();
@@ -33,19 +46,20 @@ namespace MoshPlayer.Scripts.Display {
         /// <summary>
         /// Replaces constructor for MonoBehaviour
         /// </summary>
+        /// <param name="moshCharacter"></param>
         /// <param name="boneDisplay"></param>
         /// <param name="parentBone"></param>
         /// <param name="childBone"></param>
-        /// <param name="boneDisplayOptions"></param>
-        public void Init(BoneDisplay boneDisplay, Transform parentBone, Transform childBone, BoneDisplayOptions boneDisplayOptions) {
+        public void Init(MoshCharacter moshCharacter, BoneDisplay boneDisplay, Transform parentBone, Transform childBone) {
+            this.moshCharacter = moshCharacter;
             this.boneDisplay = boneDisplay;
             this.parentBone = parentBone;
             this.childBone = childBone;
             name = $"BoneLine {this.parentBone.name} to {this.childBone.name}";
-            this.boneDisplayOptions = boneDisplayOptions;
-            
-            if (boneDisplayOptions.DrawSidesDifferentColors) DrawSidesDifferentColors();
+            if (Settings.DrawSidesDifferentColors) DrawSidesDifferentColors();
         }
+        
+        
 
         void LateUpdate() {
             UpdateBoneLine();
@@ -55,8 +69,8 @@ namespace MoshPlayer.Scripts.Display {
         void UpdateBoneLine() {
             Vector3[] positions = {childBone.position, parentBone.position};
             lineRenderer.SetPositions(positions);
-            lineRenderer.startWidth = boneDisplayOptions.BoneWidth;
-            lineRenderer.endWidth = boneDisplayOptions.BoneWidth;
+            lineRenderer.startWidth = Settings.BoneWidth;
+            lineRenderer.endWidth = Settings.BoneWidth;
         }
 
         void ShowOrHideBasedOnSettings() {
@@ -67,10 +81,10 @@ namespace MoshPlayer.Scripts.Display {
             SideOfBody sideOfBody = Bones.GetSideOfBody(childBone.name);
             switch (sideOfBody) {
                 case SideOfBody.Left:
-                    lineRenderer.material = boneDisplayOptions.LeftSideMaterial;
+                    lineRenderer.material = Settings.LeftSideMaterial;
                     break;
                 case SideOfBody.Right:
-                    lineRenderer.material = boneDisplayOptions.RightSideMaterial;
+                    lineRenderer.material = Settings.RightSideMaterial;
                     break;
                 case SideOfBody.Center:
                     break;

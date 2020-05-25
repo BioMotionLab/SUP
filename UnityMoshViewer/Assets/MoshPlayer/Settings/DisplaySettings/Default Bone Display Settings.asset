@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95ef02731e124c8d969a37d83acabba5, type: 3}
+  m_Name: Default Bone Display Settings
+  m_EditorClassIdentifier: 
+  BoneWidth: 0.005
+  DrawSidesDifferentColors: 1
+  LeftSideMaterial: {fileID: 2100000, guid: 5975636768fed814ab183a919fb2fc49, type: 2}
+  RightSideMaterial: {fileID: 2100000, guid: 8bad80b00626096438ec084e61fd4dba, type: 2}

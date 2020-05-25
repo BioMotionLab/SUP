@@ -16,7 +16,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
         bool firstFrame = false;
         bool bodyChanged = false;
 
-        PlaybackOptions playbackOptions;
+        PlaybackSettings playbackSettings;
         int index;
 
         void Awake() {
@@ -127,8 +127,8 @@ namespace MoshPlayer.Scripts.SMPLModel {
         }
 
         Vector3 GetOffsetFromIndex() {
-            if (playbackOptions == null) return Vector3.zero;
-            Vector3 offsetSpacing = playbackOptions.OffSetSpacing;
+            if (playbackSettings == null) return Vector3.zero;
+            Vector3 offsetSpacing = playbackSettings.OffSetSpacing;
             Vector3 translationOffset = new Vector3(offsetSpacing.x * index, offsetSpacing.y * index,
                 offsetSpacing.z * index);
             if (index % 2 > 0)
@@ -137,8 +137,8 @@ namespace MoshPlayer.Scripts.SMPLModel {
             return translationOffset;
         }
 
-        public void SetPlaybackOptions(PlaybackOptions playbackOptions) {
-            this.playbackOptions = playbackOptions;
+        public void SetPlaybackOptions(PlaybackSettings playbackSettings) {
+            this.playbackSettings = playbackSettings;
         }
     }
 }

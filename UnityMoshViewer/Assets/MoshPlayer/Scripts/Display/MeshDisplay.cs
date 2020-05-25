@@ -9,8 +9,8 @@ namespace MoshPlayer.Scripts.Display {
         MoshCharacter moshCharacter;
 
         public Material overwriteMaterial;
-        MeshDisplayState   MeshDisplayState   => moshCharacter.DisplayOptions.MeshDisplayState;
-        MeshDisplayOptions MeshDisplayOptions => moshCharacter.DisplayOptions.MeshDisplayOptions;
+        MeshDisplayState   MeshDisplayState   => moshCharacter.CharacterSettings.MeshDisplayState;
+        MeshDisplaySettings MeshDisplayOptions => moshCharacter.CharacterSettings.MeshDisplayOptions;
 
         void OnEnable() {
             moshCharacter = GetComponent<MoshCharacter>();
@@ -20,12 +20,14 @@ namespace MoshPlayer.Scripts.Display {
         void Update() {
             if (overwriteMaterial != null) {
                 moshCharacter.SkinnedMeshRender.material = overwriteMaterial;
-                return;
             }
 
             switch (MeshDisplayState) {
                 case MeshDisplayState.On:
                     moshCharacter.SkinnedMeshRender.material = MeshDisplayOptions.Opaque;
+                    if (overwriteMaterial != null) {
+                        moshCharacter.SkinnedMeshRender.material = overwriteMaterial;
+                    }
                     moshCharacter.SkinnedMeshRender.enabled = true;
                     break;
                 case MeshDisplayState.SemiTransparent:

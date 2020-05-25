@@ -2,6 +2,7 @@
 using MoshPlayer.Scripts.Display;
 using MoshPlayer.Scripts.Playback;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace MoshPlayer.Scripts.SMPLModel {
     /// <summary>
@@ -22,13 +23,15 @@ namespace MoshPlayer.Scripts.SMPLModel {
         Gender gender = default;
         public Gender Gender => gender;
 
-        [SerializeField]
-        CharacterRenderOptions characterRenderOptions = default;
-        public CharacterRenderOptions RenderOptions => characterRenderOptions;
         
         [SerializeField]
-        CharacterDisplayOptions characterDisplayOptions = default;
-        public CharacterDisplayOptions DisplayOptions => characterDisplayOptions;
+        BodyOptions bodyOptions = default;
+        public BodyOptions RenderOptions => bodyOptions;
+        
+        [FormerlySerializedAs("characterDisplayOptions")] 
+        [SerializeField]
+        CharacterSettings characterSetings = default;
+        public CharacterSettings CharacterSettings => characterSetings;
 
 
         [SerializeField] MeshCorrection meshCorrection = default;
@@ -75,9 +78,9 @@ namespace MoshPlayer.Scripts.SMPLModel {
         /// <summary>
         /// Sets up and plays a mosh animation.
         /// </summary>
-        public void StartAnimation(MoshAnimation animationToStart, PlaybackOptions playbackOptions, CharacterDisplayOptions displayOptions, CharacterRenderOptions renderOptions) {
-            characterRenderOptions = renderOptions;
-            characterDisplayOptions = displayOptions;
+        public void StartAnimation(MoshAnimation animationToStart, PlaybackSettings playbackSettings, CharacterSettings characterSettings, BodyOptions renderOptions) {
+            bodyOptions = renderOptions;
+            characterSetings = characterSettings;
             moshAnimation = animationToStart;
             if (model.RotateToUnityCoords) RotateToUnityCoordinates();
         
@@ -85,14 +88,14 @@ namespace MoshPlayer.Scripts.SMPLModel {
             moshAnimation.AttachSkin(skinnedMeshRenderer);
             UpdateAnimation();
 
-            SetOffsetsFromIndex(playbackOptions);
-            SetMaterialFromIndex(displayOptions.MeshDisplayOptions);
+            SetOffsetsFromIndex(playbackSettings);
+            SetMaterialFromIndex(characterSettings.MeshDisplayOptions);
         }
 
-        void SetOffsetsFromIndex(PlaybackOptions playbackOptions) {
-            if (playbackOptions.OffsetMultipleAnimations) {
+        void SetOffsetsFromIndex(PlaybackSettings playbackSettings) {
+            if (playbackSettings.OffsetMultipleAnimations) {
                 CharacterTranslater translater = GetComponent<CharacterTranslater>();
-                translater.SetPlaybackOptions(playbackOptions);
+                translater.SetPlaybackOptions(playbackSettings);
                 translater.AddOffset(animationIndex);
             }
         }
@@ -129,8 +132,8 @@ namespace MoshPlayer.Scripts.SMPLModel {
             this.animationIndex = animationIndex;
         }
 
-        void SetMaterialFromIndex(MeshDisplayOptions displayOptions) {
-            Debug.Log($"index: {animationIndex}, count:{displayOptions.OptionalMaterialList.Count}");
+        void SetMaterialFromIndex(MeshDisplaySettings displayOptions) {
+            //Debug.Log($"index: {animationIndex}, count:{displayOptions.OptionalMaterialList.Count}");
             if (animationIndex < displayOptions.OptionalMaterialList.Count) {
                 MeshDisplay meshDisplay = GetComponent<MeshDisplay>();
                meshDisplay.overwriteMaterial = displayOptions.OptionalMaterialList[animationIndex];

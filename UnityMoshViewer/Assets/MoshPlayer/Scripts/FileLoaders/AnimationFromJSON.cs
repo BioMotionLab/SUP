@@ -14,8 +14,8 @@ namespace MoshPlayer.Scripts.FileLoaders {
     public class AnimationFromJSON : FileLoaderBase {
         JSONNode jsonNode;
 
-        public AnimationFromJSON(string filePath, Models possibleModels, PlaybackOptions playbackOptions): 
-            base(filePath, possibleModels, playbackOptions) { }
+        public AnimationFromJSON(string filePath, Models possibleModels, PlaybackSettings playbackSettings): 
+            base(filePath, possibleModels, playbackSettings) { }
 
         protected override void LoadData() {
             // AB: This is where the load speed bottleneck is. It seems to have trouble parsing even fairly small ~1MB files (~100ms or more).
@@ -40,8 +40,8 @@ namespace MoshPlayer.Scripts.FileLoaders {
             //Debug.Log($"fps: {fps}");
             LoadBetas(betasNode);
             if (animationData.Fps == 0) {
-                Debug.LogWarning($"No fps specified, defaulting to {playbackOptions.FallbackFPS} fps");
-                animationData.Fps = playbackOptions.FallbackFPS;
+                Debug.LogWarning($"No fps specified, defaulting to {PlaybackSettings.FallbackFPS} fps");
+                animationData.Fps = PlaybackSettings.FallbackFPS;
             }
             
             //DebugArray("betas", betas.ToList());

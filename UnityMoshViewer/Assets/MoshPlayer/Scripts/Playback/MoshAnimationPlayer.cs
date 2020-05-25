@@ -9,9 +9,9 @@ namespace MoshPlayer.Scripts.Playback {
     public class MoshAnimationPlayer {
 	
         readonly List<List<MoshAnimation>> animationSequence;
-        readonly PlaybackOptions playbackOptions;
-        readonly CharacterDisplayOptions displayOptions;
-        readonly CharacterRenderOptions renderOptions;
+        readonly PlaybackSettings playbackSettings;
+        readonly CharacterSettings displayOptions;
+        readonly BodyOptions bodyOptions;
 
         public bool AllAnimsComplete => currentAnimationIndex >= animationSequence.Count;
 
@@ -20,11 +20,11 @@ namespace MoshPlayer.Scripts.Playback {
         List<MoshCharacter> currentCharacters;
         
 
-        public MoshAnimationPlayer(List<List<MoshAnimation>> animationSequence, PlaybackOptions playbackOptions, CharacterDisplayOptions displayOptions, CharacterRenderOptions renderOptions) {
+        public MoshAnimationPlayer(List<List<MoshAnimation>> animationSequence, PlaybackSettings playbackSettings, CharacterSettings displayOptions, BodyOptions bodyOptions) {
             this.animationSequence = animationSequence;
-            this.playbackOptions = playbackOptions;
+            this.playbackSettings = playbackSettings;
             this.displayOptions = displayOptions;
-            this.renderOptions = renderOptions;
+            this.bodyOptions = bodyOptions;
         }
 
 
@@ -65,7 +65,7 @@ namespace MoshPlayer.Scripts.Playback {
                 
                 
                 newCharacters.Add(moshCharacter);
-                moshCharacter.StartAnimation(moshAnimation, playbackOptions, displayOptions, renderOptions);
+                moshCharacter.StartAnimation(moshAnimation, playbackSettings, displayOptions, bodyOptions);
             }
             PlaybackEventSystem.PlayingNewAnimationSet(animationStrings.Trim());
             

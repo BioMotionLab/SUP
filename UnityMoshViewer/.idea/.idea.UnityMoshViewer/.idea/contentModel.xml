@@ -7,6 +7,10 @@
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
         <e p="MoshPlayer" t="Include">
+          <e p="BodyOptions.cs" t="Include" />
+          <e p="BoneDisplaySettings.cs" t="Include" />
+          <e p="MeshDisplaySettings.cs" t="Include" />
+          <e p="PointLightDisplaySettings.cs" t="Include" />
           <e p="Scripts" t="Include">
             <e p="Display" t="Include">
               <e p="BoneDisplay.cs" t="Include" />
@@ -64,7 +68,7 @@
               <e p="MoshAnimationPlayer.cs" t="Include" />
               <e p="Playback.cs" t="Include" />
               <e p="PlaybackEventSystem.cs" t="Include" />
-              <e p="PlaybackOptions.cs" t="Include" />
+              <e p="PlaybackSettings.cs" t="Include" />
             </e>
             <e p="SMPLModel" t="Include">
               <e p="AnimationData.cs" t="Include" />
@@ -73,11 +77,12 @@
               <e p="CharacterComponent.cs" t="Include" />
               <e p="CharacterEvents.cs" t="Include" />
               <e p="CharacterPoser.cs" t="Include" />
-              <e p="CharacterRenderOptions.cs" t="Include" />
+              <e p="CharacterSettings.cs" t="Include" />
               <e p="CharacterTranslater.cs" t="Include" />
               <e p="ForwardsResampledFrame.cs" t="Include" />
               <e p="Gender.cs" t="Include" />
               <e p="Grounder.cs" t="Include" />
+              <e p="GroundSnapType.cs" t="Include" />
               <e p="IndividualizedBody.cs" t="Include" />
               <e p="JointRegressor.cs" t="Include" />
               <e p="MeshCorrection.cs" t="Include" />

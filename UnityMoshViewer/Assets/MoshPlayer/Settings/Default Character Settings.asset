@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Default Character Settings
+  m_EditorClassIdentifier: Assembly-CSharp:MoshPlayer.Scripts.SMPLModel:CharacterSettings
+  DisplayBones: 1
+  DisplayPointLights: 1
+  MeshDisplayState: 0
+  PointLightDisplayOptions: {fileID: 11400000, guid: ffac44d6ae7d0d64c9d3d187b4feae97,
+    type: 2}
+  BoneDisplayOptions: {fileID: 11400000, guid: d6a202c7e78438f498d2c54c00a9c218, type: 2}
+  MeshDisplayOptions: {fileID: 11400000, guid: e2b4f3d7dc984394297d0f0ef636bd6b, type: 2}

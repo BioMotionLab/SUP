@@ -7,24 +7,27 @@ using UnityEngine.Serialization;
 
 namespace MoshPlayer.Scripts.SMPLModel {
 	public class MoshViewerComponent : MonoBehaviour {
-		[FormerlySerializedAs("Models")]
-		[FormerlySerializedAs("SettingsMain")]
+
 		[SerializeField]
 		Models models = default;
 
+		
+		[SerializeField]
+		BodyOptions bodyOptions = default;
+
+		public BodyOptions BodyOptions { get; private set; }
+
+		[FormerlySerializedAs("characterse")] [FormerlySerializedAs("characterDisplayOptions")] [SerializeField]
+		CharacterSettings characterSettings = default;
+
+		public CharacterSettings CharacterSettings { get; private set; }
+
+		[SerializeField]
+		PlaybackSettings playbackSettings = default;
+		
+		public PlaybackSettings PlaybackSettings { get; private set; }
+		
 		MoshAnimationPlayer moshAnimationPlayer;
-
-		[FormerlySerializedAs("PlaybackOptions")] [SerializeField]
-		PlaybackOptions playbackOptions = default;
-
-		[FormerlySerializedAs("characterRenderRenderOptions")]
-		[FormerlySerializedAs("CharacterRenderRenderOptions")]
-		[FormerlySerializedAs("CharacterRenderOptions")]
-		[SerializeField]
-		CharacterRenderOptions characterRenderOptions = default;
-
-		[SerializeField]
-		CharacterDisplayOptions characterDisplayOptions = default;
 		
 		AnimationLoader loader;
 		bool doneLoading = false;
@@ -52,11 +55,11 @@ namespace MoshPlayer.Scripts.SMPLModel {
 			PlaybackEventSystem.OnChangeIndividualizedBody += SetIndividualizedBodyState;
 			PlaybackEventSystem.OnChangeLoopState += SetLoopState;
 
-			
+			BodyOptions = Instantiate(bodyOptions);
+			CharacterSettings = Instantiate(characterSettings);
+			PlaybackSettings = Instantiate(playbackSettings);
 		}
-
-	
-
+		
 
 		void OnDisable() {
 			PlaybackEventSystem.OnNextAnimation -= GoToNextAnimation;
@@ -92,21 +95,21 @@ namespace MoshPlayer.Scripts.SMPLModel {
 			if (!File.Exists(listFile)) throw new IOException($"Can't find List of Animations file {listFile}");
 			
 			loader = gameObject.AddComponent<AnimationLoader>();
-			loader.Init(listFile, models, playbackOptions, animationsFolder, DoneLoading);
+			loader.Init(listFile, models, PlaybackSettings, animationsFolder, DoneLoading);
 		}
 
 		void LoadSingleAnimation(string singlefile) {
 			if (!File.Exists(singlefile)) throw new IOException($"Can't find Animation file {singlefile}");
 			loader = gameObject.AddComponent<AnimationLoader>();
-			loader.Init(singlefile, models, playbackOptions, DoneLoading);
+			loader.Init(singlefile, models, PlaybackSettings, DoneLoading);
 		}
 		
 		
 		void DoneLoading(List<List<MoshAnimation>> animationSequence) {
 			doneLoading = true;
-			moshAnimationPlayer = new MoshAnimationPlayer(animationSequence, playbackOptions, characterDisplayOptions, characterRenderOptions);
+			moshAnimationPlayer = new MoshAnimationPlayer(animationSequence, PlaybackSettings, CharacterSettings, BodyOptions);
 			Destroy(loader);
-			if (playbackOptions.OffsetMultipleAnimations) {
+			if (PlaybackSettings.OffsetMultipleAnimations) {
 				Debug.LogWarning("Warning, you have selected to offset multiple animations from each other! This could cause unwanted results.", this);;
 			}
 		}
@@ -158,52 +161,52 @@ namespace MoshPlayer.Scripts.SMPLModel {
 		}
 
 		void SetUpdateYTranslation(bool changeUpdateYTranslation) {
-			characterRenderOptions.UpdateTranslationLiveY = changeUpdateYTranslation;
+			BodyOptions.UpdateTranslationLiveY = changeUpdateYTranslation;
 		}
 
 		void SetUpdateXzTranslation(bool changeUpdateXzTranslation) {
-			characterRenderOptions.UpdateTranslationLiveXZ = changeUpdateXzTranslation;
+			BodyOptions.UpdateTranslationLiveXZ = changeUpdateXzTranslation;
 		}
 
 
 		void SetManualPosing(bool manualPosing) {
-			characterRenderOptions.AllowPoseManipulation = manualPosing;
+			BodyOptions.AllowPoseManipulation = manualPosing;
 		}
 
 		void SetLiveBodyShape(bool liveBodyShape) {
-			characterRenderOptions.UpdateBodyShapeLive = liveBodyShape;
+			BodyOptions.UpdateBodyShapeLive = liveBodyShape;
 		}
 
 		void SetLivePoseBlendshapes(bool livePoseBlendshapes) {
-			characterRenderOptions.UpdatePoseBlendshapesLive = livePoseBlendshapes;
+			BodyOptions.UpdatePoseBlendshapesLive = livePoseBlendshapes;
 		}
 
 		void SetLivePoses(bool livePoses) {
-			characterRenderOptions.UpdatePosesLive = livePoses;
+			BodyOptions.UpdatePosesLive = livePoses;
 		}
 
 		void PointLightDisplayStateChanged(PointLightDisplayState pointLightDisplayState) {
-			characterDisplayOptions.DisplayPointLights = pointLightDisplayState;
+			CharacterSettings.DisplayPointLights = pointLightDisplayState;
 		}
 
 		void BoneDisplayStateChanged(BoneDisplayState boneDisplayState) {
-			characterDisplayOptions.DisplayBones = boneDisplayState;
+			CharacterSettings.DisplayBones = boneDisplayState;
 		}
 		
 		void MeshDisplayStateChanged(MeshDisplayState newState) {
-			characterDisplayOptions.MeshDisplayState = newState;
+			CharacterSettings.MeshDisplayState = newState;
 		}
 		
 		void SetIndividualizedBodyState(bool newState) {
-			characterRenderOptions.ShowIndividualizedBody = newState;
+			BodyOptions.ShowIndividualizedBody = newState;
 		}
 		
 		void SetLoopState(bool state) {
-			playbackOptions.Loop = state;
+			PlaybackSettings.Loop = state;
 		}
 
 		void SetSnapToGround(GroundSnapType snaptype) {
-			characterRenderOptions.GroundSnap = snaptype;
+			BodyOptions.GroundSnap = snaptype;
 		}
 		
 	}
