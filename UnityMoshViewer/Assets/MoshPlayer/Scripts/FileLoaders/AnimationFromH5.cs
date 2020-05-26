@@ -2,7 +2,6 @@
 using System.CodeDom;
 using System.Text.RegularExpressions;
 using HDF.PInvoke;
-using MoshPlayer.Scripts.Playback;
 using MoshPlayer.Scripts.SMPLModel;
 using MoshPlayer.Scripts.Utilities;
 using UnityEngine;
@@ -14,7 +13,7 @@ namespace MoshPlayer.Scripts.FileLoaders {
         const int MaxBodyShapeBetaCount = 100;
         const int MaxStringLengthForReading = 20;
 
-        public AnimationFromH5(string filePath, Models possibleModels, PlaybackSettings playbackSettings) : base(filePath, possibleModels, playbackSettings) { }
+        public AnimationFromH5(string filePath, Models possibleModels) : base(filePath, possibleModels) { }
         protected override void LoadData() {
             //no need to pre load H5
         }
@@ -40,11 +39,6 @@ namespace MoshPlayer.Scripts.FileLoaders {
                 Data.Betas = ReadBetas(fileId);
                 Data.Gender = ReadGender(fileId);
                 Data.Fps = ReadFPS(fileId);
-                if (Data.Fps == 0) {
-                    Debug.LogWarning($"No fps specified, defaulting to {PlaybackSettings.FallbackFPS} fps");
-                    Data.Fps = PlaybackSettings.FallbackFPS;
-                }
-
                 LoadTranslationAndPosesFromJoints(fileId);
             }
             finally {

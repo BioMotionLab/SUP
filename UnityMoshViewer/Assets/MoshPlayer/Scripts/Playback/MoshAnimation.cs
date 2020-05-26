@@ -31,6 +31,10 @@ namespace MoshPlayer.Scripts.Playback {
         public MoshAnimation(AnimationData data, PlaybackSettings playbackSettings, string animationName) {
             this.data = data;
             this.playbackSettings = playbackSettings;
+            if (Data.Fps == 0) {
+                Debug.LogWarning($"No fps specified, defaulting to {playbackSettings.FallbackFPS} fps");
+                Data.Fps = playbackSettings.FallbackFPS;
+            }
             AnimationName = animationName;
             Setup();
         }

@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using MoshPlayer.Scripts.Playback;
 using MoshPlayer.Scripts.SMPLModel;
 using UnityEngine;
 
@@ -12,12 +11,11 @@ namespace MoshPlayer.Scripts.FileLoaders {
         public AnimationData Data => animationData;
 
         readonly Models possibleModels;
-        protected readonly PlaybackSettings PlaybackSettings;
-
-        protected AnimationLoadStrategy(string filePath, Models possibleModels, PlaybackSettings playbackSettings) {
+        
+        protected AnimationLoadStrategy(string filePath, Models possibleModels) {
             this.filePath = filePath;
             this.possibleModels = possibleModels;
-            this.PlaybackSettings = playbackSettings;    
+             
             
             CheckSetupErrors();
             

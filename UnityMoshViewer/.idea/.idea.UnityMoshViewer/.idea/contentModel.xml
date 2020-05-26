@@ -29,7 +29,9 @@
               <e p="AnimationLoadStrategy.cs" t="Include" />
               <e p="H5ModelKeys.cs" t="Include" />
               <e p="JSONModelKeys.cs" t="Include" />
+              <e p="MultithreadedAnimationLoader.cs" t="Include" />
               <e p="OpenedH5DataSet.cs" t="Include" />
+              <e p="RunnableThread.cs" t="Include" />
               <e p="SMPLHRegressorFromJSON.cs" t="Include" />
             </e>
             <e p="InGameUI" t="Include">
@@ -63,6 +65,7 @@
             </e>
             <e p="Playback" t="Include">
               <e p="AnimationControlEvents.cs" t="Include" />
+              <e p="AnimationFileReference.cs" t="Include" />
               <e p="AnimationLoader.cs" t="Include" />
               <e p="MoshAnimation.cs" t="Include" />
               <e p="MoshAnimationPlayer.cs" t="Include" />
