@@ -1,4 +1,5 @@
-﻿using MoshPlayer.Scripts.Playback;
+﻿using System.Collections.Generic;
+using MoshPlayer.Scripts.Playback;
 using TMPro;
 using UnityEngine;
 
@@ -10,8 +11,8 @@ namespace MoshPlayer.AnimationReviewer {
     
         string reviewFilePath;
     
-        public string currentAnims;
-        public string CurrentAnims => currentAnims;
+        public List<MoshAnimation> currentAnims;
+        public List<MoshAnimation> CurrentAnims => currentAnims;
     
         public string ReviewFilePath => reviewFilePath;
     
@@ -24,7 +25,7 @@ namespace MoshPlayer.AnimationReviewer {
             PlaybackEventSystem.OnPlayingNewAnimationSet -= AnimationSetChanged;
         }
 
-        void AnimationSetChanged(string animations) {
+        void AnimationSetChanged(List<MoshAnimation> animations) {
             currentAnims = animations;
         }
 

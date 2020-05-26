@@ -62,15 +62,15 @@ namespace MoshPlayer.Scripts.SMPLModel {
         }
 
         void PointLightDisplayStateChanged(PointLightDisplayState pointLightDisplayState) {
-            moshViewerComponent.RuntimeCharacterSettings.DisplayPointLights = pointLightDisplayState;
+            moshViewerComponent.RuntimeDisplaySettings.DisplayPointLights = pointLightDisplayState;
         }
 
         void BoneDisplayStateChanged(BoneDisplayState boneDisplayState) {
-            moshViewerComponent.RuntimeCharacterSettings.DisplayBones = boneDisplayState;
+            moshViewerComponent.RuntimeDisplaySettings.DisplayBones = boneDisplayState;
         }
 
         void MeshDisplayStateChanged(MeshDisplayState newState) {
-            moshViewerComponent.RuntimeCharacterSettings.DisplayMeshAs = newState;
+            moshViewerComponent.RuntimeDisplaySettings.DisplayMeshAs = newState;
         }
 
         void SetIndividualizedBodyState(bool newState) {

@@ -11,7 +11,7 @@ namespace MoshPlayer.Scripts.FileLoaders {
     ///  This class can serve as a guide for extending BMLMoShAnimation to other 
     /// data formats in future. 
     /// </summary>
-    public class AnimationFromJSON : FileLoaderBase {
+    public class AnimationFromJSON : AnimationLoadStrategy {
         JSONNode jsonNode;
 
         public AnimationFromJSON(string filePath, Models possibleModels, PlaybackSettings playbackSettings): 

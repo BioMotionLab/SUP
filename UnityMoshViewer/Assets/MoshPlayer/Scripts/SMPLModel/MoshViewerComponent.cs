@@ -16,9 +16,9 @@ namespace MoshPlayer.Scripts.SMPLModel {
 		public BodyOptions RuntimeBodyOptions { get; private set; }
 
 		
-		[SerializeField]
-		DisplaySettings characterSettings = default;
-		public DisplaySettings RuntimeCharacterSettings { get; private set; }
+		[FormerlySerializedAs("characterSettings")] [SerializeField]
+		DisplaySettings displaySettings = default;
+		public DisplaySettings RuntimeDisplaySettings { get; private set; }
 
 		
 		[SerializeField]
@@ -35,9 +35,9 @@ namespace MoshPlayer.Scripts.SMPLModel {
 		bool started = false;
 		bool notYetNotified = true;
 		UserModifiedSettingsHandler userModifiedSettingsHandler;
-		
-		List<MoshCharacter> currentCharacters;
-		
+	
+		MoshAnimationPlayer animationPlayer;
+
 		void OnEnable() {
 			PlaybackEventSystem.OnNextAnimation += GoToNextAnimation;
 			PlaybackEventSystem.OnPreviousAnimation += GoToPrevAnimation;
@@ -51,6 +51,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
 
 		void Awake() {
 			CacheRuntimeSettings();
+			animationPlayer = new MoshAnimationPlayer(RuntimePlaybackSettings, RuntimeDisplaySettings, RuntimeBodyOptions);
 		}
 		
 		
@@ -68,7 +69,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
 
 		void CacheRuntimeSettings() {
 			RuntimeBodyOptions = Instantiate(bodyOptions);
-			RuntimeCharacterSettings = Instantiate(characterSettings);
+			RuntimeDisplaySettings = Instantiate(displaySettings);
 			RuntimePlaybackSettings = Instantiate(playbackSettings);
 		}
 
@@ -78,15 +79,11 @@ namespace MoshPlayer.Scripts.SMPLModel {
 		}
 
 		void LoadAnimations(string listFile, string animationsFolder) {
-			
-			if (!File.Exists(listFile)) throw new IOException($"Can't find List of Animations file {listFile}");
-			
 			loader = gameObject.AddComponent<AnimationLoader>();
-			loader.Init(listFile, models, RuntimePlaybackSettings, animationsFolder, DoneLoading);
+			loader.Init(listFile, animationsFolder, models, RuntimePlaybackSettings, DoneLoading);
 		}
 
 		void LoadSingleAnimation(string singlefile) {
-			if (!File.Exists(singlefile)) throw new IOException($"Can't find Animation file {singlefile}");
 			loader = gameObject.AddComponent<AnimationLoader>();
 			loader.Init(singlefile, models, RuntimePlaybackSettings, DoneLoading);
 		}
@@ -115,48 +112,22 @@ namespace MoshPlayer.Scripts.SMPLModel {
 		}
 
 		/// <summary>
-		/// Play the animation for both characters at specified position in sequence of files.
+		/// Play the animation for characters at specified position in sequence of files.
 		/// </summary>
-		void StartAnimation() {
-			List<MoshAnimation> animationGroup = animationSequence[currentAnimationIndex];
+		void StartCurrentAnimationSet() {
+			List<MoshAnimation> animationSet = animationSequence[currentAnimationIndex];
+			PlaybackEventSystem.PlayingNewAnimationSet(animationSet);
 
 			string updateMessage = $"\tPlaying animation set {currentAnimationIndex+1} of {animationSequence.Count}. " +
-			                       $"({animationGroup.Count} chars)";
+			                       $"({animationSet.Count} chars)";
 			Debug.Log(updateMessage);
 			PlaybackEventSystem.UpdatePlayerProgress(updateMessage);
+			animationPlayer.PlaySet(animationSet);
+		}
 
-			string animationStrings = "";
-            
-			List<MoshCharacter> newCharacters = new List<MoshCharacter>();
-			for (int animationIndex = 0; animationIndex < animationGroup.Count; animationIndex++) {
-				MoshAnimation moshAnimation = animationGroup[animationIndex];
-				moshAnimation.Reset();
-				animationStrings += moshAnimation.AnimationName + " ";
-                
-				string characterName = $"{moshAnimation.Data.Gender} Character {animationIndex}";
-				MoshCharacter moshCharacter = moshAnimation.Data.Model.CreateNewCharacter(characterName, moshAnimation.Data.Gender);
-				moshCharacter.SetIndex(animationIndex);
-                
-                
-				newCharacters.Add(moshCharacter);
-				moshCharacter.StartAnimation(moshAnimation, RuntimePlaybackSettings, RuntimeCharacterSettings, RuntimeBodyOptions);
-			}
-			PlaybackEventSystem.PlayingNewAnimationSet(animationStrings.Trim());
-            
-			currentCharacters = newCharacters;
-		}
-		
-		void StopCurrentAnimations() {
-			if (currentCharacters == null) return;
-			foreach (MoshCharacter character in currentCharacters) {
-				if (character == null) continue;
-				character.InterruptAnimation();
-			}
-		}
-		
-		
+
 		public void StartPlayingAnimations() {
-			StartAnimation(); //play the first animation!
+			StartCurrentAnimationSet(); //play the first animation!
 		}
 		
 		void GoToNextAnimation() {
@@ -166,7 +137,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
 				started = true;
 			}
 			else {
-				StopCurrentAnimations();
+				animationPlayer.StopCurrentAnimations();
 				currentAnimationIndex++;
 				if (AllAnimsComplete) {
 					string updateMessage = "All Animations Complete";
@@ -174,7 +145,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
 					PlaybackEventSystem.UpdatePlayerProgress(updateMessage);
 					return;
 				}
-				StartAnimation();
+				StartCurrentAnimationSet();
 			}
 		}
 
@@ -185,8 +156,8 @@ namespace MoshPlayer.Scripts.SMPLModel {
 				currentAnimationIndex = 0;
 				return;
 			}
-			StopCurrentAnimations();
-			StartAnimation();
+			animationPlayer.StopCurrentAnimations();
+			StartCurrentAnimationSet();
 			started = true;
 
 		}
@@ -200,8 +171,8 @@ namespace MoshPlayer.Scripts.SMPLModel {
 			else {
 				Debug.Log("Restarting All Animations");
 				currentAnimationIndex = 0;
-				StopCurrentAnimations();
-				StartAnimation();
+				animationPlayer.StopCurrentAnimations();
+				StartCurrentAnimationSet();
 			}
 		}
 	}

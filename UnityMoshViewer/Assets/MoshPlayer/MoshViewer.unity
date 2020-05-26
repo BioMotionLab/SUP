@@ -719,7 +719,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   filePathDisplay: {fileID: 1228042995}
-  currentAnims: 
 --- !u!114 &1410367542
 MonoBehaviour:
   m_ObjectHideFlags: 0

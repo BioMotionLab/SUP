@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using JetBrains.Annotations;
+using MoshPlayer.Scripts.Playback;
 using MoshPlayer.Scripts.SMPLModel;
 using TMPro;
 using UnityEngine;
@@ -34,7 +35,13 @@ namespace MoshPlayer.AnimationReviewer {
         public void SaveNoteToFile() {
             string note = noteText.text;
             if (IsSpecialText(note)) DebugBetas();
-            string newLine = reviewPanel.CurrentAnims + "," + note + "\n";
+            
+            string animationStrings = "";
+            foreach (MoshAnimation animation in reviewPanel.currentAnims) {
+                animationStrings += animation.AnimationName + " ";
+            }
+
+            string newLine = animationStrings + "," + note + "\n";
 
             if (!File.Exists(reviewPanel.ReviewFilePath)) {
                 StartCoroutine(DisplayError("NO REVIEW FILE FOUND"));
@@ -47,7 +54,7 @@ namespace MoshPlayer.AnimationReviewer {
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(reviewPanel.CurrentAnims)) {
+            if (string.IsNullOrWhiteSpace(animationStrings)) {
                 Debug.LogWarning("Review pane could not gather current anims");
                 StartCoroutine(DisplayError("NO CURRENT ANIMATIONS"));
                 return;

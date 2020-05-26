@@ -1,5 +1,6 @@
 using System;
 using MoshPlayer.Scripts.FileLoaders;
+using MoshPlayer.Scripts.Playback;
 using UnityEngine;
 using UnityEngine.Serialization;
 // ReSharper disable InconsistentNaming
@@ -57,14 +58,19 @@ namespace MoshPlayer.Scripts.SMPLModel {
 
         public int PelvisIndex = 0;
 
-        public MoshCharacter CreateNewCharacter(string characterName, Gender gender) {
+        public MoshCharacter CreateCharacter(MoshAnimation moshAnimation, int characterIndex) {
+            Gender gender = moshAnimation.Data.Gender;
+            
             MoshCharacter genderedPrefab = GetCharacterPrefab(gender);
             if (genderedPrefab == null) throw new NullReferenceException("Gender Prefab is null");
             
             GameObject newCharacter = Instantiate(genderedPrefab.gameObject);
-            //Debug.Log("Instantiating char");
-            newCharacter.name = characterName;
+     
+            newCharacter.name = $"{gender} Character {characterIndex}";
+
             MoshCharacter newMoshCharacter = newCharacter.GetComponent<MoshCharacter>();
+            newMoshCharacter.SetIndex(characterIndex);
+            
             return newMoshCharacter;
         }
 

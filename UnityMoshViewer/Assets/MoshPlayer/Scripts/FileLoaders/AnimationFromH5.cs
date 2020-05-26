@@ -10,7 +10,7 @@ using UnityEngine;
 
 
 namespace MoshPlayer.Scripts.FileLoaders {
-    public sealed class AnimationFromH5 : FileLoaderBase {
+    public sealed class AnimationFromH5 : AnimationLoadStrategy {
         const int MaxBodyShapeBetaCount = 100;
         const int MaxStringLengthForReading = 20;
 
