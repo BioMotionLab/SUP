@@ -7,20 +7,19 @@
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
         <e p="MoshPlayer" t="Include">
-          <e p="BodyOptions.cs" t="Include" />
-          <e p="BoneDisplaySettings.cs" t="Include" />
-          <e p="DisplaySettings.cs" t="Include" />
-          <e p="MeshDisplaySettings.cs" t="Include" />
-          <e p="PointLightDisplaySettings.cs" t="Include" />
           <e p="Scripts" t="Include">
             <e p="Display" t="Include">
               <e p="BoneDisplay.cs" t="Include" />
+              <e p="BoneDisplaySettings.cs" t="Include" />
               <e p="BoneDisplayState.cs" t="Include" />
               <e p="BoneLine.cs" t="Include" />
+              <e p="DisplaySettings.cs" t="Include" />
               <e p="MeshDisplay.cs" t="Include" />
+              <e p="MeshDisplaySettings.cs" t="Include" />
               <e p="MeshDisplayState.cs" t="Include" />
               <e p="PointLight.cs" t="Include" />
               <e p="PointLightDisplay.cs" t="Include" />
+              <e p="PointLightDisplaySettings.cs" t="Include" />
               <e p="PointLightDisplayState.cs" t="Include" />
             </e>
             <e p="FileLoaders" t="Include">
@@ -63,6 +62,7 @@
               <e p="UIEnabler.cs" t="Include" />
               <e p="ValueFromSliderDisplay.cs" t="Include" />
             </e>
+            <e p="MoshViewer.asmdef" t="Include" />
             <e p="Playback" t="Include">
               <e p="AnimationControlEvents.cs" t="Include" />
               <e p="AnimationFileReference.cs" t="Include" />
@@ -72,6 +72,9 @@
               <e p="Playback.cs" t="Include" />
               <e p="PlaybackEventSystem.cs" t="Include" />
               <e p="PlaybackSettings.cs" t="Include" />
+            </e>
+            <e p="Settings" t="Include">
+              <e p="BodyOptions.cs" t="Include" />
             </e>
             <e p="SMPLModel" t="Include">
               <e p="AnimationData.cs" t="Include" />
@@ -163,6 +166,7 @@
           </e>
         </e>
       </e>
+      <e p="MoshViewer.csproj" t="IncludeRecursive" />
       <e p="obj" t="ExcludeRecursive" />
       <e p="Packages" t="ExcludeRecursive" />
       <e p="Temp\bin" t="ExcludeRecursive" />
