@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 
 namespace MoshPlayer.Scripts.SMPLModel {
-	public class MoshViewerComponent : MonoBehaviour {
+	public class MoshViewer : MonoBehaviour {
 
 		[SerializeField]
 		Models models = default;
@@ -81,23 +81,26 @@ namespace MoshPlayer.Scripts.SMPLModel {
 		void LoadAnimations(string listFile, string animationsFolder) {
 			loader = gameObject.AddComponent<AnimationLoader>();
 			AnimationFileReference fileReference = new AnimationFileReference(listFile, animationsFolder);
-			loader.Init(fileReference, models, RuntimePlaybackSettings, DoneLoading);
+			loader.OnDone += DoneLoading;
+			loader.Load(fileReference, models, RuntimePlaybackSettings);
 		}
 
 		void LoadSingleAnimation(string singlefile) {
 			loader = gameObject.AddComponent<AnimationLoader>();
 			AnimationFileReference fileReference = new AnimationFileReference(singlefile);
-			loader.Init(fileReference, models, RuntimePlaybackSettings, DoneLoading);
+			loader.Load(fileReference, models, RuntimePlaybackSettings);
 		}
 
 
 		void DoneLoading(List<List<MoshAnimation>> loadedAnimationSequence) {
+			loader.OnDone -= DoneLoading;
 			animationSequence = loadedAnimationSequence;
 			doneLoading = true;
 			Destroy(loader);
 			if (RuntimePlaybackSettings.OffsetMultipleAnimations) {
 				Debug.LogWarning("Warning, you have selected to offset multiple animations from each other! This could cause unwanted results.", this);;
 			}
+			PlaybackEventSystem.BeginPlayBackState();
 		}
 
 
@@ -106,10 +109,17 @@ namespace MoshPlayer.Scripts.SMPLModel {
 			if (AllAnimsComplete) return;
 
 			if (!started && notYetNotified) {
-				string updateMessage = $"Waiting to start playing... press \"Next\" button to continue";
-				Debug.Log(updateMessage);
-				PlaybackEventSystem.UpdatePlayerProgress(updateMessage);
 				notYetNotified = false;
+				if (playbackSettings.PlaybackImmediately) {
+					PlaybackEventSystem.GoToNextAnimation();
+				}
+				else {
+					string updateMessage = $"Waiting to start playing... press \"Next\" button to continue";
+					Debug.Log(updateMessage);
+					PlaybackEventSystem.UpdatePlayerProgress(updateMessage);
+				}
+				
+				
 			}
 		}
 

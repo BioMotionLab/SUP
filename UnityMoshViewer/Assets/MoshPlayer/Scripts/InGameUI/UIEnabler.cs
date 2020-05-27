@@ -24,7 +24,7 @@ namespace MoshPlayer.Scripts.InGameUI {
         GameObject loadPanel = default;
         
         void OnEnable() {
-            PlaybackEventSystem.OnDoneLoadingAnimations += ActivatePlaybackUi;
+            PlaybackEventSystem.OnBeginPlayBackState += ActivatePlaybackUi;
             PlaybackEventSystem.OnLoadAnimations += ActivateProgressText;
             PlaybackEventSystem.OnLoadSingleAnimation += ActivateProgressText;
             PlaybackEventSystem.OnLoadNewAnimations += ActivateLoadPanel;
@@ -34,7 +34,7 @@ namespace MoshPlayer.Scripts.InGameUI {
 
         void OnDisable() {
             PlaybackEventSystem.OnLoadAnimations -= ActivateProgressText;
-            PlaybackEventSystem.OnDoneLoadingAnimations -= ActivatePlaybackUi;
+            PlaybackEventSystem.OnBeginPlayBackState -= ActivatePlaybackUi;
             PlaybackEventSystem.OnLoadSingleAnimation -= ActivateProgressText;
             PlaybackEventSystem.OnLoadNewAnimations -= ActivateLoadPanel;
         }

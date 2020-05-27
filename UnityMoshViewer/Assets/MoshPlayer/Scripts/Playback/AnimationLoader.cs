@@ -12,15 +12,20 @@ namespace MoshPlayer.Scripts.Playback {
     public class AnimationLoader : MonoBehaviour {
 		
         Models models;
-        public List<List<MoshAnimation>> AnimationSequence;
-
+        
         AnimationFileReference animationFileReference;
         
-        Action<List<List<MoshAnimation>>> doneAction;
         PlaybackSettings playbackSettings;
+        public delegate void DoneLoadingEvent(List<List<MoshAnimation>> animationSequence);
+        public event DoneLoadingEvent OnDone;
+
+        void Done(List<List<MoshAnimation>> animationSequence){
+            OnDone?.Invoke(animationSequence);
+            OnDone = null;
+        }
         
-        public void Init(AnimationFileReference animationsFileReference, Models models, PlaybackSettings playbackSettings, Action<List<List<MoshAnimation>>> doneAction) {
-            this.doneAction = doneAction;
+        public void Load(AnimationFileReference animationsFileReference, Models models, PlaybackSettings playbackSettings) {
+           
             this.models = models;
             this.playbackSettings = playbackSettings;
             this.animationFileReference = animationsFileReference;
@@ -28,25 +33,29 @@ namespace MoshPlayer.Scripts.Playback {
             string updateMessage = $"Loading {animationsFileReference.Count} animations from files. If there are a lot, this could take a few seconds...";
             Debug.Log(updateMessage);
             PlaybackEventSystem.UpdatePlayerProgress(updateMessage);
-
-            AnimationSequence = new List<List<MoshAnimation>>();
-
+            
             StartCoroutine(LoadAnimations());
         }
 
         IEnumerator LoadAnimations() {
+            
+             List<List<MoshAnimation>> AnimationSequence = new List<List<MoshAnimation>>();
+            
             for (int lineIndex = 0; lineIndex < animationFileReference.Count; lineIndex++) {
                 StringBuilder log = new StringBuilder();
+                
                 string line = animationFileReference.AnimListAsStrings[lineIndex];
                 List<MoshAnimation> allAnimationsInThisLine = GetAnimationsFromLine(line);
+                
                 log.Append($"Loaded {lineIndex+1} of {animationFileReference.AnimListAsStrings.Length}");
-                if (allAnimationsInThisLine.Count > 0) {
-                    AnimationSequence.Add(allAnimationsInThisLine);
-                    log.Append($" (Model:{allAnimationsInThisLine[0].Data.Model.ModelName}), containing animations for {allAnimationsInThisLine.Count} characters");
-                }
-                else {
+
+                if (allAnimationsInThisLine.Count == 0) {
                     log.Append(" [WITH ERRORS]. Skipping line.");
+                    continue;
                 }
+                
+                AnimationSequence.Add(allAnimationsInThisLine);
+                log.Append($" (Model:{allAnimationsInThisLine[0].Data.Model.ModelName}), containing animations for {allAnimationsInThisLine.Count} characters");
 
                 string finalLog = $"\t...{log}";
                 Debug.Log(finalLog);
@@ -56,9 +65,8 @@ namespace MoshPlayer.Scripts.Playback {
 
             string updateMessage = $"Done Loading All Animations. Successfully loaded {AnimationSequence.Count} of {animationFileReference.AnimListAsStrings.Length}.";
             Debug.Log(updateMessage);
-            PlaybackEventSystem.AnimationsDoneLoading();
+            Done(AnimationSequence);
             PlaybackEventSystem.UpdatePlayerProgress(updateMessage);
-            doneAction.Invoke(AnimationSequence);
         }
 
 
@@ -103,6 +111,7 @@ namespace MoshPlayer.Scripts.Playback {
                 }
                 
             }
+            
             return animations;
             
             

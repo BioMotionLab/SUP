@@ -234,14 +234,14 @@ namespace MoshPlayer.Scripts.Playback {
             OnLoadSingleAnimation?.Invoke(singleFile);
         }
 
-        public delegate void DoneLoadingAnimationsEvent();
+        
+        public delegate void BeginPlayBackStateEvent();
+        public static event BeginPlayBackStateEvent OnBeginPlayBackState;
 
-        public static event DoneLoadingAnimationsEvent OnDoneLoadingAnimations;
-
-        public static void AnimationsDoneLoading( ){
-            OnDoneLoadingAnimations?.Invoke();
+        public static void BeginPlayBackState(){
+            OnBeginPlayBackState?.Invoke();
         }
-
+        
         public delegate void StopAllAnimationsEvent();
 
         public static event StopAllAnimationsEvent OnStopAllAnimations;

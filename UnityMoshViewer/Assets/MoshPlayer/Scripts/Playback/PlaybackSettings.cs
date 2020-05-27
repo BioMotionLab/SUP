@@ -14,5 +14,6 @@ namespace MoshPlayer.Scripts.Playback {
         public bool Loop;
         public bool OffsetMultipleAnimations = false;
         public Vector3 OffSetSpacing;
+        public bool PlaybackImmediately = true;
     }
 }

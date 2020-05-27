@@ -92,7 +92,7 @@
               <e p="Models.cs" t="Include" />
               <e p="MoshCharacter.cs" t="Include" />
               <e p="MoshMesh.cs" t="Include" />
-              <e p="MoshViewerComponent.cs" t="Include" />
+              <e p="MoshViewer.cs" t="Include" />
               <e p="SideOfBody.cs" t="Include" />
               <e p="SMPLConstants.cs" t="Include" />
               <e p="UserModifiedSettingsHandler.cs" t="Include" />
