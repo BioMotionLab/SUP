@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63145fa140864b1da983c4eb9f2d4919, type: 3}
+  m_Name: Default Display Settings
+  m_EditorClassIdentifier: 
+  DisplayBones: 1
+  DisplayPointLights: 1
+  DisplayMeshAs: 0
+  MeshDisplaySettings:
+    Opaque: {fileID: 2100000, guid: 1627635193177934092549c1c08bbe37, type: 2}
+    SemiTransparent: {fileID: 2100000, guid: 390d20f60d542454993698b34318161d, type: 2}
+    OptionalMaterialList:
+    - {fileID: 2100000, guid: 1627635193177934092549c1c08bbe37, type: 2}
+    - {fileID: 2100000, guid: 6468a6a5690aa204292298f3110d6193, type: 2}
+    - {fileID: 2100000, guid: b7c5e61b20d0d2843ac333b6f6ba460a, type: 2}
+  BoneDisplaySettings:
+    BoneWidth: 0.005
+    DrawSidesDifferentColors: 1
+    LeftSideMaterial: {fileID: 2100000, guid: 5975636768fed814ab183a919fb2fc49, type: 2}
+    RightSideMaterial: {fileID: 2100000, guid: 8bad80b00626096438ec084e61fd4dba, type: 2}
+  PointLightDisplaySettings:
+    PointLightDisplaySize: 0.01
+    DrawSidesDifferentColors: 1
+    LeftSideMaterial: {fileID: 2100000, guid: 5975636768fed814ab183a919fb2fc49, type: 2}
+    RightSideMaterial: {fileID: 2100000, guid: 8bad80b00626096438ec084e61fd4dba, type: 2}
