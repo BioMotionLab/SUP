@@ -17,3 +17,4 @@ MonoBehaviour:
   Loop: 1
   OffsetMultipleAnimations: 0
   OffSetSpacing: {x: 0, y: 0, z: 0}
+  PlaybackImmediately: 1
