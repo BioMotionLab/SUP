@@ -1,29 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ContentModelStore">
-    <e p="C:\Users\adamb\AppData\local\JetBrains\Rider2020.1\extResources" t="IncludeRecursive" />
-    <e p="C:\Users\adamb\AppData\local\JetBrains\Rider2020.1\resharper-host\local\Transient\ReSharperHost\v201\SolutionCaches\_UnityMoshViewer.-1820893351.00" t="ExcludeRecursive" />
-    <e p="E:\GitHub\MoshViewer\UnityMoshViewer" t="IncludeRecursive">
+    <e p="C:\Users\Adam\AppData\local\JetBrains\Rider2020.1\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\Adam\AppData\local\JetBrains\Rider2020.1\resharper-host\local\Transient\ReSharperHost\v201\SolutionCaches\_UnityMoshViewer.-1841230726.00" t="ExcludeRecursive" />
+    <e p="D:\GitHub\MoshViewer\UnityMoshViewer" t="IncludeRecursive">
+      <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
         <e p="MoshPlayer" t="Include">
-          <e p="ThirdParty" t="Include">
-            <e p="StandaloneFileBrowser" t="Include">
-              <e p="IStandaloneFileBrowser.cs" t="Include" />
-              <e p="Sample" t="Include">
-                <e p="BasicSample.cs" t="Include" />
-                <e p="CanvasSampleOpenFileImage.cs" t="Include" />
-                <e p="CanvasSampleOpenFileText.cs" t="Include" />
-                <e p="CanvasSampleOpenFileTextMultiple.cs" t="Include" />
-                <e p="CanvasSampleSaveFileImage.cs" t="Include" />
-                <e p="CanvasSampleSaveFileText.cs" t="Include" />
-              </e>
-              <e p="StandaloneFileBrowser.asmdef" t="Include" />
-              <e p="StandaloneFileBrowser.cs" t="Include" />
-              <e p="StandaloneFileBrowserEditor.cs" t="Include" />
-              <e p="StandaloneFileBrowserLinux.cs" t="Include" />
-              <e p="StandaloneFileBrowserMac.cs" t="Include" />
-              <e p="StandaloneFileBrowserWindows.cs" t="Include" />
+          <e p="MoshViewer.cs" t="Include" />
+        </e>
+        <e p="StreamingAssets" t="Include">
+          <e p="SampleAnimationList.txt" t="Include" />
+        </e>
+        <e p="TextMesh Pro" t="Include">
+          <e p="Fonts" t="Include">
+            <e p="LiberationSans - OFL.txt" t="Include" />
+          </e>
+          <e p="Resources" t="Include">
+            <e p="LineBreaking Following Characters.txt" t="Include" />
+            <e p="LineBreaking Leading Characters.txt" t="Include" />
+            <e p="Shaders" t="Include">
+              <e p="TMP_Bitmap-Custom-Atlas.shader" t="Include" />
+              <e p="TMP_Bitmap-Mobile.shader" t="Include" />
+              <e p="TMP_Bitmap.shader" t="Include" />
+              <e p="TMP_SDF Overlay.shader" t="Include" />
+              <e p="TMP_SDF-Mobile Masking.shader" t="Include" />
+              <e p="TMP_SDF-Mobile Overlay.shader" t="Include" />
+              <e p="TMP_SDF-Mobile.shader" t="Include" />
+              <e p="TMP_SDF-Surface-Mobile.shader" t="Include" />
+              <e p="TMP_SDF-Surface.shader" t="Include" />
+              <e p="TMP_SDF.shader" t="Include" />
+              <e p="TMP_Sprite.shader" t="Include" />
+              <e p="TMPro.cginc" t="Include" />
+              <e p="TMPro_Properties.cginc" t="Include" />
+              <e p="TMPro_Surface.cginc" t="Include" />
             </e>
+          </e>
+          <e p="Sprites" t="Include">
+            <e p="EmojiOne Attribution.txt" t="Include" />
           </e>
         </e>
       </e>
@@ -52,7 +66,6 @@
               <e p="AnimationLoadStrategy.cs" t="Include" />
               <e p="H5ModelKeys.cs" t="Include" />
               <e p="JSONModelKeys.cs" t="Include" />
-              <e p="MultithreadedAnimationLoader.cs" t="Include" />
               <e p="OpenedH5DataSet.cs" t="Include" />
               <e p="RunnableThread.cs" t="Include" />
               <e p="SMPLHRegressorFromJSON.cs" t="Include" />
@@ -119,7 +132,6 @@
               <e p="Models.cs" t="Include" />
               <e p="MoshCharacter.cs" t="Include" />
               <e p="MoshMesh.cs" t="Include" />
-              <e p="MoshViewer.cs" t="Include" />
               <e p="SideOfBody.cs" t="Include" />
               <e p="SMPLConstants.cs" t="Include" />
               <e p="UserModifiedSettingsHandler.cs" t="Include" />
@@ -137,6 +149,25 @@
               <e p="MatrixUtilities.cs" t="Include" />
               <e p="QuaternionExtensions.cs" t="Include" />
               <e p="Vector3Extensions.cs" t="Include" />
+            </e>
+          </e>
+          <e p="ThirdParty" t="Include">
+            <e p="StandaloneFileBrowser" t="Include">
+              <e p="IStandaloneFileBrowser.cs" t="Include" />
+              <e p="Sample" t="Include">
+                <e p="BasicSample.cs" t="Include" />
+                <e p="CanvasSampleOpenFileImage.cs" t="Include" />
+                <e p="CanvasSampleOpenFileText.cs" t="Include" />
+                <e p="CanvasSampleOpenFileTextMultiple.cs" t="Include" />
+                <e p="CanvasSampleSaveFileImage.cs" t="Include" />
+                <e p="CanvasSampleSaveFileText.cs" t="Include" />
+              </e>
+              <e p="StandaloneFileBrowser.asmdef" t="Include" />
+              <e p="StandaloneFileBrowser.cs" t="Include" />
+              <e p="StandaloneFileBrowserEditor.cs" t="Include" />
+              <e p="StandaloneFileBrowserLinux.cs" t="Include" />
+              <e p="StandaloneFileBrowserMac.cs" t="Include" />
+              <e p="StandaloneFileBrowserWindows.cs" t="Include" />
             </e>
           </e>
         </e>

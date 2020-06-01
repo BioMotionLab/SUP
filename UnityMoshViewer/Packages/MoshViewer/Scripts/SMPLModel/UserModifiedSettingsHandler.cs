@@ -2,10 +2,17 @@ using MoshPlayer.Scripts.Display;
 using MoshPlayer.Scripts.Playback;
 
 namespace MoshPlayer.Scripts.SMPLModel {
-    public class UserModifiedSettingsHandler {
-        MoshViewer moshViewer;
 
-        public UserModifiedSettingsHandler(MoshViewer moshViewer) {
+    public interface Viewer {
+        BodyOptions RuntimeBodyOptions { get; }
+        DisplaySettings RuntimeDisplaySettings { get; }
+        PlaybackSettings RuntimePlaybackSettings { get; }
+    }
+    
+    public class UserModifiedSettingsHandler {
+        Viewer moshViewer;
+
+        public UserModifiedSettingsHandler(Viewer moshViewer) {
             this.moshViewer = moshViewer;
             
             PlaybackEventSystem.OnMeshDisplayStateChanged += MeshDisplayStateChanged;

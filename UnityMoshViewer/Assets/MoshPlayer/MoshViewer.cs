@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 
 namespace MoshPlayer.Scripts.SMPLModel {
-	public class MoshViewer : MonoBehaviour {
+	public class MoshViewer : MonoBehaviour, Viewer {
 
 		[SerializeField]
 		Models models = default;
