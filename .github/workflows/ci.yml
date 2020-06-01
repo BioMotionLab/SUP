@@ -2,7 +2,7 @@ name: CI
 on:
   push:
     branches:
-    - Release
+    - release
 jobs:
   split-upm:
     name: split upm branch (force)
