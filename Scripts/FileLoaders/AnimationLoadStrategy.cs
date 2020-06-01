@@ -1,7 +1,6 @@
 using System;
 using System.IO;
 using MoshPlayer.Scripts.SMPLModel;
-using UnityEngine;
 
 namespace MoshPlayer.Scripts.FileLoaders {
     public abstract class AnimationLoadStrategy {
