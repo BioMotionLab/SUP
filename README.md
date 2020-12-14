@@ -25,7 +25,7 @@ To show/hide the entire user-interface (UI) press the "U" key. This is useful fo
 
 ## Using the player
 
-The AMASS data comes in .npz format, which is not readable by Unity. This repository contains a python tool to convert .npz files into a Unity-friendly .hf (preferred) or .json files. The folder containing the scripts is contained within the root directory of the repository. There is a [Jupyter Notebook](https://github.com/BioMotionLab/UpdatingMoshToSMPLH/blob/master/NumpyToJSONConversionForAMASS/AMASSConverterExamples.ipynb) in this folder with example code demonstrating how to use the conversion scripts.
+The AMASS data comes in .npz format, which is not readable by Unity. This repository contains a python tool to convert .npz files into a Unity-friendly .hf (preferred) or .json files. The folder containing the scripts is contained within the root directory of the repository. There is a Jupyter Notebook in this folder with example code demonstrating how to use the conversion scripts.
 
 * **.h5:** Faster, smaller, binary (not human-readable), edit in python
 * **.json:** Slower, bigger, human-readable, edit in any text editor. 
