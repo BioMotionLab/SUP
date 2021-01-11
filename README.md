@@ -1,12 +1,12 @@
-# MoshViewer
+# bmlSUP
 
 ![screenshot](Images/MoshViewer%20Capture.PNG)
 
-Moshviewer is a tool to display animations from the [AMASS database](https://amass.is.tue.mpg.de/) in Unity. 
+The Biomotion Lab SMPL Unity Player (bmlSUP) is a tool to play SMPL-H model animations in Unity Game Engine
 
 
 
-It reads and plays animation files with several render settings and allows using SMPL-H models in Unity for any purpose. 
+It reads and plays animation files with several render settings and allows using SMPL-H models in Unity. 
 
 Features:
 * Simple controls to move the camera that match the controls in the Unity Editor Scene View. 
