@@ -88,6 +88,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
 		void LoadSingleAnimation(string singlefile) {
 			loader = gameObject.AddComponent<AnimationLoader>();
 			AnimationFileReference fileReference = new AnimationFileReference(singlefile);
+			loader.OnDone += DoneLoading;
 			loader.Load(fileReference, models, RuntimePlaybackSettings);
 		}
 
