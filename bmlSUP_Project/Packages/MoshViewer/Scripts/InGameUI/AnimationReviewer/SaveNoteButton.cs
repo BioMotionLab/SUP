@@ -3,14 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using JetBrains.Annotations;
-using MoshPlayer.Scripts.Playback;
-using MoshPlayer.Scripts.SMPLModel;
 using Playback;
+using SMPLModel;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Events;
 
-namespace MoshPlayer.AnimationReviewer {
+namespace InGameUI.AnimationReviewer {
     public class SaveNoteButton : MonoBehaviour {
 
         [SerializeField]

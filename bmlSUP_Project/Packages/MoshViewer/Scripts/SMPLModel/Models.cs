@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace MoshPlayer.Scripts.SMPLModel {
+namespace SMPLModel {
     [CreateAssetMenu]
     public class Models : ScriptableObject {
         

@@ -1,4 +1,4 @@
-using MoshPlayer.Scripts.SMPLModel;
+using SMPLModel;
 using UnityEngine;
 
 // ReSharper disable InconsistentNaming

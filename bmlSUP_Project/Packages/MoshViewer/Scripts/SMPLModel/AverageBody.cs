@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace MoshPlayer.Scripts.SMPLModel {
+namespace SMPLModel {
     /// <summary>
     /// This class stores the data for the average mesh, to enable easy resetting.
     /// This is especially important to restore mesh on program quit not not

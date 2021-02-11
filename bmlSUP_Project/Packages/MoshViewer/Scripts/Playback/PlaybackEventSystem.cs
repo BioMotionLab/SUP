@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Display;
+using InGameUI;
 using JetBrains.Annotations;
-using MoshPlayer.Scripts.InGameUI;
-using MoshPlayer.Scripts.SMPLModel;
-using Playback;
+using SMPLModel;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace MoshPlayer.Scripts.Playback {
+namespace Playback {
     public class PlaybackEventSystem : MonoBehaviour {
 
         public bool Paused = false;

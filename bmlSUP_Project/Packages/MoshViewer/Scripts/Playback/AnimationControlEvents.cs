@@ -1,6 +1,4 @@
-using Playback;
-
-namespace MoshPlayer.Scripts.Playback {
+namespace Playback {
     public class AnimationControlEvents {
     
         public delegate void FrameBroadCastEvent(float frame);

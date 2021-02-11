@@ -1,8 +1,8 @@
 using JetBrains.Annotations;
-using MoshPlayer.Scripts.Playback;
+using Playback;
 using UnityEngine;
 
-namespace MoshPlayer.Scripts.InGameUI {
+namespace InGameUI {
     
     public class PrevAnimationButton : MonoBehaviour
     {

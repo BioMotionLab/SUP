@@ -38,9 +38,8 @@
 
 using System;
 using System.IO;
-// ReSharper disable All
 
-namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
+namespace ThirdParty.SimpleJSON
 {
 #if !SimpleJSON_ExcludeBinary
     public abstract partial class JSONNode
@@ -234,7 +233,7 @@ namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
         public override void SerializeBinary(System.IO.BinaryWriter aWriter)
         {
             aWriter.Write((byte)JSONNodeType.Array);
-            aWriter.Write(m_List.Count);
+            aWriter.Write((int) m_List.Count);
             for (int i = 0; i < m_List.Count; i++)
             {
                 m_List[i].SerializeBinary(aWriter);
@@ -247,7 +246,7 @@ namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
         public override void SerializeBinary(System.IO.BinaryWriter aWriter)
         {
             aWriter.Write((byte)JSONNodeType.Object);
-            aWriter.Write(m_Dict.Count);
+            aWriter.Write((int) m_Dict.Count);
             foreach (string K in m_Dict.Keys)
             {
                 aWriter.Write(K);
@@ -261,7 +260,7 @@ namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
         public override void SerializeBinary(System.IO.BinaryWriter aWriter)
         {
             aWriter.Write((byte)JSONNodeType.String);
-            aWriter.Write(Value);
+            aWriter.Write((string) Value);
         }
     }
 
@@ -270,7 +269,7 @@ namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
         public override void SerializeBinary(System.IO.BinaryWriter aWriter)
         {
             aWriter.Write((byte)JSONNodeType.Number);
-            aWriter.Write(m_Data);
+            aWriter.Write((double) m_Data);
         }
     }
 
@@ -279,7 +278,7 @@ namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
         public override void SerializeBinary(System.IO.BinaryWriter aWriter)
         {
             aWriter.Write((byte)JSONNodeType.Boolean);
-            aWriter.Write(m_Data);
+            aWriter.Write((bool) m_Data);
         }
     }
     public partial class JSONNull : JSONNode

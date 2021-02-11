@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
 using Display;
-using MoshPlayer;
-using MoshPlayer.Scripts.Playback;
-using MoshPlayer.Scripts.SMPLModel;
 using Playback;
 using Settings;
+using SMPLModel;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -39,7 +37,7 @@ namespace Samples.SUP_Viewer {
 		bool notYetNotified = true;
 		UserModifiedSettingsHandler userModifiedSettingsHandler;
 	
-		MoshAnimationPlayer animationPlayer;
+		AMASSAnimationPlayer animationPlayer;
 
 		void OnEnable() {
 			PlaybackEventSystem.OnNextAnimation += GoToNextAnimation;
@@ -54,7 +52,7 @@ namespace Samples.SUP_Viewer {
 
 		void Awake() {
 			CacheRuntimeSettings();
-			animationPlayer = new MoshAnimationPlayer(RuntimePlaybackSettings, RuntimeDisplaySettings, RuntimeBodyOptions);
+			animationPlayer = new AMASSAnimationPlayer(RuntimePlaybackSettings, RuntimeDisplaySettings, RuntimeBodyOptions);
 		}
 		
 		

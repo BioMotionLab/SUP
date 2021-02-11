@@ -1,8 +1,8 @@
 using Display;
-using MoshPlayer.Scripts.Playback;
+using Playback;
 using Settings;
 
-namespace MoshPlayer.Scripts.SMPLModel {
+namespace SMPLModel {
 
     public interface Viewer {
         BodyOptions RuntimeBodyOptions { get; }
@@ -11,10 +11,10 @@ namespace MoshPlayer.Scripts.SMPLModel {
     }
     
     public class UserModifiedSettingsHandler {
-        Viewer moshViewer;
+        Viewer viewer;
 
-        public UserModifiedSettingsHandler(Viewer moshViewer) {
-            this.moshViewer = moshViewer;
+        public UserModifiedSettingsHandler(Viewer viewer) {
+            this.viewer = viewer;
             
             PlaybackEventSystem.OnMeshDisplayStateChanged += MeshDisplayStateChanged;
             PlaybackEventSystem.OnBoneDisplayStateChanged += BoneDisplayStateChanged;
@@ -46,51 +46,51 @@ namespace MoshPlayer.Scripts.SMPLModel {
         }
 
         void SetUpdateYTranslation(bool changeUpdateYTranslation) {
-            moshViewer.RuntimeBodyOptions.UpdateTranslationLiveY = changeUpdateYTranslation;
+            viewer.RuntimeBodyOptions.UpdateTranslationLiveY = changeUpdateYTranslation;
         }
 
         void SetUpdateXzTranslation(bool changeUpdateXzTranslation) {
-            moshViewer.RuntimeBodyOptions.UpdateTranslationLiveXZ = changeUpdateXzTranslation;
+            viewer.RuntimeBodyOptions.UpdateTranslationLiveXZ = changeUpdateXzTranslation;
         }
 
         void SetManualPosing(bool manualPosing) {
-            moshViewer.RuntimeBodyOptions.AllowPoseManipulation = manualPosing;
+            viewer.RuntimeBodyOptions.AllowPoseManipulation = manualPosing;
         }
 
         void SetLiveBodyShape(bool liveBodyShape) {
-            moshViewer.RuntimeBodyOptions.UpdateBodyShapeLive = liveBodyShape;
+            viewer.RuntimeBodyOptions.UpdateBodyShapeLive = liveBodyShape;
         }
 
         void SetLivePoseBlendshapes(bool livePoseBlendshapes) {
-            moshViewer.RuntimeBodyOptions.UpdatePoseBlendshapesLive = livePoseBlendshapes;
+            viewer.RuntimeBodyOptions.UpdatePoseBlendshapesLive = livePoseBlendshapes;
         }
 
         void SetLivePoses(bool livePoses) {
-            moshViewer.RuntimeBodyOptions.UpdatePosesLive = livePoses;
+            viewer.RuntimeBodyOptions.UpdatePosesLive = livePoses;
         }
 
         void PointLightDisplayStateChanged(PointLightDisplayState pointLightDisplayState) {
-            moshViewer.RuntimeDisplaySettings.DisplayPointLights = pointLightDisplayState;
+            viewer.RuntimeDisplaySettings.DisplayPointLights = pointLightDisplayState;
         }
 
         void BoneDisplayStateChanged(BoneDisplayState boneDisplayState) {
-            moshViewer.RuntimeDisplaySettings.DisplayBones = boneDisplayState;
+            viewer.RuntimeDisplaySettings.DisplayBones = boneDisplayState;
         }
 
         void MeshDisplayStateChanged(MeshDisplayState newState) {
-            moshViewer.RuntimeDisplaySettings.DisplayMeshAs = newState;
+            viewer.RuntimeDisplaySettings.DisplayMeshAs = newState;
         }
 
         void SetIndividualizedBodyState(bool newState) {
-            moshViewer.RuntimeBodyOptions.ShowIndividualizedBody = newState;
+            viewer.RuntimeBodyOptions.ShowIndividualizedBody = newState;
         }
 
         void SetLoopState(bool state) {
-            moshViewer.RuntimePlaybackSettings.Loop = state;
+            viewer.RuntimePlaybackSettings.Loop = state;
         }
 
         void SetSnapToGround(GroundSnapType snaptype) {
-            moshViewer.RuntimeBodyOptions.GroundSnap = snaptype;
+            viewer.RuntimeBodyOptions.GroundSnap = snaptype;
         }
     }
 }

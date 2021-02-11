@@ -2,7 +2,7 @@
 using TMPro;
 using UnityEngine;
 
-namespace MoshPlayer.Scripts.InGameUI {
+namespace InGameUI {
     public class ValueFromSliderDisplay : MonoBehaviour
     {
         TextMeshProUGUI textComponent;

@@ -1,7 +1,8 @@
 using System;
+
 // ReSharper disable InconsistentNaming
 
-namespace MoshPlayer.Scripts.FileLoaders {
+namespace FileLoaders {
     [Serializable]
     public class H5ModelKeys {
         public string Gender       = "gender";

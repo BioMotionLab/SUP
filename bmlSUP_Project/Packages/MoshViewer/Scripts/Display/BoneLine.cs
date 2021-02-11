@@ -1,5 +1,5 @@
 ﻿using System;
-using MoshPlayer.Scripts.SMPLModel;
+using SMPLModel;
 using UnityEngine;
 
 // ReSharper disable ParameterHidesMember
@@ -20,12 +20,12 @@ namespace Display {
         Transform parentBone;
         
         BoneDisplay boneDisplay;
-        MoshCharacter moshCharacter;
+        SMPLCharacter smplCharacter;
 
         BoneDisplaySettings Settings {
             get {
-                if (moshCharacter.DisplaySettings != null && moshCharacter.DisplaySettings.BoneDisplaySettings != null)
-                    return moshCharacter.DisplaySettings.BoneDisplaySettings;
+                if (smplCharacter.DisplaySettings != null && smplCharacter.DisplaySettings.BoneDisplaySettings != null)
+                    return smplCharacter.DisplaySettings.BoneDisplaySettings;
                 
                 return defaultBoneDisplaySettings;
             }
@@ -46,12 +46,12 @@ namespace Display {
         /// <summary>
         /// Replaces constructor for MonoBehaviour
         /// </summary>
-        /// <param name="moshCharacter"></param>
+        /// <param name="smplCharacter"></param>
         /// <param name="boneDisplay"></param>
         /// <param name="parentBone"></param>
         /// <param name="childBone"></param>
-        public void Init(MoshCharacter moshCharacter, BoneDisplay boneDisplay, Transform parentBone, Transform childBone) {
-            this.moshCharacter = moshCharacter;
+        public void Init(SMPLCharacter smplCharacter, BoneDisplay boneDisplay, Transform parentBone, Transform childBone) {
+            this.smplCharacter = smplCharacter;
             this.boneDisplay = boneDisplay;
             this.parentBone = parentBone;
             this.childBone = childBone;

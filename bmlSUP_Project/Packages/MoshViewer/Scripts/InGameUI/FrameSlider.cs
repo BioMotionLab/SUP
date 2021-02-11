@@ -1,11 +1,11 @@
 ﻿using System;
 using JetBrains.Annotations;
-using MoshPlayer.Scripts.Playback;
+using Playback;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace MoshPlayer.Scripts.InGameUI {
+namespace InGameUI {
     public class FrameSlider : MonoBehaviour
     {
         Slider slider;

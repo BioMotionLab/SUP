@@ -1,19 +1,18 @@
 ﻿using System;
 using Display;
-using MoshPlayer.Scripts.Playback;
 using Playback;
 using Settings;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace MoshPlayer.Scripts.SMPLModel {
+namespace SMPLModel {
     /// <summary>
     /// Altered version of loadMoshAnim from MPI. Allows a MoSh animation to be played at any time with a call to PlayAnim,
     /// rather than running on initialization of the script in the start method (requiring instantiating a new prefab.
     /// This is setup to handle loading a MoSh animation without prior knowledge of gender, swapping in the correct SMPLConstants model.
     /// </summary>
     [SelectionBase]
-    public class CharacterComponent : MonoBehaviour, MoshCharacter {
+    public class CharacterComponent : MonoBehaviour, SMPLCharacter {
           
         
         [SerializeField]

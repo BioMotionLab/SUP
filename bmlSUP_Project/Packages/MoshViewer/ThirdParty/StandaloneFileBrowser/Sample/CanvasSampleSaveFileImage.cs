@@ -2,9 +2,8 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-// ReSharper disable All
 
-namespace MoshPlayer.ThirdParty.StandaloneFileBrowser.Sample {
+namespace ThirdParty.StandaloneFileBrowser.Sample {
     [RequireComponent(typeof(Button))]
     public class CanvasSampleSaveFileImage : MonoBehaviour, IPointerDownHandler {
         public Text output;

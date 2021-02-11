@@ -1,9 +1,8 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-// ReSharper disable All
 
-namespace MoshPlayer.ThirdParty.StandaloneFileBrowser.Sample {
+namespace ThirdParty.StandaloneFileBrowser.Sample {
     [RequireComponent(typeof(Button))]
     public class CanvasSampleOpenFileText : MonoBehaviour, IPointerDownHandler {
         public Text output;
@@ -35,7 +34,7 @@ namespace MoshPlayer.ThirdParty.StandaloneFileBrowser.Sample {
         }
 
         private void OnClick() {
-            var paths = StandaloneFileBrowser.OpenFilePanel("Title", "", "txt", false);
+            var paths = global::ThirdParty.StandaloneFileBrowser.StandaloneFileBrowser.OpenFilePanel("Title", "", "txt", false);
             if (paths.Length > 0) {
                 //StartCoroutine(OutputRoutine(new System.Uri(paths[0]).AbsoluteUri));
             }

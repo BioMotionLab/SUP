@@ -1,11 +1,11 @@
 ﻿using System;
 using System.IO;
-using MoshPlayer.Scripts.SMPLModel;
-using MoshPlayer.Scripts.ThirdParty.SimpleJSON;
-using MoshPlayer.Scripts.Utilities;
+using SMPLModel;
+using ThirdParty.SimpleJSON;
 using UnityEngine;
+using Utilities;
 
-namespace MoshPlayer.Scripts.FileLoaders {
+namespace FileLoaders {
     /// <summary>
     ///  This class can serve as a guide for extending BMLMoShAnimation to other 
     /// data formats in future. 

@@ -1,6 +1,6 @@
 using System.IO;
 
-namespace MoshPlayer.Scripts.Playback {
+namespace Playback {
     public class AnimationFileReference {
 
 

@@ -1,7 +1,5 @@
 ﻿using System;
-using MoshPlayer.Scripts.FileLoaders;
-using MoshPlayer.Scripts.Playback;
-using MoshPlayer.Scripts.SMPLModel;
+using SMPLModel;
 using UnityEngine;
 
 namespace Playback {
@@ -23,7 +21,7 @@ namespace Playback {
         readonly PlaybackSettings playbackSettings;
 
         CharacterPoser characterPoser;
-        MoshPlayer.Scripts.Playback.Playback playback;
+        Playback playback;
         AnimationControlEvents animationControlEvents;
         public readonly string AnimationName;
         CharacterTranslater characterTranslater;
@@ -42,7 +40,7 @@ namespace Playback {
 
         void Setup() {
             animationControlEvents = new AnimationControlEvents();
-            playback = new MoshPlayer.Scripts.Playback.Playback(Data.FrameCount, Data.Fps, playbackSettings, animationControlEvents);
+            playback = new Playback(Data.FrameCount, Data.Fps, playbackSettings, animationControlEvents);
         }
 
         public void AttachSkin(SkinnedMeshRenderer skinnedMeshRendererToAttach) {

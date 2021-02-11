@@ -1,4 +1,4 @@
-﻿using MoshPlayer.Scripts.SMPLModel;
+﻿using SMPLModel;
 using UnityEngine;
 
 namespace Display {
@@ -13,13 +13,13 @@ namespace Display {
         [SerializeField]
         PointLight PointLightPrefab = default;
 
-        MoshCharacter moshCharacter;
-        public bool DisplayPointLights => moshCharacter.DisplaySettings.DisplayPointLights == PointLightDisplayState.On;
+        SMPLCharacter smplCharacter;
+        public bool DisplayPointLights => smplCharacter.DisplaySettings.DisplayPointLights == PointLightDisplayState.On;
 
         GameObject pointLightContainer;
 
         void OnEnable() {
-            moshCharacter = GetComponent<MoshCharacter>();
+            smplCharacter = GetComponent<SMPLCharacter>();
             if (meshRenderer == null) meshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
             if (pointLightContainer == null) {
                 SetupPointLights();
@@ -38,7 +38,7 @@ namespace Display {
         /// <param name="parent"></param>
         void CreatePointLightsInBoneHierarchy(Transform parent) {
             PointLight newPointLight = Instantiate(PointLightPrefab, pointLightContainer.transform);
-            newPointLight.AttachBone(moshCharacter, this, parent);
+            newPointLight.AttachBone(smplCharacter, this, parent);
             foreach (Transform child in parent) {
                 if (Bones.IsBone(child)) {
                     CreatePointLightsInBoneHierarchy(child);

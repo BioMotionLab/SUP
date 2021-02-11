@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 
-namespace MoshPlayer.Scripts.Utilities {
+namespace Utilities {
     public class EnumDropdown<T> where T : Enum {
         public T EnumFrom(int index) {
             Array x = Enum.GetValues(typeof(T));

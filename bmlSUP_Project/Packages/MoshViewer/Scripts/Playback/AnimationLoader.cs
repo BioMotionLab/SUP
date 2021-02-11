@@ -4,13 +4,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using FileLoaders;
-using MoshPlayer.Scripts.FileLoaders;
-using MoshPlayer.Scripts.SMPLModel;
-using Playback;
+using SMPLModel;
 using UnityEngine;
 
-
-namespace MoshPlayer.Scripts.Playback {
+namespace Playback {
     public class AnimationLoader : MonoBehaviour {
 		
         Models models;

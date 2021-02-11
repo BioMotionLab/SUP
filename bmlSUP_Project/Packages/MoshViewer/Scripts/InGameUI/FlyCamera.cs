@@ -1,8 +1,8 @@
 ﻿using JetBrains.Annotations;
 using UnityEngine;
-// ReSharper disable All
 
-namespace MoshPlayer.Scripts.InGameUI {
+
+namespace InGameUI {
 	
 	/// <summary>
 	/// Writen by Windexglow 11-13-10.  Use it, edit it, steal it I don't care.

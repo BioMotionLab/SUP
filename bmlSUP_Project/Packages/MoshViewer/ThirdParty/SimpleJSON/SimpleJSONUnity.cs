@@ -41,7 +41,7 @@
 
 using UnityEngine;
 
-namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
+namespace ThirdParty.SimpleJSON
 {
     public enum JSONContainerType { Array, Object }
 	public partial class JSONNode

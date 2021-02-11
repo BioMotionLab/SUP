@@ -1,5 +1,5 @@
 using System;
-using MoshPlayer.Scripts.SMPLModel;
+using SMPLModel;
 using UnityEngine;
 
 // ReSharper disable ParameterHidesMember
@@ -18,8 +18,8 @@ namespace Display {
 
         PointLightDisplaySettings Settings {
             get {
-                if (moshCharacter != null && moshCharacter.DisplaySettings != null) {
-                    return moshCharacter.DisplaySettings.PointLightDisplaySettings;
+                if (smplCharacter != null && smplCharacter.DisplaySettings != null) {
+                    return smplCharacter.DisplaySettings.PointLightDisplaySettings;
                 }
                 return defaultPointlightDisplaySettings;
             }
@@ -27,14 +27,14 @@ namespace Display {
         Transform linkedBone;
         MeshRenderer meshRenderer;
         PointLightDisplay pointLightDisplay;
-        MoshCharacter moshCharacter;
+        SMPLCharacter smplCharacter;
         void OnEnable() {
             meshRenderer = GetComponent<MeshRenderer>();
         }
         
-        public void AttachBone(MoshCharacter moshCharacter, PointLightDisplay pointLightDisplay, 
+        public void AttachBone(SMPLCharacter smplCharacter, PointLightDisplay pointLightDisplay, 
                                Transform bone) {
-            this.moshCharacter = moshCharacter;
+            this.smplCharacter = smplCharacter;
             linkedBone = bone;
             this.pointLightDisplay = pointLightDisplay;
             name = $"PointLight for {bone.name}";

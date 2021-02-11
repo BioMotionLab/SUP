@@ -2,9 +2,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-// ReSharper disable All
 
-namespace MoshPlayer.ThirdParty.StandaloneFileBrowser.Sample {
+namespace ThirdParty.StandaloneFileBrowser.Sample {
     [RequireComponent(typeof(Button))]
     public class CanvasSampleOpenFileTextMultiple : MonoBehaviour, IPointerDownHandler {
         public Text output;
@@ -37,7 +36,7 @@ namespace MoshPlayer.ThirdParty.StandaloneFileBrowser.Sample {
 
         private void OnClick() {
             // var paths = StandaloneFileBrowser.OpenFilePanel("Title", "", "txt", true);
-            var paths = StandaloneFileBrowser.OpenFilePanel("Open File", "", "", true);
+            var paths = global::ThirdParty.StandaloneFileBrowser.StandaloneFileBrowser.OpenFilePanel("Open File", "", "", true);
             if (paths.Length > 0) {
                 var urlArr = new List<string>(paths.Length);
                 for (int i = 0; i < paths.Length; i++) {

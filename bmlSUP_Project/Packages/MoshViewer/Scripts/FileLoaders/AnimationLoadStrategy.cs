@@ -1,8 +1,8 @@
 using System;
 using System.IO;
-using MoshPlayer.Scripts.SMPLModel;
+using SMPLModel;
 
-namespace MoshPlayer.Scripts.FileLoaders {
+namespace FileLoaders {
     public abstract class AnimationLoadStrategy {
         
         protected readonly AnimationData animationData;

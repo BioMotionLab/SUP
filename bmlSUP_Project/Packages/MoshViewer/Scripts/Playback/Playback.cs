@@ -1,7 +1,7 @@
-using MoshPlayer.Scripts.SMPLModel;
+using SMPLModel;
 using UnityEngine;
 
-namespace MoshPlayer.Scripts.Playback {
+namespace Playback {
     public class Playback {
         
         readonly int   sourceTotalFrameCount;

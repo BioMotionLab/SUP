@@ -1,17 +1,16 @@
 using System;
 using JetBrains.Annotations;
-using MoshPlayer.Scripts.Playback;
+using Playback;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-namespace MoshPlayer.Scripts.SMPLModel {
+namespace SMPLModel {
     
     [Serializable]
     public class Grounder {
         
         static CommonGround commonGround;
         
-        readonly MoshCharacter moshCharacter;
+        readonly SMPLCharacter smplCharacter;
         readonly SkinnedMeshRenderer skinnedMeshRenderer;
 
         public float individualFootOffset = 0;
@@ -20,12 +19,12 @@ namespace MoshPlayer.Scripts.SMPLModel {
         [PublicAPI]
         public float commonFootOffset;
         
-        public Grounder(MoshCharacter moshCharacter, SkinnedMeshRenderer skinnedMeshRenderer) {
-            this.moshCharacter = moshCharacter;
+        public Grounder(SMPLCharacter smplCharacter, SkinnedMeshRenderer skinnedMeshRenderer) {
+            this.smplCharacter = smplCharacter;
             this.skinnedMeshRenderer = skinnedMeshRenderer;
             
             PlaybackEventSystem.OnStopAllAnimations += ResetCommonGround;
-            moshCharacter.Events.OnBodyChanged += ResetCommonGround;
+            smplCharacter.Events.OnBodyChanged += ResetCommonGround;
         }
 
         public void InitGround() {
@@ -44,7 +43,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
                 miny = Mathf.Min(vertex.y, miny);
             }
             
-            Transform pelvis = skinnedMeshRenderer.bones[moshCharacter.Model.PelvisIndex];
+            Transform pelvis = skinnedMeshRenderer.bones[smplCharacter.Model.PelvisIndex];
             Vector3 worldVector = pelvis.parent.TransformPoint(new Vector3(0, miny, 0));
 
             float currentFeetOffset = -worldVector.y;
@@ -65,7 +64,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
             
             float appliedOffset = 0;
             
-            switch (moshCharacter.RenderOptions.GroundSnap) {
+            switch (smplCharacter.RenderOptions.GroundSnap) {
                 case GroundSnapType.None:
                     break;
                 case GroundSnapType.Common:
@@ -104,7 +103,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
 
         public void Destory() {
             PlaybackEventSystem.OnStopAllAnimations -= ResetCommonGround;
-            moshCharacter.Events.OnBodyChanged -= ResetCommonGround;
+            smplCharacter.Events.OnBodyChanged -= ResetCommonGround;
         }
     }
 }

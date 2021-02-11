@@ -3,7 +3,7 @@ using UnityEngine;
 
 // ReSharper disable MemberCanBePrivate.Global
 
-namespace MoshPlayer.Scripts.SMPLModel {
+namespace SMPLModel {
     public static class Bones {
         public const string LeftPrefix1  = "L_";
         public const string RightPrefix1 = "R_";

@@ -1,11 +1,10 @@
 using Display;
-using MoshPlayer.Scripts.Playback;
 using Playback;
 using Settings;
 using UnityEngine;
 
-namespace MoshPlayer.Scripts.SMPLModel {
-    public interface MoshCharacter {
+namespace SMPLModel {
+    public interface SMPLCharacter {
         SkinnedMeshRenderer SkinnedMeshRender { get; }
 
         // ReSharper disable once InconsistentNaming

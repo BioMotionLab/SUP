@@ -1,15 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-using JetBrains.Annotations;
-using MoshPlayer.Scripts.Playback;
-using MoshPlayer.Scripts.SMPLModel;
-using MoshPlayer.Scripts.Utilities;
+﻿using JetBrains.Annotations;
+using Playback;
+using SMPLModel;
 using TMPro;
+using UnityEngine;
+using Utilities;
 
-
-namespace MoshPlayer.Scripts.InGameUI {
+namespace InGameUI {
     public class SnapToGroundDropdown : MonoBehaviour
     {
         TMP_Dropdown                   tmpDropdown;

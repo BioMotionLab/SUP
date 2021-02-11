@@ -2,7 +2,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace MoshPlayer.ThirdParty.StandaloneFileBrowser {
+namespace ThirdParty.StandaloneFileBrowser {
     public class StandaloneFileBrowserMac : IStandaloneFileBrowser {
         private static Action<string[]> _openFileCb;
         private static Action<string[]> _openFolderCb;

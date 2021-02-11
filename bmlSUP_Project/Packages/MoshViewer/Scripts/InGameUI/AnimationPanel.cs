@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
-using InGameUI;
-using MoshPlayer.Scripts.Playback;
 using Playback;
 using TMPro;
 using UnityEngine;
 
-namespace MoshPlayer.Scripts.InGameUI {
+namespace InGameUI {
     public class AnimationPanel : MonoBehaviour {
 
         AMASSAnimation             amassAnimation;

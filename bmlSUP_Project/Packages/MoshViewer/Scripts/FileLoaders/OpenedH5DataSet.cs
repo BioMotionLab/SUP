@@ -1,9 +1,7 @@
-using System.IO;
 using System.Runtime.InteropServices;
 using HDF.PInvoke;
-using UnityEngine;
 
-namespace MoshPlayer.Scripts.FileLoaders {
+namespace FileLoaders {
     public class OpenedH5DataSet {
         readonly long fileId;
         readonly string datasetName;

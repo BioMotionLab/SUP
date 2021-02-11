@@ -1,18 +1,17 @@
 using System.Collections.Generic;
 using Display;
-using MoshPlayer.Scripts.SMPLModel;
-using Playback;
 using Settings;
+using SMPLModel;
 
-namespace MoshPlayer.Scripts.Playback {
+namespace Playback {
     
-    public class MoshAnimationPlayer {
+    public class AMASSAnimationPlayer {
         readonly PlaybackSettings playbackSettings;
         readonly DisplaySettings displaySettings;
         readonly BodyOptions bodyOptions;
-        List<MoshCharacter> currentCharacters;
+        List<SMPLCharacter> currentCharacters;
 
-        public MoshAnimationPlayer(PlaybackSettings playbackSettings, DisplaySettings displaySettings, BodyOptions bodyOptions) {
+        public AMASSAnimationPlayer(PlaybackSettings playbackSettings, DisplaySettings displaySettings, BodyOptions bodyOptions) {
             this.playbackSettings = playbackSettings;
             this.displaySettings = displaySettings;
             this.bodyOptions = bodyOptions;
@@ -20,18 +19,18 @@ namespace MoshPlayer.Scripts.Playback {
 
         public void PlaySet(List<AMASSAnimation> animationGroup) {
             
-            List<MoshCharacter> newCharacters = new List<MoshCharacter>();
+            List<SMPLCharacter> newCharacters = new List<SMPLCharacter>();
 
             for (int animationIndex = 0; animationIndex < animationGroup.Count; animationIndex++) {
 				
                 AMASSAnimation amassAnimation = animationGroup[animationIndex];
                 amassAnimation.Reset();
 				
-                MoshCharacter moshCharacter =
+                SMPLCharacter smplCharacter =
                     amassAnimation.Data.Model.CreateCharacter(amassAnimation, animationIndex);
 
-                newCharacters.Add(moshCharacter);
-                moshCharacter.StartAnimation(amassAnimation, playbackSettings, displaySettings,
+                newCharacters.Add(smplCharacter);
+                smplCharacter.StartAnimation(amassAnimation, playbackSettings, displaySettings,
                     bodyOptions);
             }
 			
@@ -45,7 +44,7 @@ namespace MoshPlayer.Scripts.Playback {
         
         public void StopCurrentAnimations() {
             if (currentCharacters == null) return;
-            foreach (MoshCharacter character in currentCharacters) {
+            foreach (SMPLCharacter character in currentCharacters) {
                 if (character == null) continue;
                 character.InterruptAnimation();
             }

@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace MoshPlayer.Scripts.SMPLModel {
+namespace SMPLModel {
     [Serializable]
     public class MeshCorrection {
         public Vector3 OffsetErrorBetweenPelvisAndZero;

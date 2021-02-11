@@ -1,12 +1,12 @@
 using System;
-using MoshPlayer.Scripts.FileLoaders;
-using MoshPlayer.Scripts.Playback;
+using FileLoaders;
 using Playback;
 using UnityEngine;
 using UnityEngine.Serialization;
+
 // ReSharper disable InconsistentNaming
 
-namespace MoshPlayer.Scripts.SMPLModel {
+namespace SMPLModel {
     
     [CreateAssetMenu]
     public class ModelDefinition : ScriptableObject {
@@ -36,7 +36,7 @@ namespace MoshPlayer.Scripts.SMPLModel {
         CharacterComponent FemaleCharacterPrefab = default;
 
         
-        MoshCharacter GetCharacterPrefab(Gender gender) {
+        SMPLCharacter GetCharacterPrefab(Gender gender) {
             switch (gender) {
                 case Gender.Female: 
                     return FemaleCharacterPrefab;
@@ -59,20 +59,20 @@ namespace MoshPlayer.Scripts.SMPLModel {
 
         public int PelvisIndex = 0;
 
-        public MoshCharacter CreateCharacter(AMASSAnimation amassAnimation, int characterIndex) {
+        public SMPLCharacter CreateCharacter(AMASSAnimation amassAnimation, int characterIndex) {
             Gender gender = amassAnimation.Data.Gender;
             
-            MoshCharacter genderedPrefab = GetCharacterPrefab(gender);
+            SMPLCharacter genderedPrefab = GetCharacterPrefab(gender);
             if (genderedPrefab == null) throw new NullReferenceException("Gender Prefab is null");
             
             GameObject newCharacter = Instantiate(genderedPrefab.gameObject);
      
             newCharacter.name = $"{gender} Character {characterIndex}";
 
-            MoshCharacter newMoshCharacter = newCharacter.GetComponent<MoshCharacter>();
-            newMoshCharacter.SetIndex(characterIndex);
+            SMPLCharacter newSMPLCharacter = newCharacter.GetComponent<SMPLCharacter>();
+            newSMPLCharacter.SetIndex(characterIndex);
             
-            return newMoshCharacter;
+            return newSMPLCharacter;
         }
 
         [FormerlySerializedAs("skipFirstPose")]

@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 using HDF.PInvoke;
-using MoshPlayer.Scripts.FileLoaders;
-using MoshPlayer.Scripts.SMPLModel;
-using MoshPlayer.Scripts.Utilities;
+using SMPLModel;
 using UnityEngine;
+using Utilities;
 
 namespace FileLoaders {
     public sealed class AnimationFromH5 : AnimationLoadStrategy {

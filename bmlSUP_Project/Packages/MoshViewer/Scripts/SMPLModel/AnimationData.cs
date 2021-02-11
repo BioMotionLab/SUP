@@ -1,9 +1,7 @@
-using System.Security.Permissions;
 using JetBrains.Annotations;
-using MoshPlayer.Scripts.SMPLModel;
 using UnityEngine;
 
-namespace MoshPlayer.Scripts.FileLoaders {
+namespace SMPLModel {
     public class AnimationData {
         public ModelDefinition Model;
         public Gender        Gender;

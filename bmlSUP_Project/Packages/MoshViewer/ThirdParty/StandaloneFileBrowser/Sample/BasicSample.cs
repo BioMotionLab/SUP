@@ -1,7 +1,6 @@
 using UnityEngine;
-// ReSharper disable All
 
-namespace MoshPlayer.ThirdParty.StandaloneFileBrowser.Sample {
+namespace ThirdParty.StandaloneFileBrowser.Sample {
     public class BasicSample : MonoBehaviour {
         private string _path;
 

@@ -121,9 +121,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
-// ReSharper disable All
 
-namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
+namespace ThirdParty.SimpleJSON
 {
     public enum JSONNodeType
     {
@@ -150,29 +149,29 @@ namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
             enum Type { None, Array, Object }
 
             Type type;
-            Dictionary<string, JSONNode>.Enumerator m_Object;
-            List<JSONNode>.Enumerator m_Array;
+            Dictionary<string, global::ThirdParty.SimpleJSON.JSONNode>.Enumerator m_Object;
+            List<global::ThirdParty.SimpleJSON.JSONNode>.Enumerator m_Array;
             public bool IsValid { get { return type != Type.None; } }
-            public Enumerator(List<JSONNode>.Enumerator aArrayEnum)
+            public Enumerator(List<global::ThirdParty.SimpleJSON.JSONNode>.Enumerator aArrayEnum)
             {
                 type = Type.Array;
-                m_Object = default(Dictionary<string, JSONNode>.Enumerator);
+                m_Object = default(Dictionary<string, global::ThirdParty.SimpleJSON.JSONNode>.Enumerator);
                 m_Array = aArrayEnum;
             }
-            public Enumerator(Dictionary<string, JSONNode>.Enumerator aDictEnum)
+            public Enumerator(Dictionary<string, global::ThirdParty.SimpleJSON.JSONNode>.Enumerator aDictEnum)
             {
                 type = Type.Object;
                 m_Object = aDictEnum;
-                m_Array = default(List<JSONNode>.Enumerator);
+                m_Array = default(List<global::ThirdParty.SimpleJSON.JSONNode>.Enumerator);
             }
-            public KeyValuePair<string, JSONNode> Current
+            public KeyValuePair<string, global::ThirdParty.SimpleJSON.JSONNode> Current
             {
                 get {
                     if (type == Type.Array)
-                        return new KeyValuePair<string, JSONNode>(string.Empty, m_Array.Current);
+                        return new KeyValuePair<string, global::ThirdParty.SimpleJSON.JSONNode>(string.Empty, m_Array.Current);
                     else if (type == Type.Object)
                         return m_Object.Current;
-                    return new KeyValuePair<string, JSONNode>(string.Empty, null);
+                    return new KeyValuePair<string, global::ThirdParty.SimpleJSON.JSONNode>(string.Empty, null);
                 }
             }
             public bool MoveNext()
@@ -187,35 +186,35 @@ namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
         public struct ValueEnumerator
         {
             Enumerator m_Enumerator;
-            public ValueEnumerator(List<JSONNode>.Enumerator aArrayEnum) : this(new Enumerator(aArrayEnum)) { }
-            public ValueEnumerator(Dictionary<string, JSONNode>.Enumerator aDictEnum) : this(new Enumerator(aDictEnum)) { }
+            public ValueEnumerator(List<global::ThirdParty.SimpleJSON.JSONNode>.Enumerator aArrayEnum) : this(new Enumerator(aArrayEnum)) { }
+            public ValueEnumerator(Dictionary<string, global::ThirdParty.SimpleJSON.JSONNode>.Enumerator aDictEnum) : this(new Enumerator(aDictEnum)) { }
             public ValueEnumerator(Enumerator aEnumerator) { m_Enumerator = aEnumerator; }
-            public JSONNode Current { get { return m_Enumerator.Current.Value; } }
+            public global::ThirdParty.SimpleJSON.JSONNode Current { get { return m_Enumerator.Current.Value; } }
             public bool MoveNext() { return m_Enumerator.MoveNext(); }
             public ValueEnumerator GetEnumerator() { return this; }
         }
         public struct KeyEnumerator
         {
             Enumerator m_Enumerator;
-            public KeyEnumerator(List<JSONNode>.Enumerator aArrayEnum) : this(new Enumerator(aArrayEnum)) { }
-            public KeyEnumerator(Dictionary<string, JSONNode>.Enumerator aDictEnum) : this(new Enumerator(aDictEnum)) { }
+            public KeyEnumerator(List<global::ThirdParty.SimpleJSON.JSONNode>.Enumerator aArrayEnum) : this(new Enumerator(aArrayEnum)) { }
+            public KeyEnumerator(Dictionary<string, global::ThirdParty.SimpleJSON.JSONNode>.Enumerator aDictEnum) : this(new Enumerator(aDictEnum)) { }
             public KeyEnumerator(Enumerator aEnumerator) { m_Enumerator = aEnumerator; }
-            public JSONNode Current { get { return m_Enumerator.Current.Key; } }
+            public global::ThirdParty.SimpleJSON.JSONNode Current { get { return m_Enumerator.Current.Key; } }
             public bool MoveNext() { return m_Enumerator.MoveNext(); }
             public KeyEnumerator GetEnumerator() { return this; }
         }
 
-        public class LinqEnumerator : IEnumerator<KeyValuePair<string, JSONNode>>, IEnumerable<KeyValuePair<string, JSONNode>>
+        public class LinqEnumerator : IEnumerator<KeyValuePair<string, global::ThirdParty.SimpleJSON.JSONNode>>, IEnumerable<KeyValuePair<string, global::ThirdParty.SimpleJSON.JSONNode>>
         {
-            JSONNode m_Node;
+            global::ThirdParty.SimpleJSON.JSONNode m_Node;
             Enumerator m_Enumerator;
-            internal LinqEnumerator(JSONNode aNode)
+            internal LinqEnumerator(global::ThirdParty.SimpleJSON.JSONNode aNode)
             {
                 m_Node = aNode;
                 if (m_Node != null)
                     m_Enumerator = m_Node.GetEnumerator();
             }
-            public KeyValuePair<string, JSONNode> Current { get { return m_Enumerator.Current; } }
+            public KeyValuePair<string, global::ThirdParty.SimpleJSON.JSONNode> Current { get { return m_Enumerator.Current; } }
             object IEnumerator.Current { get { return m_Enumerator.Current; } }
             public bool MoveNext() { return m_Enumerator.MoveNext(); }
 
@@ -225,7 +224,7 @@ namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
                 m_Enumerator = new Enumerator();
             }
 
-            public IEnumerator<KeyValuePair<string, JSONNode>> GetEnumerator()
+            public IEnumerator<KeyValuePair<string, global::ThirdParty.SimpleJSON.JSONNode>> GetEnumerator()
             {
                 return new LinqEnumerator(m_Node);
             }
@@ -251,9 +250,9 @@ namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
 
         public abstract JSONNodeType Tag { get; }
 
-        public virtual JSONNode this[int aIndex] { get { return null; } set { } }
+        public virtual global::ThirdParty.SimpleJSON.JSONNode this[int aIndex] { get { return null; } set { } }
 
-        public virtual JSONNode this[string aKey] { get { return null; } set { } }
+        public virtual global::ThirdParty.SimpleJSON.JSONNode this[string aKey] { get { return null; } set { } }
 
         public virtual string Value { get { return ""; } set { } }
 
@@ -268,30 +267,30 @@ namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
 
         public virtual bool Inline { get { return false; } set { } }
 
-        public virtual void Add(string aKey, JSONNode aItem)
+        public virtual void Add(string aKey, global::ThirdParty.SimpleJSON.JSONNode aItem)
         {
         }
-        public virtual void Add(JSONNode aItem)
+        public virtual void Add(global::ThirdParty.SimpleJSON.JSONNode aItem)
         {
             Add("", aItem);
         }
 
-        public virtual JSONNode Remove(string aKey)
+        public virtual global::ThirdParty.SimpleJSON.JSONNode Remove(string aKey)
         {
             return null;
         }
 
-        public virtual JSONNode Remove(int aIndex)
+        public virtual global::ThirdParty.SimpleJSON.JSONNode Remove(int aIndex)
         {
             return null;
         }
 
-        public virtual JSONNode Remove(JSONNode aNode)
+        public virtual global::ThirdParty.SimpleJSON.JSONNode Remove(global::ThirdParty.SimpleJSON.JSONNode aNode)
         {
             return aNode;
         }
 
-        public virtual IEnumerable<JSONNode> Children
+        public virtual IEnumerable<global::ThirdParty.SimpleJSON.JSONNode> Children
         {
             get
             {
@@ -299,12 +298,12 @@ namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
             }
         }
 
-        public IEnumerable<JSONNode> DeepChildren
+        public IEnumerable<global::ThirdParty.SimpleJSON.JSONNode> DeepChildren
         {
             get
             {
-                foreach (JSONNode C in Children)
-                    foreach (JSONNode D in C.DeepChildren)
+                foreach (global::ThirdParty.SimpleJSON.JSONNode C in Children)
+                    foreach (global::ThirdParty.SimpleJSON.JSONNode D in C.DeepChildren)
                         yield return D;
             }
         }
@@ -325,7 +324,7 @@ namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
         internal abstract void WriteToStringBuilder(StringBuilder aSB, int aIndent, int aIndentInc, JSONTextMode aMode);
 
         public abstract Enumerator GetEnumerator();
-        public IEnumerable<KeyValuePair<string, JSONNode>> Linq { get { return new LinqEnumerator(this); } }
+        public IEnumerable<KeyValuePair<string, global::ThirdParty.SimpleJSON.JSONNode>> Linq { get { return new LinqEnumerator(this); } }
         public KeyEnumerator Keys { get { return new KeyEnumerator(GetEnumerator()); } }
         public ValueEnumerator Values { get { return new ValueEnumerator(GetEnumerator()); } }
 
@@ -391,19 +390,19 @@ namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
             }
         }
 
-        public virtual JSONArray AsArray
+        public virtual global::ThirdParty.SimpleJSON.JSONArray AsArray
         {
             get
             {
-                return this as JSONArray;
+                return this as global::ThirdParty.SimpleJSON.JSONArray;
             }
         }
 
-        public virtual JSONObject AsObject
+        public virtual global::ThirdParty.SimpleJSON.JSONObject AsObject
         {
             get
             {
-                return this as JSONObject;
+                return this as global::ThirdParty.SimpleJSON.JSONObject;
             }
         }
 
@@ -412,77 +411,77 @@ namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
 
         #region operators
 
-        public static implicit operator JSONNode(string s)
+        public static implicit operator global::ThirdParty.SimpleJSON.JSONNode(string s)
         {
-            return new JSONString(s);
+            return new global::ThirdParty.SimpleJSON.JSONString(s);
         }
-        public static implicit operator string(JSONNode d)
+        public static implicit operator string(global::ThirdParty.SimpleJSON.JSONNode d)
         {
             return (d == null) ? null : d.Value;
         }
 
-        public static implicit operator JSONNode(double n)
+        public static implicit operator global::ThirdParty.SimpleJSON.JSONNode(double n)
         {
-            return new JSONNumber(n);
+            return new global::ThirdParty.SimpleJSON.JSONNumber(n);
         }
-        public static implicit operator double(JSONNode d)
+        public static implicit operator double(global::ThirdParty.SimpleJSON.JSONNode d)
         {
             return (d == null) ? 0 : d.AsDouble;
         }
 
-        public static implicit operator JSONNode(float n)
+        public static implicit operator global::ThirdParty.SimpleJSON.JSONNode(float n)
         {
-            return new JSONNumber(n);
+            return new global::ThirdParty.SimpleJSON.JSONNumber(n);
         }
-        public static implicit operator float(JSONNode d)
+        public static implicit operator float(global::ThirdParty.SimpleJSON.JSONNode d)
         {
             return (d == null) ? 0 : d.AsFloat;
         }
 
-        public static implicit operator JSONNode(int n)
+        public static implicit operator global::ThirdParty.SimpleJSON.JSONNode(int n)
         {
-            return new JSONNumber(n);
+            return new global::ThirdParty.SimpleJSON.JSONNumber(n);
         }
-        public static implicit operator int(JSONNode d)
+        public static implicit operator int(global::ThirdParty.SimpleJSON.JSONNode d)
         {
             return (d == null) ? 0 : d.AsInt;
         }
 
-        public static implicit operator JSONNode(long n)
+        public static implicit operator global::ThirdParty.SimpleJSON.JSONNode(long n)
         {
-            return new JSONNumber(n);
+            return new global::ThirdParty.SimpleJSON.JSONNumber(n);
         }
-        public static implicit operator long(JSONNode d)
+        public static implicit operator long(global::ThirdParty.SimpleJSON.JSONNode d)
         {
             return (d == null) ? 0L : d.AsLong;
         }
 
-        public static implicit operator JSONNode(bool b)
+        public static implicit operator global::ThirdParty.SimpleJSON.JSONNode(bool b)
         {
-            return new JSONBool(b);
+            return new global::ThirdParty.SimpleJSON.JSONBool(b);
         }
-        public static implicit operator bool(JSONNode d)
+        public static implicit operator bool(global::ThirdParty.SimpleJSON.JSONNode d)
         {
             return (d == null) ? false : d.AsBool;
         }
 
-        public static implicit operator JSONNode(KeyValuePair<string, JSONNode> aKeyValue)
+        public static implicit operator global::ThirdParty.SimpleJSON.JSONNode(KeyValuePair<string, global::ThirdParty.SimpleJSON.JSONNode> aKeyValue)
         {
             return aKeyValue.Value;
         }
 
-        public static bool operator ==(JSONNode a, object b)
+        public static bool operator ==(global::ThirdParty.SimpleJSON.JSONNode a, object b)
         {
             if (ReferenceEquals(a, b))
                 return true;
-            bool aIsNull = a is JSONNull || ReferenceEquals(a, null) || a is JSONLazyCreator;
-            bool bIsNull = b is JSONNull || ReferenceEquals(b, null) || b is JSONLazyCreator;
+            bool aIsNull = a is global::ThirdParty.SimpleJSON.JSONNull || ReferenceEquals(a, null) || a is global::ThirdParty.SimpleJSON.JSONLazyCreator;
+            bool bIsNull = b is global::ThirdParty.SimpleJSON.JSONNull || ReferenceEquals(b, null) || b is global::ThirdParty.SimpleJSON.JSONLazyCreator;
             if (aIsNull && bIsNull)
                 return true;
             return !aIsNull && a.Equals(b);
         }
 
-        public static bool operator !=(JSONNode a, object b)
+        public static bool operator !=(global::ThirdParty.SimpleJSON.JSONNode a, object b)
         {
             return !(a == b);
         }
@@ -556,7 +555,7 @@ namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
             return result;
         }
 
-        static void ParseElement(JSONNode ctx, string token, string tokenName, bool quoted)
+        static void ParseElement(global::ThirdParty.SimpleJSON.JSONNode ctx, string token, string tokenName, bool quoted)
         {
             if (quoted)
             {
@@ -578,10 +577,10 @@ namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
             }
         }
 
-        public static JSONNode Parse(string aJSON)
+        public static global::ThirdParty.SimpleJSON.JSONNode Parse(string aJSON)
         {
-            Stack<JSONNode> stack = new Stack<JSONNode>();
-            JSONNode ctx = null;
+            Stack<global::ThirdParty.SimpleJSON.JSONNode> stack = new Stack<global::ThirdParty.SimpleJSON.JSONNode>();
+            global::ThirdParty.SimpleJSON.JSONNode ctx = null;
             int i = 0;
             StringBuilder Token = new StringBuilder();
             string TokenName = "";
@@ -596,7 +595,7 @@ namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
                             Token.Append(aJSON[i]);
                             break;
                         }
-                        stack.Push(new JSONObject());
+                        stack.Push(new global::ThirdParty.SimpleJSON.JSONObject());
                         if (ctx != null)
                         {
                             ctx.Add(TokenName, stack.Peek());
@@ -613,7 +612,7 @@ namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
                             break;
                         }
 
-                        stack.Push(new JSONArray());
+                        stack.Push(new global::ThirdParty.SimpleJSON.JSONArray());
                         if (ctx != null)
                         {
                             ctx.Add(TokenName, stack.Peek());
@@ -742,9 +741,9 @@ namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
     }
     // End of JSONNode
 
-    public partial class JSONArray : JSONNode
+    public partial class JSONArray : global::ThirdParty.SimpleJSON.JSONNode
     {
-        List<JSONNode> m_List = new List<JSONNode>();
+        List<global::ThirdParty.SimpleJSON.JSONNode> m_List = new List<global::ThirdParty.SimpleJSON.JSONNode>();
         bool inline = false;
         public override bool Inline
         {
@@ -756,18 +755,18 @@ namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
         public override bool IsArray { get { return true; } }
         public override Enumerator GetEnumerator() { return new Enumerator(m_List.GetEnumerator()); }
 
-        public override JSONNode this[int aIndex]
+        public override global::ThirdParty.SimpleJSON.JSONNode this[int aIndex]
         {
             get
             {
                 if (aIndex < 0 || aIndex >= m_List.Count)
-                    return new JSONLazyCreator(this);
+                    return new global::ThirdParty.SimpleJSON.JSONLazyCreator(this);
                 return m_List[aIndex];
             }
             set
             {
                 if (value == null)
-                    value = JSONNull.CreateOrGet();
+                    value = global::ThirdParty.SimpleJSON.JSONNull.CreateOrGet();
                 if (aIndex < 0 || aIndex >= m_List.Count)
                     m_List.Add(value);
                 else
@@ -775,13 +774,13 @@ namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
             }
         }
 
-        public override JSONNode this[string aKey]
+        public override global::ThirdParty.SimpleJSON.JSONNode this[string aKey]
         {
-            get { return new JSONLazyCreator(this); }
+            get { return new global::ThirdParty.SimpleJSON.JSONLazyCreator(this); }
             set
             {
                 if (value == null)
-                    value = JSONNull.CreateOrGet();
+                    value = global::ThirdParty.SimpleJSON.JSONNull.CreateOrGet();
                 m_List.Add(value);
             }
         }
@@ -791,33 +790,33 @@ namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
             get { return m_List.Count; }
         }
 
-        public override void Add(string aKey, JSONNode aItem)
+        public override void Add(string aKey, global::ThirdParty.SimpleJSON.JSONNode aItem)
         {
             if (aItem == null)
-                aItem = JSONNull.CreateOrGet();
+                aItem = global::ThirdParty.SimpleJSON.JSONNull.CreateOrGet();
             m_List.Add(aItem);
         }
 
-        public override JSONNode Remove(int aIndex)
+        public override global::ThirdParty.SimpleJSON.JSONNode Remove(int aIndex)
         {
             if (aIndex < 0 || aIndex >= m_List.Count)
                 return null;
-            JSONNode tmp = m_List[aIndex];
+            global::ThirdParty.SimpleJSON.JSONNode tmp = m_List[aIndex];
             m_List.RemoveAt(aIndex);
             return tmp;
         }
 
-        public override JSONNode Remove(JSONNode aNode)
+        public override global::ThirdParty.SimpleJSON.JSONNode Remove(global::ThirdParty.SimpleJSON.JSONNode aNode)
         {
             m_List.Remove(aNode);
             return aNode;
         }
 
-        public override IEnumerable<JSONNode> Children
+        public override IEnumerable<global::ThirdParty.SimpleJSON.JSONNode> Children
         {
             get
             {
-                foreach (JSONNode N in m_List)
+                foreach (global::ThirdParty.SimpleJSON.JSONNode N in m_List)
                     yield return N;
             }
         }
@@ -847,9 +846,9 @@ namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
     }
     // End of JSONArray
 
-    public partial class JSONObject : JSONNode
+    public partial class JSONObject : global::ThirdParty.SimpleJSON.JSONNode
     {
-        Dictionary<string, JSONNode> m_Dict = new Dictionary<string, JSONNode>();
+        Dictionary<string, global::ThirdParty.SimpleJSON.JSONNode> m_Dict = new Dictionary<string, global::ThirdParty.SimpleJSON.JSONNode>();
 
         bool inline = false;
         public override bool Inline
@@ -864,19 +863,19 @@ namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
         public override Enumerator GetEnumerator() { return new Enumerator(m_Dict.GetEnumerator()); }
 
 
-        public override JSONNode this[string aKey]
+        public override global::ThirdParty.SimpleJSON.JSONNode this[string aKey]
         {
             get
             {
                 if (m_Dict.ContainsKey(aKey))
                     return m_Dict[aKey];
                 else
-                    return new JSONLazyCreator(this, aKey);
+                    return new global::ThirdParty.SimpleJSON.JSONLazyCreator(this, aKey);
             }
             set
             {
                 if (value == null)
-                    value = JSONNull.CreateOrGet();
+                    value = global::ThirdParty.SimpleJSON.JSONNull.CreateOrGet();
                 if (m_Dict.ContainsKey(aKey))
                     m_Dict[aKey] = value;
                 else
@@ -884,7 +883,7 @@ namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
             }
         }
 
-        public override JSONNode this[int aIndex]
+        public override global::ThirdParty.SimpleJSON.JSONNode this[int aIndex]
         {
             get
             {
@@ -895,7 +894,7 @@ namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
             set
             {
                 if (value == null)
-                    value = JSONNull.CreateOrGet();
+                    value = global::ThirdParty.SimpleJSON.JSONNull.CreateOrGet();
                 if (aIndex < 0 || aIndex >= m_Dict.Count)
                     return;
                 string key = m_Dict.ElementAt(aIndex).Key;
@@ -908,10 +907,10 @@ namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
             get { return m_Dict.Count; }
         }
 
-        public override void Add(string aKey, JSONNode aItem)
+        public override void Add(string aKey, global::ThirdParty.SimpleJSON.JSONNode aItem)
         {
             if (aItem == null)
-                aItem = JSONNull.CreateOrGet();
+                aItem = global::ThirdParty.SimpleJSON.JSONNull.CreateOrGet();
 
             if (!string.IsNullOrEmpty(aKey))
             {
@@ -924,29 +923,29 @@ namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
                 m_Dict.Add(Guid.NewGuid().ToString(), aItem);
         }
 
-        public override JSONNode Remove(string aKey)
+        public override global::ThirdParty.SimpleJSON.JSONNode Remove(string aKey)
         {
             if (!m_Dict.ContainsKey(aKey))
                 return null;
-            JSONNode tmp = m_Dict[aKey];
+            global::ThirdParty.SimpleJSON.JSONNode tmp = m_Dict[aKey];
             m_Dict.Remove(aKey);
             return tmp;
         }
 
-        public override JSONNode Remove(int aIndex)
+        public override global::ThirdParty.SimpleJSON.JSONNode Remove(int aIndex)
         {
             if (aIndex < 0 || aIndex >= m_Dict.Count)
                 return null;
-            KeyValuePair<string, JSONNode> item = m_Dict.ElementAt(aIndex);
+            KeyValuePair<string, global::ThirdParty.SimpleJSON.JSONNode> item = m_Dict.ElementAt(aIndex);
             m_Dict.Remove(item.Key);
             return item.Value;
         }
 
-        public override JSONNode Remove(JSONNode aNode)
+        public override global::ThirdParty.SimpleJSON.JSONNode Remove(global::ThirdParty.SimpleJSON.JSONNode aNode)
         {
             try
             {
-                KeyValuePair<string, JSONNode> item = m_Dict.Where(k => k.Value == aNode).First();
+                KeyValuePair<string, global::ThirdParty.SimpleJSON.JSONNode> item = m_Dict.Where(k => k.Value == aNode).First();
                 m_Dict.Remove(item.Key);
                 return aNode;
             }
@@ -956,11 +955,11 @@ namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
             }
         }
 
-        public override IEnumerable<JSONNode> Children
+        public override IEnumerable<global::ThirdParty.SimpleJSON.JSONNode> Children
         {
             get
             {
-                foreach (KeyValuePair<string, JSONNode> N in m_Dict)
+                foreach (KeyValuePair<string, global::ThirdParty.SimpleJSON.JSONNode> N in m_Dict)
                     yield return N.Value;
             }
         }
@@ -971,7 +970,7 @@ namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
             bool first = true;
             if (inline)
                 aMode = JSONTextMode.Compact;
-            foreach (KeyValuePair<string, JSONNode> k in m_Dict)
+            foreach (KeyValuePair<string, global::ThirdParty.SimpleJSON.JSONNode> k in m_Dict)
             {
                 if (!first)
                     aSB.Append(',');
@@ -995,7 +994,7 @@ namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
     }
     // End of JSONObject
 
-    public partial class JSONString : JSONNode
+    public partial class JSONString : global::ThirdParty.SimpleJSON.JSONNode
     {
         string m_Data;
 
@@ -1030,7 +1029,7 @@ namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
             string s = obj as string;
             if (s != null)
                 return m_Data == s;
-            JSONString s2 = obj as JSONString;
+            global::ThirdParty.SimpleJSON.JSONString s2 = obj as global::ThirdParty.SimpleJSON.JSONString;
             if (s2 != null)
                 return m_Data == s2.m_Data;
             return false;
@@ -1042,7 +1041,7 @@ namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
     }
     // End of JSONString
 
-    public partial class JSONNumber : JSONNode
+    public partial class JSONNumber : global::ThirdParty.SimpleJSON.JSONNode
     {
         double m_Data;
 
@@ -1102,7 +1101,7 @@ namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
                 return false;
             if (base.Equals(obj))
                 return true;
-            JSONNumber s2 = obj as JSONNumber;
+            global::ThirdParty.SimpleJSON.JSONNumber s2 = obj as global::ThirdParty.SimpleJSON.JSONNumber;
             if (s2 != null)
                 return m_Data == s2.m_Data;
             if (IsNumeric(obj))
@@ -1116,7 +1115,7 @@ namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
     }
     // End of JSONNumber
 
-    public partial class JSONBool : JSONNode
+    public partial class JSONBool : global::ThirdParty.SimpleJSON.JSONNode
     {
         bool m_Data;
 
@@ -1169,15 +1168,15 @@ namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
     }
     // End of JSONBool
 
-    public partial class JSONNull : JSONNode
+    public partial class JSONNull : global::ThirdParty.SimpleJSON.JSONNode
     {
-        static JSONNull m_StaticInstance = new JSONNull();
+        static global::ThirdParty.SimpleJSON.JSONNull m_StaticInstance = new global::ThirdParty.SimpleJSON.JSONNull();
         public static bool reuseSameInstance = true;
-        public static JSONNull CreateOrGet()
+        public static global::ThirdParty.SimpleJSON.JSONNull CreateOrGet()
         {
             if (reuseSameInstance)
                 return m_StaticInstance;
-            return new JSONNull();
+            return new global::ThirdParty.SimpleJSON.JSONNull();
         }
 
         JSONNull() { }
@@ -1201,7 +1200,7 @@ namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
         {
             if (object.ReferenceEquals(this, obj))
                 return true;
-            return (obj is JSONNull);
+            return (obj is global::ThirdParty.SimpleJSON.JSONNull);
         }
         public override int GetHashCode()
         {
@@ -1215,26 +1214,26 @@ namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
     }
     // End of JSONNull
 
-    internal partial class JSONLazyCreator : JSONNode
+    internal partial class JSONLazyCreator : global::ThirdParty.SimpleJSON.JSONNode
     {
-        JSONNode m_Node = null;
+        global::ThirdParty.SimpleJSON.JSONNode m_Node = null;
         string m_Key = null;
         public override JSONNodeType Tag { get { return JSONNodeType.None; } }
         public override Enumerator GetEnumerator() { return new Enumerator(); }
 
-        public JSONLazyCreator(JSONNode aNode)
+        public JSONLazyCreator(global::ThirdParty.SimpleJSON.JSONNode aNode)
         {
             m_Node = aNode;
             m_Key = null;
         }
 
-        public JSONLazyCreator(JSONNode aNode, string aKey)
+        public JSONLazyCreator(global::ThirdParty.SimpleJSON.JSONNode aNode, string aKey)
         {
             m_Node = aNode;
             m_Key = aKey;
         }
 
-        void Set(JSONNode aVal)
+        void Set(global::ThirdParty.SimpleJSON.JSONNode aVal)
         {
             if (m_Key == null)
             {
@@ -1247,56 +1246,56 @@ namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
             m_Node = null; // Be GC friendly.
         }
 
-        public override JSONNode this[int aIndex]
+        public override global::ThirdParty.SimpleJSON.JSONNode this[int aIndex]
         {
             get
             {
-                return new JSONLazyCreator(this);
+                return new global::ThirdParty.SimpleJSON.JSONLazyCreator(this);
             }
             set
             {
-                JSONArray tmp = new JSONArray();
+                global::ThirdParty.SimpleJSON.JSONArray tmp = new global::ThirdParty.SimpleJSON.JSONArray();
                 tmp.Add(value);
                 Set(tmp);
             }
         }
 
-        public override JSONNode this[string aKey]
+        public override global::ThirdParty.SimpleJSON.JSONNode this[string aKey]
         {
             get
             {
-                return new JSONLazyCreator(this, aKey);
+                return new global::ThirdParty.SimpleJSON.JSONLazyCreator(this, aKey);
             }
             set
             {
-                JSONObject tmp = new JSONObject();
+                global::ThirdParty.SimpleJSON.JSONObject tmp = new global::ThirdParty.SimpleJSON.JSONObject();
                 tmp.Add(aKey, value);
                 Set(tmp);
             }
         }
 
-        public override void Add(JSONNode aItem)
+        public override void Add(global::ThirdParty.SimpleJSON.JSONNode aItem)
         {
-            JSONArray tmp = new JSONArray();
+            global::ThirdParty.SimpleJSON.JSONArray tmp = new global::ThirdParty.SimpleJSON.JSONArray();
             tmp.Add(aItem);
             Set(tmp);
         }
 
-        public override void Add(string aKey, JSONNode aItem)
+        public override void Add(string aKey, global::ThirdParty.SimpleJSON.JSONNode aItem)
         {
-            JSONObject tmp = new JSONObject();
+            global::ThirdParty.SimpleJSON.JSONObject tmp = new global::ThirdParty.SimpleJSON.JSONObject();
             tmp.Add(aKey, aItem);
             Set(tmp);
         }
 
-        public static bool operator ==(JSONLazyCreator a, object b)
+        public static bool operator ==(global::ThirdParty.SimpleJSON.JSONLazyCreator a, object b)
         {
             if (b == null)
                 return true;
             return System.Object.ReferenceEquals(a, b);
         }
 
-        public static bool operator !=(JSONLazyCreator a, object b)
+        public static bool operator !=(global::ThirdParty.SimpleJSON.JSONLazyCreator a, object b)
         {
             return !(a == b);
         }
@@ -1317,13 +1316,13 @@ namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
         {
             get
             {
-                JSONNumber tmp = new JSONNumber(0);
+                global::ThirdParty.SimpleJSON.JSONNumber tmp = new global::ThirdParty.SimpleJSON.JSONNumber(0);
                 Set(tmp);
                 return 0;
             }
             set
             {
-                JSONNumber tmp = new JSONNumber(value);
+                global::ThirdParty.SimpleJSON.JSONNumber tmp = new global::ThirdParty.SimpleJSON.JSONNumber(value);
                 Set(tmp);
             }
         }
@@ -1332,13 +1331,13 @@ namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
         {
             get
             {
-                JSONNumber tmp = new JSONNumber(0.0f);
+                global::ThirdParty.SimpleJSON.JSONNumber tmp = new global::ThirdParty.SimpleJSON.JSONNumber(0.0f);
                 Set(tmp);
                 return 0.0f;
             }
             set
             {
-                JSONNumber tmp = new JSONNumber(value);
+                global::ThirdParty.SimpleJSON.JSONNumber tmp = new global::ThirdParty.SimpleJSON.JSONNumber(value);
                 Set(tmp);
             }
         }
@@ -1347,13 +1346,13 @@ namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
         {
             get
             {
-                JSONNumber tmp = new JSONNumber(0.0);
+                global::ThirdParty.SimpleJSON.JSONNumber tmp = new global::ThirdParty.SimpleJSON.JSONNumber(0.0);
                 Set(tmp);
                 return 0.0;
             }
             set
             {
-                JSONNumber tmp = new JSONNumber(value);
+                global::ThirdParty.SimpleJSON.JSONNumber tmp = new global::ThirdParty.SimpleJSON.JSONNumber(value);
                 Set(tmp);
             }
         }
@@ -1363,17 +1362,17 @@ namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
             get
             {
                 if (longAsString)
-                    Set(new JSONString("0"));
+                    Set(new global::ThirdParty.SimpleJSON.JSONString("0"));
                 else
-                    Set(new JSONNumber(0.0));
+                    Set(new global::ThirdParty.SimpleJSON.JSONNumber(0.0));
                 return 0L;
             }
             set
             {
                 if (longAsString)
-                    Set(new JSONString(value.ToString()));
+                    Set(new global::ThirdParty.SimpleJSON.JSONString(value.ToString()));
                 else
-                    Set(new JSONNumber(value));
+                    Set(new global::ThirdParty.SimpleJSON.JSONNumber(value));
             }
         }
 
@@ -1381,32 +1380,32 @@ namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
         {
             get
             {
-                JSONBool tmp = new JSONBool(false);
+                global::ThirdParty.SimpleJSON.JSONBool tmp = new global::ThirdParty.SimpleJSON.JSONBool(false);
                 Set(tmp);
                 return false;
             }
             set
             {
-                JSONBool tmp = new JSONBool(value);
+                global::ThirdParty.SimpleJSON.JSONBool tmp = new global::ThirdParty.SimpleJSON.JSONBool(value);
                 Set(tmp);
             }
         }
 
-        public override JSONArray AsArray
+        public override global::ThirdParty.SimpleJSON.JSONArray AsArray
         {
             get
             {
-                JSONArray tmp = new JSONArray();
+                global::ThirdParty.SimpleJSON.JSONArray tmp = new global::ThirdParty.SimpleJSON.JSONArray();
                 Set(tmp);
                 return tmp;
             }
         }
 
-        public override JSONObject AsObject
+        public override global::ThirdParty.SimpleJSON.JSONObject AsObject
         {
             get
             {
-                JSONObject tmp = new JSONObject();
+                global::ThirdParty.SimpleJSON.JSONObject tmp = new global::ThirdParty.SimpleJSON.JSONObject();
                 Set(tmp);
                 return tmp;
             }
@@ -1420,9 +1419,9 @@ namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
 
     public static class JSON
     {
-        public static JSONNode Parse(string aJSON)
+        public static global::ThirdParty.SimpleJSON.JSONNode Parse(string aJSON)
         {
-            return JSONNode.Parse(aJSON);
+            return global::ThirdParty.SimpleJSON.JSONNode.Parse(aJSON);
         }
     }
 }

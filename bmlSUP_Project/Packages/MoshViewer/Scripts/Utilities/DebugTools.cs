@@ -3,7 +3,7 @@ using System.Text;
 using JetBrains.Annotations;
 using UnityEngine;
 
-namespace MoshPlayer.Scripts.Utilities {
+namespace Utilities {
     public class DebugTools : MonoBehaviour
     {
         [PublicAPI]

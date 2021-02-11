@@ -1,7 +1,7 @@
 ﻿using JetBrains.Annotations;
 using UnityEngine;
 
-namespace MoshPlayer.Scripts.Utilities {
+namespace Utilities {
     public static class QuaternionExtensions {
         
         /// <summary>

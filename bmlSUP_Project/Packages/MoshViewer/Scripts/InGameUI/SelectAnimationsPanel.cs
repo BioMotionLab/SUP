@@ -1,13 +1,12 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using JetBrains.Annotations;
-using MoshPlayer.Scripts.Playback;
-using MoshPlayer.ThirdParty.StandaloneFileBrowser;
+using Playback;
+using ThirdParty.StandaloneFileBrowser;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace MoshPlayer.Scripts.InGameUI {
+namespace InGameUI {
     public class SelectAnimationsPanel : MonoBehaviour {
 
         [FormerlySerializedAs("FolderText")] [SerializeField]
