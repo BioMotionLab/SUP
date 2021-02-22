@@ -6,36 +6,36 @@ namespace Display {
     public class MeshDisplay : MonoBehaviour
     {
         
-        MoshCharacter moshCharacter;
+        SMPLCharacter smplCharacter;
 
         public Material overwriteMaterial;
-        MeshDisplayState   DisplayMeshAs   => moshCharacter.DisplaySettings.DisplayMeshAs;
-        MeshDisplaySettings MeshDisplayOptions => moshCharacter.DisplaySettings.MeshDisplaySettings;
+        MeshDisplayState   DisplayMeshAs   => smplCharacter.DisplaySettings.DisplayMeshAs;
+        MeshDisplaySettings MeshDisplayOptions => smplCharacter.DisplaySettings.MeshDisplaySettings;
 
         void OnEnable() {
-            moshCharacter = GetComponent<MoshCharacter>();
+            smplCharacter = GetComponent<SMPLCharacter>();
         }
 
         // Update is called once per frame
         void Update() {
             if (overwriteMaterial != null) {
-                moshCharacter.SkinnedMeshRender.material = overwriteMaterial;
+                smplCharacter.SkinnedMeshRender.material = overwriteMaterial;
             }
 
             switch (DisplayMeshAs) {
                 case MeshDisplayState.Opaque:
-                    moshCharacter.SkinnedMeshRender.material = MeshDisplayOptions.Opaque;
+                    smplCharacter.SkinnedMeshRender.material = MeshDisplayOptions.Opaque;
                     if (overwriteMaterial != null) {
-                        moshCharacter.SkinnedMeshRender.material = overwriteMaterial;
+                        smplCharacter.SkinnedMeshRender.material = overwriteMaterial;
                     }
-                    moshCharacter.SkinnedMeshRender.enabled = true;
+                    smplCharacter.SkinnedMeshRender.enabled = true;
                     break;
                 case MeshDisplayState.SemiTransparent:
-                    moshCharacter.SkinnedMeshRender.material = MeshDisplayOptions.SemiTransparent;
-                    moshCharacter.SkinnedMeshRender.enabled = true;
+                    smplCharacter.SkinnedMeshRender.material = MeshDisplayOptions.SemiTransparent;
+                    smplCharacter.SkinnedMeshRender.enabled = true;
                     break;
                 case MeshDisplayState.Off:
-                    moshCharacter.SkinnedMeshRender.enabled = false;
+                    smplCharacter.SkinnedMeshRender.enabled = false;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

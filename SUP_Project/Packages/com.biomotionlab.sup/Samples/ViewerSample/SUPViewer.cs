@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Display;
-using MoshPlayer;
 using Playback;
+using Settings;
 using SMPLModel;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -100,7 +100,7 @@ namespace Samples.ViewerSample {
 			doneLoading = true;
 			Destroy(loader);
 			if (RuntimePlaybackSettings.OffsetMultipleAnimations) {
-				Debug.LogWarning("Warning, you have selected to offset multiple animations from each other! This could cause unwanted results.", this);;
+				Debug.LogWarning("Warning, you have selected to offset multiple animations from each other! This could cause unwanted results.", this);
 			}
 			PlaybackEventSystem.BeginPlayBackState();
 		}

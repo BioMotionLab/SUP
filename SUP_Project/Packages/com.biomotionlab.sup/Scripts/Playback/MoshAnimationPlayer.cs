@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using Display;
-using MoshPlayer;
+using Settings;
 using SMPLModel;
 
 namespace Playback {
@@ -9,7 +9,7 @@ namespace Playback {
         readonly PlaybackSettings playbackSettings;
         readonly DisplaySettings displaySettings;
         readonly BodyOptions bodyOptions;
-        List<MoshCharacter> currentCharacters;
+        List<SMPLCharacter> currentCharacters;
 
         public MoshAnimationPlayer(PlaybackSettings playbackSettings, DisplaySettings displaySettings, BodyOptions bodyOptions) {
             this.playbackSettings = playbackSettings;
@@ -19,18 +19,18 @@ namespace Playback {
 
         public void PlaySet(List<MoshAnimation> animationGroup) {
             
-            List<MoshCharacter> newCharacters = new List<MoshCharacter>();
+            List<SMPLCharacter> newCharacters = new List<SMPLCharacter>();
 
             for (int animationIndex = 0; animationIndex < animationGroup.Count; animationIndex++) {
 				
                 MoshAnimation moshAnimation = animationGroup[animationIndex];
                 moshAnimation.Reset();
 				
-                MoshCharacter moshCharacter =
+                SMPLCharacter smplCharacter =
                     moshAnimation.Data.Model.CreateCharacter(moshAnimation, animationIndex);
 
-                newCharacters.Add(moshCharacter);
-                moshCharacter.StartAnimation(moshAnimation, playbackSettings, displaySettings,
+                newCharacters.Add(smplCharacter);
+                smplCharacter.StartAnimation(moshAnimation, playbackSettings, displaySettings,
                     bodyOptions);
             }
 			
@@ -44,7 +44,7 @@ namespace Playback {
         
         public void StopCurrentAnimations() {
             if (currentCharacters == null) return;
-            foreach (MoshCharacter character in currentCharacters) {
+            foreach (SMPLCharacter character in currentCharacters) {
                 if (character == null) continue;
                 character.InterruptAnimation();
             }

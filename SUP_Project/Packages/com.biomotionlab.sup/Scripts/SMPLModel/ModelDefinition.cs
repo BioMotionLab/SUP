@@ -36,7 +36,7 @@ namespace SMPLModel {
         CharacterComponent FemaleCharacterPrefab = default;
 
         
-        MoshCharacter GetCharacterPrefab(Gender gender) {
+        SMPLCharacter GetCharacterPrefab(Gender gender) {
             switch (gender) {
                 case Gender.Female: 
                     return FemaleCharacterPrefab;
@@ -59,20 +59,20 @@ namespace SMPLModel {
 
         public int PelvisIndex = 0;
 
-        public MoshCharacter CreateCharacter(MoshAnimation moshAnimation, int characterIndex) {
+        public SMPLCharacter CreateCharacter(MoshAnimation moshAnimation, int characterIndex) {
             Gender gender = moshAnimation.Data.Gender;
             
-            MoshCharacter genderedPrefab = GetCharacterPrefab(gender);
+            SMPLCharacter genderedPrefab = GetCharacterPrefab(gender);
             if (genderedPrefab == null) throw new NullReferenceException("Gender Prefab is null");
             
             GameObject newCharacter = Instantiate(genderedPrefab.gameObject);
      
             newCharacter.name = $"{gender} Character {characterIndex}";
 
-            MoshCharacter newMoshCharacter = newCharacter.GetComponent<MoshCharacter>();
-            newMoshCharacter.SetIndex(characterIndex);
+            SMPLCharacter newSMPLCharacter = newCharacter.GetComponent<SMPLCharacter>();
+            newSMPLCharacter.SetIndex(characterIndex);
             
-            return newMoshCharacter;
+            return newSMPLCharacter;
         }
 
         [FormerlySerializedAs("skipFirstPose")]

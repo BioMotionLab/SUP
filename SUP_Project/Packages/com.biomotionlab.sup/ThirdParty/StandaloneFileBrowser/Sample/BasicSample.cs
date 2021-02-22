@@ -1,3 +1,4 @@
+using ThirdParty.StandaloneFileBrowser;
 using UnityEngine;
 // ReSharper disable All
 
@@ -17,23 +18,23 @@ namespace MoshPlayer.ThirdParty.StandaloneFileBrowser.Sample {
             // Open File Samples
 
             if (GUILayout.Button("Open File")) {
-                WriteResult(StandaloneFileBrowser.OpenFilePanel("Open File", "", "", false));
+                WriteResult(global::ThirdParty.StandaloneFileBrowser.StandaloneFileBrowser.OpenFilePanel("Open File", "", "", false));
             }
             GUILayout.Space(5);
             if (GUILayout.Button("Open File Async")) {
-                StandaloneFileBrowser.OpenFilePanelAsync("Open File", "", "", false, (string[] paths) => { WriteResult(paths); });
+                global::ThirdParty.StandaloneFileBrowser.StandaloneFileBrowser.OpenFilePanelAsync("Open File", "", "", false, (string[] paths) => { WriteResult(paths); });
             }
             GUILayout.Space(5);
             if (GUILayout.Button("Open File Multiple")) {
-                WriteResult(StandaloneFileBrowser.OpenFilePanel("Open File", "", "", true));
+                WriteResult(global::ThirdParty.StandaloneFileBrowser.StandaloneFileBrowser.OpenFilePanel("Open File", "", "", true));
             }
             GUILayout.Space(5);
             if (GUILayout.Button("Open File Extension")) {
-                WriteResult(StandaloneFileBrowser.OpenFilePanel("Open File", "", "txt", true));
+                WriteResult(global::ThirdParty.StandaloneFileBrowser.StandaloneFileBrowser.OpenFilePanel("Open File", "", "txt", true));
             }
             GUILayout.Space(5);
             if (GUILayout.Button("Open File Directory")) {
-                WriteResult(StandaloneFileBrowser.OpenFilePanel("Open File", Application.dataPath, "", true));
+                WriteResult(global::ThirdParty.StandaloneFileBrowser.StandaloneFileBrowser.OpenFilePanel("Open File", Application.dataPath, "", true));
             }
             GUILayout.Space(5);
             if (GUILayout.Button("Open File Filter")) {
@@ -42,7 +43,7 @@ namespace MoshPlayer.ThirdParty.StandaloneFileBrowser.Sample {
                                             new ExtensionFilter("Sound Files", "mp3", "wav" ),
                                             new ExtensionFilter("All Files", "*" ),
                                         };
-                WriteResult(StandaloneFileBrowser.OpenFilePanel("Open File", "", extensions, true));
+                WriteResult(global::ThirdParty.StandaloneFileBrowser.StandaloneFileBrowser.OpenFilePanel("Open File", "", extensions, true));
             }
 
             GUILayout.Space(15);
@@ -50,16 +51,16 @@ namespace MoshPlayer.ThirdParty.StandaloneFileBrowser.Sample {
             // Open Folder Samples
 
             if (GUILayout.Button("Open Folder")) {
-                var paths = StandaloneFileBrowser.OpenFolderPanel("Select Folder", "", true);
+                var paths = global::ThirdParty.StandaloneFileBrowser.StandaloneFileBrowser.OpenFolderPanel("Select Folder", "", true);
                 WriteResult(paths);
             }
             GUILayout.Space(5);
             if (GUILayout.Button("Open Folder Async")) {
-                StandaloneFileBrowser.OpenFolderPanelAsync("Select Folder", "", true, (string[] paths) => { WriteResult(paths); });
+                global::ThirdParty.StandaloneFileBrowser.StandaloneFileBrowser.OpenFolderPanelAsync("Select Folder", "", true, (string[] paths) => { WriteResult(paths); });
             }
             GUILayout.Space(5);
             if (GUILayout.Button("Open Folder Directory")) {
-                var paths = StandaloneFileBrowser.OpenFolderPanel("Select Folder", Application.dataPath, true);
+                var paths = global::ThirdParty.StandaloneFileBrowser.StandaloneFileBrowser.OpenFolderPanel("Select Folder", Application.dataPath, true);
                 WriteResult(paths);
             }
 
@@ -68,23 +69,23 @@ namespace MoshPlayer.ThirdParty.StandaloneFileBrowser.Sample {
             // Save File Samples
 
             if (GUILayout.Button("Save File")) {
-                _path = StandaloneFileBrowser.SaveFilePanel("Save File", "", "", "");
+                _path = global::ThirdParty.StandaloneFileBrowser.StandaloneFileBrowser.SaveFilePanel("Save File", "", "", "");
             }
             GUILayout.Space(5);
             if (GUILayout.Button("Save File Async")) {
-                StandaloneFileBrowser.SaveFilePanelAsync("Save File", "", "", "", (string path) => { WriteResult(path); });
+                global::ThirdParty.StandaloneFileBrowser.StandaloneFileBrowser.SaveFilePanelAsync("Save File", "", "", "", (string path) => { WriteResult(path); });
             }
             GUILayout.Space(5);
             if (GUILayout.Button("Save File Default Name")) {
-                _path = StandaloneFileBrowser.SaveFilePanel("Save File", "", "MySaveFile", "");
+                _path = global::ThirdParty.StandaloneFileBrowser.StandaloneFileBrowser.SaveFilePanel("Save File", "", "MySaveFile", "");
             }
             GUILayout.Space(5);
             if (GUILayout.Button("Save File Default Name Ext")) {
-                _path = StandaloneFileBrowser.SaveFilePanel("Save File", "", "MySaveFile", "dat");
+                _path = global::ThirdParty.StandaloneFileBrowser.StandaloneFileBrowser.SaveFilePanel("Save File", "", "MySaveFile", "dat");
             }
             GUILayout.Space(5);
             if (GUILayout.Button("Save File Directory")) {
-                _path = StandaloneFileBrowser.SaveFilePanel("Save File", Application.dataPath, "", "");
+                _path = global::ThirdParty.StandaloneFileBrowser.StandaloneFileBrowser.SaveFilePanel("Save File", Application.dataPath, "", "");
             }
             GUILayout.Space(5);
             if (GUILayout.Button("Save File Filter")) {
@@ -93,7 +94,7 @@ namespace MoshPlayer.ThirdParty.StandaloneFileBrowser.Sample {
                                                new ExtensionFilter("Binary", "bin"),
                                                new ExtensionFilter("Text", "txt"),
                                            };
-                _path = StandaloneFileBrowser.SaveFilePanel("Save File", "", "MySaveFile", extensionList);
+                _path = global::ThirdParty.StandaloneFileBrowser.StandaloneFileBrowser.SaveFilePanel("Save File", "", "MySaveFile", extensionList);
             }
 
             GUILayout.EndVertical();

@@ -4,6 +4,6 @@ namespace SMPLModel {
         Common,
         Individual,
         None,
-        CustomValue_UnityEditorOnly
+        CustomValueUnityEditorOnly
     }
 }

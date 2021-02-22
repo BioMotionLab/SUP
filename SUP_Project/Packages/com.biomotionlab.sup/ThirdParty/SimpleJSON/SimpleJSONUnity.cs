@@ -40,8 +40,8 @@
 #endregion License and information
 
 using UnityEngine;
-
-namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
+//Resharper disable all
+namespace ThirdParty.SimpleJSON
 {
     public enum JSONContainerType { Array, Object }
 	public partial class JSONNode
@@ -50,72 +50,72 @@ namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
         public static JSONContainerType QuaternionContainerType = JSONContainerType.Array;
         public static JSONContainerType RectContainerType = JSONContainerType.Array;
 
-        static JSONNode GetContainer(JSONContainerType aType)
+        static global::ThirdParty.SimpleJSON.JSONNode GetContainer(JSONContainerType aType)
         {
             if (aType == JSONContainerType.Array)
-                return new JSONArray();
-            return new JSONObject();
+                return new global::ThirdParty.SimpleJSON.JSONArray();
+            return new global::ThirdParty.SimpleJSON.JSONObject();
         }
 
         #region implicit conversion operators
-        public static implicit operator JSONNode(Vector2 aVec)
+        public static implicit operator global::ThirdParty.SimpleJSON.JSONNode(Vector2 aVec)
 		{
-            JSONNode n = GetContainer(VectorContainerType);
+            global::ThirdParty.SimpleJSON.JSONNode n = GetContainer(VectorContainerType);
             n.WriteVector2(aVec);
 			return n;
 		}
-		public static implicit operator JSONNode(Vector3 aVec)
+		public static implicit operator global::ThirdParty.SimpleJSON.JSONNode(Vector3 aVec)
 		{
-            JSONNode n = GetContainer(VectorContainerType);
+            global::ThirdParty.SimpleJSON.JSONNode n = GetContainer(VectorContainerType);
             n.WriteVector3(aVec);
             return n;
         }
-        public static implicit operator JSONNode(Vector4 aVec)
+        public static implicit operator global::ThirdParty.SimpleJSON.JSONNode(Vector4 aVec)
 		{
-            JSONNode n = GetContainer(VectorContainerType);
+            global::ThirdParty.SimpleJSON.JSONNode n = GetContainer(VectorContainerType);
             n.WriteVector4(aVec);
             return n;
         }
-        public static implicit operator JSONNode(Quaternion aRot)
+        public static implicit operator global::ThirdParty.SimpleJSON.JSONNode(Quaternion aRot)
 		{
-            JSONNode n = GetContainer(QuaternionContainerType);
+            global::ThirdParty.SimpleJSON.JSONNode n = GetContainer(QuaternionContainerType);
             n.WriteQuaternion(aRot);
             return n;
         }
-        public static implicit operator JSONNode(Rect aRect)
+        public static implicit operator global::ThirdParty.SimpleJSON.JSONNode(Rect aRect)
 		{
-            JSONNode n = GetContainer(RectContainerType);
+            global::ThirdParty.SimpleJSON.JSONNode n = GetContainer(RectContainerType);
             n.WriteRect(aRect);
             return n;
         }
-        public static implicit operator JSONNode(RectOffset aRect)
+        public static implicit operator global::ThirdParty.SimpleJSON.JSONNode(RectOffset aRect)
 		{
-            JSONNode n = GetContainer(RectContainerType);
+            global::ThirdParty.SimpleJSON.JSONNode n = GetContainer(RectContainerType);
             n.WriteRectOffset(aRect);
             return n;
         }
 
-        public static implicit operator Vector2(JSONNode aNode)
+        public static implicit operator Vector2(global::ThirdParty.SimpleJSON.JSONNode aNode)
         {
             return aNode.ReadVector2();
         }
-        public static implicit operator Vector3(JSONNode aNode)
+        public static implicit operator Vector3(global::ThirdParty.SimpleJSON.JSONNode aNode)
         {
             return aNode.ReadVector3();
         }
-        public static implicit operator Vector4(JSONNode aNode)
+        public static implicit operator Vector4(global::ThirdParty.SimpleJSON.JSONNode aNode)
         {
             return aNode.ReadVector4();
         }
-        public static implicit operator Quaternion(JSONNode aNode)
+        public static implicit operator Quaternion(global::ThirdParty.SimpleJSON.JSONNode aNode)
         {
             return aNode.ReadQuaternion();
         }
-        public static implicit operator Rect(JSONNode aNode)
+        public static implicit operator Rect(global::ThirdParty.SimpleJSON.JSONNode aNode)
         {
             return aNode.ReadRect();
         }
-        public static implicit operator RectOffset(JSONNode aNode)
+        public static implicit operator RectOffset(global::ThirdParty.SimpleJSON.JSONNode aNode)
         {
             return aNode.ReadRectOffset();
         }
@@ -143,7 +143,7 @@ namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
         {
             return ReadVector2(Vector2.zero);
         }
-        public JSONNode WriteVector2(Vector2 aVec, string aXName = "x", string aYName = "y")
+        public global::ThirdParty.SimpleJSON.JSONNode WriteVector2(Vector2 aVec, string aXName = "x", string aYName = "y")
         {
             if (IsObject)
             {
@@ -180,7 +180,7 @@ namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
         {
             return ReadVector3(Vector3.zero);
         }
-        public JSONNode WriteVector3(Vector3 aVec, string aXName = "x", string aYName = "y", string aZName = "z")
+        public global::ThirdParty.SimpleJSON.JSONNode WriteVector3(Vector3 aVec, string aXName = "x", string aYName = "y", string aZName = "z")
         {
             if (IsObject)
             {
@@ -213,7 +213,7 @@ namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
         {
             return ReadVector4(Vector4.zero);
         }
-        public JSONNode WriteVector4(Vector4 aVec)
+        public global::ThirdParty.SimpleJSON.JSONNode WriteVector4(Vector4 aVec)
         {
             if (IsObject)
             {
@@ -248,7 +248,7 @@ namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
         {
             return ReadQuaternion(Quaternion.identity);
         }
-        public JSONNode WriteQuaternion(Quaternion aRot)
+        public global::ThirdParty.SimpleJSON.JSONNode WriteQuaternion(Quaternion aRot)
         {
             if (IsObject)
             {
@@ -283,7 +283,7 @@ namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
         {
             return ReadRect(new Rect());
         }
-        public JSONNode WriteRect(Rect aRect)
+        public global::ThirdParty.SimpleJSON.JSONNode WriteRect(Rect aRect)
         {
             if (IsObject)
             {
@@ -308,9 +308,9 @@ namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
         #region RectOffset
         public RectOffset ReadRectOffset(RectOffset aDefault)
         {
-            if (this is JSONObject)
+            if (this is global::ThirdParty.SimpleJSON.JSONObject)
                 return new RectOffset(this["left"].AsInt, this["right"].AsInt, this["top"].AsInt, this["bottom"].AsInt);
-            if (this is JSONArray)
+            if (this is global::ThirdParty.SimpleJSON.JSONArray)
                 return new RectOffset(this[0].AsInt, this[1].AsInt, this[2].AsInt, this[3].AsInt);
             return aDefault;
         }
@@ -318,7 +318,7 @@ namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
         {
             return ReadRectOffset(new RectOffset());
         }
-        public JSONNode WriteRectOffset(RectOffset aRect)
+        public global::ThirdParty.SimpleJSON.JSONNode WriteRectOffset(RectOffset aRect)
         {
             if (IsObject)
             {
@@ -353,7 +353,7 @@ namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
             }
             return result;
         }
-        public JSONNode WriteMatrix(Matrix4x4 aMatrix)
+        public global::ThirdParty.SimpleJSON.JSONNode WriteMatrix(Matrix4x4 aMatrix)
         {
             if (IsArray)
             {

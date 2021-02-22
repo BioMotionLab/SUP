@@ -1,10 +1,10 @@
 using Display;
-using MoshPlayer;
 using Playback;
+using Settings;
 using UnityEngine;
 
 namespace SMPLModel {
-    public interface MoshCharacter {
+    public interface SMPLCharacter {
         SkinnedMeshRenderer SkinnedMeshRender { get; }
 
         // ReSharper disable once InconsistentNaming
@@ -24,7 +24,7 @@ namespace SMPLModel {
         void StartAnimation(MoshAnimation moshAnimation, PlaybackSettings playbackSettings, DisplaySettings characterSettings, BodyOptions renderOptions);
         void InterruptAnimation();
 
-        void SetIndex(int animationIndex);
+        void SetIndex(int newAnimationIndex);
 
     }
 }

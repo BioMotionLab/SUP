@@ -42,7 +42,7 @@ namespace MoshPlayer.ThirdParty.StandaloneFileBrowser.Sample {
         }
 
         public void OnClick() {
-            var path = StandaloneFileBrowser.SaveFilePanel("Title", "", "sample", "txt");
+            var path = global::ThirdParty.StandaloneFileBrowser.StandaloneFileBrowser.SaveFilePanel("Title", "", "sample", "txt");
             if (!string.IsNullOrEmpty(path)) {
                 File.WriteAllText(path, _data);
             }

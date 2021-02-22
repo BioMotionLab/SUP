@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using JetBrains.Annotations;
-using MoshPlayer.ThirdParty.StandaloneFileBrowser;
 using Playback;
+using ThirdParty.StandaloneFileBrowser;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;

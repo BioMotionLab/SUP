@@ -35,7 +35,7 @@ namespace MoshPlayer.ThirdParty.StandaloneFileBrowser.Sample {
         }
 
         private void OnClick() {
-            var paths = StandaloneFileBrowser.OpenFilePanel("Title", "", "txt", false);
+            var paths = global::ThirdParty.StandaloneFileBrowser.StandaloneFileBrowser.OpenFilePanel("Title", "", "txt", false);
             if (paths.Length > 0) {
                 //StartCoroutine(OutputRoutine(new System.Uri(paths[0]).AbsoluteUri));
             }

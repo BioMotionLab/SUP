@@ -10,7 +10,7 @@ namespace SMPLModel {
         
         [SerializeField] Grounder grounder;
         
-        MoshCharacter       moshCharacter;
+        SMPLCharacter       smplCharacter;
         SkinnedMeshRenderer skinnedMeshRenderer;
 
         bool firstFrame = false;
@@ -20,21 +20,21 @@ namespace SMPLModel {
         int index;
 
         void Awake() {
-            moshCharacter = GetComponent<MoshCharacter>();
-            if (moshCharacter == null) throw new NullReferenceException("Can't find MoshCharacter component");
+            smplCharacter = GetComponent<SMPLCharacter>();
+            if (smplCharacter == null) throw new NullReferenceException("Can't find SMPLCharacter component");
 
             skinnedMeshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
             if (skinnedMeshRenderer == null) throw new NullReferenceException("Can't find SkinnedMeshRenderer component");
 
-            grounder = new Grounder(moshCharacter, skinnedMeshRenderer);
+            grounder = new Grounder(smplCharacter, skinnedMeshRenderer);
             
-            moshCharacter.Events.OnBodyChanged += BodyChanged;
+            smplCharacter.Events.OnBodyChanged += BodyChanged;
             PlaybackEventSystem.OnChangeSnapToGround += GroundingChanged;
         }
 
         void OnDestroy() {
             grounder.Destory();
-            moshCharacter.Events.OnBodyChanged -= BodyChanged;
+            smplCharacter.Events.OnBodyChanged -= BodyChanged;
             PlaybackEventSystem.OnChangeSnapToGround -= GroundingChanged;
         }
 
@@ -44,7 +44,7 @@ namespace SMPLModel {
             if (firstFrame) ConfigureFirstFrame();
             
 
-            if (!moshCharacter.RenderOptions.UpdatePosesLive) UpdateFootOffset();
+            if (!smplCharacter.RenderOptions.UpdatePosesLive) UpdateFootOffset();
             else if (!firstFrame && bodyChanged) UpdateFootOffset();
         }
         
@@ -74,7 +74,7 @@ namespace SMPLModel {
 
         void UpdateTranslation() {
             
-            if(moshCharacter.RenderOptions.AllowPoseManipulation) return;
+            if(smplCharacter.RenderOptions.AllowPoseManipulation) return;
             
             Vector3 finalTrans = Vector3.zero;
 
@@ -83,7 +83,7 @@ namespace SMPLModel {
 
             finalTrans += GetOffsetFromIndex();
 
-            moshCharacter.gameObject.transform.localPosition = finalTrans;
+            smplCharacter.gameObject.transform.localPosition = finalTrans;
             
         }
         
@@ -91,7 +91,7 @@ namespace SMPLModel {
         
         Vector3 UpdateVerticalTranslation(Vector3 finalTrans) {
             //height needs to be dealt with separately because of ground-snapping
-            if (moshCharacter.RenderOptions.UpdateTranslationLiveY && moshCharacter.RenderOptions.UpdatePosesLive)
+            if (smplCharacter.RenderOptions.UpdateTranslationLiveY && smplCharacter.RenderOptions.UpdatePosesLive)
                 finalTrans.y = currentTranslation.y;
             else
                 finalTrans.y = firstFrameTranslation.y;
@@ -101,10 +101,10 @@ namespace SMPLModel {
         }
 
         Vector3 UpdateHorizontalTranslation(Vector3 finalTrans) {
-            if (moshCharacter.RenderOptions.UpdatePosesLive) {
+            if (smplCharacter.RenderOptions.UpdatePosesLive) {
                 //Horizontal plane simple enough
-                finalTrans.x = moshCharacter.RenderOptions.UpdateTranslationLiveXZ ? currentTranslation.x : firstFrameTranslation.x;
-                finalTrans.z = moshCharacter.RenderOptions.UpdateTranslationLiveXZ ? currentTranslation.z : firstFrameTranslation.z;
+                finalTrans.x = smplCharacter.RenderOptions.UpdateTranslationLiveXZ ? currentTranslation.x : firstFrameTranslation.x;
+                finalTrans.z = smplCharacter.RenderOptions.UpdateTranslationLiveXZ ? currentTranslation.z : firstFrameTranslation.z;
             }
 
             return finalTrans;
@@ -137,8 +137,8 @@ namespace SMPLModel {
             return translationOffset;
         }
 
-        public void SetPlaybackOptions(PlaybackSettings playbackSettings) {
-            this.playbackSettings = playbackSettings;
+        public void SetPlaybackOptions(PlaybackSettings newPlaybackSettings) {
+            this.playbackSettings = newPlaybackSettings;
         }
     }
 }

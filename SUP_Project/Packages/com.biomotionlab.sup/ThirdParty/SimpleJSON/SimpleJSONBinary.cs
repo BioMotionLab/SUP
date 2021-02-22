@@ -38,9 +38,8 @@
 
 using System;
 using System.IO;
-// ReSharper disable All
-
-namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
+//Resharper disable all
+namespace ThirdParty.SimpleJSON
 {
 #if !SimpleJSON_ExcludeBinary
     public abstract partial class JSONNode
@@ -119,7 +118,7 @@ namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
             }
         }
 
-        public static JSONNode DeserializeBinary(System.IO.BinaryReader aReader)
+        public static global::ThirdParty.SimpleJSON.JSONNode DeserializeBinary(System.IO.BinaryReader aReader)
         {
             JSONNodeType type = (JSONNodeType)aReader.ReadByte();
             switch (type)
@@ -127,7 +126,7 @@ namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
                 case JSONNodeType.Array:
                     {
                         int count = aReader.ReadInt32();
-                        JSONArray tmp = new JSONArray();
+                        global::ThirdParty.SimpleJSON.JSONArray tmp = new global::ThirdParty.SimpleJSON.JSONArray();
                         for (int i = 0; i < count; i++)
                             tmp.Add(DeserializeBinary(aReader));
                         return tmp;
@@ -135,30 +134,30 @@ namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
                 case JSONNodeType.Object:
                     {
                         int count = aReader.ReadInt32();
-                        JSONObject tmp = new JSONObject();
+                        global::ThirdParty.SimpleJSON.JSONObject tmp = new global::ThirdParty.SimpleJSON.JSONObject();
                         for (int i = 0; i < count; i++)
                         {
                             string key = aReader.ReadString();
-                            JSONNode val = DeserializeBinary(aReader);
+                            global::ThirdParty.SimpleJSON.JSONNode val = DeserializeBinary(aReader);
                             tmp.Add(key, val);
                         }
                         return tmp;
                     }
                 case JSONNodeType.String:
                     {
-                        return new JSONString(aReader.ReadString());
+                        return new global::ThirdParty.SimpleJSON.JSONString(aReader.ReadString());
                     }
                 case JSONNodeType.Number:
                     {
-                        return new JSONNumber(aReader.ReadDouble());
+                        return new global::ThirdParty.SimpleJSON.JSONNumber(aReader.ReadDouble());
                     }
                 case JSONNodeType.Boolean:
                     {
-                        return new JSONBool(aReader.ReadBoolean());
+                        return new global::ThirdParty.SimpleJSON.JSONBool(aReader.ReadBoolean());
                     }
                 case JSONNodeType.NullValue:
                     {
-                        return JSONNull.CreateOrGet();
+                        return global::ThirdParty.SimpleJSON.JSONNull.CreateOrGet();
                     }
                 default:
                     {
@@ -188,23 +187,23 @@ namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
 			return LoadFromCompressedStream(stream);
 		}
 #else
-        public static JSONNode LoadFromCompressedFile(string aFileName)
+        public static global::ThirdParty.SimpleJSON.JSONNode LoadFromCompressedFile(string aFileName)
         {
             throw new Exception("Can't use compressed functions. You need include the SharpZipLib and uncomment the define at the top of SimpleJSON");
         }
 
-        public static JSONNode LoadFromCompressedStream(System.IO.Stream aData)
+        public static global::ThirdParty.SimpleJSON.JSONNode LoadFromCompressedStream(System.IO.Stream aData)
         {
             throw new Exception("Can't use compressed functions. You need include the SharpZipLib and uncomment the define at the top of SimpleJSON");
         }
 
-        public static JSONNode LoadFromCompressedBase64(string aBase64)
+        public static global::ThirdParty.SimpleJSON.JSONNode LoadFromCompressedBase64(string aBase64)
         {
             throw new Exception("Can't use compressed functions. You need include the SharpZipLib and uncomment the define at the top of SimpleJSON");
         }
 #endif
 
-        public static JSONNode LoadFromBinaryStream(System.IO.Stream aData)
+        public static global::ThirdParty.SimpleJSON.JSONNode LoadFromBinaryStream(System.IO.Stream aData)
         {
             using (BinaryReader R = new System.IO.BinaryReader(aData))
             {
@@ -212,7 +211,7 @@ namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
             }
         }
 
-        public static JSONNode LoadFromBinaryFile(string aFileName)
+        public static global::ThirdParty.SimpleJSON.JSONNode LoadFromBinaryFile(string aFileName)
         {
             using (FileStream F = System.IO.File.OpenRead(aFileName))
             {
@@ -220,7 +219,7 @@ namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
             }
         }
 
-        public static JSONNode LoadFromBinaryBase64(string aBase64)
+        public static global::ThirdParty.SimpleJSON.JSONNode LoadFromBinaryBase64(string aBase64)
         {
             byte[] tmp = System.Convert.FromBase64String(aBase64);
             MemoryStream stream = new System.IO.MemoryStream(tmp);
@@ -229,7 +228,7 @@ namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
         }
     }
 
-    public partial class JSONArray : JSONNode
+    public partial class JSONArray : global::ThirdParty.SimpleJSON.JSONNode
     {
         public override void SerializeBinary(System.IO.BinaryWriter aWriter)
         {
@@ -242,7 +241,7 @@ namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
         }
     }
 
-    public partial class JSONObject : JSONNode
+    public partial class JSONObject : global::ThirdParty.SimpleJSON.JSONNode
     {
         public override void SerializeBinary(System.IO.BinaryWriter aWriter)
         {
@@ -256,7 +255,7 @@ namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
         }
     }
 
-    public partial class JSONString : JSONNode
+    public partial class JSONString : global::ThirdParty.SimpleJSON.JSONNode
     {
         public override void SerializeBinary(System.IO.BinaryWriter aWriter)
         {
@@ -265,7 +264,7 @@ namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
         }
     }
 
-    public partial class JSONNumber : JSONNode
+    public partial class JSONNumber : global::ThirdParty.SimpleJSON.JSONNode
     {
         public override void SerializeBinary(System.IO.BinaryWriter aWriter)
         {
@@ -274,7 +273,7 @@ namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
         }
     }
 
-    public partial class JSONBool : JSONNode
+    public partial class JSONBool : global::ThirdParty.SimpleJSON.JSONNode
     {
         public override void SerializeBinary(System.IO.BinaryWriter aWriter)
         {
@@ -282,14 +281,14 @@ namespace MoshPlayer.Scripts.ThirdParty.SimpleJSON
             aWriter.Write(m_Data);
         }
     }
-    public partial class JSONNull : JSONNode
+    public partial class JSONNull : global::ThirdParty.SimpleJSON.JSONNode
     {
         public override void SerializeBinary(System.IO.BinaryWriter aWriter)
         {
             aWriter.Write((byte)JSONNodeType.NullValue);
         }
     }
-    internal partial class JSONLazyCreator : JSONNode
+    internal partial class JSONLazyCreator : global::ThirdParty.SimpleJSON.JSONNode
     {
         public override void SerializeBinary(System.IO.BinaryWriter aWriter)
         {

@@ -55,7 +55,7 @@ namespace MoshPlayer.ThirdParty.StandaloneFileBrowser.Sample {
         }
 
         public void OnClick() {
-            var path = StandaloneFileBrowser.SaveFilePanel("Title", "", "sample", "png");
+            var path = global::ThirdParty.StandaloneFileBrowser.StandaloneFileBrowser.SaveFilePanel("Title", "", "sample", "png");
             if (!string.IsNullOrEmpty(path)) {
                 File.WriteAllBytes(path, _textureBytes);
             }

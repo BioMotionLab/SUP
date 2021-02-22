@@ -1,9 +1,10 @@
 ﻿using System;
 using System.IO;
-using MoshPlayer.Scripts.ThirdParty.SimpleJSON;
 using SMPLModel;
+using ThirdParty.SimpleJSON;
 using UnityEngine;
 using Utilities;
+using JSONNode = ThirdParty.SimpleJSON.JSONNode;
 
 namespace FileLoaders {
     /// <summary>

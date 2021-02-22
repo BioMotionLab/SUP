@@ -1,8 +1,9 @@
 using SMPLModel;
 using UnityEngine;
+
 // ReSharper disable InconsistentNaming
 
-namespace MoshPlayer {
+namespace Settings {
     [CreateAssetMenu(fileName = "Body Update Options", menuName = "New Body Update Options", order = 0)]
     public class BodyOptions : ScriptableObject {
         public bool ShowIndividualizedBody;

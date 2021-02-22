@@ -7,13 +7,13 @@ namespace FileLoaders {
     /// </summary>
     public abstract class RunnableThread
     {
-        readonly Thread _runnerThread;
+        readonly Thread runnerThread;
 
         protected RunnableThread()
         {
             // we need to create a thread instead of calling Run() directly because it would block unity
             // from doing other tasks like drawing game scenes
-            _runnerThread = new Thread(Run);
+            runnerThread = new Thread(Run);
         }
 
         protected bool Running { get; private set; }
@@ -28,7 +28,7 @@ namespace FileLoaders {
         public void Start()
         {
             Running = true;
-            _runnerThread.Start();
+            runnerThread.Start();
         }
 
         public void Stop()
@@ -36,7 +36,7 @@ namespace FileLoaders {
             Running = false;
             // block main thread, wait for _runnerThread to finish its job first, so we can be sure that 
             // _runnerThread will end before main thread end
-            _runnerThread.Join();
+            runnerThread.Join();
         }
     }
 }

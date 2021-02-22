@@ -9,7 +9,7 @@ namespace SMPLModel {
     /// </summary>
     public class CharacterPoser : MonoBehaviour {
         
-        MoshCharacter       moshCharacter;
+        SMPLCharacter       smplCharacter;
         SkinnedMeshRenderer skinnedMeshRenderer;
         Transform[]         bones;
         ModelDefinition     model;
@@ -17,12 +17,12 @@ namespace SMPLModel {
         [SerializeField] Quaternion[] poses;
         
         void Awake() {
-            moshCharacter = GetComponent<MoshCharacter>();
-            if (moshCharacter == null) throw new NullReferenceException("Can't find MoshCharacter component");
+            smplCharacter = GetComponent<SMPLCharacter>();
+            if (smplCharacter == null) throw new NullReferenceException("Can't find SMPLCharacter component");
 
             skinnedMeshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
             if (skinnedMeshRenderer == null) throw new NullReferenceException("Can't find SkinnedMeshRenderer component");
-            model = moshCharacter.Model;
+            model = smplCharacter.Model;
             bones = skinnedMeshRenderer.bones;
             
             poses = new Quaternion[model.JointCount];
@@ -33,20 +33,20 @@ namespace SMPLModel {
         }
 
         void Update() {
-            if (moshCharacter.RenderOptions.UpdateBodyShapeLive) {
+            if (smplCharacter.RenderOptions.UpdateBodyShapeLive) {
                 ResetToTPose();
-                moshCharacter.Body.UpdateBody();
+                smplCharacter.Body.UpdateBody();
             }
             
-            if (moshCharacter.RenderOptions.AllowPoseManipulation) {
+            if (smplCharacter.RenderOptions.AllowPoseManipulation) {
                 poses = GatherPosesFromBones();
                 UpdatePoses();
             }
-            else if (moshCharacter.RenderOptions.UpdatePosesLive) UpdatePoses();
+            else if (smplCharacter.RenderOptions.UpdatePosesLive) UpdatePoses();
             else ResetPoses();
             
 
-            if (moshCharacter.RenderOptions.UpdatePoseBlendshapesLive) AddPoseDependentBlendShapes(poses);
+            if (smplCharacter.RenderOptions.UpdatePoseBlendshapesLive) AddPoseDependentBlendShapes(poses);
             else ResetPoseDependentBlendShapesToZero();
 
         }
@@ -136,7 +136,7 @@ namespace SMPLModel {
                     float rawPoseDependentBlendshapeWeight = rotationMatrix[rotMatrixElement];
                     float scaledWeightBeta = ScalePoseBlendshapesFromBlenderToUnity(rawPoseDependentBlendshapeWeight);
 
-                    //if (moshCharacter.Gender == Gender.Female && model.FemaleNegativeBlendshapes) scaledWeightBeta = -scaledWeightBeta;
+                    //if (smplCharacter.Gender == Gender.Female && model.FemaleNegativeBlendshapes) scaledWeightBeta = -scaledWeightBeta;
                     //if (Mathf.Abs(scaledWeightBeta) < BlendShapeThreshold) continue;
 
                     int jointIndexNoPelvis = model.FirstPoseIsPelvisTranslation ? jointIndex - 1 : jointIndex; // no blendshapes for pelvis.

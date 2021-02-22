@@ -1,10 +1,11 @@
 using System;
+
 #if UNITY_STANDALONE_LINUX
 using SFB;
 #endif
 
 
-namespace MoshPlayer.ThirdParty.StandaloneFileBrowser {
+namespace ThirdParty.StandaloneFileBrowser {
     public struct ExtensionFilter {
         public string Name;
         public string[] Extensions;

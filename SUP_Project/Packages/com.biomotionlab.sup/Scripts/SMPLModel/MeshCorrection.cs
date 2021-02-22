@@ -1,12 +1,13 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace SMPLModel {
     [Serializable]
     public class MeshCorrection {
-        public Vector3 OffsetErrorBetweenPelvisAndZero;
-        public Vector3 OffsetErrorInFbxBetweenRigAndMesh;
-        public Vector3 CombinedOffset => OffsetErrorBetweenPelvisAndZero - OffsetErrorInFbxBetweenRigAndMesh;
+        [FormerlySerializedAs("OffsetErrorBetweenPelvisAndZero")] public Vector3 offsetErrorBetweenPelvisAndZero;
+        [FormerlySerializedAs("OffsetErrorInFbxBetweenRigAndMesh")] public Vector3 offsetErrorInFbxBetweenRigAndMesh;
+        public Vector3 CombinedOffset => offsetErrorBetweenPelvisAndZero - offsetErrorInFbxBetweenRigAndMesh;
 
 
     }

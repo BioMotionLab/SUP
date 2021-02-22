@@ -1,8 +1,9 @@
 #if UNITY_STANDALONE_OSX
 using System;
 using System.Runtime.InteropServices;
+// ReSharper disable all
 
-namespace MoshPlayer.ThirdParty.StandaloneFileBrowser {
+namespace ThirdParty.StandaloneFileBrowser {
     public class StandaloneFileBrowserMac : IStandaloneFileBrowser {
         private static Action<string[]> _openFileCb;
         private static Action<string[]> _openFolderCb;

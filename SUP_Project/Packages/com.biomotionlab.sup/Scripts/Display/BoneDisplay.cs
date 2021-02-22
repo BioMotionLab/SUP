@@ -16,15 +16,15 @@ namespace Display {
         SkinnedMeshRenderer skinnedMeshRenderer;
 
         GameObject boneDisplayContainer;
-        MoshCharacter moshCharacter;
-        public bool DisplayBones => moshCharacter.DisplaySettings.DisplayBones == BoneDisplayState.On;
+        SMPLCharacter smplCharacter;
+        public bool DisplayBones => smplCharacter.DisplaySettings.DisplayBones == BoneDisplayState.On;
      
         
         void OnEnable() {
-            moshCharacter = GetComponent<MoshCharacter>();
-            if (moshCharacter == null) Debug.LogError("Can't find MoshCharacter");
+            smplCharacter = GetComponent<SMPLCharacter>();
+            if (smplCharacter == null) Debug.LogError("Can't find SMPLCharacter");
             skinnedMeshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
-            SetupBones(skinnedMeshRenderer.bones[moshCharacter.Model.PelvisIndex]);
+            SetupBones(skinnedMeshRenderer.bones[smplCharacter.Model.PelvisIndex]);
         }
 
         void SetupBones(Transform pelvisBoneToSetup) {
@@ -36,7 +36,7 @@ namespace Display {
             foreach (Transform child in parent) {
                 if (!Bones.IsBone(child)) continue;
                 BoneLine newBone = Instantiate(bonePrefab, boneDisplayContainer.transform);
-                newBone.Init(moshCharacter, this, parent, child);
+                newBone.Init(smplCharacter, this, parent, child);
                 SetupBones(child);
             }
         }
@@ -45,7 +45,7 @@ namespace Display {
             if (boneDisplayContainer != null) return;
             
             boneDisplayContainer = new GameObject() {name = "BoneDisplay Container"};
-            boneDisplayContainer.transform.SetParent(moshCharacter.gameObject.transform);
+            boneDisplayContainer.transform.SetParent(smplCharacter.gameObject.transform);
         }
 
         void OnDisable() {

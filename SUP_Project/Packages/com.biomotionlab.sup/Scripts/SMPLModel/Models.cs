@@ -6,8 +6,9 @@ namespace SMPLModel {
     [CreateAssetMenu]
     public class Models : ScriptableObject {
         
+        [FormerlySerializedAs("ModelDefinitions")]
         [FormerlySerializedAs("ModelParameters")]
         [SerializeField]
-        public List<ModelDefinition> ModelDefinitions = new List<ModelDefinition>();
+        public List<ModelDefinition> modelDefinitions = new List<ModelDefinition>();
     }
 }

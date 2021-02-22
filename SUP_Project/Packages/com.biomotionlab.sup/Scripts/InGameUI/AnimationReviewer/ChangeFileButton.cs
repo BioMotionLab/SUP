@@ -1,6 +1,6 @@
 ﻿using System.IO;
 using JetBrains.Annotations;
-using MoshPlayer.ThirdParty.StandaloneFileBrowser;
+using ThirdParty.StandaloneFileBrowser;
 using UnityEngine;
 
 namespace InGameUI.AnimationReviewer {

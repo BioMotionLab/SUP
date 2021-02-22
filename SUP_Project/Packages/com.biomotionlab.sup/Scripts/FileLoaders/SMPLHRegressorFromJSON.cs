@@ -1,9 +1,10 @@
 ﻿using System;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
-using MoshPlayer.Scripts.ThirdParty.SimpleJSON;
 using SMPLModel;
+using ThirdParty.SimpleJSON;
 using UnityEngine;
+using JSONNode = ThirdParty.SimpleJSON.JSONNode;
 
 namespace FileLoaders {
     /// <summary>

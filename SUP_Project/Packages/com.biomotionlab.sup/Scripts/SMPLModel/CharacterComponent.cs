@@ -1,7 +1,7 @@
 ﻿using System;
 using Display;
-using MoshPlayer;
 using Playback;
+using Settings;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -12,7 +12,7 @@ namespace SMPLModel {
     /// This is setup to handle loading a MoSh animation without prior knowledge of gender, swapping in the correct SMPLConstants model.
     /// </summary>
     [SelectionBase]
-    public class CharacterComponent : MonoBehaviour, MoshCharacter {
+    public class CharacterComponent : MonoBehaviour, SMPLCharacter {
           
         
         [SerializeField]
@@ -130,12 +130,12 @@ namespace SMPLModel {
             DestroyCharacter();
         }
 
-        public void SetIndex(int animationIndex) {
-            this.animationIndex = animationIndex;
+        public void SetIndex(int newAnimationIndex) {
+            this.animationIndex = newAnimationIndex;
         }
 
         void SetMaterialFromIndex(MeshDisplaySettings displayOptions) {
-            //Debug.Log($"index: {animationIndex}, count:{displayOptions.OptionalMaterialList.Count}");
+            //Debug.Log($"index: {newAnimationIndex}, count:{displayOptions.OptionalMaterialList.Count}");
             if (animationIndex < displayOptions.OptionalMaterialList.Count) {
                 MeshDisplay meshDisplay = GetComponent<MeshDisplay>();
                meshDisplay.overwriteMaterial = displayOptions.OptionalMaterialList[animationIndex];

@@ -1,6 +1,6 @@
 using Display;
-using MoshPlayer;
 using Playback;
+using Settings;
 
 namespace SMPLModel {
 

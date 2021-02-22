@@ -23,10 +23,10 @@ namespace Playback {
             OnDone = null;
         }
         
-        public void Load(AnimationFileReference animationsFileReference, Models models, PlaybackSettings playbackSettings) {
+        public void Load(AnimationFileReference animationsFileReference, Models loadedModels, PlaybackSettings loadedPlaybackSettings) {
            
-            this.models = models;
-            this.playbackSettings = playbackSettings;
+            this.models = loadedModels;
+            this.playbackSettings = loadedPlaybackSettings;
             this.animationFileReference = animationsFileReference;
             
             string updateMessage = $"Loading {animationsFileReference.Count} animations from files. If there are a lot, this could take a few seconds...";
@@ -38,7 +38,7 @@ namespace Playback {
 
         IEnumerator LoadAnimations() {
             
-             List<List<MoshAnimation>> AnimationSequence = new List<List<MoshAnimation>>();
+             List<List<MoshAnimation>> animationSequence = new List<List<MoshAnimation>>();
             
             for (int lineIndex = 0; lineIndex < animationFileReference.Count; lineIndex++) {
                 StringBuilder log = new StringBuilder();
@@ -53,7 +53,7 @@ namespace Playback {
                     continue;
                 }
                 
-                AnimationSequence.Add(allAnimationsInThisLine);
+                animationSequence.Add(allAnimationsInThisLine);
                 log.Append($" (Model:{allAnimationsInThisLine[0].Data.Model.ModelName}), containing animations for {allAnimationsInThisLine.Count} characters");
 
                 string finalLog = $"\t...{log}";
@@ -62,9 +62,9 @@ namespace Playback {
                 yield return null;
             }
 
-            string updateMessage = $"Done Loading All Animations. Successfully loaded {AnimationSequence.Count} of {animationFileReference.AnimListAsStrings.Length}.";
+            string updateMessage = $"Done Loading All Animations. Successfully loaded {animationSequence.Count} of {animationFileReference.AnimListAsStrings.Length}.";
             Debug.Log(updateMessage);
-            Done(AnimationSequence);
+            Done(animationSequence);
             PlaybackEventSystem.UpdatePlayerProgress(updateMessage);
         }
 

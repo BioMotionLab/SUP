@@ -29,7 +29,7 @@ namespace FileLoaders {
         }
 
         void FindCorrectModel() {
-            foreach (ModelDefinition model in possibleModels.ModelDefinitions) {
+            foreach (ModelDefinition model in possibleModels.modelDefinitions) {
                 if (!IsMatchingModel(model)) continue;
                 animationData.Model = model;
                 //Debug.Log($"Matched model {matchedModel.ModelName}");

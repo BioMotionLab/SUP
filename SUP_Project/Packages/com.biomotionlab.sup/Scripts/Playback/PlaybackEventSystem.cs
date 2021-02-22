@@ -9,20 +9,19 @@ using UnityEngine.Serialization;
 namespace Playback {
     public class PlaybackEventSystem : MonoBehaviour {
 
-        public bool Paused = false;
+        [FormerlySerializedAs("Paused")] [SerializeField]
+        bool paused = false;
     
-        [FormerlySerializedAs("nextKeys")]
-        [SerializeField]
-        List<KeyCode> NextKeys = new List<KeyCode>();
+        [FormerlySerializedAs("NextKeys")] [SerializeField]
+        List<KeyCode> nextKeys = new List<KeyCode>();
 
-        [SerializeField]
-        KeyCode PrevKey = default;
+        [FormerlySerializedAs("PrevKey")] [SerializeField]
+        KeyCode prevKey = default;
         
-        [FormerlySerializedAs("quitKeys")]
-        [SerializeField]
-        List<KeyCode> QuitKeys = new List<KeyCode>();
+        [FormerlySerializedAs("QuitKeys")] [SerializeField]
+        List<KeyCode> quitKeys = new List<KeyCode>();
 
-        [SerializeField] KeyCode ToggleAllUIKey = KeyCode.U;
+        [FormerlySerializedAs("ToggleAllUIKey")] [SerializeField] KeyCode toggleAllUIKey = KeyCode.U;
 
         [SerializeField] List<GameObject> ui = default;
 
@@ -55,9 +54,9 @@ namespace Playback {
 
         [PublicAPI]
         public void PausePlay() {
-            Paused = !Paused;
-            Debug.Log($"Paused: {Paused}");
-            OnPauseToggleEvent?.Invoke(Paused);
+            paused = !paused;
+            Debug.Log($"Paused: {paused}");
+            OnPauseToggleEvent?.Invoke(paused);
         }
 
         public void Update() {
@@ -68,22 +67,22 @@ namespace Playback {
 
         void ListenForKeyboardPresses() {
 
-            if (Input.GetKeyDown(ToggleAllUIKey)) {
+            if (Input.GetKeyDown(toggleAllUIKey)) {
                 ToggleAllUI();
             }
             
-            foreach (KeyCode key in NextKeys) {
+            foreach (KeyCode key in nextKeys) {
                 if (Input.GetKeyDown(key)) {
                     GoToNextAnimation();
                 }
             }
 
-            if (Input.GetKeyDown(PrevKey)) {
+            if (Input.GetKeyDown(prevKey)) {
                 Debug.Log("Delete");
                 GoToPreviousAnimation();
             }
 
-            foreach (KeyCode key in QuitKeys) {
+            foreach (KeyCode key in quitKeys) {
                 if (Input.GetKeyDown(key)) {
                     Quit();
                 }

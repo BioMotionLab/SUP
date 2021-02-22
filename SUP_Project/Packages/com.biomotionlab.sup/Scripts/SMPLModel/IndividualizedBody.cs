@@ -27,7 +27,7 @@ namespace SMPLModel {
         float[] bodyShapeBetas;
         float[] lastFrameBetas;
 
-        MoshCharacter moshCharacter;
+        SMPLCharacter smplCharacter;
         
 
         AverageBody averageBody;
@@ -37,8 +37,8 @@ namespace SMPLModel {
         Vector3 pelvisNewLocation;
 
         void Awake() {
-            moshCharacter = GetComponent<MoshCharacter>();
-            model = moshCharacter.Model;
+            smplCharacter = GetComponent<SMPLCharacter>();
+            model = smplCharacter.Model;
             skinnedMeshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
 
             skinnedMeshRenderer.bones[model.PelvisIndex].localPosition = Vector3.zero;
@@ -51,7 +51,7 @@ namespace SMPLModel {
             updatedVertices = new Vector3[skinnedMeshRenderer.sharedMesh.vertexCount];
             
             
-            jointRegressor = SMPLHRegressorFromJSON.LoadRegressorFromJSON(model.RegressorFile(moshCharacter.Gender));
+            jointRegressor = SMPLHRegressorFromJSON.LoadRegressorFromJSON(model.RegressorFile(smplCharacter.Gender));
 
             pelvisResetPosition = skinnedMeshRenderer.bones[model.PelvisIndex].localPosition;
 
@@ -77,7 +77,7 @@ namespace SMPLModel {
             float[] savedBetas = (float[])bodyShapeBetas.Clone();
             
             //if showing averaged body, set betas to zero;
-            if (!moshCharacter.RenderOptions.ShowIndividualizedBody) {
+            if (!smplCharacter.RenderOptions.ShowIndividualizedBody) {
                 bodyShapeBetas = new float[bodyShapeBetas.Length];
             }
 
@@ -88,12 +88,12 @@ namespace SMPLModel {
             SetBindPoses();
 
             if (lastFrameBetas == null || !lastFrameBetas.SequenceEqual(bodyShapeBetas)) {
-                moshCharacter.Events.BodyHasChanged();
+                smplCharacter.Events.BodyHasChanged();
             }
             lastFrameBetas = (float[]) bodyShapeBetas.Clone();
             
             //restore Betas to actual values saved above;
-            if (!moshCharacter.RenderOptions.ShowIndividualizedBody) {
+            if (!smplCharacter.RenderOptions.ShowIndividualizedBody) {
                 bodyShapeBetas = savedBetas;
             }
            
@@ -176,7 +176,7 @@ namespace SMPLModel {
         /// was slowing it down. Now I precompute the addition since it stays constant.
         /// </summary>
         Vector3 CorrectMeshToRigOffset(Vector3 vertex) {
-            return vertex - moshCharacter.MeshCorrection.CombinedOffset;
+            return vertex - smplCharacter.MeshCorrection.CombinedOffset;
         }
         
         /// <summary>
@@ -184,7 +184,7 @@ namespace SMPLModel {
         /// </summary>
         [ContextMenu("reground")]
         void SetFeetOnGround() {
-            float offsetFromGround = minimumYVertex + moshCharacter.MeshCorrection.OffsetErrorBetweenPelvisAndZero.y + pelvisResetPosition.y - pelvisNewLocation.y;
+            float offsetFromGround = minimumYVertex + smplCharacter.MeshCorrection.offsetErrorBetweenPelvisAndZero.y + pelvisResetPosition.y - pelvisNewLocation.y;
             Vector3 offsetFromGroundVector = new Vector3(0, offsetFromGround, 0);
             //Debug.Log($"offset: {offsetFromGround.ToString("f4")}");
             Transform pelvis = skinnedMeshRenderer.bones[model.PelvisIndex];
@@ -212,10 +212,10 @@ namespace SMPLModel {
         }
 
         public void SetDebugBetas() {
-            moshCharacter.RenderOptions.ShowIndividualizedBody = true;
+            smplCharacter.RenderOptions.ShowIndividualizedBody = true;
             Debug.LogWarning("Mode Enabled.");
             float[] debugBetas = new float[16];
-            switch (moshCharacter.Gender) {
+            switch (smplCharacter.Gender) {
                 case Gender.Male:
                     debugBetas = new[] {13, -4.4f, 2.62f, -4.38f, 0.64f, 0.58f, 0,0,0,0,0,0,0,0,0,0};
                     break;
