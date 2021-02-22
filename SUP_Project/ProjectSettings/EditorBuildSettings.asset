@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/MoshPlayer/MoshViewer.unity
+    path: Packages/com.biomotionlab.sup/Samples/ViewerSample/SUP_Sample_Scene.unity
     guid: 4b3caf3dce812488aa96bad2cf6d6cf9
   m_configObjects: {}

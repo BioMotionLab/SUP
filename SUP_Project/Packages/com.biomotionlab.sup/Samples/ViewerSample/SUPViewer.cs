@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
+using MoshPlayer;
 using MoshPlayer.Scripts.Playback;
+using MoshPlayer.Scripts.SMPLModel;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace MoshPlayer.Scripts.SMPLModel {
-	public class MoshViewer : MonoBehaviour, Viewer {
+namespace Samples.ViewerSample {
+	public class SUPViewer : MonoBehaviour, Viewer {
 
 		[SerializeField]
 		Models models = default;
