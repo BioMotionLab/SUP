@@ -1,15 +1,7 @@
 using Display;
 using Playback;
-using Settings;
 
 namespace SMPLModel {
-
-    public interface Viewer {
-        BodyOptions RuntimeBodyOptions { get; }
-        DisplaySettings RuntimeDisplaySettings { get; }
-        PlaybackSettings RuntimePlaybackSettings { get; }
-    }
-    
     public class UserModifiedSettingsHandler {
         Viewer moshViewer;
 
@@ -89,8 +81,8 @@ namespace SMPLModel {
             moshViewer.RuntimePlaybackSettings.Loop = state;
         }
 
-        void SetSnapToGround(GroundSnapType snaptype) {
-            moshViewer.RuntimeBodyOptions.GroundSnap = snaptype;
+        void SetSnapToGround(GroundSnapType snapType) {
+            moshViewer.RuntimeBodyOptions.GroundSnap = snapType;
         }
     }
 }

@@ -2,8 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a6d41c56-4347-4b10-9a12-4c5bbe5f28b5" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.SUP_Project/.idea/indexLayout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SUP_Project/.idea/indexLayout.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.SUP_Project/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SUP_Project/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/InGameUI/AnimationReviewer/ShowHidePanelButton.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/InGameUI/AnimationReviewer/ShowHidePanelButton.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/FreezeCameraButton.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/FreezeCameraButton.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Samples/ViewerSample/SUPViewer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Samples/ViewerSample/SUPViewer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Settings/Default Display Settings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Settings/Default Display Settings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,7 +54,6 @@
       <option value="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Playback/MoshAnimationPlayer.cs" />
       <option value="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Playback/AnimationLoader.cs" />
       <option value="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/FileLoaders/RunnableThread.cs" />
-      <option value="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Samples/ViewerSample/SUPViewer.cs" />
       <option value="$PROJECT_DIR$/Packages/com.biomotionlab.sup/ThirdParty/StandaloneFileBrowser/StandaloneFileBrowserMac.cs" />
       <option value="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/InGameUI/SelectAnimationsPanel.cs" />
       <option value="$PROJECT_DIR$/Packages/com.biomotionlab.sup/ThirdParty/SimpleJSON/SimpleJSONUnity.cs" />
@@ -59,6 +61,7 @@
       <option value="$PROJECT_DIR$/Packages/com.biomotionlab.sup/ThirdParty/SimpleJSON/SimpleJSON.cs" />
       <option value="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/InGameUI/AnimationReviewer/ChangeFileButton.cs" />
       <option value="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/InGameUI/AnimationReviewer/ShowHidePanelButton.cs" />
+      <option value="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Samples/ViewerSample/SUPViewer.cs" />
       <option value="$PROJECT_DIR$/Assets/FreezeCameraButton.cs" />
     </changedPaths>
   </component>
@@ -115,7 +118,7 @@
       <workItem from="1614011523894" duration="25000" />
       <workItem from="1614011583321" duration="1721000" />
       <workItem from="1614014045568" duration="1094000" />
-      <workItem from="1614015676529" duration="624000" />
+      <workItem from="1614015676529" duration="1415000" />
     </task>
     <servers />
   </component>

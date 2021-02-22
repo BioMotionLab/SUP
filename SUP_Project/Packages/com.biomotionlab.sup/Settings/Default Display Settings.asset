@@ -23,7 +23,7 @@ MonoBehaviour:
     - {fileID: 2100000, guid: 6468a6a5690aa204292298f3110d6193, type: 2}
     - {fileID: 2100000, guid: b7c5e61b20d0d2843ac333b6f6ba460a, type: 2}
   BoneDisplaySettings:
-    BoneWidth: 0.005
+    BoneWidth: 0.025
     DrawSidesDifferentColors: 1
     LeftSideMaterial: {fileID: 2100000, guid: 5975636768fed814ab183a919fb2fc49, type: 2}
     RightSideMaterial: {fileID: 2100000, guid: 8bad80b00626096438ec084e61fd4dba, type: 2}

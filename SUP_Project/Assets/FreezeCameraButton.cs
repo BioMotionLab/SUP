@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using InGameUI;
+﻿using InGameUI;
 using UnityEngine;
 
 public class FreezeCameraButton : MonoBehaviour {

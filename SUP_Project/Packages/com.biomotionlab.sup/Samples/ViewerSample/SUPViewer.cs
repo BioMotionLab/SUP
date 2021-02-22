@@ -30,7 +30,7 @@ namespace Samples.ViewerSample {
 		bool doneLoading = false;
 		
 		List<List<MoshAnimation>> animationSequence;
-		public bool AllAnimsComplete => currentAnimationIndex >= animationSequence.Count;
+		bool AllAnimsComplete => currentAnimationIndex >= animationSequence.Count;
 		int currentAnimationIndex = 0;
 		
 		bool started = false;
@@ -86,9 +86,9 @@ namespace Samples.ViewerSample {
 			loader.Load(fileReference, models, RuntimePlaybackSettings);
 		}
 
-		void LoadSingleAnimation(string singlefile) {
+		void LoadSingleAnimation(string singleFile) {
 			loader = gameObject.AddComponent<AnimationLoader>();
-			AnimationFileReference fileReference = new AnimationFileReference(singlefile);
+			AnimationFileReference fileReference = new AnimationFileReference(singleFile);
 			loader.OnDone += DoneLoading;
 			loader.Load(fileReference, models, RuntimePlaybackSettings);
 		}
@@ -140,7 +140,7 @@ namespace Samples.ViewerSample {
 		}
 
 
-		public void StartPlayingAnimations() {
+		void StartPlayingAnimations() {
 			StartCurrentAnimationSet(); //play the first animation!
 		}
 		
