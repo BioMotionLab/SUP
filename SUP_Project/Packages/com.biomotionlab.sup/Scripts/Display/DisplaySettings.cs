@@ -8,11 +8,11 @@ namespace Display {
     public class DisplaySettings : ScriptableObject {
         
         public BoneDisplayState DisplayBones;
-        public PointLightDisplayState DisplayPointLights;
+        [FormerlySerializedAs("DisplayJoints")] public JointDisplayState displayJoints;
         [FormerlySerializedAs("MeshDisplayState")] public MeshDisplayState DisplayMeshAs;
         
         public MeshDisplaySettings MeshDisplaySettings = default;
         public BoneDisplaySettings BoneDisplaySettings = default;
-        public PointLightDisplaySettings PointLightDisplaySettings = default;
+        [FormerlySerializedAs("PointLightDisplaySettings")] public JointDisplaySettings jointDisplaySettings = default;
     }
 }

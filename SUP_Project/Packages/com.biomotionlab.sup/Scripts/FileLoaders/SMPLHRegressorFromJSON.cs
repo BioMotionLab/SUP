@@ -9,7 +9,7 @@ using JSONNode = ThirdParty.SimpleJSON.JSONNode;
 namespace FileLoaders {
     /// <summary>
     /// Reads the regressor JSON file and loads it into Unity-Compatible formats.
-    /// File should contain a Joint template and Joint regressor to fit formula
+    /// File should contain a JointSphere template and JointSphere regressor to fit formula
     /// JointLocations = JointTemplate + JointRegressor * Betas
     /// I wrote a python script included in the github repository to extract the necessary matrices
     /// from the model.npz files provided by MPI
@@ -53,7 +53,7 @@ namespace FileLoaders {
         }
 
         /// <summary>
-        /// Loads the Joint template from a JSON node
+        /// Loads the JointSphere template from a JSON node
         /// </summary>
         void LoadJointTemplate(JSONNode templateJSONNode) {
             JSONNode jointTemplateNode = templateJSONNode[JointTemplateJSONKey];

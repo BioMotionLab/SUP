@@ -129,13 +129,13 @@ namespace Playback {
         }
     
 
-        public delegate void PointLightDisplayStateChangedEvent(PointLightDisplayState pointLightDisplayState);
+        public delegate void JointDisplayStateChangedEvent(JointDisplayState jointDisplayState);
 
-        public static event PointLightDisplayStateChangedEvent OnPointLightDisplayStateChanged;
+        public static event JointDisplayStateChangedEvent OnJointDisplayStateChanged;
 
     
-        public static void PointLightDisplayStateChanged(PointLightDisplayState pointLightDisplayState) {
-            OnPointLightDisplayStateChanged?.Invoke(pointLightDisplayState);
+        public static void JointDisplayStateChanged(JointDisplayState jointDisplayState) {
+            OnJointDisplayStateChanged?.Invoke(jointDisplayState);
         }
 
 

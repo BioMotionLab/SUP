@@ -41,7 +41,6 @@ namespace FileLoaders {
                 H5F.close(fileId);
             }
             
-           //Data.ShowDebug();
         }
 
         float[] ReadBetas(long fileId) {
@@ -105,7 +104,7 @@ namespace FileLoaders {
             var rz = posesVectorized[vectorIndex + 2];
             Vector3 rotationVectorInMayaCoords = new Vector3(rx, ry, rz);
             Quaternion quaternionInMayaCoords = RotationVectorToQuaternion(rotationVectorInMayaCoords);
-            //Debug.Log($"Frame: {frameIndex}, Joint: {jointIndex}: rotvec: {rotationVectorInMayaCoords.ToString("F4")} quat: {quaternionInMayaCoords.ToString("F4")}");
+            //Debug.Log($"Frame: {frameIndex}, JointSphere: {jointIndex}: rotvec: {rotationVectorInMayaCoords.ToString("F4")} quat: {quaternionInMayaCoords.ToString("F4")}");
             Quaternion quaternionInUnityCoords = quaternionInMayaCoords.ToLeftHanded();
             
             Data.Poses[frameIndex, jointIndex] = quaternionInUnityCoords;

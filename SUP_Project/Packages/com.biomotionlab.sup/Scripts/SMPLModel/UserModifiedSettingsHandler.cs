@@ -10,7 +10,7 @@ namespace SMPLModel {
             
             PlaybackEventSystem.OnMeshDisplayStateChanged += MeshDisplayStateChanged;
             PlaybackEventSystem.OnBoneDisplayStateChanged += BoneDisplayStateChanged;
-            PlaybackEventSystem.OnPointLightDisplayStateChanged += PointLightDisplayStateChanged;
+            PlaybackEventSystem.OnJointDisplayStateChanged += JointDisplayStateChanged;
             PlaybackEventSystem.OnChangeLivePoses += SetLivePoses;
             PlaybackEventSystem.OnChangeLivePoseBlendshapes += SetLivePoseBlendshapes;
             PlaybackEventSystem.OnChangeLiveBodyShape += SetLiveBodyShape;
@@ -25,7 +25,7 @@ namespace SMPLModel {
         public void Destroy() {
             PlaybackEventSystem.OnMeshDisplayStateChanged -= MeshDisplayStateChanged;
             PlaybackEventSystem.OnBoneDisplayStateChanged -= BoneDisplayStateChanged;
-            PlaybackEventSystem.OnPointLightDisplayStateChanged += PointLightDisplayStateChanged;
+            PlaybackEventSystem.OnJointDisplayStateChanged += JointDisplayStateChanged;
             PlaybackEventSystem.OnChangeLivePoses -= SetLivePoses;
             PlaybackEventSystem.OnChangeLivePoseBlendshapes -= SetLivePoseBlendshapes;
             PlaybackEventSystem.OnChangeLiveBodyShape -= SetLiveBodyShape;
@@ -61,8 +61,8 @@ namespace SMPLModel {
             viewer.RuntimeBodyOptions.UpdatePosesLive = livePoses;
         }
 
-        void PointLightDisplayStateChanged(PointLightDisplayState pointLightDisplayState) {
-            viewer.RuntimeDisplaySettings.DisplayPointLights = pointLightDisplayState;
+        void JointDisplayStateChanged(JointDisplayState jointDisplayState) {
+            viewer.RuntimeDisplaySettings.displayJoints = jointDisplayState;
         }
 
         void BoneDisplayStateChanged(BoneDisplayState boneDisplayState) {

@@ -1,48 +1,49 @@
 using System;
 using SMPLModel;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Display {
     
     /// <summary>
-    /// A single point light for displaying a joint's location.
+    /// A single sphere displaying a joint's location.
     /// </summary>
     [ExecuteInEditMode]
-    public class PointLight : MonoBehaviour {
+    public class JointSphere : MonoBehaviour {
         
 
-        [SerializeField]
-        PointLightDisplaySettings defaultPointlightDisplaySettings = default;
+        [FormerlySerializedAs("defaultPointlightDisplaySettings")] [SerializeField]
+        JointDisplaySettings defaultJointDisplaySettings = default;
 
-        PointLightDisplaySettings Settings {
+        JointDisplaySettings Settings {
             get {
                 if (smplCharacter != null) {
                     if (smplCharacter.DisplaySettings != null) {
-                        return smplCharacter.DisplaySettings.PointLightDisplaySettings;
+                        return smplCharacter.DisplaySettings.jointDisplaySettings;
                     }
                 }
-                return defaultPointlightDisplaySettings;
+                return defaultJointDisplaySettings;
             }
         }
         Transform linkedBone;
         MeshRenderer meshRenderer;
-        PointLightDisplay pointLightDisplay;
+        JointDisplay jointDisplay;
         SMPLCharacter smplCharacter;
         void OnEnable() {
             meshRenderer = GetComponent<MeshRenderer>();
         }
         
-        public void AttachBone(SMPLCharacter attachedSmplCharacter, PointLightDisplay attachedPointLightDisplay, 
+        public void AttachBone(SMPLCharacter attachedSmplCharacter, JointDisplay attachedJointDisplay, 
                                Transform bone) {
             this.smplCharacter = attachedSmplCharacter;
             linkedBone = bone;
-            this.pointLightDisplay = attachedPointLightDisplay;
-            name = $"PointLight for {bone.name}";
+            this.jointDisplay = attachedJointDisplay;
+            name = $"JointSphere for {bone.name}";
             Transform cachedTransform = transform;
             cachedTransform.localPosition = Vector3.zero;
-            cachedTransform.localScale = new Vector3(Settings.PointLightDisplaySize,
-                                             Settings.PointLightDisplaySize,
-                                             Settings.PointLightDisplaySize);
+            cachedTransform.localScale = new Vector3(Settings.JointDisplaySize,
+                                             Settings.JointDisplaySize,
+                                             Settings.JointDisplaySize);
             
             
         }
@@ -50,13 +51,13 @@ namespace Display {
         void LateUpdate() {
             if (linkedBone != null) {
                 transform.position = linkedBone.position;
-                meshRenderer.enabled = pointLightDisplay.DisplayPointLights;
+                meshRenderer.enabled = jointDisplay.DisplayJoints;
 
-                if (pointLightDisplay.DisplayPointLights) {
+                if (jointDisplay.DisplayJoints) {
                     this.transform.localScale = new Vector3(
-                        Settings.PointLightDisplaySize,
-                        Settings.PointLightDisplaySize,
-                        Settings.PointLightDisplaySize);
+                        Settings.JointDisplaySize,
+                        Settings.JointDisplaySize,
+                        Settings.JointDisplaySize);
                     if (Settings.DrawSidesDifferentColors) ColorBySideOfBody(linkedBone);
                 }
             }

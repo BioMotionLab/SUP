@@ -6,26 +6,26 @@ using UnityEngine;
 using Utilities;
 
 namespace InGameUI {
-    public class PointLightDisplayDropdown : MonoBehaviour
+    public class JointDisplayDropdown : MonoBehaviour
     {
         TMP_Dropdown                         tmpDropdown;
-        EnumDropdown<PointLightDisplayState> enumDropDown;
+        EnumDropdown<JointDisplayState> enumDropDown;
 
         void OnEnable() {
             tmpDropdown = GetComponent<TMP_Dropdown>();
-            enumDropDown = new EnumDropdown<PointLightDisplayState>();
+            enumDropDown = new EnumDropdown<JointDisplayState>();
         }
 
         void Start() {
             if (tmpDropdown == null) return;
-            enumDropDown?.PopulateOptions(tmpDropdown, PointLightDisplayState.Off);
+            enumDropDown?.PopulateOptions(tmpDropdown, JointDisplayState.Off);
         }
 
         [PublicAPI]
         public void DropdownIndexChanged(int index) {
             if (tmpDropdown == null) return;
-            PointLightDisplayState pointLightDisplayState = enumDropDown.EnumFrom(index);
-            PlaybackEventSystem.PointLightDisplayStateChanged(pointLightDisplayState);
+            JointDisplayState jointDisplayState = enumDropDown.EnumFrom(index);
+            PlaybackEventSystem.JointDisplayStateChanged(jointDisplayState);
         }
 
 

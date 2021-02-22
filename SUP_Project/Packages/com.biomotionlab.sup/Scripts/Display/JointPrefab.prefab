@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 2719149633869924855}
   - component: {fileID: 7500541141903290153}
   - component: {fileID: 1568181113381454807}
-  - component: {fileID: 3772656710727878941}
+  - component: {fileID: -8593046045061092640}
   m_Layer: 0
-  m_Name: PointLightPrefab
+  m_Name: JointPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -57,6 +57,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -81,6 +82,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!135 &1568181113381454807
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -94,7 +96,7 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3772656710727878941
+--- !u!114 &-8593046045061092640
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -103,8 +105,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 6921410020572144229}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 08b04b40dc3d4bd789e3f64421aaba8f, type: 3}
+  m_Script: {fileID: 11500000, guid: 9bc37b191b8d64fd886873bd14de76c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultPointlightDisplaySettings: {fileID: 11400000, guid: ffac44d6ae7d0d64c9d3d187b4feae97,
-    type: 2}
+  defaultJointDisplaySettings:
+    JointDisplaySize: 0.05
+    DrawSidesDifferentColors: 1
+    LeftSideMaterial: {fileID: 2100000, guid: 5975636768fed814ab183a919fb2fc49, type: 2}
+    RightSideMaterial: {fileID: 2100000, guid: 8bad80b00626096438ec084e61fd4dba, type: 2}

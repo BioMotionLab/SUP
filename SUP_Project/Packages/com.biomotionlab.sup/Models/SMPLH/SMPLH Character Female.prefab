@@ -637,6 +637,7 @@ SkinnedMeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -976,41 +977,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4bef531201814b14a2ab676b4f1769a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gender: 1
-  characterRenderOptions:
-    ShowIndividualizedBody: 0
-    UpdateBodyShapeLive: 0
-    UpdatePosesLive: 0
-    UpdatePoseBlendshapesLive: 0
-    AllowPoseManipulation: 0
-    UpdateTranslationLiveY: 0
-    UpdateTranslationLiveXZ: 1
-    GroundSnap: 0
-  characterDisplayOptions:
-    DisplayBones: 1
-    DisplayPointLights: 1
-    MeshDisplayState: 0
-    PointLightDisplayOptions:
-      PointLightDisplaySize: 0.01
-      DrawSidesDifferentColors: 1
-      LeftSideMaterial: {fileID: 2100000, guid: 5975636768fed814ab183a919fb2fc49,
-        type: 2}
-      RightSideMaterial: {fileID: 2100000, guid: 8bad80b00626096438ec084e61fd4dba,
-        type: 2}
-    BoneDisplayOptions:
-      BoneWidth: 0.005
-      DrawSidesDifferentColors: 1
-      LeftSideMaterial: {fileID: 2100000, guid: 5975636768fed814ab183a919fb2fc49,
-        type: 2}
-      RightSideMaterial: {fileID: 2100000, guid: 8bad80b00626096438ec084e61fd4dba,
-        type: 2}
-    MeshDisplayOptions:
-      Opaque: {fileID: 2100000, guid: 42058d9077f8acf4f81e8b6c5d4917fc, type: 2}
-      SemiTransparent: {fileID: 2100000, guid: 390d20f60d542454993698b34318161d, type: 2}
-  meshCorrection:
-    OffsetErrorBetweenPelvisAndZero: {x: 0.00088, y: 0.90931, z: 0.02782}
-    OffsetErrorInFbxBetweenRigAndMesh: {x: 0.00088, y: -0.211423, z: 0.02782}
   model: {fileID: 11400000, guid: 914a54cb7fbcabe41a0ee32110e356c8, type: 2}
+  gender: 1
+  bodyOptions: {fileID: 0}
+  displaySetings: {fileID: 0}
+  meshCorrection:
+    offsetErrorBetweenPelvisAndZero: {x: 0.00088, y: 0.90931, z: 0.02782}
+    offsetErrorInFbxBetweenRigAndMesh: {x: 0.00088, y: -0.211423, z: 0.02782}
 --- !u!114 &3109664510212701152
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1024,7 +997,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bodyShapeBetas: []
-  pelvisNewLocation: {x: 0, y: 0, z: 0}
 --- !u!114 &3356666305127337785
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1037,8 +1009,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 452bc92b1f454c71824f802ba62d6caf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  translation: {x: 0, y: 0, z: 0}
-  firstFrameTranslation: {x: 0, y: 0, z: 0}
+  currentTranslation: {x: 0, y: 0, z: 0}
   grounder:
     individualFootOffset: 0
     customOffset: 0
@@ -1079,10 +1050,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 3073121602938198101}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f738dd36dd3a4487f82dcf042b717066, type: 3}
+  m_Script: {fileID: 11500000, guid: 08b04b40dc3d4bd789e3f64421aaba8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PointLightPrefab: {fileID: 3772656710727878941, guid: bffe4c47259477a4bacbc1018ea0d04f,
+  jointSpherePrefab: {fileID: -8593046045061092640, guid: bffe4c47259477a4bacbc1018ea0d04f,
     type: 3}
 --- !u!114 &651955664311623034
 MonoBehaviour:
@@ -1096,6 +1067,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ea7379a8284b0d489e84ec2554c200c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  overwriteMaterial: {fileID: 0}
 --- !u!1 &3180007306165866310
 GameObject:
   m_ObjectHideFlags: 0

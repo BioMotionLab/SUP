@@ -1370,6 +1370,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -112.5
       objectReference: {fileID: 0}
+    - target: {fileID: 3216821331000382179, guid: 4ed003a4ef51d63439792770080d116e,
+        type: 3}
+      propertyPath: m_Name
+      value: JointDisplayPanel
+      objectReference: {fileID: 0}
     - target: {fileID: 3216821331011418319, guid: 4ed003a4ef51d63439792770080d116e,
         type: 3}
       propertyPath: m_UiScaleMode
@@ -1474,6 +1479,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -36
+      objectReference: {fileID: 0}
+    - target: {fileID: 3216821331287250048, guid: 4ed003a4ef51d63439792770080d116e,
+        type: 3}
+      propertyPath: m_text
+      value: Joint Display
       objectReference: {fileID: 0}
     - target: {fileID: 3216821331287250050, guid: 4ed003a4ef51d63439792770080d116e,
         type: 3}

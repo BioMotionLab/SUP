@@ -5,7 +5,7 @@ namespace Display {
     /// RenderOptions for displaying point lights for joints
     /// </summary>
     [PublicAPI]
-    public enum PointLightDisplayState {
+    public enum JointDisplayState {
         On,
         Off
     }
