@@ -2,105 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a6d41c56-4347-4b10-9a12-4c5bbe5f28b5" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.SUP_Project/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SUP_Project/.idea/contentModel.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.SUP_Project/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SUP_Project/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Prefabs/MoshPlayer.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Prefabs/MoshPlayer.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Samples/ViewerSample/SUPViewer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Samples/ViewerSample/SUPViewer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Samples/ViewerSample/SUP_Sample_Scene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Samples/ViewerSample/SUP_Sample_Scene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Display/BoneDisplay.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Display/BoneDisplay.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Display/BoneDisplaySettings.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Display/BoneDisplaySettings.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Display/BoneDisplayState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Display/BoneDisplayState.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Display/BoneLine.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Display/BoneLine.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Display/DisplaySettings.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Display/DisplaySettings.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Display/MeshDisplay.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Display/MeshDisplay.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Display/MeshDisplaySettings.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Display/MeshDisplaySettings.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Display/MeshDisplayState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Display/MeshDisplayState.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Display/PointLight.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Display/PointLight.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Display/PointLightDisplay.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Display/PointLightDisplay.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Display/PointLightDisplaySettings.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Display/PointLightDisplaySettings.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Display/PointLightDisplayState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Display/PointLightDisplayState.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/FileLoaders/AnimationFromH5.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/FileLoaders/AnimationFromH5.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/FileLoaders/AnimationFromJSON.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/FileLoaders/AnimationFromJSON.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/FileLoaders/AnimationLoadStrategy.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/FileLoaders/AnimationLoadStrategy.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/FileLoaders/H5ModelKeys.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/FileLoaders/H5ModelKeys.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/FileLoaders/JSONModelKeys.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/FileLoaders/JSONModelKeys.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/FileLoaders/OpenedH5DataSet.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/FileLoaders/OpenedH5DataSet.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/FileLoaders/RunnableThread.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/FileLoaders/RunnableThread.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/FileLoaders/SMPLHRegressorFromJSON.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/FileLoaders/SMPLHRegressorFromJSON.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/InGameUI/AnimationDisplayMainPanel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/InGameUI/AnimationDisplayMainPanel.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/InGameUI/AnimationPanel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/InGameUI/AnimationPanel.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/InGameUI/AnimationReviewer/ChangeFileButton.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/InGameUI/AnimationReviewer/ChangeFileButton.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/InGameUI/AnimationReviewer/ReviewPanel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/InGameUI/AnimationReviewer/ReviewPanel.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/InGameUI/AnimationReviewer/SaveNoteButton.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/InGameUI/AnimationReviewer/SaveNoteButton.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/InGameUI/AnimationReviewer/ShowHidePanelButton.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/InGameUI/AnimationReviewer/ShowHidePanelButton.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/InGameUI/BoneDisplayDropdown.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/InGameUI/BoneDisplayDropdown.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/InGameUI/CameraControlsToggler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/InGameUI/CameraControlsToggler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/InGameUI/FrameSlider.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/InGameUI/FrameSlider.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/InGameUI/KeyboardControlEvents.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/InGameUI/KeyboardControlEvents.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/InGameUI/LoadNewAnimation.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/InGameUI/LoadNewAnimation.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/InGameUI/LoopButton.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/InGameUI/LoopButton.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/InGameUI/MeshDisplayDropdown.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/InGameUI/MeshDisplayDropdown.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/InGameUI/NextAnimationButton.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/InGameUI/NextAnimationButton.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/InGameUI/PlayerProgressText.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/InGameUI/PlayerProgressText.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/InGameUI/PointLightDisplayDropdown.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/InGameUI/PointLightDisplayDropdown.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/InGameUI/PrevAnimationButton.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/InGameUI/PrevAnimationButton.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/InGameUI/RenderSelector.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/InGameUI/RenderSelector.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/InGameUI/RestartAnimationsButton.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/InGameUI/RestartAnimationsButton.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/InGameUI/SelectAnimationsPanel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/InGameUI/SelectAnimationsPanel.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/InGameUI/SnapToGroundDropdown.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/InGameUI/SnapToGroundDropdown.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/InGameUI/UIEnabler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/InGameUI/UIEnabler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/InGameUI/ValueFromSliderDisplay.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/InGameUI/ValueFromSliderDisplay.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/MoshViewer.asmdef" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/MoshViewer.asmdef.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Playback/AnimationControlEvents.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Playback/AnimationControlEvents.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Playback/AnimationFileReference.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Playback/AnimationFileReference.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Playback/AnimationLoader.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Playback/AnimationLoader.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Playback/MoshAnimation.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Playback/MoshAnimation.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Playback/MoshAnimationPlayer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Playback/MoshAnimationPlayer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Playback/Playback.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Playback/Playback.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Playback/PlaybackEventSystem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Playback/PlaybackEventSystem.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Playback/PlaybackSettings.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Playback/PlaybackSettings.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/SMPLModel/AnimationData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/SMPLModel/AnimationData.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/SMPLModel/AverageBody.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/SMPLModel/AverageBody.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/SMPLModel/Bones.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/SMPLModel/Bones.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/SMPLModel/CharacterComponent.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/SMPLModel/CharacterComponent.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/SMPLModel/CharacterEvents.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/SMPLModel/CharacterEvents.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/SMPLModel/CharacterPoser.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/SMPLModel/CharacterPoser.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/SMPLModel/CharacterTranslater.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/SMPLModel/CharacterTranslater.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/SMPLModel/ForwardsResampledFrame.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/SMPLModel/ForwardsResampledFrame.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/SMPLModel/Gender.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/SMPLModel/Gender.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/SMPLModel/GroundSnapType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/SMPLModel/GroundSnapType.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/SMPLModel/Grounder.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/SMPLModel/Grounder.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/SMPLModel/IndividualizedBody.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/SMPLModel/IndividualizedBody.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/SMPLModel/JointRegressor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/SMPLModel/JointRegressor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/SMPLModel/MeshCorrection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/SMPLModel/MeshCorrection.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/SMPLModel/ModelDefinition.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/SMPLModel/ModelDefinition.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/SMPLModel/Models.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/SMPLModel/Models.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/SMPLModel/MoshCharacter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/SMPLModel/MoshCharacter.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/SMPLModel/MoshMesh.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/SMPLModel/MoshMesh.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/SMPLModel/SMPLConstants.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/SMPLModel/SMPLConstants.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/SMPLModel/SideOfBody.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/SMPLModel/SideOfBody.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/SMPLModel/UserModifiedSettingsHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/SMPLModel/UserModifiedSettingsHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Settings/BodyOptions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Settings/BodyOptions.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/ThirdParty.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/ThirdParty/SimpleJSON.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/ThirdParty/SimpleJSON/LICENSE" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/ThirdParty/SimpleJSON/LICENSE.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/ThirdParty/SimpleJSON/README" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/ThirdParty/SimpleJSON/README.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/ThirdParty/SimpleJSON/SimpleJSON.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/ThirdParty/SimpleJSON/SimpleJSON.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/ThirdParty/SimpleJSON/SimpleJSONBinary.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/ThirdParty/SimpleJSON/SimpleJSONBinary.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/ThirdParty/SimpleJSON/SimpleJSONUnity.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/ThirdParty/SimpleJSON/SimpleJSONUnity.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Utilities/DebugTools.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Utilities/DebugTools.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Utilities/EnumDropdown.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Utilities/EnumDropdown.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Utilities/MatrixUtilities.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Utilities/MatrixUtilities.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Utilities/QuaternionExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Utilities/QuaternionExtensions.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Utilities/Vector3Extensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Utilities/Vector3Extensions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/ThirdParty/SimpleJSONFolder.meta" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -112,7 +15,6 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/Packages/com.biomotionlab.sup/Samples/ViewerSample/SUPViewer.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/ThirdParty/SimpleJSONFolder/SimpleJSON.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
@@ -121,7 +23,6 @@
       <option value="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Display/BoneDisplay.cs" />
       <option value="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/SMPLModel/AverageBody.cs" />
       <option value="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Display/PointLight.cs" />
-      <option value="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/FileLoaders/AnimationFromJSON.cs" />
       <option value="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/FileLoaders/OpenedH5DataSet.cs" />
       <option value="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Display/PointLightDisplay.cs" />
       <option value="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/InGameUI/AnimationReviewer/SaveNoteButton.cs" />
@@ -140,6 +41,8 @@
       <option value="$PROJECT_DIR$/Packages/com.biomotionlab.sup/ThirdParty/SimpleJSON/SimpleJSON.cs" />
       <option value="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/ThirdParty/SimpleJSON/SimpleJSON.cs" />
       <option value="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/ThirdParty/SimpleJSONFolder/SimpleJSON.cs" />
+      <option value="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/FileLoaders/AnimationFromJSON.cs" />
+      <option value="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/FileLoaders/SMPLHRegressorFromJSON.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1oqQAlQ3METDWSfMd637KsxmgXn" />
@@ -194,6 +97,7 @@
       <updated>1614011500286</updated>
       <workItem from="1614011523894" duration="25000" />
       <workItem from="1614011583321" duration="1721000" />
+      <workItem from="1614014045568" duration="231000" />
     </task>
     <servers />
   </component>

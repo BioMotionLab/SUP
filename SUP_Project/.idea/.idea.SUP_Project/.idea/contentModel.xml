@@ -139,6 +139,7 @@
             </e>
             <e p="ThirdParty" t="Include">
               <e p="SimpleJSON" t="Include">
+                <e p="SimpleJSON.asmdef" t="Include" />
                 <e p="SimpleJSON.cs" t="Include" />
                 <e p="SimpleJSONBinary.cs" t="Include" />
                 <e p="SimpleJSONUnity.cs" t="Include" />
@@ -173,6 +174,7 @@
           </e>
         </e>
       </e>
+      <e p="SimpleJSON.csproj" t="IncludeRecursive" />
       <e p="StandaloneFileBrowser.csproj" t="IncludeRecursive" />
       <e p="SUP_Project.sln" t="IncludeFlat" />
       <e p="Temp/Bin" t="ExcludeRecursive" />
