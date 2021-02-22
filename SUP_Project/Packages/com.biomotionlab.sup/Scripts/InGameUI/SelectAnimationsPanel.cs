@@ -69,11 +69,11 @@ namespace InGameUI {
 
         [PublicAPI]
         public void LoadAnimations() {
-            if (!folderSelected || !listSelected) {
-                errorText.text = "Missing list file or animation folder!";
+            if (!folderSelected) {
+                errorText.text = "Missing animation folder!";
                 return;
             }
-            PlaybackEventSystem.LoadAnimations(listFile, animationsFolder);
+            PlaybackEventSystem.LoadAnimations( animationsFolder, listFile);
             gameObject.SetActive(false);
         }
         
@@ -92,7 +92,7 @@ namespace InGameUI {
         public void LoadSamples() {
             animationsFolder = Application.streamingAssetsPath + "//SampleAnimations";
             listFile = Application.streamingAssetsPath + "//SampleAnimationList.txt";
-            PlaybackEventSystem.LoadAnimations(listFile, animationsFolder);
+            PlaybackEventSystem.LoadAnimations( animationsFolder, listFile);
             gameObject.SetActive(false);
         }
     

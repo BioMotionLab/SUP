@@ -211,12 +211,12 @@ namespace Playback {
         }
 
 
-        public delegate void LoadAnimationsEvent(string listFile, string animationsFolder);
+        public delegate void LoadAnimationsEvent(string animationsFolder, string listFile);
 
         public static event LoadAnimationsEvent OnLoadAnimations;
 
-        public static void LoadAnimations(string listFile, string animationsFolder) {
-            OnLoadAnimations?.Invoke(listFile, animationsFolder);
+        public static void LoadAnimations(string animationsFolder, string listFile) {
+            OnLoadAnimations?.Invoke(animationsFolder, listFile);
         }
 
         public delegate void LoadSingleAnimationEvent(string singleFile);

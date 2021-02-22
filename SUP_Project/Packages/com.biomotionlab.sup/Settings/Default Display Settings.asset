@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Default Display Settings
   m_EditorClassIdentifier: 
   DisplayBones: 1
-  DisplayPointLights: 1
+  displayJoints: 1
   DisplayMeshAs: 0
   MeshDisplaySettings:
     Opaque: {fileID: 2100000, guid: 1627635193177934092549c1c08bbe37, type: 2}
@@ -27,8 +27,8 @@ MonoBehaviour:
     DrawSidesDifferentColors: 1
     LeftSideMaterial: {fileID: 2100000, guid: 5975636768fed814ab183a919fb2fc49, type: 2}
     RightSideMaterial: {fileID: 2100000, guid: 8bad80b00626096438ec084e61fd4dba, type: 2}
-  PointLightDisplaySettings:
-    PointLightDisplaySize: 0.05
+  jointDisplaySettings:
+    JointDisplaySize: 0.05
     DrawSidesDifferentColors: 1
     LeftSideMaterial: {fileID: 2100000, guid: 5975636768fed814ab183a919fb2fc49, type: 2}
     RightSideMaterial: {fileID: 2100000, guid: 8bad80b00626096438ec084e61fd4dba, type: 2}

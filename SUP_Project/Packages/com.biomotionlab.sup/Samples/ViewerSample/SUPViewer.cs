@@ -80,7 +80,7 @@ namespace Samples.ViewerSample {
 			loader = null;
 		}
 
-		void LoadAnimations(string listFile, string animationsFolder) {
+		void LoadAnimations(string animationsFolder, string listFile) {
 			loader = gameObject.AddComponent<AnimationLoader>();
 			AnimationFileReference fileReference = new AnimationFileReference(listFile, animationsFolder);
 			loader.OnDone += DoneLoading;

@@ -2,34 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a6d41c56-4347-4b10-9a12-4c5bbe5f28b5" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Display/JointSphere.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.SUP_Project/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SUP_Project/.idea/contentModel.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.SUP_Project/.idea/indexLayout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SUP_Project/.idea/indexLayout.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.SUP_Project/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SUP_Project/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Logs/ApiUpdaterCheck.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Logs/ApiUpdaterCheck.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Logs/AssetImportWorker0-prev.log" beforeDir="false" afterPath="$PROJECT_DIR$/Logs/AssetImportWorker0-prev.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Logs/AssetImportWorker0.log" beforeDir="false" afterPath="$PROJECT_DIR$/Logs/AssetImportWorker0.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Models/SMPLH/SMPLH Character Female.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Models/SMPLH/SMPLH Character Female.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Samples/ViewerSample/SUP_Sample_Scene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Samples/ViewerSample/SUP_Sample_Scene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Display/DisplaySettings.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Display/DisplaySettings.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Display/PointLight.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Display/JointSphere.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Display/PointLight.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Display/PointLightDisplay.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Display/JointDisplay.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Display/PointLightDisplay.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Display/JointDisplay.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Display/PointLightDisplaySettings.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Display/JointDisplaySettings.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Display/PointLightDisplaySettings.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Display/JointDisplaySettings.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Display/PointLightDisplayState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Display/JointDisplayState.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Display/PointLightDisplayState.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Display/JointDisplayState.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Display/PointLightPrefab.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Display/PointLightPrefab.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/FileLoaders/AnimationFromH5.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/FileLoaders/AnimationFromH5.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/FileLoaders/SMPLHRegressorFromJSON.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/FileLoaders/SMPLHRegressorFromJSON.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/InGameUI/PointLightDisplayDropdown.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/InGameUI/JointDisplayDropdown.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/InGameUI/PointLightDisplayDropdown.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/InGameUI/JointDisplayDropdown.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Samples/ViewerSample/SUPViewer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Samples/ViewerSample/SUPViewer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/InGameUI/SelectAnimationsPanel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/InGameUI/SelectAnimationsPanel.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Playback/AnimationFileReference.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Playback/AnimationFileReference.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Playback/PlaybackEventSystem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Playback/PlaybackEventSystem.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/SMPLModel/UserModifiedSettingsHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/SMPLModel/UserModifiedSettingsHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/manifest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/packages-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/packages-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Settings/Default Display Settings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Settings/Default Display Settings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -80,7 +60,6 @@
       <option value="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Playback/AnimationLoader.cs" />
       <option value="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/FileLoaders/RunnableThread.cs" />
       <option value="$PROJECT_DIR$/Packages/com.biomotionlab.sup/ThirdParty/StandaloneFileBrowser/StandaloneFileBrowserMac.cs" />
-      <option value="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/InGameUI/SelectAnimationsPanel.cs" />
       <option value="$PROJECT_DIR$/Packages/com.biomotionlab.sup/ThirdParty/SimpleJSON/SimpleJSONUnity.cs" />
       <option value="$PROJECT_DIR$/Packages/com.biomotionlab.sup/ThirdParty/SimpleJSON/SimpleJSONBinary.cs" />
       <option value="$PROJECT_DIR$/Packages/com.biomotionlab.sup/ThirdParty/SimpleJSON/SimpleJSON.cs" />
@@ -89,7 +68,6 @@
       <option value="$PROJECT_DIR$/Assets/FreezeCameraButton.cs" />
       <option value="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Display/PointLight.cs" />
       <option value="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Display/BoneLine.cs" />
-      <option value="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Samples/ViewerSample/SUPViewer.cs" />
       <option value="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/SMPLModel/SMPLMesh.cs" />
       <option value="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/SMPLModel/UserModifiedSettingsHandler.cs" />
       <option value="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/FileLoaders/AnimationFromH5.cs" />
@@ -97,9 +75,12 @@
       <option value="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Display/JointDisplayState.cs" />
       <option value="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/InGameUI/JointDisplayDropdown.cs" />
       <option value="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Display/JointDisplaySettings.cs" />
-      <option value="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Playback/PlaybackEventSystem.cs" />
       <option value="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Display/Joint.cs" />
       <option value="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Display/JointDisplay.cs" />
+      <option value="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/InGameUI/SelectAnimationsPanel.cs" />
+      <option value="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Samples/ViewerSample/SUPViewer.cs" />
+      <option value="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Playback/PlaybackEventSystem.cs" />
+      <option value="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Playback/AnimationFileReference.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1oqQAlQ3METDWSfMd637KsxmgXn" />
@@ -157,7 +138,7 @@
       <workItem from="1614014045568" duration="1094000" />
       <workItem from="1614015676529" duration="5125000" />
       <workItem from="1614028120821" duration="13000" />
-      <workItem from="1614028695538" duration="979000" />
+      <workItem from="1614028695538" duration="2954000" />
     </task>
     <servers />
   </component>
