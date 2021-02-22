@@ -1,0 +1,19 @@
+{
+  "name": "com.biomotionlab.moshviewer",
+  "version": "1.0.0",
+  "displayName": "bmlMoSHViewer",
+  "description": "A package for viewing MoSH animations using SMPL-H",
+  "unity": "2019.3",
+  "keywords": [
+    "bml",
+    "MoSH",
+    "SMPL",
+    "SMPL-H"
+  ],
+  "author": {
+    "name": "BioMotionLab (Adam Bebko)",
+    "email": "adambebko@gmail.com",
+    "url": "biomotionlab.ca"
+  },
+  "type": "library"
+}
