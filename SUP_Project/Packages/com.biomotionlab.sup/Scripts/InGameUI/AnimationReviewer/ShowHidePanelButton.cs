@@ -1,5 +1,4 @@
 ﻿#if UNITY_STANDALONE_WIN || UNITY_EDITOR
-    using System.Windows.Forms;
 #endif
 
 using JetBrains.Annotations;
@@ -7,7 +6,7 @@ using MoshPlayer.Scripts.InGameUI;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace MoshPlayer.AnimationReviewer {
+namespace InGameUI.AnimationReviewer {
     public class ShowHidePanelButton : MonoBehaviour {
 
         [FormerlySerializedAs("ReviewPanel")]

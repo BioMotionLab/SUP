@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using MoshPlayer.Scripts.InGameUI;
+using UnityEngine;
 
-namespace MoshPlayer.Scripts.InGameUI {
+namespace InGameUI {
     [RequireComponent(typeof(Camera))]
     [RequireComponent(typeof(FlyCamera))]
     public class CameraControlsToggler : MonoBehaviour {

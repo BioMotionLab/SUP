@@ -1,11 +1,12 @@
 using System;
-using MoshPlayer.Scripts.FileLoaders;
-using MoshPlayer.Scripts.Playback;
+using FileLoaders;
+using Playback;
 using UnityEngine;
 using UnityEngine.Serialization;
+
 // ReSharper disable InconsistentNaming
 
-namespace MoshPlayer.Scripts.SMPLModel {
+namespace SMPLModel {
     
     [CreateAssetMenu]
     public class ModelDefinition : ScriptableObject {

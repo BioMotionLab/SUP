@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+
 // ReSharper disable InconsistentNaming
 
-namespace MoshPlayer {
+namespace Display {
     
     [Serializable]
     public class MeshDisplaySettings {

@@ -1,6 +1,6 @@
 using JetBrains.Annotations;
 
-namespace MoshPlayer.Scripts.Display {
+namespace Display {
     [PublicAPI]
     public enum MeshDisplayState {
         Opaque,

@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using MoshPlayer.Scripts.Playback;
+using Playback;
 using TMPro;
 using UnityEngine;
 
-namespace MoshPlayer.AnimationReviewer {
+namespace InGameUI.AnimationReviewer {
     public class ReviewPanel : MonoBehaviour {
 
         [SerializeField]

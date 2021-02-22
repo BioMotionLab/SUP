@@ -1,7 +1,8 @@
-using MoshPlayer.Scripts.Display;
-using MoshPlayer.Scripts.Playback;
+using Display;
+using MoshPlayer;
+using Playback;
 
-namespace MoshPlayer.Scripts.SMPLModel {
+namespace SMPLModel {
 
     public interface Viewer {
         BodyOptions RuntimeBodyOptions { get; }

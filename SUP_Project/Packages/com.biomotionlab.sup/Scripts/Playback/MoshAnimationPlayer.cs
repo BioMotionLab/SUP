@@ -1,7 +1,9 @@
 using System.Collections.Generic;
-using MoshPlayer.Scripts.SMPLModel;
+using Display;
+using MoshPlayer;
+using SMPLModel;
 
-namespace MoshPlayer.Scripts.Playback {
+namespace Playback {
     
     public class MoshAnimationPlayer {
         readonly PlaybackSettings playbackSettings;

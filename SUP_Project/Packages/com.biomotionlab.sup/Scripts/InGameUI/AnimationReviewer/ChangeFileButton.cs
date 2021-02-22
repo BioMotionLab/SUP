@@ -3,7 +3,7 @@ using JetBrains.Annotations;
 using MoshPlayer.ThirdParty.StandaloneFileBrowser;
 using UnityEngine;
 
-namespace MoshPlayer.AnimationReviewer {
+namespace InGameUI.AnimationReviewer {
     public class ChangeFileButton : MonoBehaviour
     {
         ReviewPanel reviewPanel;

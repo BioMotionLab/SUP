@@ -1,8 +1,9 @@
 using System;
 using UnityEngine;
+
 // ReSharper disable InconsistentNaming
 
-namespace MoshPlayer {
+namespace Display {
     [Serializable]
     public class BoneDisplaySettings {
         public float BoneWidth = 0.005f;

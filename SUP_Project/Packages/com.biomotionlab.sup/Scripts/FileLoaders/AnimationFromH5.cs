@@ -1,16 +1,12 @@
 ﻿using System;
-using System.CodeDom;
 using System.Text.RegularExpressions;
 using HDF.PInvoke;
-using MoshPlayer.Scripts.SMPLModel;
-using MoshPlayer.Scripts.Utilities;
+using SMPLModel;
 using UnityEngine;
+using Utilities;
 
-
-
-namespace MoshPlayer.Scripts.FileLoaders {
+namespace FileLoaders {
     public sealed class AnimationFromH5 : AnimationLoadStrategy {
-        const int MaxBodyShapeBetaCount = 100;
         const int MaxStringLengthForReading = 20;
 
         public AnimationFromH5(string filePath, Models possibleModels) : base(filePath, possibleModels) { }

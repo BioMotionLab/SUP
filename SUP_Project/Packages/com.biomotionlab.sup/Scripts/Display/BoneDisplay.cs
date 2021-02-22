@@ -1,8 +1,8 @@
-using MoshPlayer.Scripts.SMPLModel;
+using SMPLModel;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace MoshPlayer.Scripts.Display {
+namespace Display {
 
     /// <summary>
     /// Adapted from https://forum.unity.com/threads/rendering-bones.34863/ 

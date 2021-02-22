@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Linq;
-using MoshPlayer.Scripts.FileLoaders;
+using FileLoaders;
 using UnityEngine;
-using UnityEngine.Assertions.Comparers;
 
-namespace MoshPlayer.Scripts.SMPLModel {
+namespace SMPLModel {
     /// <summary>
     /// This modifies a body to match its individual shape based on its specified beta-parameters.
     ///

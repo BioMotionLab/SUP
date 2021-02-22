@@ -1,10 +1,9 @@
 using System;
 using JetBrains.Annotations;
-using MoshPlayer.Scripts.Playback;
+using Playback;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-namespace MoshPlayer.Scripts.SMPLModel {
+namespace SMPLModel {
     
     [Serializable]
     public class Grounder {

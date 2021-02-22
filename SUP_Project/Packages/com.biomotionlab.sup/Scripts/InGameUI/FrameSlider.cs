@@ -1,17 +1,18 @@
 ﻿using System;
 using JetBrains.Annotations;
-using MoshPlayer.Scripts.Playback;
+using Playback;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-namespace MoshPlayer.Scripts.InGameUI {
+namespace InGameUI {
     public class FrameSlider : MonoBehaviour
     {
         Slider slider;
     
-        [SerializeField]
-        TextMeshProUGUI FrameValue = default;
+        [FormerlySerializedAs("FrameValue")] [SerializeField]
+        TextMeshProUGUI frameValue = default;
 
         AnimationControlEvents animationControlEvents;
 
@@ -40,7 +41,7 @@ namespace MoshPlayer.Scripts.InGameUI {
 
         void SetFrame(float frame) {
             slider.SetValueWithoutNotify(frame);
-            FrameValue.SetText(frame.ToString("F1"));
+            frameValue.SetText(frame.ToString("F1"));
         }
 
         [PublicAPI]

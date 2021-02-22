@@ -1,4 +1,4 @@
-namespace MoshPlayer.Scripts.Utilities {
+namespace Utilities {
     public static class MatrixUtilities {
         public static float[] SubtractIdentity(float[] rotationMatrix) {
             float[] result3X3 = new float[rotationMatrix.Length];

@@ -1,10 +1,10 @@
 using System;
-using MoshPlayer.Scripts.SMPLModel;
+using SMPLModel;
 using UnityEngine;
 
 // ReSharper disable ParameterHidesMember
 
-namespace MoshPlayer.Scripts.Display {
+namespace Display {
     
     /// <summary>
     /// A single point light for displaying a joint's location.
@@ -38,7 +38,7 @@ namespace MoshPlayer.Scripts.Display {
             linkedBone = bone;
             this.pointLightDisplay = pointLightDisplay;
             name = $"PointLight for {bone.name}";
-            var cachedTransform = transform;
+            Transform cachedTransform = transform;
             cachedTransform.localPosition = Vector3.zero;
             cachedTransform.localScale = new Vector3(Settings.PointLightDisplaySize,
                                              Settings.PointLightDisplaySize,

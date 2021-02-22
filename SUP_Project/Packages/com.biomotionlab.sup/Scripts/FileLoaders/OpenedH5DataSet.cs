@@ -1,9 +1,7 @@
-using System.IO;
 using System.Runtime.InteropServices;
 using HDF.PInvoke;
-using UnityEngine;
 
-namespace MoshPlayer.Scripts.FileLoaders {
+namespace FileLoaders {
     public class OpenedH5DataSet {
         readonly long fileId;
         readonly string datasetName;
@@ -19,7 +17,7 @@ namespace MoshPlayer.Scripts.FileLoaders {
             
             long datasetId = H5D.open(fileId, datasetName);
             try {
-                long typeId = H5D.get_type(datasetId);
+                H5D.get_type(datasetId);
 
                 long spaceID = H5D.get_space(datasetId);
                 int ndims = H5S.get_simple_extent_ndims(spaceID);
@@ -37,11 +35,11 @@ namespace MoshPlayer.Scripts.FileLoaders {
         }
 
         int[] ConvertDimensions(ulong[] dims) {
-            int[] dimensions = new int[dims.Length];
+            int[] convertedDimensions = new int[dims.Length];
             for (int i = 0; i < dims.Length; i++) {
-                dimensions[i] = (int) dims[i];
+                convertedDimensions[i] = (int) dims[i];
             }
-            return dimensions;
+            return convertedDimensions;
         }
 
         public T[] LoadAs<T>(int length) {

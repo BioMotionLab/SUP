@@ -1,10 +1,9 @@
-using MoshPlayer.Scripts.Display;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 // ReSharper disable InconsistentNaming
 
-namespace MoshPlayer {
+namespace Display {
     [CreateAssetMenu(fileName = "Display Settings", menuName = "New Display Settings", order = 0)]
     public class DisplaySettings : ScriptableObject {
         

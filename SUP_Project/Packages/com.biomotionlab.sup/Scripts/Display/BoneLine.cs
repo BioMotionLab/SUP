@@ -1,10 +1,10 @@
 ﻿using System;
-using MoshPlayer.Scripts.SMPLModel;
+using SMPLModel;
 using UnityEngine;
 
 // ReSharper disable ParameterHidesMember
 
-namespace MoshPlayer.Scripts.Display {
+namespace Display {
     /// <summary>
     /// Draws a boneDisplay between two joints.
     /// </summary>

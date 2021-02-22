@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
+using Display;
 using MoshPlayer;
-using MoshPlayer.Scripts.Playback;
-using MoshPlayer.Scripts.SMPLModel;
+using Playback;
+using SMPLModel;
 using UnityEngine;
 using UnityEngine.Serialization;
 

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace MoshPlayer.Scripts.SMPLModel {
+namespace SMPLModel {
     public class MoshMesh : MonoBehaviour
     {
     

@@ -1,7 +1,8 @@
-﻿using MoshPlayer.Scripts.SMPLModel;
+﻿using SMPLModel;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-namespace MoshPlayer.Scripts.Display {
+namespace Display {
     
     /// <summary>
     /// This renders point lights (spheres) for the joints of a body.
@@ -10,8 +11,8 @@ namespace MoshPlayer.Scripts.Display {
         
         SkinnedMeshRenderer meshRenderer;
 
-        [SerializeField]
-        PointLight PointLightPrefab = default;
+        [FormerlySerializedAs("PointLightPrefab")] [SerializeField]
+        PointLight pointLightPrefab = default;
 
         MoshCharacter moshCharacter;
         public bool DisplayPointLights => moshCharacter.DisplaySettings.DisplayPointLights == PointLightDisplayState.On;
@@ -37,7 +38,7 @@ namespace MoshPlayer.Scripts.Display {
         /// </summary>
         /// <param name="parent"></param>
         void CreatePointLightsInBoneHierarchy(Transform parent) {
-            PointLight newPointLight = Instantiate(PointLightPrefab, pointLightContainer.transform);
+            PointLight newPointLight = Instantiate(pointLightPrefab, pointLightContainer.transform);
             newPointLight.AttachBone(moshCharacter, this, parent);
             foreach (Transform child in parent) {
                 if (Bones.IsBone(child)) {

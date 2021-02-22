@@ -1,8 +1,8 @@
 using System;
-using MoshPlayer.Scripts.Playback;
+using Playback;
 using UnityEngine;
 
-namespace MoshPlayer.Scripts.SMPLModel {
+namespace SMPLModel {
     
     public class CharacterTranslater : MonoBehaviour {
         [SerializeField] Vector3 currentTranslation;

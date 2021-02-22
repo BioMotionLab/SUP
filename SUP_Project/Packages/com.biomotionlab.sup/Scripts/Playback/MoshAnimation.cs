@@ -1,9 +1,8 @@
 ﻿using System;
-using MoshPlayer.Scripts.FileLoaders;
-using MoshPlayer.Scripts.SMPLModel;
+using SMPLModel;
 using UnityEngine;
 
-namespace MoshPlayer.Scripts.Playback {
+namespace Playback {
     public class MoshAnimation {
         
         public bool Finished => playback.Finished;

@@ -3,7 +3,7 @@ using System.Text;
 using JetBrains.Annotations;
 using UnityEngine;
 
-namespace MoshPlayer.Scripts.Utilities {
+namespace Utilities {
     public class DebugTools : MonoBehaviour
     {
         [PublicAPI]
@@ -11,7 +11,7 @@ namespace MoshPlayer.Scripts.Utilities {
         {
             StringBuilder sb = new StringBuilder();
             sb.AppendLine($"{name}: length {list.Count}");
-            foreach (var item in list) sb.AppendLine(item.ToString());
+            foreach (object item in list) sb.AppendLine(item.ToString());
             Debug.Log(sb);
         }
     }

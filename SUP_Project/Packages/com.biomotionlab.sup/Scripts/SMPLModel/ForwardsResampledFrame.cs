@@ -1,8 +1,7 @@
 using System;
-using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
-namespace MoshPlayer.Scripts.SMPLModel {
+namespace SMPLModel {
     public interface ResampledFrame {
         bool IsFirstFrame { get; }
         bool IsLastFrame { get; }

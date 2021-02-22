@@ -1,11 +1,11 @@
-﻿using JetBrains.Annotations;
-using MoshPlayer.Scripts.Display;
-using MoshPlayer.Scripts.Playback;
-using MoshPlayer.Scripts.Utilities;
+﻿using Display;
+using JetBrains.Annotations;
+using Playback;
 using TMPro;
 using UnityEngine;
+using Utilities;
 
-namespace MoshPlayer.Scripts.InGameUI {
+namespace InGameUI {
     public class MeshDisplayDropdown : MonoBehaviour
     {
         TMP_Dropdown                   tmpDropdown;

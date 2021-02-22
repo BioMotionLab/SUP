@@ -1,11 +1,11 @@
 ﻿using System;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
-using MoshPlayer.Scripts.SMPLModel;
 using MoshPlayer.Scripts.ThirdParty.SimpleJSON;
+using SMPLModel;
 using UnityEngine;
 
-namespace MoshPlayer.Scripts.FileLoaders {
+namespace FileLoaders {
     /// <summary>
     /// Reads the regressor JSON file and loads it into Unity-Compatible formats.
     /// File should contain a Joint template and Joint regressor to fit formula

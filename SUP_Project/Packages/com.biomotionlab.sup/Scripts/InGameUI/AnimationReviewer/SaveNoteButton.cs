@@ -3,13 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using JetBrains.Annotations;
-using MoshPlayer.Scripts.Playback;
-using MoshPlayer.Scripts.SMPLModel;
+using Playback;
+using SMPLModel;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Events;
 
-namespace MoshPlayer.AnimationReviewer {
+namespace InGameUI.AnimationReviewer {
     public class SaveNoteButton : MonoBehaviour {
 
         [SerializeField]
@@ -37,8 +36,8 @@ namespace MoshPlayer.AnimationReviewer {
             if (IsSpecialText(note)) DebugBetas();
             
             string animationStrings = "";
-            foreach (MoshAnimation animation in reviewPanel.currentAnims) {
-                animationStrings += animation.AnimationName + " ";
+            foreach (MoshAnimation currentAnimation in reviewPanel.currentAnims) {
+                animationStrings += currentAnimation.AnimationName + " ";
             }
 
             string newLine = animationStrings + "," + note + "\n";
@@ -49,7 +48,7 @@ namespace MoshPlayer.AnimationReviewer {
             }
 
             
-            if (string.IsNullOrWhiteSpace(note)) { ;
+            if (string.IsNullOrWhiteSpace(note)) { 
                 StartCoroutine(DisplayError("NO NOTE!"));
                 return;
             }

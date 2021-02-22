@@ -1,8 +1,9 @@
 using System;
 using UnityEngine;
+
 // ReSharper disable InconsistentNaming
 
-namespace MoshPlayer {
+namespace Display {
     [Serializable]
     public class PointLightDisplaySettings {
         public float PointLightDisplaySize = 0.01f;

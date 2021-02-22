@@ -1,7 +1,9 @@
-using MoshPlayer.Scripts.Playback;
+using Display;
+using MoshPlayer;
+using Playback;
 using UnityEngine;
 
-namespace MoshPlayer.Scripts.SMPLModel {
+namespace SMPLModel {
     public interface MoshCharacter {
         SkinnedMeshRenderer SkinnedMeshRender { get; }
 

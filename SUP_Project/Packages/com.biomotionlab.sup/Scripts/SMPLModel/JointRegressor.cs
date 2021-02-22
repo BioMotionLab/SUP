@@ -2,7 +2,7 @@ using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
 using UnityEngine;
 
-namespace MoshPlayer.Scripts.SMPLModel {
+namespace SMPLModel {
     /// <summary>
     /// This Class takes a set of an individual body's shape-betas and
     /// calculates the correct skeleton for that body.

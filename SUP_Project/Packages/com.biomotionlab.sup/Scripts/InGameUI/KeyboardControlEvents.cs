@@ -1,4 +1,4 @@
-﻿namespace MoshPlayer.Scripts.InGameUI {
+﻿namespace InGameUI {
     public static class KeyboardControlEvents
     {
         public delegate void DisableKeyboardControlsEvent();

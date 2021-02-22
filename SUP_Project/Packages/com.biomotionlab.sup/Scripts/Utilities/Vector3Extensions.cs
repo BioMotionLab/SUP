@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace MoshPlayer.Scripts.Utilities {
+namespace Utilities {
     
     public static class Vector3Extensions {
         

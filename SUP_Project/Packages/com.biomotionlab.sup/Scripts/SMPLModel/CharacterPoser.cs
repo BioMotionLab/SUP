@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using MoshPlayer.Scripts.Utilities;
 using UnityEngine;
+using Utilities;
 
-namespace MoshPlayer.Scripts.SMPLModel {
+namespace SMPLModel {
     /// <summary>
     /// Poses the body and adjust pose-dependent blendshapes accordingly.
     /// </summary>

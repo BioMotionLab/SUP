@@ -1,15 +1,14 @@
 ﻿using System.Collections.Generic;
-using MoshPlayer.Scripts.Playback;
+using Playback;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace MoshPlayer.Scripts.InGameUI {
+namespace InGameUI {
     public class AnimationDisplayMainPanel : MonoBehaviour {
 
-        [SerializeField]
-        AnimationPanel AnimationPanelPrefab = default;
+        [FormerlySerializedAs("AnimationPanelPrefab")] [SerializeField]
+        AnimationPanel animationPanelPrefab = default;
 
-        [FormerlySerializedAs("openPanels")]
         public Dictionary<MoshAnimation, AnimationPanel> OpenPanels;
     
         void OnEnable() {
@@ -19,7 +18,7 @@ namespace MoshPlayer.Scripts.InGameUI {
 
         void AddNewAnimationPanel(MoshAnimation moshAnimation, AnimationControlEvents animationControlEvents) {
         
-            AnimationPanel newAnimationPanel = Instantiate(AnimationPanelPrefab, transform);
+            AnimationPanel newAnimationPanel = Instantiate(animationPanelPrefab, transform);
             newAnimationPanel.transform.SetSiblingIndex(0);
             OpenPanels.Add(moshAnimation, newAnimationPanel);
             newAnimationPanel.Init(moshAnimation, animationControlEvents, this);

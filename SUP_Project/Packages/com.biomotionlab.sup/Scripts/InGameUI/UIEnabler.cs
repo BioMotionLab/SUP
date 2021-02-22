@@ -1,8 +1,7 @@
-﻿using MoshPlayer.Scripts.Playback;
+﻿using Playback;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-namespace MoshPlayer.Scripts.InGameUI {
+namespace InGameUI {
     public class UIEnabler : MonoBehaviour {
 
         [SerializeField]

@@ -1,4 +1,4 @@
-namespace MoshPlayer.Scripts.SMPLModel {
+namespace SMPLModel {
     public enum SideOfBody {
         Left,
         Right,
