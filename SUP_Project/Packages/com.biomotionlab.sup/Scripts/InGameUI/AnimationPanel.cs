@@ -8,7 +8,7 @@ using UnityEngine.Serialization;
 namespace InGameUI {
     public class AnimationPanel : MonoBehaviour {
 
-        MoshAnimation             moshAnimation;
+        SUPAnimation             supAnimation;
         AnimationControlEvents    animationControlEvents;
         AnimationDisplayMainPanel animationDisplayMainPanel;
 
@@ -16,16 +16,16 @@ namespace InGameUI {
         TextMeshProUGUI titleText = default;
 
         [SuppressMessage("ReSharper", "ParameterHidesMember")]
-        public void Init(MoshAnimation             moshAnimation, AnimationControlEvents animationControlEvents,
+        public void Init(SUPAnimation             supAnimation, AnimationControlEvents animationControlEvents,
                          AnimationDisplayMainPanel animationDisplayMainPanel) {
-            this.moshAnimation = moshAnimation;
+            this.supAnimation = supAnimation;
             this.animationControlEvents = animationControlEvents;
             this.animationDisplayMainPanel = animationDisplayMainPanel;
 
-            if (moshAnimation == null) throw new NullReferenceException("Null moshanimation");
-            if (string.IsNullOrEmpty(moshAnimation.AnimationName)) throw new NullReferenceException("string empty");
+            if (supAnimation == null) throw new NullReferenceException("Null moshanimation");
+            if (string.IsNullOrEmpty(supAnimation.AnimationName)) throw new NullReferenceException("string empty");
         
-            titleText.text = moshAnimation.AnimationName;
+            titleText.text = supAnimation.AnimationName;
 
             FrameSlider slider = GetComponentInChildren<FrameSlider>();
             slider.Init(animationControlEvents); 
@@ -33,7 +33,7 @@ namespace InGameUI {
         }
 
         void Ended() {
-            animationDisplayMainPanel.OpenPanels.Remove(moshAnimation);
+            animationDisplayMainPanel.OpenPanels.Remove(supAnimation);
             if (gameObject != null) Destroy(gameObject);
             animationControlEvents.OnAnimationEnded -= Ended;
         }

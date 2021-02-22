@@ -3,7 +3,7 @@ using SMPLModel;
 using UnityEngine;
 
 namespace Playback {
-    public class MoshAnimation {
+    public class SUPAnimation {
         
         public bool Finished => playback.Finished;
 
@@ -27,7 +27,7 @@ namespace Playback {
         CharacterTranslater characterTranslater;
 
 
-        public MoshAnimation(AnimationData data, PlaybackSettings playbackSettings, string animationName) {
+        public SUPAnimation(AnimationData data, PlaybackSettings playbackSettings, string animationName) {
             this.data = data;
             this.playbackSettings = playbackSettings;
             if (Data.Fps == 0) {

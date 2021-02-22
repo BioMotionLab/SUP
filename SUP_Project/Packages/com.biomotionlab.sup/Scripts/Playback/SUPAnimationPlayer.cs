@@ -5,40 +5,40 @@ using SMPLModel;
 
 namespace Playback {
     
-    public class MoshAnimationPlayer {
+    public class SUPAnimationPlayer {
         readonly PlaybackSettings playbackSettings;
         readonly DisplaySettings displaySettings;
         readonly BodyOptions bodyOptions;
         List<SMPLCharacter> currentCharacters;
 
-        public MoshAnimationPlayer(PlaybackSettings playbackSettings, DisplaySettings displaySettings, BodyOptions bodyOptions) {
+        public SUPAnimationPlayer(PlaybackSettings playbackSettings, DisplaySettings displaySettings, BodyOptions bodyOptions) {
             this.playbackSettings = playbackSettings;
             this.displaySettings = displaySettings;
             this.bodyOptions = bodyOptions;
         }
 
-        public void PlaySet(List<MoshAnimation> animationGroup) {
+        public void PlaySet(List<SUPAnimation> animationGroup) {
             
             List<SMPLCharacter> newCharacters = new List<SMPLCharacter>();
 
             for (int animationIndex = 0; animationIndex < animationGroup.Count; animationIndex++) {
 				
-                MoshAnimation moshAnimation = animationGroup[animationIndex];
-                moshAnimation.Reset();
+                SUPAnimation supAnimation = animationGroup[animationIndex];
+                supAnimation.Reset();
 				
                 SMPLCharacter smplCharacter =
-                    moshAnimation.Data.Model.CreateCharacter(moshAnimation, animationIndex);
+                    supAnimation.Data.Model.CreateCharacter(supAnimation, animationIndex);
 
                 newCharacters.Add(smplCharacter);
-                smplCharacter.StartAnimation(moshAnimation, playbackSettings, displaySettings,
+                smplCharacter.StartAnimation(supAnimation, playbackSettings, displaySettings,
                     bodyOptions);
             }
 			
             currentCharacters = newCharacters;
         }
 
-        public void Play(MoshAnimation animation) {
-            List<MoshAnimation> asList = new List<MoshAnimation> {animation};
+        public void Play(SUPAnimation animation) {
+            List<SUPAnimation> asList = new List<SUPAnimation> {animation};
             PlaySet(asList);
         }
         

@@ -41,11 +41,11 @@ namespace SMPLModel {
       
 
 
-        public IndividualizedBody Body => moshAnimation?.Body;
+        public IndividualizedBody Body => supAnimation?.Body;
 
         Mesh originalMesh;
-        MoshAnimation moshAnimation;
-        MoshMesh moshMesh;
+        SUPAnimation supAnimation;
+        SMPLMesh smplMesh;
         
         SkinnedMeshRenderer skinnedMeshRenderer;
         public SkinnedMeshRenderer SkinnedMeshRender => skinnedMeshRenderer;
@@ -55,8 +55,8 @@ namespace SMPLModel {
         public CharacterEvents Events => events ?? (events = new CharacterEvents());
 
         void OnEnable() {
-            moshMesh = GetComponentInChildren<MoshMesh>();
-            skinnedMeshRenderer = moshMesh.GetComponent<SkinnedMeshRenderer>();
+            smplMesh = GetComponentInChildren<SMPLMesh>();
+            skinnedMeshRenderer = smplMesh.GetComponent<SkinnedMeshRenderer>();
             if (skinnedMeshRenderer ==  null) throw new NullReferenceException("Can't find skinnedMeshRenderer in awake");
             
             //Create clone of mesh so original is not affected by any of our fiddling
@@ -80,14 +80,14 @@ namespace SMPLModel {
         /// <summary>
         /// Sets up and plays a mosh animation.
         /// </summary>
-        public void StartAnimation(MoshAnimation animationToStart, PlaybackSettings playbackSettings, DisplaySettings characterSettings, BodyOptions renderOptions) {
+        public void StartAnimation(SUPAnimation animationToStart, PlaybackSettings playbackSettings, DisplaySettings characterSettings, BodyOptions renderOptions) {
             bodyOptions = renderOptions;
             displaySetings = characterSettings;
-            moshAnimation = animationToStart;
+            supAnimation = animationToStart;
             if (model.RotateToUnityCoords) RotateToUnityCoordinates();
         
             gameObject.SetActive(true);
-            moshAnimation.AttachSkin(skinnedMeshRenderer);
+            supAnimation.AttachSkin(skinnedMeshRenderer);
             UpdateAnimation();
 
             SetOffsetsFromIndex(playbackSettings);
@@ -107,13 +107,13 @@ namespace SMPLModel {
         }
 
         void UpdateAnimation() {
-            if (moshAnimation == null) return;
-            if (moshAnimation.Finished) {
+            if (supAnimation == null) return;
+            if (supAnimation.Finished) {
                 StopAnimation();
                 return;
             }
             
-            moshAnimation.PlayCurrentFrame();
+            supAnimation.PlayCurrentFrame();
         }
 
         void StopAnimation() {
@@ -124,7 +124,7 @@ namespace SMPLModel {
 
         public void InterruptAnimation() {
             if (this == null || gameObject == null) return; // order of check important here. 
-            moshAnimation.End();
+            supAnimation.End();
             
             //Debug.Log($"{gameObject.animationName}'s Animation Interrupted");
             DestroyCharacter();

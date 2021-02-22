@@ -106,11 +106,11 @@
               <e p="AnimationControlEvents.cs" t="Include" />
               <e p="AnimationFileReference.cs" t="Include" />
               <e p="AnimationLoader.cs" t="Include" />
-              <e p="MoshAnimation.cs" t="Include" />
-              <e p="MoshAnimationPlayer.cs" t="Include" />
               <e p="Playback.cs" t="Include" />
               <e p="PlaybackEventSystem.cs" t="Include" />
               <e p="PlaybackSettings.cs" t="Include" />
+              <e p="SUPAnimation.cs" t="Include" />
+              <e p="SUPAnimationPlayer.cs" t="Include" />
             </e>
             <e p="Settings" t="Include">
               <e p="BodyOptions.cs" t="Include" />
@@ -132,10 +132,10 @@
               <e p="MeshCorrection.cs" t="Include" />
               <e p="ModelDefinition.cs" t="Include" />
               <e p="Models.cs" t="Include" />
-              <e p="MoshMesh.cs" t="Include" />
               <e p="SideOfBody.cs" t="Include" />
               <e p="SMPLCharacter.cs" t="Include" />
               <e p="SMPLConstants.cs" t="Include" />
+              <e p="SMPLMesh.cs" t="Include" />
               <e p="UserModifiedSettingsHandler.cs" t="Include" />
               <e p="Viewer.cs" t="Include" />
             </e>

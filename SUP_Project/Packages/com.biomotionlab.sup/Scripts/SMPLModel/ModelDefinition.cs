@@ -59,8 +59,8 @@ namespace SMPLModel {
 
         public int PelvisIndex = 0;
 
-        public SMPLCharacter CreateCharacter(MoshAnimation moshAnimation, int characterIndex) {
-            Gender gender = moshAnimation.Data.Gender;
+        public SMPLCharacter CreateCharacter(SUPAnimation supAnimation, int characterIndex) {
+            Gender gender = supAnimation.Data.Gender;
             
             SMPLCharacter genderedPrefab = GetCharacterPrefab(gender);
             if (genderedPrefab == null) throw new NullReferenceException("Gender Prefab is null");

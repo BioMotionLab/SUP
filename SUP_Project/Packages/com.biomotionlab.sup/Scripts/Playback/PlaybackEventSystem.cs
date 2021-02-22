@@ -244,11 +244,11 @@ namespace Playback {
         }
 
 
-        public delegate void PlayingNewAnimationSetEvent(List<MoshAnimation> animations);
+        public delegate void PlayingNewAnimationSetEvent(List<SUPAnimation> animations);
 
         public static event PlayingNewAnimationSetEvent OnPlayingNewAnimationSet;
 
-        public static void PlayingNewAnimationSet(List<MoshAnimation> animations) {
+        public static void PlayingNewAnimationSet(List<SUPAnimation> animations) {
             OnPlayingNewAnimationSet?.Invoke(animations);
         }
 

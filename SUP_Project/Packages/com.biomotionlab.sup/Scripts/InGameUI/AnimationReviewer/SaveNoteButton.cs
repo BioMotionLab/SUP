@@ -36,7 +36,7 @@ namespace InGameUI.AnimationReviewer {
             if (IsSpecialText(note)) DebugBetas();
             
             string animationStrings = "";
-            foreach (MoshAnimation currentAnimation in reviewPanel.currentAnims) {
+            foreach (SUPAnimation currentAnimation in reviewPanel.currentAnims) {
                 animationStrings += currentAnimation.AnimationName + " ";
             }
 

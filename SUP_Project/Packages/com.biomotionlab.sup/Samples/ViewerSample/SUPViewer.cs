@@ -20,15 +20,16 @@ namespace Samples.ViewerSample {
 		DisplaySettings displaySettings = default;
 		public DisplaySettings RuntimeDisplaySettings { get; private set; }
 
-		
 		[SerializeField]
 		PlaybackSettings playbackSettings = default;
 		public PlaybackSettings RuntimePlaybackSettings { get; private set; }
+
+		[SerializeField] GameObject UI = default;
 		
 		AnimationLoader loader;
 		bool doneLoading = false;
 		
-		List<List<MoshAnimation>> animationSequence;
+		List<List<SUPAnimation>> animationSequence;
 		bool AllAnimsComplete => currentAnimationIndex >= animationSequence.Count;
 		int currentAnimationIndex = 0;
 		
@@ -36,7 +37,7 @@ namespace Samples.ViewerSample {
 		bool notYetNotified = true;
 		UserModifiedSettingsHandler userModifiedSettingsHandler;
 	
-		MoshAnimationPlayer animationPlayer;
+		SUPAnimationPlayer animationPlayer;
 
 		void OnEnable() {
 			PlaybackEventSystem.OnNextAnimation += GoToNextAnimation;
@@ -47,11 +48,12 @@ namespace Samples.ViewerSample {
 			PlaybackEventSystem.OnLoadNewAnimations += LoadNewAnimations;
 			
 			userModifiedSettingsHandler = new UserModifiedSettingsHandler(this);
+			UI.SetActive(true);
 		}
 
 		void Awake() {
 			CacheRuntimeSettings();
-			animationPlayer = new MoshAnimationPlayer(RuntimePlaybackSettings, RuntimeDisplaySettings, RuntimeBodyOptions);
+			animationPlayer = new SUPAnimationPlayer(RuntimePlaybackSettings, RuntimeDisplaySettings, RuntimeBodyOptions);
 		}
 		
 		
@@ -93,7 +95,7 @@ namespace Samples.ViewerSample {
 		}
 
 
-		void DoneLoading(List<List<MoshAnimation>> loadedAnimationSequence) {
+		void DoneLoading(List<List<SUPAnimation>> loadedAnimationSequence) {
 			loader.OnDone -= DoneLoading;
 			animationSequence = loadedAnimationSequence;
 			doneLoading = true;
@@ -128,7 +130,7 @@ namespace Samples.ViewerSample {
 		/// Play the animation for characters at specified position in sequence of files.
 		/// </summary>
 		void StartCurrentAnimationSet() {
-			List<MoshAnimation> animationSet = animationSequence[currentAnimationIndex];
+			List<SUPAnimation> animationSet = animationSequence[currentAnimationIndex];
 			PlaybackEventSystem.PlayingNewAnimationSet(animationSet);
 
 			string updateMessage = $"\tPlaying animation set {currentAnimationIndex+1} of {animationSequence.Count}. " +

@@ -11,8 +11,8 @@ namespace InGameUI.AnimationReviewer {
     
         string reviewFilePath;
     
-        public List<MoshAnimation> currentAnims;
-        public List<MoshAnimation> CurrentAnims => currentAnims;
+        public List<SUPAnimation> currentAnims;
+        public List<SUPAnimation> CurrentAnims => currentAnims;
     
         public string ReviewFilePath => reviewFilePath;
     
@@ -25,7 +25,7 @@ namespace InGameUI.AnimationReviewer {
             PlaybackEventSystem.OnPlayingNewAnimationSet -= AnimationSetChanged;
         }
 
-        void AnimationSetChanged(List<MoshAnimation> animations) {
+        void AnimationSetChanged(List<SUPAnimation> animations) {
             currentAnims = animations;
         }
 

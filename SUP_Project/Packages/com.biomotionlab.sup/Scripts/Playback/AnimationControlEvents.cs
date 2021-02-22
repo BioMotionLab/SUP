@@ -32,12 +32,12 @@ namespace Playback {
             OnAnimationEnded?.Invoke();
         }
 
-        public delegate void AnimationStartedEvent(MoshAnimation moshAnimation, AnimationControlEvents animationControlEvents);
+        public delegate void AnimationStartedEvent(SUPAnimation supAnimation, AnimationControlEvents animationControlEvents);
      
         public static event AnimationStartedEvent OnAnimationStarted;
  
-        public static void BroadCastAnimationStarted(MoshAnimation moshAnimation, AnimationControlEvents animationControlEvents) {
-            OnAnimationStarted?.Invoke(moshAnimation, animationControlEvents);
+        public static void BroadCastAnimationStarted(SUPAnimation supAnimation, AnimationControlEvents animationControlEvents) {
+            OnAnimationStarted?.Invoke(supAnimation, animationControlEvents);
         }
      
   

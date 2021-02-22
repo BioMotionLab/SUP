@@ -12,78 +12,43 @@ AssetImportWorker0
 -logFile
 Logs/AssetImportWorker0.log
 -srvPort
-65157
+65306
 Successfully changed project path to: /Users/adam/GitHub/SUP/SUP_Project
 /Users/adam/GitHub/SUP/SUP_Project
 Using Asset Import Pipeline V2.
-Refreshing native plugins compatible for Editor in 31.86 ms, found 4 plugins.
+Refreshing native plugins compatible for Editor in 26.85 ms, found 4 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Initialize engine version: 2020.2.4f1 (becced5a802b)
 [Subsystems] Discovering subsystems at path /Applications/Unity/Hub/Editor/2020.2.4f1/Unity.app/Contents/Resources/UnitySubsystems
 [Subsystems] Discovering subsystems at path /Users/adam/GitHub/SUP/SUP_Project/Assets
 GfxDevice: creating device client; threaded=0
-2021-02-22 15:52:30.652 Unity[23642:346413] Color LCD preferred device: Intel(R) Iris(TM) Plus Graphics 650 (low power)
-2021-02-22 15:52:30.652 Unity[23642:346413] Metal devices available: 1
-2021-02-22 15:52:30.652 Unity[23642:346413] 0: Intel(R) Iris(TM) Plus Graphics 650 (low power)
-2021-02-22 15:52:30.653 Unity[23642:346413] Using device Intel(R) Iris(TM) Plus Graphics 650 (low power)
+2021-02-22 15:58:07.850 Unity[24059:353483] Color LCD preferred device: Intel(R) Iris(TM) Plus Graphics 650 (low power)
+2021-02-22 15:58:07.850 Unity[24059:353483] Metal devices available: 1
+2021-02-22 15:58:07.850 Unity[24059:353483] 0: Intel(R) Iris(TM) Plus Graphics 650 (low power)
+2021-02-22 15:58:07.851 Unity[24059:353483] Using device Intel(R) Iris(TM) Plus Graphics 650 (low power)
 Initializing Metal device caps: Intel(R) Iris(TM) Plus Graphics 650
 Initialize mono
 Mono path[0] = '/Applications/Unity/Hub/Editor/2020.2.4f1/Unity.app/Contents/Managed'
 Mono path[1] = '/Applications/Unity/Hub/Editor/2020.2.4f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/unityjit'
 Mono config path = '/Applications/Unity/Hub/Editor/2020.2.4f1/Unity.app/Contents/MonoBleedingEdge/etc'
-Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56642
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56059
 Begin MonoManager ReloadAssembly
 Registering precompiled unity dll's ...
 Register platform support module: /Applications/Unity/Hub/Editor/2020.2.4f1/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/UnityEditor.OSXStandalone.Extensions.dll
 Register platform support module: /Applications/Unity/Hub/Editor/2020.2.4f1/PlaybackEngines/LinuxStandaloneSupport/UnityEditor.LinuxStandalone.Extensions.dll
-Registered in 0.002081 seconds.
+Registered in 0.000682 seconds.
 Native extension for LinuxStandalone target not found
 Native extension for OSXStandalone target not found
-Refreshing native plugins compatible for Editor in 35.28 ms, found 4 plugins.
+Refreshing native plugins compatible for Editor in 54.34 ms, found 4 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Invoked RoslynAnalysisRunner static constructor.
 RoslynAnalysisRunner will not be running.
 RoslynAnalysisRunner has terminated.
 Mono: successfully reloaded assembly
-- Completed reload, in  2.734 seconds
+- Completed reload, in  1.984 seconds
 Platform modules already initialized, skipping
 Registering precompiled user dll's ...
-Registered in 0.003760 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for LinuxStandalone target not found
-Native extension for OSXStandalone target not found
-Refreshing native plugins compatible for Editor in 0.39 ms, found 4 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Invoked RoslynAnalysisRunner static constructor.
-RoslynAnalysisRunner will not be running.
-RoslynAnalysisRunner has terminated.
-Mono: successfully reloaded assembly
-- Completed reload, in  1.155 seconds
-Platform modules already initialized, skipping
-========================================================================
-Worker process is ready to serve import requests
-Launching external process: /Applications/Unity/Hub/Editor/2020.2.4f1/Unity.app/Contents/Tools/UnityShaderCompiler
-Launched and connected shader compiler UnityShaderCompiler after 0.02 seconds
-Refreshing native plugins compatible for Editor in 0.38 ms, found 4 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 972 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 116.7 MB.
-System memory in use after: 116.7 MB.
-
-Unloading 27 unused Assets to reduce memory usage. Loaded Objects now: 1401.
-Total: 4.844916 ms (FindLiveObjects: 0.428143 ms CreateObjectMapping: 0.108113 ms MarkObjects: 4.153254 ms  DeleteObjects: 0.151728 ms)
-
-========================================================================
-Received Import Request.
-  path: Packages/com.biomotionlab.sup/Samples/ViewerSample/SUPViewer.cs
-  artifactKey: Guid(0085ec48a3466434295badc5e3f0584f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Packages/com.biomotionlab.sup/Samples/ViewerSample/SUPViewer.cs using Guid(0085ec48a3466434295badc5e3f0584f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b4318c39ddf0605c8a3ea38ed240e8dd') in 0.358765 seconds
-  Import took 0.361494 seconds .
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.003580 seconds.
+Registered in 0.001507 seconds.
 Begin MonoManager ReloadAssembly
 Native extension for LinuxStandalone target not found
 Native extension for OSXStandalone target not found
@@ -93,23 +58,73 @@ Invoked RoslynAnalysisRunner static constructor.
 RoslynAnalysisRunner will not be running.
 RoslynAnalysisRunner has terminated.
 Mono: successfully reloaded assembly
-- Completed reload, in  1.097 seconds
+- Completed reload, in  1.126 seconds
 Platform modules already initialized, skipping
+========================================================================
+Worker process is ready to serve import requests
+Launching external process: /Applications/Unity/Hub/Editor/2020.2.4f1/Unity.app/Contents/Tools/UnityShaderCompiler
+Launched and connected shader compiler UnityShaderCompiler after 0.01 seconds
 Refreshing native plugins compatible for Editor in 0.36 ms, found 4 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 956 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 121.5 MB.
-System memory in use after: 121.6 MB.
+Unloading 972 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 115.7 MB.
+System memory in use after: 115.8 MB.
 
-Unloading 22 unused Assets to reduce memory usage. Loaded Objects now: 1404.
-Total: 2.855895 ms (FindLiveObjects: 0.400840 ms CreateObjectMapping: 0.080105 ms MarkObjects: 2.336125 ms  DeleteObjects: 0.035597 ms)
+Unloading 27 unused Assets to reduce memory usage. Loaded Objects now: 1400.
+Total: 3.216147 ms (FindLiveObjects: 0.423689 ms CreateObjectMapping: 0.102602 ms MarkObjects: 2.545189 ms  DeleteObjects: 0.141165 ms)
 
 ========================================================================
 Received Import Request.
-  Time since last request: 95.711300 seconds.
-  path: Packages/com.biomotionlab.sup/Scripts/bmlSUP.asmdef
-  artifactKey: Guid(dd6792b1c72384e42bd013fb6e7aaf80) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Packages/com.biomotionlab.sup/Scripts/bmlSUP.asmdef using Guid(dd6792b1c72384e42bd013fb6e7aaf80) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a9ce8c3caf859fd732a1aeab06007c42') in 0.362333 seconds
-  Import took 0.364266 seconds .
+  path: Packages/com.biomotionlab.sup/Samples/ViewerSample/SUP_Sample_Scene.unity
+  artifactKey: Guid(4b3caf3dce812488aa96bad2cf6d6cf9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.biomotionlab.sup/Samples/ViewerSample/SUP_Sample_Scene.unity using Guid(4b3caf3dce812488aa96bad2cf6d6cf9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '42b967146eed2d74decb23cd979f1da0') in 0.009773 seconds
+  Import took 0.011717 seconds .
 
-AssetImportWorkerClient::OnTransportError - code=2 error=End of file
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.001542 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for LinuxStandalone target not found
+Native extension for OSXStandalone target not found
+Refreshing native plugins compatible for Editor in 0.34 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.087 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.35 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 955 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 116.1 MB.
+System memory in use after: 116.2 MB.
+
+Unloading 22 unused Assets to reduce memory usage. Loaded Objects now: 1403.
+Total: 2.340441 ms (FindLiveObjects: 0.259612 ms CreateObjectMapping: 0.054096 ms MarkObjects: 1.981332 ms  DeleteObjects: 0.043592 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.002447 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for LinuxStandalone target not found
+Native extension for OSXStandalone target not found
+Refreshing native plugins compatible for Editor in 0.36 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.086 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.31 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 955 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 115.0 MB.
+System memory in use after: 115.1 MB.
+
+Unloading 22 unused Assets to reduce memory usage. Loaded Objects now: 1406.
+Total: 2.776384 ms (FindLiveObjects: 0.229289 ms CreateObjectMapping: 0.049678 ms MarkObjects: 2.472220 ms  DeleteObjects: 0.023036 ms)
+

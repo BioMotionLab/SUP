@@ -9,19 +9,19 @@ namespace InGameUI {
         [FormerlySerializedAs("AnimationPanelPrefab")] [SerializeField]
         AnimationPanel animationPanelPrefab = default;
 
-        public Dictionary<MoshAnimation, AnimationPanel> OpenPanels;
+        public Dictionary<SUPAnimation, AnimationPanel> OpenPanels;
     
         void OnEnable() {
-            OpenPanels = new Dictionary<MoshAnimation, AnimationPanel>();
+            OpenPanels = new Dictionary<SUPAnimation, AnimationPanel>();
             AnimationControlEvents.OnAnimationStarted += AddNewAnimationPanel;
         }
 
-        void AddNewAnimationPanel(MoshAnimation moshAnimation, AnimationControlEvents animationControlEvents) {
+        void AddNewAnimationPanel(SUPAnimation supAnimation, AnimationControlEvents animationControlEvents) {
         
             AnimationPanel newAnimationPanel = Instantiate(animationPanelPrefab, transform);
             newAnimationPanel.transform.SetSiblingIndex(0);
-            OpenPanels.Add(moshAnimation, newAnimationPanel);
-            newAnimationPanel.Init(moshAnimation, animationControlEvents, this);
+            OpenPanels.Add(supAnimation, newAnimationPanel);
+            newAnimationPanel.Init(supAnimation, animationControlEvents, this);
         }
 
         void OnDisable() {

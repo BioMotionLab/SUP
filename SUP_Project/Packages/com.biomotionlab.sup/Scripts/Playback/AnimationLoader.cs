@@ -15,10 +15,10 @@ namespace Playback {
         AnimationFileReference animationFileReference;
         
         PlaybackSettings playbackSettings;
-        public delegate void DoneLoadingEvent(List<List<MoshAnimation>> animationSequence);
+        public delegate void DoneLoadingEvent(List<List<SUPAnimation>> animationSequence);
         public event DoneLoadingEvent OnDone;
 
-        void Done(List<List<MoshAnimation>> animationSequence){
+        void Done(List<List<SUPAnimation>> animationSequence){
             OnDone?.Invoke(animationSequence);
             OnDone = null;
         }
@@ -38,13 +38,13 @@ namespace Playback {
 
         IEnumerator LoadAnimations() {
             
-             List<List<MoshAnimation>> animationSequence = new List<List<MoshAnimation>>();
+             List<List<SUPAnimation>> animationSequence = new List<List<SUPAnimation>>();
             
             for (int lineIndex = 0; lineIndex < animationFileReference.Count; lineIndex++) {
                 StringBuilder log = new StringBuilder();
                 
                 string line = animationFileReference.AnimListAsStrings[lineIndex];
-                List<MoshAnimation> allAnimationsInThisLine = GetAnimationsFromLine(line);
+                List<SUPAnimation> allAnimationsInThisLine = GetAnimationsFromLine(line);
                 
                 log.Append($"Loaded {lineIndex+1} of {animationFileReference.AnimListAsStrings.Length}");
 
@@ -69,10 +69,10 @@ namespace Playback {
         }
 
 
-        List<MoshAnimation> GetAnimationsFromLine(string line) {
+        List<SUPAnimation> GetAnimationsFromLine(string line) {
             
             string[] fileNames = line.Split (' '); //Space delimited
-            List<MoshAnimation> animations = new List<MoshAnimation>();
+            List<SUPAnimation> animations = new List<SUPAnimation>();
             foreach (string filename in fileNames) {
                 try {
                     if (!Directory.Exists(animationFileReference.AnimFolder)) throw new DirectoryNotFoundException(animationFileReference.AnimFolder);
@@ -87,7 +87,7 @@ namespace Playback {
                     else throw new AnimationLoadStrategy.UnsupportedFileTypeException($"Extension {extension} is unsupported");
                     AnimationData animationData = loadStrategy.Data;
                     
-                    MoshAnimation loadedAnimation = new MoshAnimation(animationData, playbackSettings, filename);
+                    SUPAnimation loadedAnimation = new SUPAnimation(animationData, playbackSettings, filename);
                     animations.Add(loadedAnimation);
                 }
                 catch (FileNotFoundException) {

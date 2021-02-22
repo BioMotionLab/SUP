@@ -21,7 +21,7 @@ namespace SMPLModel {
             get;
         }
         
-        void StartAnimation(MoshAnimation moshAnimation, PlaybackSettings playbackSettings, DisplaySettings characterSettings, BodyOptions renderOptions);
+        void StartAnimation(SUPAnimation supAnimation, PlaybackSettings playbackSettings, DisplaySettings characterSettings, BodyOptions renderOptions);
         void InterruptAnimation();
 
         void SetIndex(int newAnimationIndex);
