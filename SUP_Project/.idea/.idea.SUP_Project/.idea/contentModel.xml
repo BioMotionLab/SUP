@@ -4,7 +4,6 @@
     <e p="$PROJECT_DIR$" t="IncludeRecursive">
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
-        <e p="FreezeCameraButton.cs" t="Include" />
         <e p="StreamingAssets" t="Include">
           <e p="SampleAnimationList.txt" t="Include" />
         </e>
@@ -87,6 +86,7 @@
               <e p="FlyCamera.cs" t="Include" />
               <e p="FrameListener.cs" t="Include" />
               <e p="FrameSlider.cs" t="Include" />
+              <e p="FreezeCameraButton.cs" t="Include" />
               <e p="KeyboardControlEvents.cs" t="Include" />
               <e p="LoadNewAnimation.cs" t="Include" />
               <e p="LoopButton.cs" t="Include" />
@@ -137,6 +137,7 @@
               <e p="SMPLCharacter.cs" t="Include" />
               <e p="SMPLConstants.cs" t="Include" />
               <e p="UserModifiedSettingsHandler.cs" t="Include" />
+              <e p="Viewer.cs" t="Include" />
             </e>
             <e p="Utilities" t="Include">
               <e p="DebugTools.cs" t="Include" />
@@ -150,7 +151,6 @@
             <e p="SimpleJSON" t="Include">
               <e p="SimpleJSON.asmdef" t="Include" />
               <e p="SimpleJSON.cs" t="Include" />
-              <e p="SimpleJSONBinary.cs" t="Include" />
               <e p="SimpleJSONUnity.cs" t="Include" />
             </e>
             <e p="StandaloneFileBrowser" t="Include">

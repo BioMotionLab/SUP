@@ -2,8 +2,6 @@ using System;
 using SMPLModel;
 using UnityEngine;
 
-// ReSharper disable ParameterHidesMember
-
 namespace Display {
     
     /// <summary>
@@ -18,8 +16,10 @@ namespace Display {
 
         PointLightDisplaySettings Settings {
             get {
-                if (smplCharacter != null && smplCharacter.DisplaySettings != null) {
-                    return smplCharacter.DisplaySettings.PointLightDisplaySettings;
+                if (smplCharacter != null) {
+                    if (smplCharacter.DisplaySettings != null) {
+                        return smplCharacter.DisplaySettings.PointLightDisplaySettings;
+                    }
                 }
                 return defaultPointlightDisplaySettings;
             }
@@ -32,11 +32,11 @@ namespace Display {
             meshRenderer = GetComponent<MeshRenderer>();
         }
         
-        public void AttachBone(SMPLCharacter smplCharacter, PointLightDisplay pointLightDisplay, 
+        public void AttachBone(SMPLCharacter attachedSmplCharacter, PointLightDisplay attachedPointLightDisplay, 
                                Transform bone) {
-            this.smplCharacter = smplCharacter;
+            this.smplCharacter = attachedSmplCharacter;
             linkedBone = bone;
-            this.pointLightDisplay = pointLightDisplay;
+            this.pointLightDisplay = attachedPointLightDisplay;
             name = $"PointLight for {bone.name}";
             Transform cachedTransform = transform;
             cachedTransform.localPosition = Vector3.zero;
@@ -44,13 +44,21 @@ namespace Display {
                                              Settings.PointLightDisplaySize,
                                              Settings.PointLightDisplaySize);
             
-            if (Settings.DrawSidesDifferentColors) ColorBySideOfBody(bone);
+            
         }
 
         void LateUpdate() {
             if (linkedBone != null) {
                 transform.position = linkedBone.position;
                 meshRenderer.enabled = pointLightDisplay.DisplayPointLights;
+
+                if (pointLightDisplay.DisplayPointLights) {
+                    this.transform.localScale = new Vector3(
+                        Settings.PointLightDisplaySize,
+                        Settings.PointLightDisplaySize,
+                        Settings.PointLightDisplaySize);
+                    if (Settings.DrawSidesDifferentColors) ColorBySideOfBody(linkedBone);
+                }
             }
             else {
                 meshRenderer.enabled = false;

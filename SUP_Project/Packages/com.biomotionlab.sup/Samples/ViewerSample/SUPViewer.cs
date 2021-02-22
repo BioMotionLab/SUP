@@ -4,7 +4,6 @@ using Playback;
 using Settings;
 using SMPLModel;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Samples.ViewerSample {
 	public class SUPViewer : MonoBehaviour, Viewer {
@@ -17,7 +16,7 @@ namespace Samples.ViewerSample {
 		public BodyOptions RuntimeBodyOptions { get; private set; }
 
 		
-		[FormerlySerializedAs("characterSettings")] [SerializeField]
+		[SerializeField]
 		DisplaySettings displaySettings = default;
 		public DisplaySettings RuntimeDisplaySettings { get; private set; }
 

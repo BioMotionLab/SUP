@@ -56,7 +56,6 @@ namespace Display {
             this.parentBone = parentBone;
             this.childBone = childBone;
             name = $"BoneLine {this.parentBone.name} to {this.childBone.name}";
-            if (Settings.DrawSidesDifferentColors) DrawSidesDifferentColors();
         }
         
         
@@ -71,6 +70,8 @@ namespace Display {
             lineRenderer.SetPositions(positions);
             lineRenderer.startWidth = Settings.BoneWidth;
             lineRenderer.endWidth = Settings.BoneWidth;
+            if (Settings.DrawSidesDifferentColors) DrawSidesDifferentColors();
+
         }
 
         void ShowOrHideBasedOnSettings() {

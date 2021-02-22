@@ -4,24 +4,19 @@ using InGameUI;
 using JetBrains.Annotations;
 using SMPLModel;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Playback {
     public class PlaybackEventSystem : MonoBehaviour {
 
-        [FormerlySerializedAs("Paused")] [SerializeField]
-        bool paused = false;
-    
-        [FormerlySerializedAs("NextKeys")] [SerializeField]
-        List<KeyCode> nextKeys = new List<KeyCode>();
-
-        [FormerlySerializedAs("PrevKey")] [SerializeField]
-        KeyCode prevKey = default;
+        [SerializeField] bool paused = false;
         
-        [FormerlySerializedAs("QuitKeys")] [SerializeField]
-        List<KeyCode> quitKeys = new List<KeyCode>();
+        [SerializeField] List<KeyCode> nextKeys = new List<KeyCode>();
+        
+        [SerializeField] KeyCode prevKey = default;
+        
+        [SerializeField] List<KeyCode> quitKeys = new List<KeyCode>();
 
-        [FormerlySerializedAs("ToggleAllUIKey")] [SerializeField] KeyCode toggleAllUIKey = KeyCode.U;
+        [SerializeField] KeyCode toggleAllUIKey = KeyCode.U;
 
         [SerializeField] List<GameObject> ui = default;
 
