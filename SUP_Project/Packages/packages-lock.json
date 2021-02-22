@@ -1,7 +1,7 @@
 {
   "dependencies": {
-    "com.biomotionlab.moshviewer": {
-      "version": "file:MoshViewer",
+    "com.biomotionlab.sup": {
+      "version": "file:com.biomotionlab.sup",
       "depth": 0,
       "source": "embedded",
       "dependencies": {}
