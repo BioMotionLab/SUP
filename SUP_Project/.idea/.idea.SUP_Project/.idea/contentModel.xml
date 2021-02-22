@@ -4,6 +4,7 @@
     <e p="$PROJECT_DIR$" t="IncludeRecursive">
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
+        <e p="FreezeCameraButton.cs" t="Include" />
         <e p="StreamingAssets" t="Include">
           <e p="SampleAnimationList.txt" t="Include" />
         </e>

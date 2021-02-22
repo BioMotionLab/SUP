@@ -27,8 +27,6 @@ namespace InGameUI.AnimationReviewer {
 
         void SetState(bool state) {
             linkedPanel.SetActive(state);
-            if (state) KeyboardControlEvents.DisableKeyboardControls();
-            else KeyboardControlEvents.EnableKeyboardControls();
         }
 
     }
