@@ -1,16 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a6d41c56-4347-4b10-9a12-4c5bbe5f28b5" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.SUP_Project/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SUP_Project/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Logs/AssetImportWorker0-prev.log" beforeDir="false" afterPath="$PROJECT_DIR$/Logs/AssetImportWorker0-prev.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Logs/AssetImportWorker0.log" beforeDir="false" afterPath="$PROJECT_DIR$/Logs/AssetImportWorker0.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Samples/ViewerSample/SUPViewer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Samples/ViewerSample/SUPViewer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/InGameUI/SelectAnimationsPanel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/InGameUI/SelectAnimationsPanel.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Playback/AnimationFileReference.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Playback/AnimationFileReference.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Playback/PlaybackEventSystem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Scripts/Playback/PlaybackEventSystem.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Settings/Default Display Settings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.biomotionlab.sup/Settings/Default Display Settings.asset" afterDir="false" />
-    </list>
+    <list default="true" id="a6d41c56-4347-4b10-9a12-4c5bbe5f28b5" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -138,7 +129,7 @@
       <workItem from="1614014045568" duration="1094000" />
       <workItem from="1614015676529" duration="5125000" />
       <workItem from="1614028120821" duration="13000" />
-      <workItem from="1614028695538" duration="2954000" />
+      <workItem from="1614028695538" duration="3110000" />
     </task>
     <servers />
   </component>
