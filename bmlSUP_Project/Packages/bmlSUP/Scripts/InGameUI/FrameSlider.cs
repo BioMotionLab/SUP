@@ -24,23 +24,23 @@ namespace InGameUI {
         public void Init(AnimationControlEvents animationControlEventsToAttach) {
             animationControlEvents = animationControlEventsToAttach ?? throw new NullReferenceException("Animation events null");
             animationControlEvents.OnFrameBroadcast += SetFrame;
-            animationControlEvents.OnBroadcastTotalFrames += SetTotalFrames;
         }
 
         void OnDisable() {
             if (animationControlEvents == null) return;
             animationControlEvents.OnFrameBroadcast -= SetFrame;
-            animationControlEvents.OnBroadcastTotalFrames -= SetTotalFrames;
         }
+        
+        
 
-        void SetTotalFrames(int totalFrames) {
-            slider.maxValue = totalFrames;
-            //Debug.Log($"set max frames to {slider.maxValue}");
-        }
+        void SetFrame(FrameData frameData) {
+            slider.maxValue = frameData.TotalFrames;
+            slider.SetValueWithoutNotify(frameData.CurrentFrame);
 
-        void SetFrame(float frame) {
-            slider.SetValueWithoutNotify(frame);
-            FrameValue.SetText(frame.ToString("F1"));
+            float duration = frameData.TotalFrames / (float)frameData.FrameRate;
+            float currentTime = frameData.CurrentFrame / frameData.FrameRate;
+
+            FrameValue.SetText($"Frame: {frameData.CurrentFrame:F0}/{frameData.TotalFrames}. Time (s): {currentTime:F1}/{duration:F1}");
         }
 
         [PublicAPI]

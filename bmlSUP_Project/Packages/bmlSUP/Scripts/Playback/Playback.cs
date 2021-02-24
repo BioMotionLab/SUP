@@ -18,18 +18,19 @@ namespace Playback {
         float elapsedTime;
         float playbackSpeed = 1;
         readonly AnimationControlEvents controlEvents;
+        readonly int actualSourceFPS;
 
         public Playback(int sourceTotalFrameCount,
-                        int sourceFPS, PlaybackSettings playbackSettings, AnimationControlEvents animationControlEvents) {
-            int actualFPS = sourceFPS;
-            if (actualFPS <= 0) {
-                actualFPS = 60;
+                        int sourceSourceFPS, PlaybackSettings playbackSettings, AnimationControlEvents animationControlEvents) {
+            actualSourceFPS = sourceSourceFPS;
+            if (actualSourceFPS <= 0) {
+                actualSourceFPS = 60;
                 Debug.Log("Defaulting fps");
             }
 
             this.sourceTotalFrameCount = sourceTotalFrameCount;
             this.playbackSettings = playbackSettings;
-            sourceDuration = this.sourceTotalFrameCount / (float) actualFPS;
+            sourceDuration = this.sourceTotalFrameCount / (float) actualSourceFPS;
 
             PlaybackEventSystem.OnPauseToggleEvent += TogglePause;
             PlaybackEventSystem.OnBroadcastDisplaySpeed += UpdatePlaybackSpeed;
@@ -72,7 +73,7 @@ namespace Playback {
             lastUpdateTime = Time.time;
             
             ResampledFrame resampledFrame = new ForwardsResampledFrame(elapsedTime, sourceTotalFrameCount, sourceDuration);
-            controlEvents.BroadcastCurrentFrame(resampledFrame.Frame);
+            controlEvents.BroadcastCurrentFrame(new FrameData(resampledFrame.Frame, sourceTotalFrameCount,actualSourceFPS));
             //Debug.Log($"totalframes: {sourceTotalFrameCount}, current frame: {resampledFrame.Frame}");
             
             if (resampledFrame.IsLastFrame) {
@@ -90,6 +91,17 @@ namespace Playback {
             PlaybackEventSystem.OnPauseToggleEvent -= TogglePause;
             PlaybackEventSystem.OnBroadcastDisplaySpeed -= UpdatePlaybackSpeed;
             PlaybackEventSystem.OnStopAllAnimations -= Finish;
+        }
+    }
+
+    public class FrameData {
+        public float CurrentFrame;
+        public int TotalFrames;
+        public int FrameRate;
+        public FrameData(float currentFrame, int totalFrames, int frameRate) {
+            CurrentFrame = currentFrame;
+            TotalFrames = totalFrames;
+            FrameRate = frameRate;
         }
     }
 }
