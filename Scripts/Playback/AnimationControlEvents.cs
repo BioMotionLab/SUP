@@ -1,11 +1,11 @@
 namespace Playback {
     public class AnimationControlEvents {
     
-        public delegate void FrameBroadCastEvent(float frame);
+        public delegate void FrameBroadCastEvent(FrameData frame);
 
         public event FrameBroadCastEvent OnFrameBroadcast;
 
-        public void BroadcastCurrentFrame(float frame) {
+        public void BroadcastCurrentFrame(FrameData frame) {
             OnFrameBroadcast?.Invoke(frame);
         }
     

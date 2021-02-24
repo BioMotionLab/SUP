@@ -6,8 +6,8 @@ using UnityEngine.Serialization;
 namespace InGameUI {
     public class AnimationDisplayMainPanel : MonoBehaviour {
 
-        [SerializeField]
-        AnimationPanel AnimationPanelPrefab = default;
+        [FormerlySerializedAs("AnimationPanelPrefab")] [SerializeField]
+        AnimationPanel animationPanelPrefab = default;
 
         [FormerlySerializedAs("openPanels")]
         public Dictionary<AMASSAnimation, AnimationPanel> OpenPanels;
@@ -19,7 +19,7 @@ namespace InGameUI {
 
         void AddNewAnimationPanel(AMASSAnimation amassAnimation, AnimationControlEvents animationControlEvents) {
         
-            AnimationPanel newAnimationPanel = Instantiate(AnimationPanelPrefab, transform);
+            AnimationPanel newAnimationPanel = Instantiate(animationPanelPrefab, transform);
             newAnimationPanel.transform.SetSiblingIndex(0);
             OpenPanels.Add(amassAnimation, newAnimationPanel);
             newAnimationPanel.Init(amassAnimation, animationControlEvents, this);
