@@ -6,7 +6,7 @@ using SMPLModel;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace Samples.SUP_Viewer {
+namespace Samples.SUPViewer {
 	public class SUPViewer : MonoBehaviour, Viewer {
 
 		[SerializeField]

@@ -1,5 +1,6 @@
 {
-    "name": "SUPViewer",
+    "name": "ViewerSample",
+    "rootNamespace": "",
     "references": [
         "GUID:dd6792b1c72384e42bd013fb6e7aaf80"
     ],
