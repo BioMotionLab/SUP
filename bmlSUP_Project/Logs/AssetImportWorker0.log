@@ -1,0 +1,127 @@
+Using pre-set license
+
+ COMMAND LINE ARGUMENTS:
+/Applications/Unity/Hub/Editor/2020.2.5f1/Unity.app/Contents/MacOS/Unity
+-adb2
+-batchMode
+-noUpm
+-name
+AssetImportWorker0
+-projectPath
+/Users/adam/GitHub/SUP/bmlSUP_Project
+-logFile
+Logs/AssetImportWorker0.log
+-srvPort
+57820
+Successfully changed project path to: /Users/adam/GitHub/SUP/bmlSUP_Project
+/Users/adam/GitHub/SUP/bmlSUP_Project
+Using Asset Import Pipeline V2.
+Refreshing native plugins compatible for Editor in 18.21 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Initialize engine version: 2020.2.5f1 (e2c53f129de5)
+[Subsystems] Discovering subsystems at path /Applications/Unity/Hub/Editor/2020.2.5f1/Unity.app/Contents/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path /Users/adam/GitHub/SUP/bmlSUP_Project/Assets
+GfxDevice: creating device client; threaded=0
+2021-02-24 11:15:43.115 Unity[32692:5531531] DELL U2713HM preferred device: AMD Radeon RX 580 (high power)
+2021-02-24 11:15:43.115 Unity[32692:5531531] Metal devices available: 1
+2021-02-24 11:15:43.115 Unity[32692:5531531] 0: AMD Radeon RX 580 (high power)
+2021-02-24 11:15:43.115 Unity[32692:5531531] Using device AMD Radeon RX 580 (high power)
+Initializing Metal device caps: AMD Radeon RX 580
+Initialize mono
+Mono path[0] = '/Applications/Unity/Hub/Editor/2020.2.5f1/Unity.app/Contents/Managed'
+Mono path[1] = '/Applications/Unity/Hub/Editor/2020.2.5f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/unityjit'
+Mono config path = '/Applications/Unity/Hub/Editor/2020.2.5f1/Unity.app/Contents/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56692
+Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: /Applications/Unity/Hub/Editor/2020.2.5f1/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/UnityEditor.OSXStandalone.Extensions.dll
+Register platform support module: /Applications/Unity/Hub/Editor/2020.2.5f1/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
+Register platform support module: /Applications/Unity/Hub/Editor/2020.2.5f1/PlaybackEngines/LinuxStandaloneSupport/UnityEditor.LinuxStandalone.Extensions.dll
+Registered in 0.000641 seconds.
+Native extension for LinuxStandalone target not found
+Native extension for WindowsStandalone target not found
+Native extension for OSXStandalone target not found
+Refreshing native plugins compatible for Editor in 16.75 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.068 seconds
+Platform modules already initialized, skipping
+Registering precompiled user dll's ...
+Registered in 0.001114 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for LinuxStandalone target not found
+Native extension for WindowsStandalone target not found
+Native extension for OSXStandalone target not found
+Refreshing native plugins compatible for Editor in 0.24 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  0.791 seconds
+Platform modules already initialized, skipping
+========================================================================
+Worker process is ready to serve import requests
+Launching external process: /Applications/Unity/Hub/Editor/2020.2.5f1/Unity.app/Contents/Tools/UnityShaderCompiler
+Launched and connected shader compiler UnityShaderCompiler after 0.01 seconds
+Refreshing native plugins compatible for Editor in 0.25 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 963 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 115.5 MB.
+System memory in use after: 115.5 MB.
+
+Unloading 27 unused Assets to reduce memory usage. Loaded Objects now: 1391.
+Total: 1.290379 ms (FindLiveObjects: 0.109071 ms CreateObjectMapping: 0.026030 ms MarkObjects: 1.099948 ms  DeleteObjects: 0.054244 ms)
+
+========================================================================
+Received Import Request.
+  path: Packages/com.biomotionlab.sup/Samples/SUP_Viewer/SUPViewer.unity
+  artifactKey: Guid(4b3caf3dce812488aa96bad2cf6d6cf9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.biomotionlab.sup/Samples/SUP_Viewer/SUPViewer.unity using Guid(4b3caf3dce812488aa96bad2cf6d6cf9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '74ef1efbffc9e499ad95623bc37a89dd') in 0.006970 seconds
+  Import took 0.008172 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.001075 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for LinuxStandalone target not found
+Native extension for WindowsStandalone target not found
+Native extension for OSXStandalone target not found
+Refreshing native plugins compatible for Editor in 0.27 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  0.730 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.24 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 946 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 114.6 MB.
+System memory in use after: 114.7 MB.
+
+Unloading 22 unused Assets to reduce memory usage. Loaded Objects now: 1394.
+Total: 1.124777 ms (FindLiveObjects: 0.119973 ms CreateObjectMapping: 0.023151 ms MarkObjects: 0.965812 ms  DeleteObjects: 0.015126 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 8.384550 seconds.
+  path: Packages/com.biomotionlab.sup/Samples/SUP_Viewer/SUPViewer.cs
+  artifactKey: Guid(0085ec48a3466434295badc5e3f0584f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.biomotionlab.sup/Samples/SUP_Viewer/SUPViewer.cs using Guid(0085ec48a3466434295badc5e3f0584f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '079dc2b66563cdc5e025ae30c9562fa5') in 0.166785 seconds
+  Import took 0.168057 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.004016 seconds.
+  path: Packages/com.biomotionlab.sup/Samples/SUP_Viewer/SUPViewer.cs
+  artifactKey: Guid(0085ec48a3466434295badc5e3f0584f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.biomotionlab.sup/Samples/SUP_Viewer/SUPViewer.cs using Guid(0085ec48a3466434295badc5e3f0584f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '079dc2b66563cdc5e025ae30c9562fa5') in 0.001437 seconds
+  Import took 0.002820 seconds .
+
+AssetImportWorkerClient::OnTransportError - code=2 error=End of file

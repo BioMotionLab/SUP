@@ -19,7 +19,7 @@ namespace Samples.SUP_Viewer {
 		
 		[FormerlySerializedAs("characterSettings")] [SerializeField]
 		DisplaySettings displaySettings = default;
-		public DisplaySettings RuntimeDisplaySettings { get; private set; }
+		public DisplaySettings RuntimeDisplaySettings { get; private set; } 
 
 		
 		[SerializeField]
