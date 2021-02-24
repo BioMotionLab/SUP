@@ -258,3 +258,387 @@ System memory in use after: 121.3 MB.
 Unloading 22 unused Assets to reduce memory usage. Loaded Objects now: 1413.
 Total: 1.096270 ms (FindLiveObjects: 0.096452 ms CreateObjectMapping: 0.023144 ms MarkObjects: 0.964236 ms  DeleteObjects: 0.011845 ms)
 
+========================================================================
+Received Import Request.
+  Time since last request: 1800.290495 seconds.
+  path: Packages/com.biomotionlab.sup/Samples/SUP_Viewer/SUPViewer.cs
+  artifactKey: Guid(0085ec48a3466434295badc5e3f0584f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.biomotionlab.sup/Samples/SUP_Viewer/SUPViewer.cs using Guid(0085ec48a3466434295badc5e3f0584f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '98926d93e4bd77b49574c6fcfe4f4719') in 0.163041 seconds
+  Import took 0.164273 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 17.048870 seconds.
+  path: Packages/com.biomotionlab.sup/Scripts/SMPLModel/SMPLMesh.cs
+  artifactKey: Guid(5dc5722248e1bff498fcec5c3cfb707d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.biomotionlab.sup/Scripts/SMPLModel/SMPLMesh.cs using Guid(5dc5722248e1bff498fcec5c3cfb707d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '39f431f1a02eb5580875decc223c26b0') in 0.001437 seconds
+  Import took 0.002593 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000738 seconds.
+  path: Packages/com.biomotionlab.sup/Scripts/SMPLModel/SMPLMesh.cs
+  artifactKey: Guid(5dc5722248e1bff498fcec5c3cfb707d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.biomotionlab.sup/Scripts/SMPLModel/SMPLMesh.cs using Guid(5dc5722248e1bff498fcec5c3cfb707d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '39f431f1a02eb5580875decc223c26b0') in 0.001111 seconds
+  Import took 0.002448 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 3.553402 seconds.
+  path: Packages/com.biomotionlab.sup/Scripts/SMPLModel/SMPLCharacter.cs
+  artifactKey: Guid(c1090bb959dd41cf80e0280448152024) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.biomotionlab.sup/Scripts/SMPLModel/SMPLCharacter.cs using Guid(c1090bb959dd41cf80e0280448152024) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'd5d9cb3b0042372c685552eff186475c') in 0.001125 seconds
+  Import took 0.002278 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 8.510524 seconds.
+  path: Packages/com.biomotionlab.sup/Scripts/SMPLModel/AnimationData.cs
+  artifactKey: Guid(867ced8a1f9f43e89b6b0c6213a69ccf) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.biomotionlab.sup/Scripts/SMPLModel/AnimationData.cs using Guid(867ced8a1f9f43e89b6b0c6213a69ccf) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '615bb0f846e85109faa207e2d422dab2') in 0.001314 seconds
+  Import took 0.002520 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 6.026654 seconds.
+  path: Packages/com.biomotionlab.sup/Scripts/SMPLModel/AverageBody.cs
+  artifactKey: Guid(c15c13122a0641468981af8faff7220a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.biomotionlab.sup/Scripts/SMPLModel/AverageBody.cs using Guid(c15c13122a0641468981af8faff7220a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'aa7f029b6c356141227d100ff2861f75') in 0.001143 seconds
+  Import took 0.002341 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.001957 seconds.
+  path: Packages/com.biomotionlab.sup/Scripts/SMPLModel/AverageBody.cs
+  artifactKey: Guid(c15c13122a0641468981af8faff7220a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.biomotionlab.sup/Scripts/SMPLModel/AverageBody.cs using Guid(c15c13122a0641468981af8faff7220a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'aa7f029b6c356141227d100ff2861f75') in 0.000937 seconds
+  Import took 0.002095 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 30.172554 seconds.
+  path: Packages/com.biomotionlab.sup/Scripts/InGameUI/LoadNewAnimation.cs
+  artifactKey: Guid(7a3cc42b9fa6e9a44ba8c75e08e4923c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.biomotionlab.sup/Scripts/InGameUI/LoadNewAnimation.cs using Guid(7a3cc42b9fa6e9a44ba8c75e08e4923c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '81f54ef2b0eb5c2a778c8d8101ca7ddd') in 0.001352 seconds
+  Import took 0.002475 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000726 seconds.
+  path: Packages/com.biomotionlab.sup/Scripts/InGameUI/LoadNewAnimation.cs
+  artifactKey: Guid(7a3cc42b9fa6e9a44ba8c75e08e4923c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.biomotionlab.sup/Scripts/InGameUI/LoadNewAnimation.cs using Guid(7a3cc42b9fa6e9a44ba8c75e08e4923c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '81f54ef2b0eb5c2a778c8d8101ca7ddd') in 0.001194 seconds
+  Import took 0.002596 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 5.387561 seconds.
+  path: Packages/com.biomotionlab.sup/Scripts/InGameUI/KeyboardControlEvents.cs
+  artifactKey: Guid(e040c836f0024f847923af7eecca9bf1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.biomotionlab.sup/Scripts/InGameUI/KeyboardControlEvents.cs using Guid(e040c836f0024f847923af7eecca9bf1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'da7059bab640090ba737a31dbb123cc7') in 0.001179 seconds
+  Import took 0.002455 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 2.149427 seconds.
+  path: Packages/com.biomotionlab.sup/Scripts/InGameUI/FrameSlider.cs
+  artifactKey: Guid(23e6ebac353de924abe937466f005d04) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.biomotionlab.sup/Scripts/InGameUI/FrameSlider.cs using Guid(23e6ebac353de924abe937466f005d04) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '511264d49183dde9ccfdddcce0bc2616') in 0.001174 seconds
+  Import took 0.002419 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.001773 seconds.
+  path: Packages/com.biomotionlab.sup/Scripts/InGameUI/FrameSlider.cs
+  artifactKey: Guid(23e6ebac353de924abe937466f005d04) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.biomotionlab.sup/Scripts/InGameUI/FrameSlider.cs using Guid(23e6ebac353de924abe937466f005d04) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '511264d49183dde9ccfdddcce0bc2616') in 0.000887 seconds
+  Import took 0.001978 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 76.121427 seconds.
+  path: Packages/com.biomotionlab.sup/Scripts/Display/BoneDisplay.cs
+  artifactKey: Guid(44c769a0a73a43c4a77d641bc9919c1c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.biomotionlab.sup/Scripts/Display/BoneDisplay.cs using Guid(44c769a0a73a43c4a77d641bc9919c1c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '886e4c094824cf6afd5861f8e39e9778') in 0.000992 seconds
+  Import took 0.002130 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000589 seconds.
+  path: Packages/com.biomotionlab.sup/Scripts/Display/BoneDisplay.cs
+  artifactKey: Guid(44c769a0a73a43c4a77d641bc9919c1c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.biomotionlab.sup/Scripts/Display/BoneDisplay.cs using Guid(44c769a0a73a43c4a77d641bc9919c1c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '886e4c094824cf6afd5861f8e39e9778') in 0.000908 seconds
+  Import took 0.002253 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 5.354019 seconds.
+  path: Packages/com.biomotionlab.sup/Scripts/Display/BoneDisplaySettings.cs
+  artifactKey: Guid(95ef02731e124c8d969a37d83acabba5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.biomotionlab.sup/Scripts/Display/BoneDisplaySettings.cs using Guid(95ef02731e124c8d969a37d83acabba5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '5e1090fb9f3e3bcdcf6471fb27df8b97') in 0.000998 seconds
+  Import took 0.002175 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000955 seconds.
+  path: Packages/com.biomotionlab.sup/Scripts/Display/BoneDisplaySettings.cs
+  artifactKey: Guid(95ef02731e124c8d969a37d83acabba5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.biomotionlab.sup/Scripts/Display/BoneDisplaySettings.cs using Guid(95ef02731e124c8d969a37d83acabba5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '5e1090fb9f3e3bcdcf6471fb27df8b97') in 0.001072 seconds
+  Import took 0.002285 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 4.425730 seconds.
+  path: Packages/com.biomotionlab.sup/Scripts/Display/BoneDisplayState.cs
+  artifactKey: Guid(4400c0b7a6c144458f57379b9d7bc0e8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.biomotionlab.sup/Scripts/Display/BoneDisplayState.cs using Guid(4400c0b7a6c144458f57379b9d7bc0e8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4d5e6b7d5f124e1eb20fc295e483ea5c') in 0.000985 seconds
+  Import took 0.002314 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 4.937700 seconds.
+  path: Packages/com.biomotionlab.sup/Scripts/Display/PointLight.cs
+  artifactKey: Guid(08b04b40dc3d4bd789e3f64421aaba8f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.biomotionlab.sup/Scripts/Display/PointLight.cs using Guid(08b04b40dc3d4bd789e3f64421aaba8f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '71d66af2b37f288caa547ca2b8efe989') in 0.000998 seconds
+  Import took 0.002191 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.001874 seconds.
+  path: Packages/com.biomotionlab.sup/Scripts/Display/PointLight.cs
+  artifactKey: Guid(08b04b40dc3d4bd789e3f64421aaba8f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.biomotionlab.sup/Scripts/Display/PointLight.cs using Guid(08b04b40dc3d4bd789e3f64421aaba8f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '71d66af2b37f288caa547ca2b8efe989') in 0.001024 seconds
+  Import took 0.002247 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 30.992133 seconds.
+  path: Packages/com.biomotionlab.sup/Scripts/Display/PointLightDisplayState.cs
+  artifactKey: Guid(cecbe6bc8151404d852ca2d147a06aa2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.biomotionlab.sup/Scripts/Display/PointLightDisplayState.cs using Guid(cecbe6bc8151404d852ca2d147a06aa2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '5fca2adde93ba17343200b5ba2b2d684') in 0.001170 seconds
+  Import took 0.002715 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000709 seconds.
+  path: Packages/com.biomotionlab.sup/Scripts/Display/PointLightDisplayState.cs
+  artifactKey: Guid(cecbe6bc8151404d852ca2d147a06aa2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.biomotionlab.sup/Scripts/Display/PointLightDisplayState.cs using Guid(cecbe6bc8151404d852ca2d147a06aa2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '5fca2adde93ba17343200b5ba2b2d684') in 0.000885 seconds
+  Import took 0.001817 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.838986 seconds.
+  path: Packages/com.biomotionlab.sup/Scripts/Display/PointLightPrefab.prefab
+  artifactKey: Guid(bffe4c47259477a4bacbc1018ea0d04f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.biomotionlab.sup/Scripts/Display/PointLightPrefab.prefab using Guid(bffe4c47259477a4bacbc1018ea0d04f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a6232570bffb4b9bcdc5225f62871356') in 0.174652 seconds
+  Import took 0.175931 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 3.723424 seconds.
+  path: Packages/com.biomotionlab.sup/Scripts/Display/PointLightDisplay.cs
+  artifactKey: Guid(f738dd36dd3a4487f82dcf042b717066) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.biomotionlab.sup/Scripts/Display/PointLightDisplay.cs using Guid(f738dd36dd3a4487f82dcf042b717066) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4014462234c93b89af57434f80ef51fe') in 0.004582 seconds
+  Import took 0.006012 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 5.379728 seconds.
+  path: Packages/com.biomotionlab.sup/Scripts/Display/MeshDisplayState.cs
+  artifactKey: Guid(f6245650143141a5830be904e89568f5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.biomotionlab.sup/Scripts/Display/MeshDisplayState.cs using Guid(f6245650143141a5830be904e89568f5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '884d317968ef38d6df643890c04ac21d') in 0.000983 seconds
+  Import took 0.002228 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000561 seconds.
+  path: Packages/com.biomotionlab.sup/Scripts/Display/MeshDisplayState.cs
+  artifactKey: Guid(f6245650143141a5830be904e89568f5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.biomotionlab.sup/Scripts/Display/MeshDisplayState.cs using Guid(f6245650143141a5830be904e89568f5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '884d317968ef38d6df643890c04ac21d') in 0.001066 seconds
+  Import took 0.002218 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 3.444659 seconds.
+  path: Packages/com.biomotionlab.sup/Scripts/Display/MeshDisplaySettings.cs
+  artifactKey: Guid(eb8cd9ebd6954700ac6aab45af92d351) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.biomotionlab.sup/Scripts/Display/MeshDisplaySettings.cs using Guid(eb8cd9ebd6954700ac6aab45af92d351) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '378d1ba410844943f59a3505ec3178ff') in 0.000928 seconds
+  Import took 0.002095 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000233 seconds.
+  path: Packages/com.biomotionlab.sup/Scripts/Display/MeshDisplaySettings.cs
+  artifactKey: Guid(eb8cd9ebd6954700ac6aab45af92d351) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.biomotionlab.sup/Scripts/Display/MeshDisplaySettings.cs using Guid(eb8cd9ebd6954700ac6aab45af92d351) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '378d1ba410844943f59a3505ec3178ff') in 0.001070 seconds
+  Import took 0.002174 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 589.197184 seconds.
+  path: Packages/com.biomotionlab.sup/Samples/SUP_Viewer
+  artifactKey: Guid(b5e032eb6105f7b4ca9b4e980a969c07) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.biomotionlab.sup/Samples/SUP_Viewer using Guid(b5e032eb6105f7b4ca9b4e980a969c07) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c2e4a4d6d0d7c936c669420146cebffd') in 0.000640 seconds
+  Import took 0.001953 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 6.824487 seconds.
+  path: Packages/com.biomotionlab.sup/Samples/SUPViewer
+  artifactKey: Guid(b5e032eb6105f7b4ca9b4e980a969c07) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.biomotionlab.sup/Samples/SUPViewer using Guid(b5e032eb6105f7b4ca9b4e980a969c07) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e27e0770ee9690c4013331dd582a3ddc') in 0.000582 seconds
+  Import took 0.002085 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 3.651013 seconds.
+  path: Packages/com.biomotionlab.sup/Samples/SUPViewer/SUPViewer.asmdef
+  artifactKey: Guid(4c2d89f97fd9546af9f81a76ec06ce17) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.biomotionlab.sup/Samples/SUPViewer/SUPViewer.asmdef using Guid(4c2d89f97fd9546af9f81a76ec06ce17) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '2921dedef951119008bfd069dbea629f') in 0.104870 seconds
+  Import took 0.106144 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 14.845924 seconds.
+  path: Packages/com.biomotionlab.sup/Samples/SUPViewer/SUPViewer.cs
+  artifactKey: Guid(0085ec48a3466434295badc5e3f0584f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.biomotionlab.sup/Samples/SUPViewer/SUPViewer.cs using Guid(0085ec48a3466434295badc5e3f0584f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'd51b35914bd25a010e2e5329b06e0c38') in 0.002446 seconds
+  Import took 0.003995 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 2.324431 seconds.
+  path: Packages/com.biomotionlab.sup/Samples/SUPViewer/SUPViewer.unity
+  artifactKey: Guid(4b3caf3dce812488aa96bad2cf6d6cf9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.biomotionlab.sup/Samples/SUPViewer/SUPViewer.unity using Guid(4b3caf3dce812488aa96bad2cf6d6cf9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'dd5f57fdf953c5feb3681498004058c5') in 0.000843 seconds
+  Import took 0.002181 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 46.460703 seconds.
+  path: Packages/com.biomotionlab.sup/Samples/SUPViewer/ViewerSample.asmdef
+  artifactKey: Guid(ca1fe99c74cc44660b9e3f1ce69bb900) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.biomotionlab.sup/Samples/SUPViewer/ViewerSample.asmdef using Guid(ca1fe99c74cc44660b9e3f1ce69bb900) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'd943012ab8268304f2fbd3854848dc93') in 0.003081 seconds
+  Import took 0.004376 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 20.212053 seconds.
+  path: Packages/com.biomotionlab.sup/Samples/SUPViewer/ViewerSample.asmdef
+  artifactKey: Guid(ca1fe99c74cc44660b9e3f1ce69bb900) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.biomotionlab.sup/Samples/SUPViewer/ViewerSample.asmdef using Guid(ca1fe99c74cc44660b9e3f1ce69bb900) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '267492872e0969268e867df451417ca8') in 0.002787 seconds
+  Import took 0.004063 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 9.192541 seconds.
+  path: Packages/com.biomotionlab.sup/Scripts/bmlSUP.asmdef
+  artifactKey: Guid(dd6792b1c72384e42bd013fb6e7aaf80) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.biomotionlab.sup/Scripts/bmlSUP.asmdef using Guid(dd6792b1c72384e42bd013fb6e7aaf80) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '70906a0d2dd58822c62d79199dfb49bd') in 0.002374 seconds
+  Import took 0.003728 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 3186.830050 seconds.
+  path: Packages/com.biomotionlab.sup/ThirdParty/HDF5/HDF.PInvoke.dll
+  artifactKey: Guid(fd9c814e938244f71ae187ea16f26d80) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.biomotionlab.sup/ThirdParty/HDF5/HDF.PInvoke.dll using Guid(fd9c814e938244f71ae187ea16f26d80) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8b183685d6ac533f140900cd90a2d553') in 0.221772 seconds
+  Import took 0.223126 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 14.274938 seconds.
+  path: Packages/com.biomotionlab.sup/ThirdParty/HDF5/hdf5.dll
+  artifactKey: Guid(469fd2132b30c4cb79471b640384b5fa) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.biomotionlab.sup/ThirdParty/HDF5/hdf5.dll using Guid(469fd2132b30c4cb79471b640384b5fa) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '22de142439e77dfd1e5ebc03eec62df9') in 0.001587 seconds
+  Import took 0.003153 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000381 seconds.
+  path: Packages/com.biomotionlab.sup/ThirdParty/HDF5/hdf5.dll
+  artifactKey: Guid(469fd2132b30c4cb79471b640384b5fa) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.biomotionlab.sup/ThirdParty/HDF5/hdf5.dll using Guid(469fd2132b30c4cb79471b640384b5fa) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '22de142439e77dfd1e5ebc03eec62df9') in 0.000865 seconds
+  Import took 0.001904 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 5.620140 seconds.
+  path: Packages/com.biomotionlab.sup/ThirdParty/HDF5/hdf5_hl.dll
+  artifactKey: Guid(18372389bbe584444a3880c56a57e002) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.biomotionlab.sup/ThirdParty/HDF5/hdf5_hl.dll using Guid(18372389bbe584444a3880c56a57e002) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '576bdfd96a394a54b89ff5504eb716d9') in 0.001327 seconds
+  Import took 0.002747 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000578 seconds.
+  path: Packages/com.biomotionlab.sup/ThirdParty/HDF5/hdf5_hl.dll
+  artifactKey: Guid(18372389bbe584444a3880c56a57e002) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.biomotionlab.sup/ThirdParty/HDF5/hdf5_hl.dll using Guid(18372389bbe584444a3880c56a57e002) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '576bdfd96a394a54b89ff5504eb716d9') in 0.001152 seconds
+  Import took 0.002313 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 10.486806 seconds.
+  path: Packages/com.biomotionlab.sup/ThirdParty/HDF5/libhdf5.dylib
+  artifactKey: Guid(f799497f6ec8f474d93f62a03f87a831) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.biomotionlab.sup/ThirdParty/HDF5/libhdf5.dylib using Guid(f799497f6ec8f474d93f62a03f87a831) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a834e30de47e34035242fce1137fc49c') in 0.229268 seconds
+  Import took 0.231154 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 5.363021 seconds.
+  path: Packages/com.biomotionlab.sup/ThirdParty/HDF5/libhdf5.so
+  artifactKey: Guid(729ddef2a3fe444b9b3e8d8036bc7020) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.biomotionlab.sup/ThirdParty/HDF5/libhdf5.so using Guid(729ddef2a3fe444b9b3e8d8036bc7020) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '5ca4eb1564283bd89965f30def3957c3') in 0.219962 seconds
+  Import took 0.221354 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 2.314348 seconds.
+  path: Packages/com.biomotionlab.sup/ThirdParty/HDF5/libhdf5_hl.dylib
+  artifactKey: Guid(a8b49ee194443418787154be4efd2101) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.biomotionlab.sup/ThirdParty/HDF5/libhdf5_hl.dylib using Guid(a8b49ee194443418787154be4efd2101) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f57d7c4e2efb6bc65cf9c79c2ed46178') in 0.001701 seconds
+  Import took 0.003014 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 6.074266 seconds.
+  path: Packages/com.biomotionlab.sup/ThirdParty/HDF5/libhdf5_hl.so
+  artifactKey: Guid(9652a51254f614c33bf52a92bc45396b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.biomotionlab.sup/ThirdParty/HDF5/libhdf5_hl.so using Guid(9652a51254f614c33bf52a92bc45396b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '74aecf2f16917bcef3581e620516e055') in 0.001405 seconds
+  Import took 0.002737 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000449 seconds.
+  path: Packages/com.biomotionlab.sup/ThirdParty/HDF5/libhdf5_hl.so
+  artifactKey: Guid(9652a51254f614c33bf52a92bc45396b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.biomotionlab.sup/ThirdParty/HDF5/libhdf5_hl.so using Guid(9652a51254f614c33bf52a92bc45396b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '74aecf2f16917bcef3581e620516e055') in 0.001052 seconds
+  Import took 0.002010 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 257.542520 seconds.
+  path: Packages/com.biomotionlab.sup/ThirdParty/HDF5/zlib1.dll
+  artifactKey: Guid(edce854f418324d5e8305a8ce3181633) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.biomotionlab.sup/ThirdParty/HDF5/zlib1.dll using Guid(edce854f418324d5e8305a8ce3181633) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '13c6707e2c0b196ad806e79bdf9126d0') in 0.001007 seconds
+  Import took 0.002219 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000463 seconds.
+  path: Packages/com.biomotionlab.sup/ThirdParty/HDF5/zlib1.dll
+  artifactKey: Guid(edce854f418324d5e8305a8ce3181633) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.biomotionlab.sup/ThirdParty/HDF5/zlib1.dll using Guid(edce854f418324d5e8305a8ce3181633) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '13c6707e2c0b196ad806e79bdf9126d0') in 0.000932 seconds
+  Import took 0.001947 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 30.861125 seconds.
+  path: Packages/com.biomotionlab.sup/ThirdParty/SimpleJSON
+  artifactKey: Guid(af3c1a15b280a49e790c345be8ddb764) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.biomotionlab.sup/ThirdParty/SimpleJSON using Guid(af3c1a15b280a49e790c345be8ddb764) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '99e7fcd646ae41c1df488cbe1baf1cf3') in 0.000756 seconds
+  Import took 0.002134 seconds .
+
