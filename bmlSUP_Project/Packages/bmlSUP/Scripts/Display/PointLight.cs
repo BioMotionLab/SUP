@@ -44,10 +44,14 @@ namespace Display {
                                              Settings.PointLightDisplaySize,
                                              Settings.PointLightDisplaySize);
             
-            if (Settings.DrawSidesDifferentColors) ColorBySideOfBody(bone);
         }
 
         void LateUpdate() {
+            
+            if (Settings.DrawSidesDifferentColors) ColorBySideOfBody(linkedBone);
+            this.transform.localScale = new Vector3(Settings.PointLightDisplaySize, Settings.PointLightDisplaySize,
+                Settings.PointLightDisplaySize);
+            
             if (linkedBone != null) {
                 transform.position = linkedBone.position;
                 meshRenderer.enabled = pointLightDisplay.DisplayPointLights;
