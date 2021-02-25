@@ -22,6 +22,7 @@ namespace Samples.SUPViewer {
 		public DisplaySettings RuntimeDisplaySettings { get; private set; } 
 
 		
+		
 		[SerializeField]
 		PlaybackSettings playbackSettings = default;
 		public PlaybackSettings RuntimePlaybackSettings { get; private set; }
@@ -82,20 +83,18 @@ namespace Samples.SUPViewer {
 		void LoadAnimations(string listFile, string animationsFolder) {
 			loader = gameObject.AddComponent<AnimationLoader>();
 			AnimationFileReference fileReference = new AnimationFileReference(listFile, animationsFolder);
-			loader.OnDone += DoneLoading;
-			loader.Load(fileReference, models, RuntimePlaybackSettings);
+			loader.LoadAsync(fileReference, models, RuntimePlaybackSettings, DoneLoading);
 		}
 
 		void LoadSingleAnimation(string singlefile) {
 			loader = gameObject.AddComponent<AnimationLoader>();
 			AnimationFileReference fileReference = new AnimationFileReference(singlefile);
-			loader.OnDone += DoneLoading;
-			loader.Load(fileReference, models, RuntimePlaybackSettings);
+			
+			loader.LoadAsync(fileReference, models, RuntimePlaybackSettings, DoneLoading);
 		}
 
 
 		void DoneLoading(List<List<AMASSAnimation>> loadedAnimationSequence) {
-			loader.OnDone -= DoneLoading;
 			animationSequence = loadedAnimationSequence;
 			doneLoading = true;
 			Destroy(loader);

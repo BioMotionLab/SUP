@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 using FileLoaders;
 using SMPLModel;
 using UnityEngine;
@@ -15,15 +16,8 @@ namespace Playback {
         AnimationFileReference animationFileReference;
         
         PlaybackSettings playbackSettings;
-        public delegate void DoneLoadingEvent(List<List<AMASSAnimation>> animationSequence);
-        public event DoneLoadingEvent OnDone;
 
-        void Done(List<List<AMASSAnimation>> animationSequence){
-            OnDone?.Invoke(animationSequence);
-            OnDone = null;
-        }
-        
-        public void Load(AnimationFileReference animationsFileReference, Models models, PlaybackSettings playbackSettings) {
+        public async void LoadAsync(AnimationFileReference animationsFileReference, Models models, PlaybackSettings playbackSettings, Action<List<List<AMASSAnimation>>> doneAction) {
            
             this.models = models;
             this.playbackSettings = playbackSettings;
@@ -32,13 +26,14 @@ namespace Playback {
             string updateMessage = $"Loading {animationsFileReference.Count} animations from files. If there are a lot, this could take a few seconds...";
             Debug.Log(updateMessage);
             PlaybackEventSystem.UpdatePlayerProgress(updateMessage);
-            
-            StartCoroutine(LoadAnimations());
-        }
 
-        IEnumerator LoadAnimations() {
+            List<List<AMASSAnimation>> loadedSequence = await Task.Run(LoadAnimationsAsync);
             
-             List<List<AMASSAnimation>> AnimationSequence = new List<List<AMASSAnimation>>();
+            doneAction.Invoke(loadedSequence);
+        }
+        
+        List<List<AMASSAnimation>> LoadAnimationsAsync() {
+            List<List<AMASSAnimation>> animationSequence = new List<List<AMASSAnimation>>();
             
             for (int lineIndex = 0; lineIndex < animationFileReference.Count; lineIndex++) {
                 StringBuilder log = new StringBuilder();
@@ -53,20 +48,21 @@ namespace Playback {
                     continue;
                 }
                 
-                AnimationSequence.Add(allAnimationsInThisLine);
+                animationSequence.Add(allAnimationsInThisLine);
                 log.Append($" (Model:{allAnimationsInThisLine[0].Data.Model.ModelName}), containing animations for {allAnimationsInThisLine.Count} characters");
 
                 string finalLog = $"\t...{log}";
                 Debug.Log(finalLog);
                 PlaybackEventSystem.UpdatePlayerProgress(log.ToString());
-                yield return null;
             }
 
-            string updateMessage = $"Done Loading All Animations. Successfully loaded {AnimationSequence.Count} of {animationFileReference.AnimListAsStrings.Length}.";
-            Debug.Log(updateMessage);
-            Done(AnimationSequence);
+            string updateMessage = $"Done Loading All Animations. Successfully loaded {animationSequence.Count} of {animationFileReference.AnimListAsStrings.Length}.";
             PlaybackEventSystem.UpdatePlayerProgress(updateMessage);
-        }
+            Debug.Log(updateMessage);
+            return (animationSequence);
+            
+            
+        } 
 
 
         List<AMASSAnimation> GetAnimationsFromLine(string line) {
