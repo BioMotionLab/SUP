@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Display;
 using InGameUI;
 using JetBrains.Annotations;
@@ -29,7 +30,11 @@ namespace Playback {
         bool uiOn = true;
         bool allowKeyboardControls;
 
+        static Queue<Action> mainThreadActions;
+
         void OnEnable() {
+            mainThreadActions = new Queue<Action>();
+            
             KeyboardControlEvents.OnDisableKeyboardControls += DisableKeyboardControls;
             KeyboardControlEvents.OnEnableKeyboardControls += EnableKeyboardControls;
         }
@@ -63,6 +68,13 @@ namespace Playback {
         public void Update() {
             if (allowKeyboardControls) {
                 ListenForKeyboardPresses();
+            }
+
+            Action[] actionsToPerform = new Action[mainThreadActions.Count];
+            mainThreadActions.CopyTo(actionsToPerform, 0);
+            mainThreadActions.Clear();
+            foreach (Action mainThreadAction in actionsToPerform) {
+                mainThreadAction.Invoke();
             }
         }
 
@@ -213,7 +225,7 @@ namespace Playback {
         public static event PlayerProgressTextEvent OnUpdatePlayerProgress;
 
         public static void UpdatePlayerProgress(string text) {
-            OnUpdatePlayerProgress?.Invoke(text);
+            mainThreadActions.Enqueue(()=> OnUpdatePlayerProgress?.Invoke(text) );
         }
 
 

@@ -26,6 +26,7 @@ namespace Display {
             skinnedMeshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
             SetupBones(skinnedMeshRenderer.bones[smplCharacter.Model.PelvisIndex]);
         }
+        
 
         void SetupBones(Transform pelvisBoneToSetup) {
             CreateContainerIfNeeded();

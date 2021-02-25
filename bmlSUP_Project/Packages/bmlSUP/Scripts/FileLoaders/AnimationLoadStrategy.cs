@@ -39,7 +39,7 @@ namespace FileLoaders {
             if (animationData.Model == null) 
                 throw new NullReferenceException("Could not match animation to a model");
             
-            if (animationData.Model.name == "SMPL") 
+            if (animationData.Model.ModelName == "SMPL") 
                 throw new DataReadException("Loaded data appears to be from older SMPL. SMPL is currently untested, so I disabled it. If you need this functionality contact me and I can get it working -Adam");
         }
 
