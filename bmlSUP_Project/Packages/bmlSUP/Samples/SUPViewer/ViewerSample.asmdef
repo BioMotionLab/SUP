@@ -1,0 +1,16 @@
+{
+    "name": "ViewerSample",
+    "rootNamespace": "",
+    "references": [
+        "GUID:dd6792b1c72384e42bd013fb6e7aaf80"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
