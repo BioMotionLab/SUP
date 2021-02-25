@@ -56,7 +56,6 @@ namespace Display {
             this.parentBone = parentBone;
             this.childBone = childBone;
             name = $"BoneLine {this.parentBone.name} to {this.childBone.name}";
-            if (Settings.DrawSidesDifferentColors) DrawSidesDifferentColors();
         }
         
         
@@ -64,6 +63,7 @@ namespace Display {
         void LateUpdate() {
             UpdateBoneLine();
             ShowOrHideBasedOnSettings();
+            if (Settings.DrawSidesDifferentColors) DrawSidesDifferentColors();
         }
 
         void UpdateBoneLine() {
