@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/BioMotionLab/SUP/compare/release/1.0.0...release/1.0.1) (2021-02-25)
+
+
+### Bug Fixes
+
+* Correctly adopts different colors and sizes for bones and joints ([7f63ad0](https://github.com/BioMotionLab/SUP/commit/7f63ad0f438ff7f40247dba2d9f706c5e0618826))
+
 # 1.0.0 (2021-02-25)
 
 
