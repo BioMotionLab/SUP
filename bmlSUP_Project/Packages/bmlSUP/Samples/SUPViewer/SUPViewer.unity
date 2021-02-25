@@ -3215,7 +3215,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1928423153}
+      objectReference: {fileID: 1928423154}
     - target: {fileID: 3928477100325050147, guid: 4ed003a4ef51d63439792770080d116e,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -3224,12 +3224,17 @@ PrefabInstance:
     - target: {fileID: 3928477100325050147, guid: 4ed003a4ef51d63439792770080d116e,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: 
+      value: ToggleFreezeState
+      objectReference: {fileID: 0}
+    - target: {fileID: 3928477100325050147, guid: 4ed003a4ef51d63439792770080d116e,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: FreezeCameraButton, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 3928477100325050147, guid: 4ed003a4ef51d63439792770080d116e,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: 
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 4033284147045766107, guid: 4ed003a4ef51d63439792770080d116e,
         type: 3}
