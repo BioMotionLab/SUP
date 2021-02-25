@@ -20,12 +20,12 @@ MonoBehaviour:
     SemiTransparent: {fileID: 2100000, guid: 390d20f60d542454993698b34318161d, type: 2}
     OptionalMaterialList: []
   BoneDisplaySettings:
-    BoneWidth: 0.005
+    BoneWidth: 0.01
     DrawSidesDifferentColors: 1
     LeftSideMaterial: {fileID: 2100000, guid: 5975636768fed814ab183a919fb2fc49, type: 2}
     RightSideMaterial: {fileID: 2100000, guid: 8bad80b00626096438ec084e61fd4dba, type: 2}
   PointLightDisplaySettings:
-    PointLightDisplaySize: 0.01
+    PointLightDisplaySize: 0.02
     DrawSidesDifferentColors: 1
     LeftSideMaterial: {fileID: 2100000, guid: 5975636768fed814ab183a919fb2fc49, type: 2}
     RightSideMaterial: {fileID: 2100000, guid: 8bad80b00626096438ec084e61fd4dba, type: 2}
