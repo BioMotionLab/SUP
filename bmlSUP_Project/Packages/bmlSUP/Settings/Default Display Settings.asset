@@ -16,7 +16,7 @@ MonoBehaviour:
   DisplayPointLights: 1
   DisplayMeshAs: 0
   MeshDisplaySettings:
-    Opaque: {fileID: 2100000, guid: c84c1539a57a94d498b8ea52d4412272, type: 2}
+    Opaque: {fileID: 2100000, guid: 1627635193177934092549c1c08bbe37, type: 2}
     SemiTransparent: {fileID: 2100000, guid: 390d20f60d542454993698b34318161d, type: 2}
     OptionalMaterialList: []
   BoneDisplaySettings:

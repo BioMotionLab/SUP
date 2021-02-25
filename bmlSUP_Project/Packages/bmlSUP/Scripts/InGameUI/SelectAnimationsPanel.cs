@@ -9,21 +9,18 @@ using UnityEngine.Serialization;
 namespace InGameUI {
     public class SelectAnimationsPanel : MonoBehaviour {
 
-        [FormerlySerializedAs("FolderText")] [SerializeField]
-        TextMeshProUGUI folderText = default;
+        [SerializeField] TextMeshProUGUI folderText = default;
 
-        [SerializeField]
-        TextMeshProUGUI singleFileText = default;
+        [SerializeField] TextMeshProUGUI singleFileText = default;
         
-        [FormerlySerializedAs("FileText")] [SerializeField]
-        TextMeshProUGUI fileText = default;
+        [SerializeField] TextMeshProUGUI fileText = default;
 
-        [SerializeField]
-        TextMeshProUGUI singleErrorText = default;
+        [SerializeField] TextMeshProUGUI singleErrorText = default;
         
-        [FormerlySerializedAs("ErrorText")] [SerializeField]
-        TextMeshProUGUI errorText = default;
+        [SerializeField] TextMeshProUGUI errorText = default;
 
+        
+        
         string animationsFolder;
         string listFile;
 
