@@ -10,16 +10,16 @@ namespace Display {
     /// A single point light for displaying a joint's location.
     /// </summary>
     [ExecuteInEditMode]
-    public class PointLight : MonoBehaviour {
+    public class JointSphere : MonoBehaviour {
         
 
         [SerializeField]
-        PointLightDisplaySettings defaultPointlightDisplaySettings = default;
+        JointSphereDisplaySettings defaultPointlightDisplaySettings = default;
 
-        PointLightDisplaySettings Settings {
+        JointSphereDisplaySettings Settings {
             get {
                 if (smplCharacter != null && smplCharacter.DisplaySettings != null) {
-                    return smplCharacter.DisplaySettings.PointLightDisplaySettings;
+                    return smplCharacter.DisplaySettings.jointSphereDisplaySettings;
                 }
                 return defaultPointlightDisplaySettings;
             }
@@ -37,7 +37,7 @@ namespace Display {
             this.smplCharacter = smplCharacter;
             linkedBone = bone;
             this.pointLightDisplay = pointLightDisplay;
-            name = $"PointLight for {bone.name}";
+            name = $"JointSphere for {bone.name}";
             var cachedTransform = transform;
             cachedTransform.localPosition = Vector3.zero;
             cachedTransform.localScale = new Vector3(Settings.PointLightDisplaySize,

@@ -1,5 +1,6 @@
 ﻿using SMPLModel;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Display {
     
@@ -10,8 +11,8 @@ namespace Display {
         
         SkinnedMeshRenderer meshRenderer;
 
-        [SerializeField]
-        PointLight PointLightPrefab = default;
+        [FormerlySerializedAs("PointLightPrefab")] [SerializeField]
+        JointSphere jointSpherePrefab = default;
 
         SMPLCharacter smplCharacter;
         public bool DisplayPointLights => smplCharacter.DisplaySettings.DisplayPointLights == PointLightDisplayState.On;
@@ -27,7 +28,7 @@ namespace Display {
         }
 
         void SetupPointLights() {
-            pointLightContainer = new GameObject {name = "PointLight Container"};
+            pointLightContainer = new GameObject {name = "JointSphere Container"};
             pointLightContainer.transform.parent = transform;
             CreatePointLightsInBoneHierarchy(meshRenderer.bones[0]);
         }
@@ -37,8 +38,8 @@ namespace Display {
         /// </summary>
         /// <param name="parent"></param>
         void CreatePointLightsInBoneHierarchy(Transform parent) {
-            PointLight newPointLight = Instantiate(PointLightPrefab, pointLightContainer.transform);
-            newPointLight.AttachBone(smplCharacter, this, parent);
+            JointSphere newJointSphere = Instantiate(jointSpherePrefab, pointLightContainer.transform);
+            newJointSphere.AttachBone(smplCharacter, this, parent);
             foreach (Transform child in parent) {
                 if (Bones.IsBone(child)) {
                     CreatePointLightsInBoneHierarchy(child);
