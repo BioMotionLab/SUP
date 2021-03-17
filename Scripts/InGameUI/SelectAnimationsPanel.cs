@@ -1,10 +1,9 @@
 ﻿using System.IO;
 using JetBrains.Annotations;
 using Playback;
-using ThirdParty.StandaloneFileBrowser;
+using SFB;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace InGameUI {
     public class SelectAnimationsPanel : MonoBehaviour {
@@ -36,7 +35,10 @@ namespace InGameUI {
 
         [PublicAPI]
         public void SelectFolder() {
-            var paths = StandaloneFileBrowser.OpenFolderPanel("Select Folder", "", false);
+            StandaloneFileBrowser.OpenFolderPanelAsync("Select Folder", "", false, SelectedFolder);
+        }
+
+        void SelectedFolder(string[] paths) {
             if (paths.Length == 0) return;
             animationsFolder = paths[0].Replace("\\", "\\\\");
             Debug.Log(animationsFolder);
@@ -46,8 +48,11 @@ namespace InGameUI {
 
         [PublicAPI]
         public void SelectListFile() {
-            string[] file = StandaloneFileBrowser.OpenFilePanel("Open File", "", "", false);
-            listFile = file[0].Replace("\\", "\\\\");
+            StandaloneFileBrowser.OpenFilePanelAsync("Open File", "", "", false, SelectedListFile);
+        }
+
+        void SelectedListFile(string[] files) {
+            listFile = files[0].Replace("\\", "\\\\");
             Debug.Log(listFile);
             fileText.text = listFile;
             listSelected = true;
@@ -55,9 +60,12 @@ namespace InGameUI {
 
         [PublicAPI]
         public void SelectSingleFile() {
-            string[] file = StandaloneFileBrowser.OpenFilePanel("Open File", "", new[] {supportedExtensions}, false);
-            if (file.Length < 1) return;
-            singleFile = file[0].Replace("\\", "\\\\");
+            StandaloneFileBrowser.OpenFilePanelAsync("Open File", "", new[] {supportedExtensions}, false, SelectedSingleFile);
+        }
+
+        void SelectedSingleFile(string[] files) {
+            if (files.Length < 1) return;
+            singleFile = files[0].Replace("\\", "\\\\");
             Debug.Log(singleFile);
             singleFileText.text = Path.GetFileName(singleFile);
             singleErrorText.text = "";
@@ -67,7 +75,7 @@ namespace InGameUI {
         [PublicAPI]
         public void LoadAnimations() {
             if (!folderSelected || !listSelected) {
-                errorText.text = "Missing list file or animation folder!";
+                errorText.text = "Missing list files or animation folder!";
                 return;
             }
             PlaybackEventSystem.LoadAnimations(listFile, animationsFolder);
@@ -78,7 +86,7 @@ namespace InGameUI {
         [PublicAPI]
         public void LoadSingleAnimation() {
             if (!singleFileSelected) {
-                singleErrorText.text = "Missing single file";
+                singleErrorText.text = "Missing single files";
                 return;
             }
             PlaybackEventSystem.LoadSingleAnimation(singleFile);
