@@ -8,4 +8,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Packages/com.biomotionlab.sup/Samples/SUPViewer/SUPViewer.unity
     guid: 4b3caf3dce812488aa96bad2cf6d6cf9
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.addressableassets: {fileID: 11400000, guid: aa5801982bcb149d1b48ec7d0ca9f51a,
+      type: 2}

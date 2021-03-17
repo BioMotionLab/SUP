@@ -65,6 +65,7 @@ namespace Samples.SUPViewer {
 			PlaybackEventSystem.OnLoadSingleAnimation -= LoadSingleAnimation;
 			PlaybackEventSystem.OnLoadNewAnimations -= LoadNewAnimations;
 			
+			
 			userModifiedSettingsHandler.Destroy();
 		}
 

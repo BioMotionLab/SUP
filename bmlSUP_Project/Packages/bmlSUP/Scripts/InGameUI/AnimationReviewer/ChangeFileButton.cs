@@ -1,6 +1,6 @@
 ﻿using System.IO;
 using JetBrains.Annotations;
-using ThirdParty.StandaloneFileBrowser;
+using SFB;
 using UnityEngine;
 
 namespace InGameUI.AnimationReviewer {
@@ -15,13 +15,19 @@ namespace InGameUI.AnimationReviewer {
 
         [PublicAPI]
         public void SelectFile() {
-            string[] file = StandaloneFileBrowser.OpenFilePanel("Open File", "", "", false);
+            StandaloneFileBrowser.OpenFilePanelAsync("Open File", "", "", false, SelectedFile);
+        }
+
+        void SelectedFile(string[] file) {
             reviewPanel.FileSelected(file);
         }
 
         public void CreateFile() {
-            string file = StandaloneFileBrowser.SaveFilePanel("Create New File", "", "review", "txt");
-        
+            StandaloneFileBrowser.SaveFilePanelAsync("Create New File", "", "review", "txt", CreatedFile);
+        }
+
+        void CreatedFile(string file) {
+            
             if (string.IsNullOrEmpty(file)) {
                 Debug.LogWarning("empty file given");
                 return;
