@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Display {
     [Serializable]
-    public class PointLightDisplaySettings {
+    public class JointSphereDisplaySettings {
         public float PointLightDisplaySize = 0.01f;
         public bool DrawSidesDifferentColors;
         public Material LeftSideMaterial;

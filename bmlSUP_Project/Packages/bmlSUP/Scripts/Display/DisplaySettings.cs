@@ -13,6 +13,6 @@ namespace Display {
         
         public MeshDisplaySettings MeshDisplaySettings = default;
         public BoneDisplaySettings BoneDisplaySettings = default;
-        public PointLightDisplaySettings PointLightDisplaySettings = default;
+        [FormerlySerializedAs("PointLightDisplaySettings")] public JointSphereDisplaySettings jointSphereDisplaySettings = default;
     }
 }
