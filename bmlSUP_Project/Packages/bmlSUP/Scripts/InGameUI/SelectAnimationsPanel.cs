@@ -24,7 +24,6 @@ namespace InGameUI {
         string listFile;
 
         bool folderSelected = false;
-        bool listSelected   = false;
         string singleFile;
         bool singleFileSelected = false;
         ExtensionFilter supportedExtensions;
@@ -55,7 +54,6 @@ namespace InGameUI {
             listFile = files[0].Replace("\\", "\\\\");
             Debug.Log(listFile);
             fileText.text = listFile;
-            listSelected = true;
         }
 
         [PublicAPI]
@@ -74,8 +72,8 @@ namespace InGameUI {
 
         [PublicAPI]
         public void LoadAnimations() {
-            if (!folderSelected || !listSelected) {
-                errorText.text = "Missing list files or animation folder!";
+            if (!folderSelected) {
+                errorText.text = "No animation folder selected";
                 return;
             }
             PlaybackEventSystem.LoadAnimations(listFile, animationsFolder);

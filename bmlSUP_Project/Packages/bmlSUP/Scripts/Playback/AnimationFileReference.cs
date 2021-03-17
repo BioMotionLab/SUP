@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.IO;
+using UnityEngine;
 
 namespace Playback {
     public class AnimationFileReference {
@@ -11,9 +13,32 @@ namespace Playback {
         public string AnimFolder => animFolder;
 
         public AnimationFileReference(string animationsListFile, string animFolder) {
-            if (!File.Exists(animationsListFile)) throw new IOException($"Can't find List of Animations file {animationsListFile}");
-            animListAsStrings = File.ReadAllLines(animationsListFile);
             this.animFolder = animFolder;
+            
+            if (animationsListFile != null) animListAsStrings = LoadFilesInFolderFromList(animationsListFile);
+            else animListAsStrings = LoadAllFilesInFolder();
+        }
+
+        string[] LoadFilesInFolderFromList(string animationsListFile) {
+            if (File.Exists(animationsListFile)) return File.ReadAllLines(animationsListFile);
+            else {
+                Debug.LogError($"Animation list file path specified, but could not find file at {animationsListFile}");
+                return new string[] {};
+            }
+        }
+
+        string[] LoadAllFilesInFolder() {
+            string[] extensions = {"*.json", "*.h5"};
+
+            List<string> foundFiles = new List<string>();
+            foreach (string fileExtension in extensions) {
+                string[] filesWithExtension = Directory.GetFiles(animFolder, fileExtension, SearchOption.AllDirectories);
+                foreach (string file in filesWithExtension) {
+                    string justFileName = Path.GetFileName(file);
+                    foundFiles.Add(justFileName);
+                }
+            }
+            return foundFiles.ToArray();
         }
 
         public AnimationFileReference(string animationFile) {
