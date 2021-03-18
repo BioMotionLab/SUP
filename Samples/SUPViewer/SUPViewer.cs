@@ -18,7 +18,7 @@ namespace Samples.SUPViewer {
 		public BodyOptions RuntimeBodyOptions { get; private set; }
 
 		
-		[FormerlySerializedAs("characterSettings")] [SerializeField]
+		[SerializeField]
 		DisplaySettings displaySettings = default;
 		public DisplaySettings RuntimeDisplaySettings { get; private set; } 
 
@@ -29,7 +29,7 @@ namespace Samples.SUPViewer {
 		public PlaybackSettings RuntimePlaybackSettings { get; private set; }
 		
 		
-		[SerializeField] SamplesList samples = default;
+		[SerializeField] AnimationListAsset samplesListAsset = default;
 		
 		AnimationLoader loader;
 		bool doneLoading = false;
@@ -93,7 +93,7 @@ namespace Samples.SUPViewer {
 		}
 
 		void LoadSamples() {
-			AnimationLoader.LoadSamplesAsync(samples, models, playbackSettings, DoneLoading);
+			AnimationLoader.LoadFromAnimationListAssetAsync(samplesListAsset, models, playbackSettings, DoneLoading);
 		}
 		
 		void LoadAnimations(string listFile, string animationsFolder) {
@@ -112,6 +112,7 @@ namespace Samples.SUPViewer {
 
 		void DoneLoading(List<List<AMASSAnimation>> loadedAnimationSequence) {
 			animationSequence = loadedAnimationSequence;
+			if (animationSequence == null) return;
 			doneLoading = true;
 			Destroy(loader);
 			if (RuntimePlaybackSettings.OffsetMultipleAnimations) {
@@ -141,13 +142,13 @@ namespace Samples.SUPViewer {
 		}
 
 		/// <summary>
-		/// Play the animation for characters at specified position in sequence of files.
+		/// Play the samplesListAsset for characters at specified position in sequence of files.
 		/// </summary>
 		void StartCurrentAnimationSet() {
 			List<AMASSAnimation> animationSet = animationSequence[currentAnimationIndex];
 			PlaybackEventSystem.PlayingNewAnimationSet(animationSet);
 
-			string updateMessage = $"\tPlaying animation set {currentAnimationIndex+1} of {animationSequence.Count}. " +
+			string updateMessage = $"\tPlaying samplesListAsset set {currentAnimationIndex+1} of {animationSequence.Count}. " +
 			                       $"({animationSet.Count} chars)";
 			Debug.Log(updateMessage);
 			PlaybackEventSystem.UpdatePlayerProgress(updateMessage);
@@ -156,7 +157,7 @@ namespace Samples.SUPViewer {
 
 
 		public void StartPlayingAnimations() {
-			StartCurrentAnimationSet(); //play the first animation!
+			StartCurrentAnimationSet(); //play the first samplesListAsset!
 		}
 		
 		void GoToNextAnimation() {
