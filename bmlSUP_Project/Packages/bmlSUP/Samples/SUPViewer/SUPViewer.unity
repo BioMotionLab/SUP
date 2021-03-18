@@ -259,6 +259,12 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 5100136094089617265, guid: 214f2428e1f4c274da4fa6d27a3d44a3,
         type: 3}
+      propertyPath: samples
+      value: 
+      objectReference: {fileID: 11400000, guid: a66ff38f4fef64876a172c8a78c666b1,
+        type: 2}
+    - target: {fileID: 5100136094089617265, guid: 214f2428e1f4c274da4fa6d27a3d44a3,
+        type: 3}
       propertyPath: AnimFolder
       value: C:/Users/BioMotion/Documents/GitHub/UpdatingMoshAndSMPL/JL_displayMoSh/Assets/Resources/NewAnimations
       objectReference: {fileID: 0}
@@ -728,12 +734,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 690bd1cf7141c4661ae7ea840d4b6696, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sampleJsonLabelReference:
-    m_LabelString: Samples
-  jsonReference:
-    m_AssetGUID: fd9d29f70df5b4ef6b36774ec322dc84
-    m_SubObjectName: 
-    m_SubObjectType: 
 --- !u!4 &1187161643
 Transform:
   m_ObjectHideFlags: 0
@@ -4986,7 +4986,7 @@ PrefabInstance:
     - target: {fileID: 8159167209851810836, guid: 6f7d7cab49bbbdf4d9b4252103aaca9e,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 263.08002
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8159167209851810836, guid: 6f7d7cab49bbbdf4d9b4252103aaca9e,
         type: 3}
@@ -4996,7 +4996,7 @@ PrefabInstance:
     - target: {fileID: 8159167209851810836, guid: 6f7d7cab49bbbdf4d9b4252103aaca9e,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 136.54001
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8159167209851810836, guid: 6f7d7cab49bbbdf4d9b4252103aaca9e,
         type: 3}
