@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Display;
+using FileLoaders;
 using Playback;
 using Settings;
 using SMPLModel;
@@ -27,6 +28,9 @@ namespace Samples.SUPViewer {
 		PlaybackSettings playbackSettings = default;
 		public PlaybackSettings RuntimePlaybackSettings { get; private set; }
 		
+		
+		[SerializeField] SamplesList samples = default;
+		
 		AnimationLoader loader;
 		bool doneLoading = false;
 		
@@ -40,12 +44,15 @@ namespace Samples.SUPViewer {
 	
 		AMASSAnimationPlayer animationPlayer;
 
+		
+
 		void OnEnable() {
 			PlaybackEventSystem.OnNextAnimation += GoToNextAnimation;
 			PlaybackEventSystem.OnPreviousAnimation += GoToPrevAnimation;
 			PlaybackEventSystem.OnRestartAnimations += RestartAnimations;
 			PlaybackEventSystem.OnLoadAnimations += LoadAnimations;
 			PlaybackEventSystem.OnLoadSingleAnimation += LoadSingleAnimation;
+			PlaybackEventSystem.OnLoadSamples += LoadSamples;
 			PlaybackEventSystem.OnLoadNewAnimations += LoadNewAnimations;
 			
 			userModifiedSettingsHandler = new UserModifiedSettingsHandler(this);
@@ -63,11 +70,15 @@ namespace Samples.SUPViewer {
 			PlaybackEventSystem.OnRestartAnimations -= RestartAnimations;
 			PlaybackEventSystem.OnLoadAnimations -= LoadAnimations;
 			PlaybackEventSystem.OnLoadSingleAnimation -= LoadSingleAnimation;
+			PlaybackEventSystem.OnLoadSamples -= LoadSamples;
 			PlaybackEventSystem.OnLoadNewAnimations -= LoadNewAnimations;
+			
 			
 			
 			userModifiedSettingsHandler.Destroy();
 		}
+
+		
 
 
 		void CacheRuntimeSettings() {
@@ -81,6 +92,10 @@ namespace Samples.SUPViewer {
 			loader = null;
 		}
 
+		void LoadSamples() {
+			AnimationLoader.LoadSamplesAsync(samples, models, playbackSettings, DoneLoading);
+		}
+		
 		void LoadAnimations(string listFile, string animationsFolder) {
 			loader = gameObject.AddComponent<AnimationLoader>();
 			AnimationFileReference fileReference = new AnimationFileReference(listFile, animationsFolder);

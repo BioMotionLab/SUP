@@ -93,9 +93,7 @@ namespace InGameUI {
     
         [PublicAPI]
         public void LoadSamples() {
-            animationsFolder = Application.streamingAssetsPath + "//SampleAnimations";
-            listFile = Application.streamingAssetsPath + "//SampleAnimationList.txt";
-            PlaybackEventSystem.LoadAnimations(listFile, animationsFolder);
+            PlaybackEventSystem.LoadSamples();
             gameObject.SetActive(false);
         }
     
