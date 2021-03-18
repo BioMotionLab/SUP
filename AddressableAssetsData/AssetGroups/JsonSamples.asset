@@ -18,19 +18,33 @@ MonoBehaviour:
   m_GUID: 4d9dc7f39d77844bcba62afc32fe2f82
   m_SerializeEntries:
   - m_GUID: fd9d29f70df5b4ef6b36774ec322dc84
-    m_Address: Assets/SampleAnimations 1/Talking_with_hands.json
+    m_Address: Talking_with_hands
     m_ReadOnly: 0
     m_SerializedLabels:
     - Samples
     m_MainAsset: {fileID: 4900000, guid: fd9d29f70df5b4ef6b36774ec322dc84, type: 3}
     m_TargetAsset: {fileID: 4900000, guid: fd9d29f70df5b4ef6b36774ec322dc84, type: 3}
-  - m_GUID: 404fecec5182e42b885dbbf91dc317f8
-    m_Address: Assets/SampleAnimations 1/Talking_with_hands 1.json
+  - m_GUID: 77af330472ba8d5478602b14831b2230
+    m_Address: dancing_woman_1
     m_ReadOnly: 0
     m_SerializedLabels:
     - Samples
-    m_MainAsset: {fileID: 0}
-    m_TargetAsset: {fileID: 0}
+    m_MainAsset: {fileID: 4900000, guid: 77af330472ba8d5478602b14831b2230, type: 3}
+    m_TargetAsset: {fileID: 4900000, guid: 77af330472ba8d5478602b14831b2230, type: 3}
+  - m_GUID: 5eb1ecef0dbf3ab448daf580f815eae6
+    m_Address: dancing_woman_2
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Samples
+    m_MainAsset: {fileID: 4900000, guid: 5eb1ecef0dbf3ab448daf580f815eae6, type: 3}
+    m_TargetAsset: {fileID: 4900000, guid: 5eb1ecef0dbf3ab448daf580f815eae6, type: 3}
+  - m_GUID: ffa9ceb26fea7994bac19faad05354b9
+    m_Address: woman_punching
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Samples
+    m_MainAsset: {fileID: 4900000, guid: ffa9ceb26fea7994bac19faad05354b9, type: 3}
+    m_TargetAsset: {fileID: 4900000, guid: ffa9ceb26fea7994bac19faad05354b9, type: 3}
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: df100e19b57cc4d4d83f8a2e08c7269c, type: 2}
   m_SchemaSet:
