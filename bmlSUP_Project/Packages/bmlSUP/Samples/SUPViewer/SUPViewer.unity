@@ -728,12 +728,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 690bd1cf7141c4661ae7ea840d4b6696, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  JsonAssetReference:
-    m_AssetGUID: a07f69459bccb174f9c6ae31e8e89ecc
-    m_SubObjectName: 
-    m_SubObjectType: 
-  h5Reference:
-    m_AssetGUID: 536966370233bbe47bd2598f0246ec1e
+  sampleJsonLabelReference:
+    m_LabelString: Samples
+  jsonReference:
+    m_AssetGUID: fd9d29f70df5b4ef6b36774ec322dc84
     m_SubObjectName: 
     m_SubObjectType: 
 --- !u!4 &1187161643

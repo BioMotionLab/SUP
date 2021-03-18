@@ -245,6 +245,14 @@ namespace Playback {
             OnLoadSingleAnimation?.Invoke(singleFile);
         }
 
+        public delegate void LoadSamplesEvent();
+
+        public static event LoadSamplesEvent OnLoadSamples;
+
+        public static void LoadSamples() {
+            OnLoadSamples?.Invoke();
+        }
+
         
         public delegate void BeginPlayBackStateEvent();
         public static event BeginPlayBackStateEvent OnBeginPlayBackState;

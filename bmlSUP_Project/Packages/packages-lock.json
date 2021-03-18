@@ -4,7 +4,9 @@
       "version": "file:bmlSUP",
       "depth": 0,
       "source": "embedded",
-      "dependencies": {}
+      "dependencies": {
+        "com.unity.addressables": "1.16.16"
+      }
     },
     "com.unity.addressables": {
       "version": "1.16.16",
