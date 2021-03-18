@@ -31,7 +31,6 @@ namespace Samples.SUPViewer {
 		
 		[SerializeField] AnimationListAsset samplesListAsset = default;
 		
-		AnimationLoader loader;
 		bool doneLoading = false;
 		
 		List<List<AMASSAnimation>> animationSequence;
@@ -89,7 +88,6 @@ namespace Samples.SUPViewer {
 
 		void LoadNewAnimations() {
 			currentAnimationIndex = 0;
-			loader = null;
 		}
 
 		void LoadSamples() {
@@ -97,16 +95,14 @@ namespace Samples.SUPViewer {
 		}
 		
 		void LoadAnimations(string listFile, string animationsFolder) {
-			loader = gameObject.AddComponent<AnimationLoader>();
 			AnimationFileReference fileReference = new AnimationFileReference(listFile, animationsFolder);
-			loader.LoadAsync(fileReference, models, RuntimePlaybackSettings, DoneLoading);
+			AnimationLoader.LoadAsync(fileReference, models, RuntimePlaybackSettings, DoneLoading);
 		}
 
 		void LoadSingleAnimation(string singlefile) {
-			loader = gameObject.AddComponent<AnimationLoader>();
 			AnimationFileReference fileReference = new AnimationFileReference(singlefile);
 			
-			loader.LoadAsync(fileReference, models, RuntimePlaybackSettings, DoneLoading);
+			AnimationLoader.LoadAsync(fileReference, models, RuntimePlaybackSettings, DoneLoading);
 		}
 
 
@@ -114,7 +110,6 @@ namespace Samples.SUPViewer {
 			animationSequence = loadedAnimationSequence;
 			if (animationSequence == null) return;
 			doneLoading = true;
-			Destroy(loader);
 			if (RuntimePlaybackSettings.OffsetMultipleAnimations) {
 				Debug.LogWarning("Warning, you have selected to offset multiple animations from each other! This could cause unwanted results.", this);;
 			}

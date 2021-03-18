@@ -13,9 +13,9 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace Playback {
-    public class AnimationLoader : MonoBehaviour {
+    public static class AnimationLoader {
 
-        public async void LoadAsync(AnimationFileReference animationsFileReference, Models models, PlaybackSettings playbackSettings, Action<List<List<AMASSAnimation>>> doneAction) {
+        public static async void LoadAsync(AnimationFileReference animationsFileReference, Models models, PlaybackSettings playbackSettings, Action<List<List<AMASSAnimation>>> doneAction) {
            
             string updateMessage = $"Loading {animationsFileReference.Count} animations from files. If there are a lot, this could take a few seconds...";
             Debug.Log(updateMessage);
@@ -84,7 +84,7 @@ namespace Playback {
         }
 
 
-        async Task<List<List<AMASSAnimation>>> LoadAnimationsAsync(AnimationFileReference animationsFileReference, Models models, PlaybackSettings playbackSettings) {
+        static async Task<List<List<AMASSAnimation>>> LoadAnimationsAsync(AnimationFileReference animationsFileReference, Models models, PlaybackSettings playbackSettings) {
             List<List<AMASSAnimation>> animationSequence = new List<List<AMASSAnimation>>();
             
             for (int lineIndex = 0; lineIndex < animationsFileReference.Count; lineIndex++) {
@@ -117,7 +117,7 @@ namespace Playback {
         }
         
 
-        async Task<List<AMASSAnimation>> GetAnimationsFromLine(string line, AnimationFileReference animationsFileReference, Models models, PlaybackSettings playbackSettings) {
+        static async Task<List<AMASSAnimation>> GetAnimationsFromLine(string line, AnimationFileReference animationsFileReference, Models models, PlaybackSettings playbackSettings) {
             
             string[] fileNames = line.Split (' '); //Space delimited
             List<AMASSAnimation> animations = new List<AMASSAnimation>();
