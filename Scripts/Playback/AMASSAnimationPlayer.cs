@@ -7,7 +7,7 @@ namespace Playback {
     
     public class AMASSAnimationPlayer {
         readonly PlaybackSettings playbackSettings;
-        readonly DisplaySettings displaySettings;
+        DisplaySettings displaySettings;
         readonly BodyOptions bodyOptions;
         List<SMPLCharacter> currentCharacters;
 
@@ -17,7 +17,7 @@ namespace Playback {
             this.bodyOptions = bodyOptions;
         }
 
-        public void PlaySet(List<AMASSAnimation> animationGroup) {
+        public void PlayAnimationSet(List<AMASSAnimation> animationGroup) {
             
             List<SMPLCharacter> newCharacters = new List<SMPLCharacter>();
 
@@ -39,7 +39,7 @@ namespace Playback {
 
         public void Play(AMASSAnimation animation) {
             List<AMASSAnimation> asList = new List<AMASSAnimation> {animation};
-            PlaySet(asList);
+            PlayAnimationSet(asList);
         }
         
         public void StopCurrentAnimations() {
@@ -48,6 +48,10 @@ namespace Playback {
                 if (character == null) continue;
                 character.InterruptAnimation();
             }
+        }
+
+        public void SetDisplaySettings(DisplaySettings newDisplaySettings) {
+            displaySettings = newDisplaySettings;
         }
     }
 }
