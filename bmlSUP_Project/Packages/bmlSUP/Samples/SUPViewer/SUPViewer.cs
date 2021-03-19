@@ -147,7 +147,7 @@ namespace Samples.SUPViewer {
 			                       $"({animationSet.Count} chars)";
 			Debug.Log(updateMessage);
 			PlaybackEventSystem.UpdatePlayerProgress(updateMessage);
-			animationPlayer.PlaySet(animationSet);
+			animationPlayer.PlayAnimationSet(animationSet);
 		}
 
 
