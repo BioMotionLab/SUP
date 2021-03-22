@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Display;
 using FileLoaders;
 using Playback;
@@ -34,7 +35,14 @@ namespace Samples.SUPViewer {
 		bool doneLoading = false;
 		
 		List<List<AMASSAnimation>> animationSequence;
-		public bool AllAnimsComplete => currentAnimationIndex >= animationSequence.Count;
+
+		bool AllAnimsComplete {
+			get {
+				if (animationSequence == null) return false;
+				return currentAnimationIndex >= animationSequence.Count;
+			}
+		}
+
 		int currentAnimationIndex = 0;
 		
 		bool started = false;
@@ -143,9 +151,9 @@ namespace Samples.SUPViewer {
 			List<AMASSAnimation> animationSet = animationSequence[currentAnimationIndex];
 			PlaybackEventSystem.PlayingNewAnimationSet(animationSet);
 
-			string updateMessage = $"\tPlaying samplesListAsset set {currentAnimationIndex+1} of {animationSequence.Count}. " +
-			                       $"({animationSet.Count} chars)";
-			Debug.Log(updateMessage);
+			string updateMessage = $"Playing set {currentAnimationIndex+1} of {animationSequence.Count} from {samplesListAsset.name}. " +
+			                       $"( {animationSet.Count.Pluralize("animation", "animations")} in set)";
+			Debug.Log(Format.Log(updateMessage));
 			PlaybackEventSystem.UpdatePlayerProgress(updateMessage);
 			animationPlayer.Play(animationSet);
 		}
@@ -166,7 +174,7 @@ namespace Samples.SUPViewer {
 				currentAnimationIndex++;
 				if (AllAnimsComplete) {
 					string updateMessage = "All Animations Complete";
-					Debug.Log(updateMessage);
+					Debug.Log(Format.Log(updateMessage));
 					PlaybackEventSystem.UpdatePlayerProgress(updateMessage);
 					return;
 				}
@@ -199,6 +207,13 @@ namespace Samples.SUPViewer {
 				animationPlayer.StopCurrentAnimations();
 				StartCurrentAnimationSet();
 			}
+		}
+	}
+
+	public static class StringExtensions {
+		public static string Pluralize(this int number, string singular, string plural) {
+			string word = Math.Abs(number) <= 1 ? singular : plural;
+			return $"{number} {word}";
 		}
 	}
 }

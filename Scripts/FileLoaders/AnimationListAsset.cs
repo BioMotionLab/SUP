@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using Playback;
 using SMPLModel;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
-using UnityEngine.Serialization;
 
 namespace FileLoaders {
     
@@ -27,6 +25,6 @@ namespace FileLoaders {
     [Serializable]
     public class AnimationAssetGroup {
         [SerializeField]
-        public List<AssetReference> assets = default;
+        public List<TextAsset> assets = default;
     }
 }

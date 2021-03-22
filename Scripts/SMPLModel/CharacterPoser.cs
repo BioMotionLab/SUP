@@ -33,6 +33,7 @@ namespace SMPLModel {
         }
 
         void Update() {
+            if (smplCharacter == null) return;
             if (smplCharacter.RenderOptions.UpdateBodyShapeLive) {
                 ResetToTPose();
                 smplCharacter.Body.UpdateBody();

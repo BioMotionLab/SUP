@@ -35,47 +35,41 @@ namespace Playback {
             List<List<AMASSAnimation>> loadedSamples = new List<List<AMASSAnimation>>();
             foreach (AnimationAssetGroup sampleGroup in animationListAsset.AnimationAssetGroups) {
                 List<AMASSAnimation> animationsInThisGroup = new List<AMASSAnimation>();
-                foreach (AssetReference sample in sampleGroup.assets) {
-                    try {
-                        AsyncOperationHandle<TextAsset> handle = sample.LoadAssetAsync<TextAsset>();
 
-                        await handle.Task;
-                        if (handle.Status == AsyncOperationStatus.Succeeded) {
-                            TextAsset textAsset = handle.Result;
-                            AnimationLoadStrategy loadStrategy = new LoadAnimationFromJsonTextAsset(textAsset, models);
-                            AnimationData animationData = await LoadDataAsync(loadStrategy);
-                            AMASSAnimation loadedAnimation =
-                                new AMASSAnimation(animationData, playbackSettings, textAsset.name);
-                            animationsInThisGroup.Add(loadedAnimation);
-                        }
-                        else {
-                            DisplayPackageImportErrorMessage();
-                        }
-                    }
-                    catch (TargetException) {
-                        DisplayPackageImportErrorMessage();
-                    }
+                string loadLog = "Loaded: ";
+                foreach (TextAsset textAsset in sampleGroup.assets) {
 
-                    // The task is complete. Be sure to check the Status is successful before storing the Result.
+                    if (textAsset == null) continue;
+                    
+                    AnimationLoadStrategy loadStrategy = new LoadAnimationFromJsonTextAsset(textAsset, models);
+                    AnimationData animationData = await LoadDataAsync(loadStrategy);
+                    AMASSAnimation loadedAnimation = new AMASSAnimation(animationData, playbackSettings, textAsset.name);
+                    animationsInThisGroup.Add(loadedAnimation);
+                    loadLog += $"{loadedAnimation.AnimationName} ";
+                    
                 }
                 loadedSamples.Add(animationsInThisGroup);
+
+
+                Debug.Log(Format.Log(loadLog));
+                PlaybackEventSystem.UpdatePlayerProgress(loadLog);
             }
 
             doneLoading.Invoke(loadedSamples);
         }
 
         static void DisplayPackageImportErrorMessage() {
-            Debug.LogError("Error loading animationListAsset. ");
-            Debug.LogError("\tProbable cause:");
-            Debug.LogError("\t \tThe \"Addressables\" package was loaded AFTER importing SUP.");
-            Debug.LogError("\t \tThis is a unity editor limitation.");
-            Debug.LogError("\tProbable solution:");
+            Debug.LogError(Format.Error("Error loading animationListAsset. "));
+            Debug.LogError(Format.Error("\tProbable cause:"));
+            Debug.LogError(Format.Error("\t \tThe \"Addressables\" package was loaded AFTER importing SUP."));
+            Debug.LogError(Format.Error("\t \tThis is a unity editor limitation."));
+            Debug.LogError(Format.Error("\tProbable solution:"));
             Debug.LogError(
-                "\t \t1) Ensure the \"Addressables\" package is installed in your project.");
+                Format.Error("\t \t1) Ensure the \"Addressables\" package is installed in your project."));
             Debug.LogError(
-                "\t \t2) Go to Window Menu > Asset Management > Addressables > Groups, Then click the button to generate a settings file.");
+                Format.Error("\t \t2) Go to Window Menu > Asset Management > Addressables > Groups, Then click the button to generate a settings file."));
             Debug.LogError(
-                "\t \t3) Reimport SUP (Go to Packages/bmlSUP, right click on folder, and click reimport).");
+                Format.Error("\t \t3) Reimport SUP (Go to Packages/bmlSUP, right click on folder, and click reimport)."));
         }
 
         static async Task<AnimationData> LoadDataAsync(AnimationLoadStrategy loadStrategy) {
@@ -104,13 +98,13 @@ namespace Playback {
                 log.Append($" (Model:{allAnimationsInThisLine[0].Data.Model.ModelName}), containing animations for {allAnimationsInThisLine.Count} characters");
 
                 string finalLog = $"\t...{log}";
-                Debug.Log(finalLog);
+                Debug.Log(Format.Log(finalLog));
                 PlaybackEventSystem.UpdatePlayerProgress(log.ToString());
             }
 
             string updateMessage = $"Done Loading All Animations. Successfully loaded {animationSequence.Count} of {animationsFileReference.AnimListAsStrings.Length}.";
             PlaybackEventSystem.UpdatePlayerProgress(updateMessage);
-            Debug.Log(updateMessage);
+            Debug.Log(Format.Log(updateMessage));
             return (animationSequence);
             
             
@@ -143,30 +137,30 @@ namespace Playback {
                     animations.Add(loadedAnimation);
                 }
                 catch (FileNotFoundException) {
-                    Debug.LogError($"Trying to load animationListAsset but could not find the file specified. Details below: " +
-                                   $"\n\t\tFileName: {filename}" +
-                                   $"\n\t\tFolder: {animationsFileReference.AnimFolder} ");
+                    Debug.LogError(Format.Error($"Trying to load animationListAsset but could not find the file specified. Details below: " +
+                                                $"\n\t\tFileName: {filename}" +
+                                                $"\n\t\tFolder: {animationsFileReference.AnimFolder} "));
                 }
                 catch (AnimationLoadFromFile.FileMissingFromFolderException) {
-                    Debug.LogError("Folder exists, but listed file not found inside it." +
-                                   $"\n\t\tFileName: {filename}" +
-                                   $"\n\t\tFolder: {animationsFileReference.AnimFolder} ");
+                    Debug.LogError(Format.Error("Folder exists, but listed file not found inside it." +
+                                                $"\n\t\tFileName: {filename}" +
+                                                $"\n\t\tFolder: {animationsFileReference.AnimFolder} "));
                 }
                 catch (AnimationLoadFromFile.UnsupportedFileTypeException e) {
                     if (e.Message.Contains("h5")) {
-                        Debug.LogWarning($"H5 Support is current disabled due to a bug in unity. I'm working on a workaround - Adam. File skipped: {filename} ");
+                        Debug.LogWarning(Format.Warning($"H5 Support is current disabled due to a bug in unity. I'm working on a workaround - Adam. File skipped: {filename} "));
                     }
                     else {
-                        Debug.LogError(e.Message +
-                                       $"\n\t\tFileName: {filename}" +
-                                       $"\n\t\tFolder: {animationsFileReference.AnimFolder} ");
+                        Debug.LogError(Format.Error(e.Message +
+                                                    $"\n\t\tFileName: {filename}" +
+                                                    $"\n\t\tFolder: {animationsFileReference.AnimFolder} "));
                     }
                     
                 }
                 catch (AnimationLoadStrategy.DataReadException e ) {
-                    Debug.LogError(e.Message +
-                                   $"\n\t\tFileName: {filename}" +
-                                   $"\n\t\tFolder: {animationsFileReference.AnimFolder} ");
+                    Debug.LogError(Format.Error(e.Message +
+                                                $"\n\t\tFileName: {filename}" +
+                                                $"\n\t\tFolder: {animationsFileReference.AnimFolder} "));
                     
                 }
                 
@@ -182,6 +176,4 @@ namespace Playback {
 
         
     }
-
-    
 }

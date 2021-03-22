@@ -91,7 +91,7 @@ namespace SMPLModel {
         }
 
         void UpdateTranslation() {
-            
+            if (smplCharacter == null) return;
             if(smplCharacter.RenderOptions.AllowPoseManipulation) return;
             
             Vector3 finalTrans = Vector3.zero;
