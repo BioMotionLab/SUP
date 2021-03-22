@@ -9,6 +9,7 @@ namespace SMPLModel {
         Vector3 firstFrameTranslation;
         
         [SerializeField] Grounder grounder;
+        [SerializeField] Transform rigTransform = default;
         
         SMPLCharacter       smplCharacter;
         SkinnedMeshRenderer skinnedMeshRenderer;
@@ -39,6 +40,10 @@ namespace SMPLModel {
         }
 
         void Update() {
+            
+            this.transform.rotation = Quaternion.identity;
+            rigTransform.rotation = this.transform.parent.rotation;
+            
             UpdateTranslation();
             
             if (firstFrame) ConfigureFirstFrame();

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Display;
 using Settings;
 using SMPLModel;
+using UnityEngine;
 
 namespace Playback {
     
@@ -17,7 +18,7 @@ namespace Playback {
             this.bodyOptions = bodyOptions;
         }
 
-        public void PlayAnimationSet(List<AMASSAnimation> animationGroup) {
+        public void Play(List<AMASSAnimation> animationGroup, Transform origin = null) {
             
             List<SMPLCharacter> newCharacters = new List<SMPLCharacter>();
 
@@ -25,21 +26,28 @@ namespace Playback {
 				
                 AMASSAnimation amassAnimation = animationGroup[animationIndex];
                 amassAnimation.Reset();
-				
+
+                Transform testOrigin = new GameObject().transform;
+                testOrigin.position = Vector3.one*3;
+                testOrigin.eulerAngles = new Vector3(0, 180, 0);
+                
                 SMPLCharacter smplCharacter =
                     amassAnimation.Data.Model.CreateCharacter(amassAnimation, animationIndex);
 
                 newCharacters.Add(smplCharacter);
                 smplCharacter.StartAnimation(amassAnimation, playbackSettings, displaySettings,
                     bodyOptions);
+
+                smplCharacter.SetOrigin(testOrigin);
+
             }
 			
             currentCharacters = newCharacters;
         }
 
-        public void Play(AMASSAnimation animation) {
+        public void Play(AMASSAnimation animation, Transform origin = null) {
             List<AMASSAnimation> asList = new List<AMASSAnimation> {animation};
-            PlayAnimationSet(asList);
+            Play(asList, origin);
         }
         
         public void StopCurrentAnimations() {
