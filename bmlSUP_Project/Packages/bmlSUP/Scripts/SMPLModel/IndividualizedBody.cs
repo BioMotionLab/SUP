@@ -110,9 +110,15 @@ namespace SMPLModel {
         void AdjustBonePositions()
         {
             Vector3[] newJointPositions = jointRegressor.JointPositionFrom(model, bodyShapeBetas);
-            pelvisNewLocation = newJointPositions[model.PelvisIndex];
-            Bones.SetPositionDownwardsThroughHierarchy(skinnedMeshRenderer.bones[model.PelvisIndex], 
-                                                 skinnedMeshRenderer.transform, 
+            
+            
+            Transform rootCoordinateTransform = skinnedMeshRenderer.transform;
+            Transform pelivs = skinnedMeshRenderer.bones[model.PelvisIndex];
+            
+            pelvisNewLocation = rootCoordinateTransform.TransformPoint(newJointPositions[model.PelvisIndex]);
+
+            Bones.SetPositionDownwardsThroughHierarchy(pelivs, pelvisNewLocation,
+                                                 rootCoordinateTransform, 
                                                  newJointPositions);
         }
 

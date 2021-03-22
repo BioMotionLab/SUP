@@ -87,7 +87,7 @@ namespace SMPLModel {
                     }
                     
                     int poseIndex = Bones.NameToJointIndex[boneName];
-                    bones[boneIndex].localRotation = bones[boneIndex].localRotation * poses[poseIndex];
+                    bones[boneIndex].localRotation =  bones[boneIndex].localRotation *  poses[poseIndex];
                     
                 }
                 catch (KeyNotFoundException) {
@@ -105,7 +105,7 @@ namespace SMPLModel {
 
         void ResetPoses() {
             foreach (Transform bone in bones) {
-                bone.rotation = Quaternion.identity;
+                bone.localRotation = Quaternion.identity;
             }
         }
         

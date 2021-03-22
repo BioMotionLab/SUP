@@ -1,3 +1,4 @@
+using System.Windows.Forms;
 using Display;
 using Playback;
 using Settings;
@@ -26,5 +27,6 @@ namespace SMPLModel {
 
         void SetIndex(int animationIndex);
 
+        void SetOrigin(Transform testOrigin);
     }
 }

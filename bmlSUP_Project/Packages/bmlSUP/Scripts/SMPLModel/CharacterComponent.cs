@@ -52,6 +52,7 @@ namespace SMPLModel {
 
         CharacterEvents events;
         int animationIndex;
+        Transform origin;
         public CharacterEvents Events => events ?? (events = new CharacterEvents());
 
         void OnEnable() {
@@ -114,6 +115,17 @@ namespace SMPLModel {
             }
             
             amassAnimation.PlayCurrentFrame();
+            
+            
+            
+            
+        }
+
+        void LateUpdate() {
+            if (origin != null) {
+                //this.transform.localPosition = origin.position;
+                //this.transform.localRotation = origin.rotation;
+            }
         }
 
         void StopAnimation() {
@@ -132,6 +144,10 @@ namespace SMPLModel {
 
         public void SetIndex(int animationIndex) {
             this.animationIndex = animationIndex;
+        }
+
+        public void SetOrigin(Transform newOrigin) {
+            origin = newOrigin;
         }
 
         void SetMaterialFromIndex(MeshDisplaySettings displayOptions) {
