@@ -15,8 +15,5 @@
     "email": "adambebko@gmail.com",
     "url": "biomotionlab.github.io/sup/"
   },
-  "type": "library",
-  "dependencies": {
-    "com.unity.addressables": "1.16.16"
-  }
+  "type": "library"
 }
