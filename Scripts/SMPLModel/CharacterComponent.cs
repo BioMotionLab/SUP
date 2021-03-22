@@ -122,10 +122,7 @@ namespace SMPLModel {
         }
 
         void LateUpdate() {
-            if (origin != null) {
-                //this.transform.localPosition = origin.position;
-                //this.transform.localRotation = origin.rotation;
-            }
+            
         }
 
         void StopAnimation() {
@@ -148,6 +145,12 @@ namespace SMPLModel {
 
         public void SetOrigin(Transform newOrigin) {
             origin = newOrigin;
+            if (origin != null) {
+                this.transform.parent.SetParent(newOrigin);
+                this.transform.parent.localPosition = Vector3.zero;
+                this.transform.parent.localRotation = Quaternion.identity;
+
+            }
         }
 
         void SetMaterialFromIndex(MeshDisplaySettings displayOptions) {

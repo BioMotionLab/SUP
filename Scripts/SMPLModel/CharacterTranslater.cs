@@ -41,9 +41,8 @@ namespace SMPLModel {
 
         void Update() {
             
-            this.transform.rotation = Quaternion.identity;
-            rigTransform.rotation = this.transform.parent.rotation;
-            
+            DealWithRotationOfParentSoThisRotationIsUnchanged();
+
             UpdateTranslation();
             
             if (firstFrame) ConfigureFirstFrame();
@@ -52,7 +51,21 @@ namespace SMPLModel {
             if (!smplCharacter.RenderOptions.UpdatePosesLive) UpdateFootOffset();
             else if (!firstFrame && bodyChanged) UpdateFootOffset();
         }
-        
+
+        /// <summary>
+        /// This function takes the parent rotation and makes it bypass this object, passing the rotation on to the bone rig only.
+        ///
+        /// This is so the SkinnedMeshRenderer doesn't get rotated, since we're rendering the vertexes relative to identity rotation.
+        /// Therefore, the vertex locations will be correctly unrotated, but then will rotate themselves to match the bones they're associated with when needed.
+        /// 
+        /// Therefore, we take the rotation that it *SHOULD* have, and apply it to the rig itself, so it only affects local positions of bones.
+        /// </summary>
+        void DealWithRotationOfParentSoThisRotationIsUnchanged() {
+            Transform thisTransformCached = this.transform;
+            thisTransformCached.rotation = Quaternion.identity;
+            rigTransform.rotation = thisTransformCached.parent.rotation;
+        }
+
         void ConfigureFirstFrame() {
             firstFrameTranslation = currentTranslation;
             grounder.InitGround();

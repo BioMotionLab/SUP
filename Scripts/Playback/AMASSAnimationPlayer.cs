@@ -27,10 +27,6 @@ namespace Playback {
                 AMASSAnimation amassAnimation = animationGroup[animationIndex];
                 amassAnimation.Reset();
 
-                Transform testOrigin = new GameObject().transform;
-                testOrigin.position = Vector3.one*3;
-                testOrigin.eulerAngles = new Vector3(0, 180, 0);
-                
                 SMPLCharacter smplCharacter =
                     amassAnimation.Data.Model.CreateCharacter(amassAnimation, animationIndex);
 
@@ -38,7 +34,7 @@ namespace Playback {
                 smplCharacter.StartAnimation(amassAnimation, playbackSettings, displaySettings,
                     bodyOptions);
 
-                smplCharacter.SetOrigin(testOrigin);
+                smplCharacter.SetOrigin(origin);
 
             }
 			
