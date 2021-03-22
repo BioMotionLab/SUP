@@ -31,7 +31,7 @@ namespace Samples.SUPViewer {
 		
 		
 		[SerializeField] AnimationListAsset samplesListAsset = default;
-		
+
 		bool doneLoading = false;
 		
 		List<List<AMASSAnimation>> animationSequence;
