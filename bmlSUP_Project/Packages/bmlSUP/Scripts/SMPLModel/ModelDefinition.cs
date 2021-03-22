@@ -68,7 +68,7 @@ namespace SMPLModel {
             GameObject newCharacter;
            
             newCharacter = Instantiate(genderedPrefab.gameObject);
-            newCharacter.name = $"{gender} Character {characterIndex}";
+            newCharacter.name = $"SMPL Char {amassAnimation.AnimationName} ({gender})";
 
             SMPLCharacter newSMPLCharacter = newCharacter.GetComponentInChildren<SMPLCharacter>();
             newSMPLCharacter.SetIndex(characterIndex);

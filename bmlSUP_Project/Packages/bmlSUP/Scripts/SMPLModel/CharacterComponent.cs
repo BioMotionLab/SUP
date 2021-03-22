@@ -67,6 +67,7 @@ namespace SMPLModel {
 
         void OnDestroy() {
             skinnedMeshRenderer.sharedMesh = originalMesh;
+            if (this.transform.parent != null) Destroy(transform.parent.gameObject);
             //Debug.Log("Resetting mesh to previous state on destroy");
         }
 

@@ -24,15 +24,27 @@ namespace InGameUI {
         
         void OnEnable() {
             PlaybackEventSystem.OnBeginPlayBackState += ActivatePlaybackUi;
+            PlaybackEventSystem.OnLoadSamples += ActivateProgressText;
             PlaybackEventSystem.OnLoadAnimations += ActivateProgressText;
             PlaybackEventSystem.OnLoadSingleAnimation += ActivateProgressText;
             PlaybackEventSystem.OnLoadNewAnimations += ActivateLoadPanel;
         }
 
+        void ActivateProgressText(string unused) {
+            ActivateProgressText();
+        }
+
+        void ActivateProgressText(string unused, string unused1) {
+            ActivateProgressText();
+        }
         
+        void ActivateProgressText() {
+            ActivatePanel();
+        }
 
         void OnDisable() {
             PlaybackEventSystem.OnLoadAnimations -= ActivateProgressText;
+            PlaybackEventSystem.OnLoadSamples -= ActivateProgressText;
             PlaybackEventSystem.OnBeginPlayBackState -= ActivatePlaybackUi;
             PlaybackEventSystem.OnLoadSingleAnimation -= ActivateProgressText;
             PlaybackEventSystem.OnLoadNewAnimations -= ActivateLoadPanel;
@@ -49,13 +61,7 @@ namespace InGameUI {
             DeactivatePlaybackUi();
         }
 
-        void ActivateProgressText(string unused, string unused2) {
-            ActivatePanel();
-        }
-
-        void ActivateProgressText(string unused) {
-            ActivatePanel();
-        }
+      
 
         void ActivatePanel() {
             progressTextPanel.SetActive(true);
