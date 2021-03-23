@@ -3,7 +3,6 @@ import numpy as np
 import os
 import json
 import sys
-import h5py
 # noinspection PyPep8Naming
 from scipy.spatial.transform import Rotation
 
@@ -106,7 +105,7 @@ class AMASSDataConverter:
     # Finishes conversion and saves dicts into JSON format
     def write_to_json(self, json_path: str):
         if self.show_messages:
-            print(f"\nWriting to h5... {json_path}")
+            print(f"\nWriting to json... {json_path}")
         filename, file_extension = os.path.splitext(json_path)
 
         if file_extension != '.json':
@@ -116,33 +115,6 @@ class AMASSDataConverter:
         dumped = json.dumps(self.data_as_dict, default=self.default_encoding, indent=4)
         with open(json_path, 'w') as f:
             f.write(dumped)
-        if self.show_messages:
-            print('\n  *** DONE CONVERSION ***\n')
-
-    # Write to h5.
-    def write_to_h5(self, h5_path: str):
-        filename, file_extension = os.path.splitext(h5_path)
-
-        if file_extension != '.h5':
-            print(f"Incorrect extension specified ({file_extension}). Needs to be .h5.")
-            return
-
-        with (h5py.File(h5_path, 'w')) as hf:
-            if self.show_messages:
-                print(f"\nWriting to h5... {h5_path}")
-                print("  WARNING: defaulting to model: \"smplh\".")
-            for file in self.data.files:
-                file_data = self.data[file]
-                if self.show_messages:
-                    print(f"\twriting... {file}")
-
-                try:
-                    hf.create_dataset(file, data=file_data)
-                except TypeError:
-                    print(f"\t\tData is probably formatted as unicode, converting {file} to string for h5 compatibility")
-                    file_data_converted = file_data.astype(np.string_)
-                    hf.create_dataset(file, data=file_data_converted)
-            hf.create_dataset("model", data="smplh")
         if self.show_messages:
             print('\n  *** DONE CONVERSION ***\n')
 
