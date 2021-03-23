@@ -48,7 +48,6 @@ namespace SMPLModel {
       
         public int   BodyShapeBetaCount           => bodyShapeBetaCount;
         public int   JointCount                   => jointCount;
-        public int   PoseDependentBlendshapeCount => poseDependentBlendshapeCount;
 
         public JSONModelKeys JsonKeys => jsonKeys;
         public bool RotateToUnityCoords = false;
