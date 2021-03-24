@@ -916,6 +916,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e50c6e64da6ed427692ab6bbbf272f60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  flyCamera: {fileID: 228543512}
 --- !u!1 &316774731069952542 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2936655944528143168, guid: 4ed003a4ef51d63439792770080d116e,
@@ -5128,6 +5129,41 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -35
+      objectReference: {fileID: 0}
+    - target: {fileID: 8159167210781005102, guid: 6f7d7cab49bbbdf4d9b4252103aaca9e,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8159167210781005102, guid: 6f7d7cab49bbbdf4d9b4252103aaca9e,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8159167210781005102, guid: 6f7d7cab49bbbdf4d9b4252103aaca9e,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 1410367541}
+    - target: {fileID: 8159167210781005102, guid: 6f7d7cab49bbbdf4d9b4252103aaca9e,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8159167210781005102, guid: 6f7d7cab49bbbdf4d9b4252103aaca9e,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: ToggleKeyboardState
+      objectReference: {fileID: 0}
+    - target: {fileID: 8159167210781005102, guid: 6f7d7cab49bbbdf4d9b4252103aaca9e,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: InGameUI.AnimationReviewer.ReviewPanel, bmlSUP
+      objectReference: {fileID: 0}
+    - target: {fileID: 8159167210781005102, guid: 6f7d7cab49bbbdf4d9b4252103aaca9e,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 8159167210940081784, guid: 6f7d7cab49bbbdf4d9b4252103aaca9e,
         type: 3}

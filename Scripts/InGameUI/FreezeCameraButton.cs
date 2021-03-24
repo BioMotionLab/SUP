@@ -7,14 +7,13 @@ using UnityEngine;
 public class FreezeCameraButton : MonoBehaviour {
 
     bool frozen = false;
-
+    [SerializeField] FlyCamera flyCamera;
     void OnEnable() {
         frozen = false;
     }
 
     public void ToggleFreezeState() {
         frozen = !frozen;
-        if (frozen) KeyboardControlEvents.DisableKeyboardControls();
-        else KeyboardControlEvents.EnableKeyboardControls();
+        flyCamera.enabled = !frozen;
     }
 }
