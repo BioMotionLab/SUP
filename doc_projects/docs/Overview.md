@@ -11,7 +11,7 @@ One such advancement is the MoSh [\[4\]](http://mosh.is.tue.mpg.de). MoSh recons
 
 [AMASS](https://amass.is.tue.mpg.de) is a large database of such animated body models [\[5\]](https://amass.is.tue.mpg.de). This database currently unifies 18 different marker-based motion capture datasets using the [MoSh++](http://mosh.is.tue.mpg.de) method and the [SMPL-H](https://mano.is.tue.mpg.de) model that also contains hand poses [\[3\]](https://mano.is.tue.mpg.de)[\[4\]](http://mosh.is.tue.mpg.de). The animations are stored as animated SMPL-H parameters and include a wide variety of everyday actions and sports movements.
 
-![Diagram](assets/overview/amass_diagram.png)
+![Diagram](assets/amass_diagram.png)
 
 Currently, animations from AMASS are easily rendered only in python. With the growing popularity and power of real-time 3D rendering tools, including popular game engines, more options are needed for displaying realistic virtual humans in 3D environments. Here, we present a tool, called bmlSUP, for rendering AMASS animations in the Unity Game Engine. The tool contains an implementation of the SMPL-H model using Unity's native blendshapes and animation system Mecanim. This tool allows access to the large amount of animations provided in the AMASS dataset, and an interface to easily load them into Unity.
 
@@ -20,7 +20,7 @@ Currently, animations from AMASS are easily rendered only in python. With the gr
 The bmlSUP player can only be used for non-commercial purposes, and falls under the same license agreement as AMASS and SMPL.
 
 ### Accessing and loading AMASS animations:
-Animations from the AMASS database can be downloaded [Here](https://amass.is.tue.mpg.de). The animations are stored in ```.npz ``` format, which can only be accessed in python. To play the animations in Unity, the files must be converted into a C# readable file format. We provide a python tool to convert into ```.json``` files with some example scripts.
+Animations from the AMASS database can be downloaded [Here](https://amass.is.tue.mpg.de). The animations are stored in ```.npz ``` format, which can only be accessed in python. To play the animations in Unity, the files must be converted into a C# readable file format. We provide a python tool to convert into ```.json``` files with some example scripts. For more information on conversion click [here](documentation/Converting.md).
 
 Each frame in an AMASS animation includes the SMPL-H parameters for that frame: body pose (including hand articulations), global body translation, and DMPL dynamic soft-tissue coefficients [\[3\]](https://mano.is.tue.mpg.de). The animation file also contains the individualized body shape parameters of the female or male SMPL-H model. Our player currently does not support DMPL. AMASS animations containing such data will still play, but the current version of our player will exclude these components. The player is structured in a modular fashion. Body shape parameters, skeleton pose, and pose-dependent blendshapes can be individually toggled and substituted.
 
@@ -36,7 +36,7 @@ The included graphical user interface can be accessed by installing the package 
 
 Once playing, the main playback interface appears:
 
-![bmlSUP GUI](assets/overview/gui.png)
+![bmlSUP GUI](assets/gui.png)
 
 The interface includes the following controls:
 * Playback Controls

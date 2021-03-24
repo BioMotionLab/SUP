@@ -23,7 +23,7 @@ Realistic virtual characters are important for many applications. The [SMPL](htt
 
 ## Poster
 
-Download [here](./assets/main/bmlSUP_IEEEVR2021_poster.pptx).
+Download [here](assets/bmlSUP_IEEEVR2021_poster.pptx).
 
 ## Citing
 
@@ -34,7 +34,7 @@ In addition to citing our work, you must also cite [SMPL](https://smpl.is.tue.mp
 Bibtex:
 ```
 @INPROCEEDINGS{
-  author={A. O. {Bebko} and A. {Thaler} and N. F. {Troye}},
+  author={A. O. {Bebko} and A. {Thaler} and N. F. {Troje}},
   booktitle={2021 IEEE Conference on Virtual Reality and 3D User Interfaces (VR)}, 
   title={bmlSUP - A SMPL Unity Player}, 
   year={2021},

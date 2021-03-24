@@ -2,9 +2,9 @@
   "Documentation": {
     "Getting Started": [
       "GettingStarted",
-      "Overview",
       "Installation",
-      "Publication"
+      "Publication",
+      "Overview"
     ],
     "Tutorials": [
       {
@@ -12,7 +12,16 @@
       }
     ],
     "Documentation": [
-
+      "documentation/Converting",
+      "documentation/playbackmodes",
+      {
+        "type": "subcategory",
+        "label": "GUI Viewer",
+        "ids": [
+          "documentation/gui/guiloading",
+          "documentation/gui/interface"
+        ]
+      }
     ],
     "Help": [
       "Troubleshooting"

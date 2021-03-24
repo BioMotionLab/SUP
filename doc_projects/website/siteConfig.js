@@ -22,7 +22,7 @@ const users = [
 
 const siteConfig = {
   title: 'bmlSUP', // Title for your website.
-  tagline: 'The BiomotionLab SMPL Unity Player',
+  tagline: 'The BioMotionLab SMPL Unity Player',
   
   
   url: 'https://BioMotionLab.github.io', // Your website URL
