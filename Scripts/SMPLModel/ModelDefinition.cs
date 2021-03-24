@@ -8,7 +8,7 @@ using UnityEngine.Serialization;
 
 namespace SMPLModel {
     
-    [CreateAssetMenu]
+    
     public class ModelDefinition : ScriptableObject {
 
         [SerializeField]
@@ -19,9 +19,6 @@ namespace SMPLModel {
 
         [SerializeField]
         int jointCount = default;
-
-        [SerializeField]
-        int poseDependentBlendshapeCount = default;
 
         [SerializeField]
         JSONModelKeys jsonKeys = new JSONModelKeys();

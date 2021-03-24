@@ -1,5 +1,6 @@
 using System;
 using Playback;
+using Settings;
 using UnityEngine;
 
 namespace SMPLModel {

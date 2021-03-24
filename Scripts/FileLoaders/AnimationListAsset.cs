@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
 using Playback;
+using Settings;
 using SMPLModel;
 using UnityEngine;
 
 namespace FileLoaders {
     
-    [CreateAssetMenu]
+    [CreateAssetMenu(fileName = "New Animation List Asset", menuName = Menu.AssetMenu + "New AnimationList Asset")]
     public class AnimationListAsset : ScriptableObject {
         
         public PlaybackSettings playbackSettings = default;

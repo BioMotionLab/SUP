@@ -1,10 +1,11 @@
+using Display;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 // ReSharper disable InconsistentNaming
 
-namespace Display {
-    [CreateAssetMenu(fileName = "Display Settings", menuName = "New Display Settings", order = 0)]
+namespace Settings {
+    [CreateAssetMenu(fileName = "New DisplaySettings Asset", menuName = Menu.AssetMenu + "New DisplaySettings Asset")]
     public class DisplaySettings : ScriptableObject {
         
         public BoneDisplayState DisplayBones;
