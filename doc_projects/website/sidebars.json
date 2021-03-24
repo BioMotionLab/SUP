@@ -21,7 +21,8 @@
           "documentation/gui/guiloading",
           "documentation/gui/interface"
         ]
-      }
+      },
+      "documentation/customsettings"
     ],
     "Help": [
       "Troubleshooting"

@@ -11,6 +11,30 @@ Note that changes made during runtime do not save between sessions. To modify th
 
 The entire GUI can be toggled on and off by pressing the ```u``` key. This is useful for screen capturing or for an unobstructed view of the scene.
 
+In several instances below, custom settings assets are mentioned. Please read [this page](../customsettings.md) for more infornmation on customizing settings files.
+
+## Playback Controls
+
+![playback controls](../../assets/gui/playbackcontrols.png)
+
+### "Scrubber"
+
+* One scrubber shows up for each currently playing animation.
+* Shows the current frame, total frames, current time, total duration, and controls to jump to a particular frame or time.
+
+### Playback
+
+* Controls to pause / play, and adjust the playback speed
+* Loop currently can only be adjusted outside playmode using a custom PlaybackSettings asset.
+
+Backwards playback can be enabled by creating a custom PlaybackSettings asset.
+
+### Navigation
+
+Navigate between loaded animations, or reopen the loading window
+
+
+
 ## Appearance Controls
 
 ![appearance controls](../../assets/gui/appearancecontrols.png)
@@ -59,28 +83,6 @@ This is useful for putting bodies in specific poses, or for examining how the SM
 The pose-dependent blendshapes can still be enabled. This is great for examining the effects of the pose-dependent blendshapes of the SMPL model.
 
 Does not work in compiled projects.
-
-
-## Playback Controls
-
-![playback controls](../../assets/gui/playbackcontrols.png)
-
-### "Scrubber"
-
-* One scrubber shows up for each currently playing animation.
-* Shows the current frame, total frames, current time, total duration, and controls to jump to a particular frame or time.
-
-### Playback
-
-* Controls to pause / play, and adjust the playback speed
-* Loop currently can only be adjusted outside playmode using a custom PlaybackSettings asset.
-
-Backwards playback can be enabled by creating a custom PlaybackSettings asset.
-
-### Navigation
-
-Navigate between loaded animations, or reopen the loading window
-  
 
 ## Camera Controls
 

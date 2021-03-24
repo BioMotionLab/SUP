@@ -2,9 +2,9 @@ using UnityEngine;
 
 // ReSharper disable InconsistentNaming
 
-namespace Playback {
+namespace Settings {
     
-    [CreateAssetMenu(fileName = "Playback Settings", menuName = "new Playback Settings", order = 0)]
+    [CreateAssetMenu(fileName = "New PlaybackSettings Asset", menuName = Menu.AssetMenu + "New PlaybackSettings Asset", order = 0)]
     public class PlaybackSettings : ScriptableObject {
         
         public bool PlayBackwards = false;
