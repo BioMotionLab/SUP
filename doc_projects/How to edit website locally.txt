@@ -1,0 +1,20 @@
+Open git bash prompt
+
+# Test Website
+
+cd navigate to Website directory (ls for list in Mac)
+
+Run cd website to go into the website directory.
+Run npm start or yarn start.
+
+A browser window will open up at http://localhost:3000.
+
+# Deploy Website
+
+
+# Install NPM
+
+Install home-brew
+Install node: brew install node
+
+Navigate to website directory, run npm install

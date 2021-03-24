@@ -1,0 +1,5 @@
+#!/bin/bash
+
+echo deploying as AdamBebko
+cd "$(dirname "$0")"
+GIT_USER=AdamBebko CURRENT_BRANCH=master npm run publish-gh-pages

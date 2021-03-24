@@ -1,0 +1,27 @@
+{
+  "Documentation": {
+    "Getting Started": [
+      "GettingStarted",
+      "Overview",
+      "Installation",
+      "Publication"
+    ],
+    "Tutorials": [
+      {
+
+      }
+    ],
+    "Documentation": [
+
+    ],
+    "Help": [
+      "Troubleshooting"
+    ],
+    "Advanced": [
+
+    ]
+  },
+  "docs-other": {
+    "Advanced": []
+  }
+}
