@@ -36,12 +36,21 @@ class Footer extends React.Component {
             )}
           </a>
           <div>
-            <h5>bmlTUX</h5>
+            <h5>bmlSUP</h5>
             <a href={this.docUrl('GettingStarted.html', this.props.language)}>
               Documentation
             </a>
-            <a href='https://github.com/BioMotionLab/TUX/releases'>
-              Download
+            <a href={this.docUrl('Installation.html', this.props.language)}>
+              Install
+            </a>
+            <a href="https://github.com/BioMotionLab/SUP">
+              GitHub
+            </a>
+          </div>
+          <div>
+            <h5>BioMotionLab</h5>
+            <a href="https://www.biomotionlab.ca/">
+              Website
             </a>
           </div>
         </section>
