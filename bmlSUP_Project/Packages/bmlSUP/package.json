@@ -21,6 +21,6 @@
        "displayName": "GUI Viewer",
        "description": "A basic graphical interface for viewing animations",
        "path": "Samples~/SUPViewer"
-     },
+     }
    ]
 }
