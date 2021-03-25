@@ -15,5 +15,12 @@
     "email": "adambebko@gmail.com",
     "url": "biomotionlab.github.io/sup/"
   },
-  "type": "library"
+  "type": "library",
+  "samples": [
+     {
+       "displayName": "GUI Viewer",
+       "description": "A basic graphical interface for viewing animations",
+       "path": "Samples~/SUPViewer"
+     },
+   ]
 }
