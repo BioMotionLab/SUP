@@ -1,0 +1,134 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Playback Using the API · bmlSUP</title><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="generator" content="Docusaurus"/><meta name="description" content="Using the c# scripting api, bmlSUP can easily playback AMASS animations inside your own scripts and projects."/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Playback Using the API · bmlSUP"/><meta property="og:type" content="website"/><meta property="og:url" content="https://BioMotionLab.github.io/SUP/"/><meta property="og:description" content="Using the c# scripting api, bmlSUP can easily playback AMASS animations inside your own scripts and projects."/><meta property="og:image" content="https://BioMotionLab.github.io/SUP/img/SUP_icon.png"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://BioMotionLab.github.io/SUP/img/SUP_icon.png"/><link rel="shortcut icon" href="/SUP/img/favicon.ico"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script src="/SUP/js/scrollSpy.js"></script><link rel="stylesheet" href="/SUP/css/main.css"/><script src="/SUP/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/SUP/"><img class="logo" src="/SUP/img/favicon.ico" alt="bmlSUP"/><h2 class="headerTitleWithLogo">bmlSUP</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/SUP/docs/GettingStarted" target="_self">Documentation</a></li><li class="siteNavGroupActive"><a href="/SUP/docs/Installation" target="_self">Install</a></li><li class="siteNavGroupActive"><a href="/SUP/docs/Publication" target="_self">Publication</a></li><li class="siteNavGroupActive"><a href="/SUP/docs/Troubleshooting" target="_self">Help</a></li><li class=""><a href="https://www.biomotionlab.ca" target="_self">BioMotionLab</a></li><li class=""><a href="https://github.com/BioMotionLab/SUP" target="_self">GitHub</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>C# Scripting API</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">Getting Started<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/SUP/docs/GettingStarted">Getting Started</a></li><li class="navListItem"><a class="navItem" href="/SUP/docs/Installation">Installation</a></li><li class="navListItem"><a class="navItem" href="/SUP/docs/Publication">Publication</a></li><li class="navListItem"><a class="navItem" href="/SUP/docs/Overview">Overview</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">Documentation<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/SUP/docs/documentation/Converting">Converting to Unity-Readable Format</a></li><li class="navListItem"><a class="navItem" href="/SUP/docs/documentation/playbackmodes">Playback Modes</a></li><div class="navGroup subNavGroup"><h4 class="navGroupSubcategoryTitle">GUI Viewer</h4><ul><li class="navListItem"><a class="navItem" href="/SUP/docs/documentation/gui/guiloading">Loading using the GUI</a></li><li class="navListItem"><a class="navItem" href="/SUP/docs/documentation/gui/interface">GUI Viewer Interface</a></li></ul></div><div class="navGroup subNavGroup"><h4 class="navGroupSubcategoryTitle">C# Scripting API</h4><ul><li class="navListItem"><a class="navItem" href="/SUP/docs/documentation/api/apiloading">Loading Using the API</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/SUP/docs/documentation/api/apiplayback">Playback Using the API</a></li></ul></div><li class="navListItem"><a class="navItem" href="/SUP/docs/documentation/customsettings">Customizing Settings</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">Help<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/SUP/docs/Troubleshooting">Troubleshooting</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer docsContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 id="__docusaurus" class="postHeaderTitle">Playback Using the API</h1></header><article><div><span><p>Using the c# scripting api, bmlSUP can easily playback AMASS animations inside your own scripts and projects.</p>
+<p>Make sure you have the animations loaded into memory using the <a href="/SUP/docs/documentation/api/apiloading">Loading API</a>. You should have a <code>List&lt;List&lt;AMASSAnimation&gt;&gt;</code> stored in memory</p>
+<h2><a class="anchor" aria-hidden="true" id="creating-a-player-object"></a><a href="#creating-a-player-object" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Creating a Player object</h2>
+<p>first, when your player script first initializes, we need to create a new <code>SUPPlayer</code> object. We need to pass it default settings. These settings can be overridden later.</p>
+<pre><code class="hljs css language-c#">SUPPlayer player = <span class="hljs-keyword">new</span> SUPPlayer(playbackSettings, displaySettings, bodySettings);
+</code></pre>
+<p>If we would like to position our animations in the scene, we can supply an optional <code>Transform</code> origin object. The animations be created as children of that transform such that they will be played in local space of that transform. This also works for rotated origins.</p>
+<pre><code class="hljs css language-c#">SUPPlayer player = <span class="hljs-keyword">new</span> SUPPlayer(playbackSettings, displaySettings, bodySettings, origin);
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="playing-animations"></a><a href="#playing-animations" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Playing animations</h2>
+<p>Once we have a player object, we can use it to play individual animation sets from our loaded list.</p>
+<pre><code class="hljs css language-c#"><span class="hljs-comment">// plays the first animation (index 0)</span>
+player.Play(animations[<span class="hljs-number">0</span>]);
+</code></pre>
+<p>When playing a set, we can override the default settings for that set only by supplying new settings and origin objects.</p>
+<pre><code class="hljs css language-c#">player.Play(animations[<span class="hljs-number">0</span>], playbackSettings, displaySettings, bodySettings, origin);
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="working-complete-example"></a><a href="#working-complete-example" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Working complete example:</h2>
+<p>This example creates a component that you can attach to any GameObject in your scene. Once you configure its inspector with the correct settings files, and Animation List, it is ready to go.</p>
+<p>The component will initialize itself by creating a player, then loading all the animations into memory. As soon as loading is complete it will start playing the first animation set. Then whenever the user presses <code>space</code>, it will play the next animation set in the list. It will restart when it reaches the end of the list.</p>
+<pre><code class="hljs css language-c#"><span class="hljs-keyword">using</span> System.Collections.Generic;
+<span class="hljs-keyword">using</span> FileLoaders;
+<span class="hljs-keyword">using</span> Playback;
+<span class="hljs-keyword">using</span> Settings;
+<span class="hljs-keyword">using</span> UnityEngine;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">AnimationManager</span> : <span class="hljs-title">MonoBehaviour</span> {
+    
+    [<span class="hljs-meta">SerializeField</span>] AnimationListAsset animationListAsset = <span class="hljs-keyword">default</span>;
+    [<span class="hljs-meta">SerializeField</span>] PlaybackSettings playbackSettings = <span class="hljs-keyword">default</span>;
+    [<span class="hljs-meta">SerializeField</span>] BodySettings bodySettings;
+    [<span class="hljs-meta">SerializeField</span>] DisplaySettings displaySettings;
+    
+    List&lt;List&lt;AMASSAnimation&gt;&gt; animations;
+    SUPPlayer player;
+
+    <span class="hljs-keyword">int</span> currentlyPlayingIndex = <span class="hljs-number">0</span>;
+    
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">OnEnable</span>(<span class="hljs-params"></span>)</span> {
+        
+        <span class="hljs-comment">//initialize player</span>
+        player = <span class="hljs-keyword">new</span> SUPPlayer(playbackSettings, displaySettings, bodySettings);
+        
+        <span class="hljs-comment">// load animations from list asset</span>
+        SUPLoader.LoadFromListAssetAsync(animationListAsset, DoneLoading);
+        
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">DoneLoading</span>(<span class="hljs-params">List&lt;List&lt;AMASSAnimation&gt;&gt; loadedAnimations</span>)</span> {
+        
+        <span class="hljs-comment">// save loaded animations to memory</span>
+        <span class="hljs-keyword">this</span>.animations = loadedAnimations;
+        
+        <span class="hljs-comment">// Start playing first animation when loading complete</span>
+        player.Play(animations[<span class="hljs-number">0</span>]);
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Update</span>(<span class="hljs-params"></span>)</span> {
+        
+        <span class="hljs-comment">// Check if space bar pressed.</span>
+        <span class="hljs-keyword">if</span> (Input.GetKeyDown(KeyCode.Space)) {
+            
+            <span class="hljs-comment">// Stop currently playing animation</span>
+            player.StopCurrentAnimations();
+            
+            <span class="hljs-comment">// Increment our animation index</span>
+            currentlyPlayingIndex++;
+            
+            <span class="hljs-comment">// If reached end, restart all.</span>
+            <span class="hljs-keyword">if</span> (currentlyPlayingIndex &gt;= animations.Count) currentlyPlayingIndex = <span class="hljs-number">0</span>;
+            
+            <span class="hljs-comment">// Play the next animation</span>
+            player.Play(animations[currentlyPlayingIndex]);
+        }
+    }
+}
+</code></pre>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/SUP/docs/documentation/api/apiloading"><span class="arrow-prev">← </span><span>Loading Using the API</span></a><a class="docs-next button" href="/SUP/docs/documentation/customsettings"><span>Customizing Settings</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#creating-a-player-object">Creating a Player object</a></li><li><a href="#playing-animations">Playing animations</a></li><li><a href="#working-complete-example">Working complete example:</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/SUP/" class="nav-home"><img src="/SUP/img/favicon.ico" alt="bmlSUP" width="66" height="58"/></a><div><h5>bmlSUP</h5><a href="/SUP/docs/en/GettingStarted.html">Documentation</a><a href="/SUP/docs/en/Installation.html">Install</a><a href="https://github.com/BioMotionLab/SUP">GitHub</a></div><div><h5>BioMotionLab</h5><a href="https://www.biomotionlab.ca/">Website</a></div></section><a href="https://opensource.facebook.com/" target="_blank" rel="noreferrer noopener" class="fbOpenSource"><img src="/SUP/img/oss_logo.png" alt="Facebook Open Source" width="170" height="45"/></a><section class="copyright">Copyright © 2021 BioMotionLab (A.O. Bebko, A. Thaler, &amp; N.F. Troje)</section></footer></div></body></html>

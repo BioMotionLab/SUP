@@ -1,0 +1,67 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Converting to Unity-Readable Format · bmlSUP</title><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="generator" content="Docusaurus"/><meta name="description" content="Animations from the AMASS database can be downloaded Here. The animations are stored in ```.npz``` format, which can only be accessed in python. To play the animations in Unity, the files must be converted into a C# readable file format. We provide a python tool to convert into ```.json``` files with some example scripts."/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Converting to Unity-Readable Format · bmlSUP"/><meta property="og:type" content="website"/><meta property="og:url" content="https://BioMotionLab.github.io/SUP/"/><meta property="og:description" content="Animations from the AMASS database can be downloaded Here. The animations are stored in ```.npz``` format, which can only be accessed in python. To play the animations in Unity, the files must be converted into a C# readable file format. We provide a python tool to convert into ```.json``` files with some example scripts."/><meta property="og:image" content="https://BioMotionLab.github.io/SUP/img/SUP_icon.png"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://BioMotionLab.github.io/SUP/img/SUP_icon.png"/><link rel="shortcut icon" href="/SUP/img/favicon.ico"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script src="/SUP/js/scrollSpy.js"></script><link rel="stylesheet" href="/SUP/css/main.css"/><script src="/SUP/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/SUP/"><img class="logo" src="/SUP/img/favicon.ico" alt="bmlSUP"/><h2 class="headerTitleWithLogo">bmlSUP</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/SUP/docs/GettingStarted" target="_self">Documentation</a></li><li class="siteNavGroupActive"><a href="/SUP/docs/Installation" target="_self">Install</a></li><li class="siteNavGroupActive"><a href="/SUP/docs/Publication" target="_self">Publication</a></li><li class="siteNavGroupActive"><a href="/SUP/docs/Troubleshooting" target="_self">Help</a></li><li class=""><a href="https://www.biomotionlab.ca" target="_self">BioMotionLab</a></li><li class=""><a href="https://github.com/BioMotionLab/SUP" target="_self">GitHub</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>Documentation</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">Getting Started<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/SUP/docs/GettingStarted">Getting Started</a></li><li class="navListItem"><a class="navItem" href="/SUP/docs/Installation">Installation</a></li><li class="navListItem"><a class="navItem" href="/SUP/docs/Publication">Publication</a></li><li class="navListItem"><a class="navItem" href="/SUP/docs/Overview">Overview</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">Documentation<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem navListItemActive"><a class="navItem" href="/SUP/docs/documentation/Converting">Converting to Unity-Readable Format</a></li><li class="navListItem"><a class="navItem" href="/SUP/docs/documentation/playbackmodes">Playback Modes</a></li><div class="navGroup subNavGroup"><h4 class="navGroupSubcategoryTitle">GUI Viewer</h4><ul><li class="navListItem"><a class="navItem" href="/SUP/docs/documentation/gui/guiloading">Loading using the GUI</a></li><li class="navListItem"><a class="navItem" href="/SUP/docs/documentation/gui/interface">GUI Viewer Interface</a></li></ul></div><div class="navGroup subNavGroup"><h4 class="navGroupSubcategoryTitle">C# Scripting API</h4><ul><li class="navListItem"><a class="navItem" href="/SUP/docs/documentation/api/apiloading">Loading Using the API</a></li><li class="navListItem"><a class="navItem" href="/SUP/docs/documentation/api/apiplayback">Playback Using the API</a></li></ul></div><li class="navListItem"><a class="navItem" href="/SUP/docs/documentation/customsettings">Customizing Settings</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">Help<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/SUP/docs/Troubleshooting">Troubleshooting</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer docsContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 id="__docusaurus" class="postHeaderTitle">Converting to Unity-Readable Format</h1></header><article><div><span><p>Animations from the AMASS database can be downloaded Here. The animations are stored in <code>.npz</code> format, which can only be accessed in python. To play the animations in Unity, the files must be converted into a C# readable file format. We provide a python tool to convert into <code>.json</code> files with some example scripts.</p>
+<p>The conversion tools and examples can be accessed From the <a href="https://github.com/BioMotionLab/SUP">Github Page</a>. Download the folder named JsonConversionScripts</p>
+<p>Make sure you download the entire folder containing the conversion scripts so that you get all the modules and dependencies. You'll need to run it in an environment that is at least python 3.6, with all the required python libraries installed.</p>
+<p>In the examples, the first few lines run tests to check these dependencies are installed.</p>
+<p>A typical workflow:</p>
+<ol>
+<li>Access and download desired animations from <a href="https://amass.is.tue.mpg.de">AMASS</a>. These are in <code>.npz</code> format.</li>
+<li>Run the batch conversion python script on the entire folder of animations to convert them all to <code>.json</code> format.</li>
+<li>Load them into bmlSUP.</li>
+</ol>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/SUP/docs/Overview"><span class="arrow-prev">← </span><span>Overview</span></a><a class="docs-next button" href="/SUP/docs/documentation/playbackmodes"><span>Playback Modes</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/SUP/" class="nav-home"><img src="/SUP/img/favicon.ico" alt="bmlSUP" width="66" height="58"/></a><div><h5>bmlSUP</h5><a href="/SUP/docs/en/GettingStarted.html">Documentation</a><a href="/SUP/docs/en/Installation.html">Install</a><a href="https://github.com/BioMotionLab/SUP">GitHub</a></div><div><h5>BioMotionLab</h5><a href="https://www.biomotionlab.ca/">Website</a></div></section><a href="https://opensource.facebook.com/" target="_blank" rel="noreferrer noopener" class="fbOpenSource"><img src="/SUP/img/oss_logo.png" alt="Facebook Open Source" width="170" height="45"/></a><section class="copyright">Copyright © 2021 BioMotionLab (A.O. Bebko, A. Thaler, &amp; N.F. Troje)</section></footer></div></body></html>

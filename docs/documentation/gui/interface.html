@@ -1,0 +1,131 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>GUI Viewer Interface · bmlSUP</title><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="generator" content="Docusaurus"/><meta name="description" content="When after loading animations, the main playback screen shows, and the first animation begins playing. There are several controls that can be modified at runtime. "/><meta name="docsearch:language" content="en"/><meta property="og:title" content="GUI Viewer Interface · bmlSUP"/><meta property="og:type" content="website"/><meta property="og:url" content="https://BioMotionLab.github.io/SUP/"/><meta property="og:description" content="When after loading animations, the main playback screen shows, and the first animation begins playing. There are several controls that can be modified at runtime. "/><meta property="og:image" content="https://BioMotionLab.github.io/SUP/img/SUP_icon.png"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://BioMotionLab.github.io/SUP/img/SUP_icon.png"/><link rel="shortcut icon" href="/SUP/img/favicon.ico"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script src="/SUP/js/scrollSpy.js"></script><link rel="stylesheet" href="/SUP/css/main.css"/><script src="/SUP/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/SUP/"><img class="logo" src="/SUP/img/favicon.ico" alt="bmlSUP"/><h2 class="headerTitleWithLogo">bmlSUP</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/SUP/docs/GettingStarted" target="_self">Documentation</a></li><li class="siteNavGroupActive"><a href="/SUP/docs/Installation" target="_self">Install</a></li><li class="siteNavGroupActive"><a href="/SUP/docs/Publication" target="_self">Publication</a></li><li class="siteNavGroupActive"><a href="/SUP/docs/Troubleshooting" target="_self">Help</a></li><li class=""><a href="https://www.biomotionlab.ca" target="_self">BioMotionLab</a></li><li class=""><a href="https://github.com/BioMotionLab/SUP" target="_self">GitHub</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>GUI Viewer</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">Getting Started<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/SUP/docs/GettingStarted">Getting Started</a></li><li class="navListItem"><a class="navItem" href="/SUP/docs/Installation">Installation</a></li><li class="navListItem"><a class="navItem" href="/SUP/docs/Publication">Publication</a></li><li class="navListItem"><a class="navItem" href="/SUP/docs/Overview">Overview</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">Documentation<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/SUP/docs/documentation/Converting">Converting to Unity-Readable Format</a></li><li class="navListItem"><a class="navItem" href="/SUP/docs/documentation/playbackmodes">Playback Modes</a></li><div class="navGroup subNavGroup"><h4 class="navGroupSubcategoryTitle">GUI Viewer</h4><ul><li class="navListItem"><a class="navItem" href="/SUP/docs/documentation/gui/guiloading">Loading using the GUI</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/SUP/docs/documentation/gui/interface">GUI Viewer Interface</a></li></ul></div><div class="navGroup subNavGroup"><h4 class="navGroupSubcategoryTitle">C# Scripting API</h4><ul><li class="navListItem"><a class="navItem" href="/SUP/docs/documentation/api/apiloading">Loading Using the API</a></li><li class="navListItem"><a class="navItem" href="/SUP/docs/documentation/api/apiplayback">Playback Using the API</a></li></ul></div><li class="navListItem"><a class="navItem" href="/SUP/docs/documentation/customsettings">Customizing Settings</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">Help<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/SUP/docs/Troubleshooting">Troubleshooting</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer docsContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 id="__docusaurus" class="postHeaderTitle">GUI Viewer Interface</h1></header><article><div><span><p>When after loading animations, the main playback screen shows, and the first animation begins playing. There are several controls that can be modified at runtime.</p>
+<p>Note that changes made during runtime do not save between sessions. To modify the default options permanently, the settings files must be adjusted in the editor.</p>
+<p><img src="../../assets/gui/interface.png" alt="Loading screen"></p>
+<p>The entire GUI can be toggled on and off by pressing the <code>u</code> key. This is useful for screen capturing or for an unobstructed view of the scene.</p>
+<p>In several instances below, custom settings assets are mentioned. Please read <a href="/SUP/docs/documentation/customsettings">this page</a> for more infornmation on customizing settings files.</p>
+<h2><a class="anchor" aria-hidden="true" id="playback-controls"></a><a href="#playback-controls" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Playback Controls</h2>
+<p><img src="../../assets/gui/playbackcontrols.png" alt="playback controls"></p>
+<h3><a class="anchor" aria-hidden="true" id="scrubber"></a><a href="#scrubber" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>&quot;Scrubber&quot;</h3>
+<ul>
+<li>One scrubber shows up for each currently playing animation.</li>
+<li>Shows the current frame, total frames, current time, total duration, and controls to jump to a particular frame or time.</li>
+</ul>
+<h3><a class="anchor" aria-hidden="true" id="playback"></a><a href="#playback" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Playback</h3>
+<ul>
+<li>Controls to pause / play, and adjust the playback speed</li>
+<li>Loop currently can only be adjusted outside playmode using a custom PlaybackSettings asset.</li>
+</ul>
+<p>Backwards playback can be enabled by creating a custom PlaybackSettings asset.</p>
+<h3><a class="anchor" aria-hidden="true" id="navigation"></a><a href="#navigation" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Navigation</h3>
+<p>Navigate between loaded animations, or reopen the loading window</p>
+<h2><a class="anchor" aria-hidden="true" id="appearance-controls"></a><a href="#appearance-controls" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Appearance Controls</h2>
+<p><img src="../../assets/gui/appearancecontrols.png" alt="appearance controls"></p>
+<h3><a class="anchor" aria-hidden="true" id="mesh-display"></a><a href="#mesh-display" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Mesh Display:</h3>
+<ul>
+<li>Opaque: An opaque mesh is rendered with the default texture. This texture can be modified in the editor.</li>
+<li>Semi-Transparent: A semi-transparent mesh is rendered so that the outline of the body is visible while allowing joints and bones to also be visible.</li>
+<li>No Mesh: Mesh rendering is turned off</li>
+</ul>
+<p>Mesh display options can be further customized in the editor by creating and editing a new DisplayOptions asset.</p>
+<h3><a class="anchor" aria-hidden="true" id="bone-display"></a><a href="#bone-display" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Bone Display</h3>
+<ul>
+<li>A display of lines for bones of the SMPL Model can be toggled on and off. These lines connect joints together. They do not match real skeletal bones.</li>
+</ul>
+<p>Bone display options can be further customized in the editor by creating and editing a new DisplayOptions asset. The size and coloring can be adjusted.</p>
+<h3><a class="anchor" aria-hidden="true" id="joint-display"></a><a href="#joint-display" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Joint Display</h3>
+<ul>
+<li>A display of spheres for the joints of the SMPL Model can be toggled on and off. They do not match real skeletal joints.</li>
+</ul>
+<p>Joint display options can be further customized in the editor by creating and editing a new DisplayOptions asset. The size and coloring can be adjusted.</p>
+<h3><a class="anchor" aria-hidden="true" id="smpl-component-checkboxes"></a><a href="#smpl-component-checkboxes" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>SMPL component checkboxes</h3>
+<ul>
+<li>Individualized Body: This toggles between using the individualized body shape weights (betas), or using the average body shape.</li>
+<li>Pose Blendshapes: This toggles whether to add the pose-dependent blenshape corrections to the mesh. When off, it uses only default linear blendskinning, which produces more artifacts during movement, especially at elbows and knees.</li>
+<li>Poses: This toggles whether to use the pose information in the animation file. When off, a T-Pose is maintained.</li>
+</ul>
+<h3><a class="anchor" aria-hidden="true" id="grounding"></a><a href="#grounding" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Grounding</h3>
+<p>These options affect whether to correct for errors in the motion capture ground plane.</p>
+<ul>
+<li>Common: A corrected ground plane is calculated for the first animation only, and this correction is applied to all animations this session.</li>
+<li>Individual: A corrected ground plane is calculated and applied to each animation separately.</li>
+<li>None: No Corrections are done, the values from the motion capture are trusted.</li>
+<li>Custom Value: You can enter an offset for each character in the scene view of the unity editor. (Does not work in compiled projects)</li>
+</ul>
+<h3><a class="anchor" aria-hidden="true" id="manual-posing"></a><a href="#manual-posing" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Manual Posing</h3>
+<p>Bone rotations and positions can be adjusted manually via their transforms in the Unity Editor Scene view.</p>
+<p>This is useful for putting bodies in specific poses, or for examining how the SMPL model works.</p>
+<p>The pose-dependent blendshapes can still be enabled. This is great for examining the effects of the pose-dependent blendshapes of the SMPL model.</p>
+<p>Does not work in compiled projects.</p>
+<h2><a class="anchor" aria-hidden="true" id="camera-controls"></a><a href="#camera-controls" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Camera Controls</h2>
+<p><img src="../../assets/gui/cameracontrols.png" alt="camera controls"></p>
+<p>The main camera controls are similar to the unity editor scene view controls.</p>
+<ul>
+<li>Freeze/Unfreeze: This lock the camera in its current position, so it cannot be changed by accident.</li>
+<li>Recenter: Return the camera to its initial position at the start of the program. This initial position can be adjusted by editing the camera's transform component in the scene view outside playmode.</li>
+</ul>
+<h2><a class="anchor" aria-hidden="true" id="reviewing-controls"></a><a href="#reviewing-controls" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reviewing Controls</h2>
+<p><img src="../../assets/gui/reviewcontrols.png" alt="review controls"></p>
+<p>The review controls enable simple annotation of animation sets, via adding lines to a CSV file. This is useful for loading a large set of animations and making quick notes about them while viewing them.</p>
+<ul>
+<li>New file: Create a new notes file on your computer.</li>
+<li>Select file: Append to an existing notes file.</li>
+</ul>
+<p>Once a file is created or selected, type a note in the text field, and hit Save Note, to add a line to the file with the animation name and your note.</p>
+<p>Note that when this window is showing, all other keyboard controls are disabled.</p>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/SUP/docs/documentation/gui/guiloading"><span class="arrow-prev">← </span><span>Loading using the GUI</span></a><a class="docs-next button" href="/SUP/docs/documentation/api/apiloading"><span>Loading Using the API</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#playback-controls">Playback Controls</a><ul class="toc-headings"><li><a href="#scrubber">&quot;Scrubber&quot;</a></li><li><a href="#playback">Playback</a></li><li><a href="#navigation">Navigation</a></li></ul></li><li><a href="#appearance-controls">Appearance Controls</a><ul class="toc-headings"><li><a href="#mesh-display">Mesh Display:</a></li><li><a href="#bone-display">Bone Display</a></li><li><a href="#joint-display">Joint Display</a></li><li><a href="#smpl-component-checkboxes">SMPL component checkboxes</a></li><li><a href="#grounding">Grounding</a></li><li><a href="#manual-posing">Manual Posing</a></li></ul></li><li><a href="#camera-controls">Camera Controls</a></li><li><a href="#reviewing-controls">Reviewing Controls</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/SUP/" class="nav-home"><img src="/SUP/img/favicon.ico" alt="bmlSUP" width="66" height="58"/></a><div><h5>bmlSUP</h5><a href="/SUP/docs/en/GettingStarted.html">Documentation</a><a href="/SUP/docs/en/Installation.html">Install</a><a href="https://github.com/BioMotionLab/SUP">GitHub</a></div><div><h5>BioMotionLab</h5><a href="https://www.biomotionlab.ca/">Website</a></div></section><a href="https://opensource.facebook.com/" target="_blank" rel="noreferrer noopener" class="fbOpenSource"><img src="/SUP/img/oss_logo.png" alt="Facebook Open Source" width="170" height="45"/></a><section class="copyright">Copyright © 2021 BioMotionLab (A.O. Bebko, A. Thaler, &amp; N.F. Troje)</section></footer></div></body></html>

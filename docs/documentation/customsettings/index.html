@@ -1,0 +1,103 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Customizing Settings · bmlSUP</title><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="generator" content="Docusaurus"/><meta name="description" content="To customize settings, bmlSUP needs to be provided with overrides for the default settings. The settings are defined using settings assets."/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Customizing Settings · bmlSUP"/><meta property="og:type" content="website"/><meta property="og:url" content="https://BioMotionLab.github.io/SUP/"/><meta property="og:description" content="To customize settings, bmlSUP needs to be provided with overrides for the default settings. The settings are defined using settings assets."/><meta property="og:image" content="https://BioMotionLab.github.io/SUP/img/SUP_icon.png"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://BioMotionLab.github.io/SUP/img/SUP_icon.png"/><link rel="shortcut icon" href="/SUP/img/favicon.ico"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script src="/SUP/js/scrollSpy.js"></script><link rel="stylesheet" href="/SUP/css/main.css"/><script src="/SUP/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/SUP/"><img class="logo" src="/SUP/img/favicon.ico" alt="bmlSUP"/><h2 class="headerTitleWithLogo">bmlSUP</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/SUP/docs/GettingStarted" target="_self">Documentation</a></li><li class="siteNavGroupActive"><a href="/SUP/docs/Installation" target="_self">Install</a></li><li class="siteNavGroupActive"><a href="/SUP/docs/Publication" target="_self">Publication</a></li><li class="siteNavGroupActive"><a href="/SUP/docs/Troubleshooting" target="_self">Help</a></li><li class=""><a href="https://www.biomotionlab.ca" target="_self">BioMotionLab</a></li><li class=""><a href="https://github.com/BioMotionLab/SUP" target="_self">GitHub</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>Documentation</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">Getting Started<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/SUP/docs/GettingStarted">Getting Started</a></li><li class="navListItem"><a class="navItem" href="/SUP/docs/Installation">Installation</a></li><li class="navListItem"><a class="navItem" href="/SUP/docs/Publication">Publication</a></li><li class="navListItem"><a class="navItem" href="/SUP/docs/Overview">Overview</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">Documentation<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/SUP/docs/documentation/Converting">Converting to Unity-Readable Format</a></li><li class="navListItem"><a class="navItem" href="/SUP/docs/documentation/playbackmodes">Playback Modes</a></li><div class="navGroup subNavGroup"><h4 class="navGroupSubcategoryTitle">GUI Viewer</h4><ul><li class="navListItem"><a class="navItem" href="/SUP/docs/documentation/gui/guiloading">Loading using the GUI</a></li><li class="navListItem"><a class="navItem" href="/SUP/docs/documentation/gui/interface">GUI Viewer Interface</a></li></ul></div><div class="navGroup subNavGroup"><h4 class="navGroupSubcategoryTitle">C# Scripting API</h4><ul><li class="navListItem"><a class="navItem" href="/SUP/docs/documentation/api/apiloading">Loading Using the API</a></li><li class="navListItem"><a class="navItem" href="/SUP/docs/documentation/api/apiplayback">Playback Using the API</a></li></ul></div><li class="navListItem navListItemActive"><a class="navItem" href="/SUP/docs/documentation/customsettings">Customizing Settings</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">Help<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/SUP/docs/Troubleshooting">Troubleshooting</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer docsContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 id="__docusaurus" class="postHeaderTitle">Customizing Settings</h1></header><article><div><span><p>To customize settings, bmlSUP needs to be provided with overrides for the default settings. The settings are defined using settings assets.</p>
+<p>To create custom settings, create the assets from the asset creation menus. These are created like any other asset, by right clicking in the Project view and selecting them. There should be a bmlSUP submenu that shows where they can be created.</p>
+<p><img src="../assets/settingcreation.png" alt="asset creation"></p>
+<p>One these Assets have been created, you can supply them to the bmlSUP player.</p>
+<h2><a class="anchor" aria-hidden="true" id="gui-viewer"></a><a href="#gui-viewer" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>GUI Viewer</h2>
+<p>Click on the SUPViewer GameObject in the SupViewer sample Scene. In the inspector, drag your new settings assets into the appropriate fields.</p>
+<p><img src="../assets/customizingguiviewer.png" alt="gui settings change"></p>
+<h2><a class="anchor" aria-hidden="true" id="c-scripting-api"></a><a href="#c-scripting-api" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>C# Scripting API</h2>
+<p>When creating a new player object, you must supply settings files as parameters.</p>
+<pre><code class="hljs css language-text">SUPPLayer player = new SUPPLayer(playbackSettings, displaySettings, bodySettings);
+</code></pre>
+<p>Here is an example Monobehaviour using custom settings</p>
+<pre><code class="hljs css language-c#"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">AnimationManager</span> : <span class="hljs-title">MonoBehaviour</span> {
+    
+    [<span class="hljs-meta">SerializeField</span>] AnimationListAsset animationListAsset = <span class="hljs-keyword">default</span>;
+    
+    <span class="hljs-comment">//Modify these in the inspector with the newly created custom settings assets</span>
+    [<span class="hljs-meta">SerializeField</span>] PlaybackSettings playbackSettings = <span class="hljs-keyword">default</span>;
+    [<span class="hljs-meta">SerializeField</span>] BodySettings bodySettings = <span class="hljs-keyword">default</span>;
+    [<span class="hljs-meta">SerializeField</span>] DisplaySettings displaySettings = <span class="hljs-keyword">default</span>;
+    
+    List&lt;List&lt;AMASSAnimation&gt;&gt; animations;
+    SUPPlayer player;
+    
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">OnEnable</span>(<span class="hljs-params"></span>)</span> {
+        AnimationLoader.LoadFromListAssetAsync(animationListAsset, DoneLoading);
+        
+        <span class="hljs-comment">// This is where the settings are applied</span>
+        player = <span class="hljs-keyword">new</span> SUPPlayer(playbackSettings, displaySettings, bodySettings);
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">DoneLoading</span>(<span class="hljs-params">List&lt;List&lt;AMASSAnimation&gt;&gt; loadedAnimations</span>)</span> {
+        <span class="hljs-keyword">this</span>.animations = loadedAnimations;
+        player.Play(animations[<span class="hljs-number">0</span>]);
+    }
+
+}
+
+</code></pre>
+<p>You can also supply custom settings to individual animations when playing them. This allows playing animations with many different settings applied at runtime.</p>
+<pre><code class="hljs css language-c#"><span class="hljs-comment">// override all settings</span>
+player.Play(animations[<span class="hljs-number">0</span>], myCustomDisplaySettings, myCustomPlaybackSettings, myCustomBodySettings);
+
+<span class="hljs-comment">// or override only one at a time</span>
+player.Play(animations[<span class="hljs-number">0</span>], myCustomPlaybackSettings);
+</code></pre>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/SUP/docs/documentation/api/apiplayback"><span class="arrow-prev">← </span><span>Playback Using the API</span></a><a class="docs-next button" href="/SUP/docs/Troubleshooting"><span>Troubleshooting</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#gui-viewer">GUI Viewer</a></li><li><a href="#c-scripting-api">C# Scripting API</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/SUP/" class="nav-home"><img src="/SUP/img/favicon.ico" alt="bmlSUP" width="66" height="58"/></a><div><h5>bmlSUP</h5><a href="/SUP/docs/en/GettingStarted.html">Documentation</a><a href="/SUP/docs/en/Installation.html">Install</a><a href="https://github.com/BioMotionLab/SUP">GitHub</a></div><div><h5>BioMotionLab</h5><a href="https://www.biomotionlab.ca/">Website</a></div></section><a href="https://opensource.facebook.com/" target="_blank" rel="noreferrer noopener" class="fbOpenSource"><img src="/SUP/img/oss_logo.png" alt="Facebook Open Source" width="170" height="45"/></a><section class="copyright">Copyright © 2021 BioMotionLab (A.O. Bebko, A. Thaler, &amp; N.F. Troje)</section></footer></div></body></html>

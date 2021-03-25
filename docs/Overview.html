@@ -1,0 +1,126 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Overview · bmlSUP</title><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="generator" content="Docusaurus"/><meta name="description" content="## Realistic body model animations - SMPL, MoSh, and AMASS"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Overview · bmlSUP"/><meta property="og:type" content="website"/><meta property="og:url" content="https://BioMotionLab.github.io/SUP/"/><meta property="og:description" content="## Realistic body model animations - SMPL, MoSh, and AMASS"/><meta property="og:image" content="https://BioMotionLab.github.io/SUP/img/SUP_icon.png"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://BioMotionLab.github.io/SUP/img/SUP_icon.png"/><link rel="shortcut icon" href="/SUP/img/favicon.ico"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script src="/SUP/js/scrollSpy.js"></script><link rel="stylesheet" href="/SUP/css/main.css"/><script src="/SUP/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/SUP/"><img class="logo" src="/SUP/img/favicon.ico" alt="bmlSUP"/><h2 class="headerTitleWithLogo">bmlSUP</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/SUP/docs/GettingStarted" target="_self">Documentation</a></li><li class="siteNavGroupActive"><a href="/SUP/docs/Installation" target="_self">Install</a></li><li class="siteNavGroupActive"><a href="/SUP/docs/Publication" target="_self">Publication</a></li><li class="siteNavGroupActive"><a href="/SUP/docs/Troubleshooting" target="_self">Help</a></li><li class=""><a href="https://www.biomotionlab.ca" target="_self">BioMotionLab</a></li><li class=""><a href="https://github.com/BioMotionLab/SUP" target="_self">GitHub</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>Getting Started</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">Getting Started<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/SUP/docs/GettingStarted">Getting Started</a></li><li class="navListItem"><a class="navItem" href="/SUP/docs/Installation">Installation</a></li><li class="navListItem"><a class="navItem" href="/SUP/docs/Publication">Publication</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/SUP/docs/Overview">Overview</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">Documentation<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/SUP/docs/documentation/Converting">Converting to Unity-Readable Format</a></li><li class="navListItem"><a class="navItem" href="/SUP/docs/documentation/playbackmodes">Playback Modes</a></li><div class="navGroup subNavGroup"><h4 class="navGroupSubcategoryTitle">GUI Viewer</h4><ul><li class="navListItem"><a class="navItem" href="/SUP/docs/documentation/gui/guiloading">Loading using the GUI</a></li><li class="navListItem"><a class="navItem" href="/SUP/docs/documentation/gui/interface">GUI Viewer Interface</a></li></ul></div><div class="navGroup subNavGroup"><h4 class="navGroupSubcategoryTitle">C# Scripting API</h4><ul><li class="navListItem"><a class="navItem" href="/SUP/docs/documentation/api/apiloading">Loading Using the API</a></li><li class="navListItem"><a class="navItem" href="/SUP/docs/documentation/api/apiplayback">Playback Using the API</a></li></ul></div><li class="navListItem"><a class="navItem" href="/SUP/docs/documentation/customsettings">Customizing Settings</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">Help<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/SUP/docs/Troubleshooting">Troubleshooting</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer docsContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 id="__docusaurus" class="postHeaderTitle">Overview</h1></header><article><div><span><h2><a class="anchor" aria-hidden="true" id="realistic-body-model-animations---smpl-mosh-and-amass"></a><a href="#realistic-body-model-animations---smpl-mosh-and-amass" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Realistic body model animations - SMPL, MoSh, and AMASS</h2>
+<p>Virtual characters are used in a wide range of on-screen applications and immersive and collaborative environments. Due to the high degree of control of the presentation and animation of the characters they lend themselves well to research on biological motion and person perception. However, historically, virtual characters suffered from unrealistic deformations at joints. Recent advances in computer graphics and statistical body models of human bodies have led to increasingly realistic virtual characters <a href="https://smpl.is.tue.mpg.de">[1]</a><a href="https://smpl-x.is.tue.mpg.de">[2]</a><a href="https://mano.is.tue.mpg.de">[3]</a>.</p>
+<p>One such advancement is the MoSh <a href="http://mosh.is.tue.mpg.de">[4]</a>. MoSh reconstructs motion and shape from optical motion capture markers and produces an animated 3D mesh using the statistical body model SMPL <a href="https://smpl.is.tue.mpg.de">[1]</a><a href="https://amass.is.tue.mpg.de">[5]</a>. SMPL is a data-driven model. It parametrizes the inter-individual variance in body shape through a series of parameter weights, and also provides a set of pose-dependent blendshapes that improve the realism of the mesh deformations when the joints move. These pose-dependent blendshapes result in large improvements over linear blend skinning, which causes unrealistic mesh deformations at joints. These features allow the SMPL model to create realistic individualized and animated meshes.</p>
+<p><a href="https://amass.is.tue.mpg.de">AMASS</a> is a large database of such animated body models <a href="https://amass.is.tue.mpg.de">[5]</a>. This database currently unifies 18 different marker-based motion capture datasets using the <a href="http://mosh.is.tue.mpg.de">MoSh++</a> method and the <a href="https://mano.is.tue.mpg.de">SMPL-H</a> model that also contains hand poses <a href="https://mano.is.tue.mpg.de">[3]</a><a href="http://mosh.is.tue.mpg.de">[4]</a>. The animations are stored as animated SMPL-H parameters and include a wide variety of everyday actions and sports movements.</p>
+<p><img src="/SUP/docs/assets/amass_diagram.png" alt="Diagram"></p>
+<p>Currently, animations from AMASS are easily rendered only in python. With the growing popularity and power of real-time 3D rendering tools, including popular game engines, more options are needed for displaying realistic virtual humans in 3D environments. Here, we present a tool, called bmlSUP, for rendering AMASS animations in the Unity Game Engine. The tool contains an implementation of the SMPL-H model using Unity's native blendshapes and animation system Mecanim. This tool allows access to the large amount of animations provided in the AMASS dataset, and an interface to easily load them into Unity.</p>
+<h2><a class="anchor" aria-hidden="true" id="the-biomotionlab-smpl-unity-player"></a><a href="#the-biomotionlab-smpl-unity-player" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>The BioMotionLab SMPL Unity Player</h2>
+<p>The bmlSUP player can only be used for non-commercial purposes, and falls under the same license agreement as AMASS and SMPL.</p>
+<h3><a class="anchor" aria-hidden="true" id="accessing-and-loading-amass-animations"></a><a href="#accessing-and-loading-amass-animations" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Accessing and loading AMASS animations:</h3>
+<p>Animations from the AMASS database can be downloaded <a href="https://amass.is.tue.mpg.de">Here</a>. The animations are stored in <code>.npz</code> format, which can only be accessed in python. To play the animations in Unity, the files must be converted into a C# readable file format. We provide a python tool to convert into <code>.json</code> files with some example scripts. For more information on conversion click <a href="/SUP/docs/documentation/Converting">here</a>.</p>
+<p>Each frame in an AMASS animation includes the SMPL-H parameters for that frame: body pose (including hand articulations), global body translation, and DMPL dynamic soft-tissue coefficients <a href="https://mano.is.tue.mpg.de">[3]</a>. The animation file also contains the individualized body shape parameters of the female or male SMPL-H model. Our player currently does not support DMPL. AMASS animations containing such data will still play, but the current version of our player will exclude these components. The player is structured in a modular fashion. Body shape parameters, skeleton pose, and pose-dependent blendshapes can be individually toggled and substituted.</p>
+<p>Animation files can be loaded individually or in batch as a folder with subfolders. If a batch of animations should be played in a specific order, a <code>.txt</code> file must be included specifying the order. Multiple or paired animations can be played simultaneously by explicitly including them as a sequence in the <code>.txt</code> file.</p>
+<h3><a class="anchor" aria-hidden="true" id="playback"></a><a href="#playback" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Playback</h3>
+<p>There are two ways to play animations. Via a graphical user interface (GUI), or via scripting using a simple c# API.</p>
+<h4><a class="anchor" aria-hidden="true" id="gui"></a><a href="#gui" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>GUI</h4>
+<p>The included graphical user interface can be accessed by installing the package Samples in the package manager. After opening the scene, and pressing play, a loading screen appears where animation files can be loaded. We have included a few samples.</p>
+<p>Once playing, the main playback interface appears:</p>
+<p><img src="/SUP/docs/assets/gui.png" alt="bmlSUP GUI"></p>
+<p>The interface includes the following controls:</p>
+<ul>
+<li>Playback Controls
+<ul>
+<li>Play/Pause, Playback Speed, &quot;Scrubber&quot;,</li>
+<li>Navigation buttons (Next/Previous animation, etc.)</li>
+</ul></li>
+<li>Appearance Controls
+<ul>
+<li>Toggle between mesh rendering: opaque with checkerboard texture, semi-transparent, or no mesh.</li>
+<li>Toggle bones</li>
+<li>Toggle joints</li>
+</ul></li>
+<li>Camera Controls:
+<ul>
+<li>Runtime camera repositioning, similar to Editor Scene View.</li>
+</ul></li>
+<li>Reviewing
+<ul>
+<li>Save <code>.txt</code> notes about animations while viewing them.</li>
+<li>Useful for annotating large sets of animations.</li>
+</ul></li>
+<li>Many more advance customizations</li>
+</ul>
+<h4><a class="anchor" aria-hidden="true" id="c-api"></a><a href="#c-api" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>C# API</h4>
+<p>We have included a simple API for loading, playing, and controlling playback options. This option is useful for more complex applications such as integrating bmlSUP into an existing project, or for more advanced customizations.</p>
+<p>The API is designed to be as simple as possible. The following is an example of a complete working script that plays the first animation from a loaded set.</p>
+<pre><code class="hljs css language-c#"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">AnimationManager</span> : <span class="hljs-title">MonoBehaviour</span> {
+    
+    [<span class="hljs-meta">SerializeField</span>] AnimationListAsset animationListAsset = <span class="hljs-keyword">default</span>;
+    [<span class="hljs-meta">SerializeField</span>] PlaybackSettings playbackSettings = <span class="hljs-keyword">default</span>;
+    [<span class="hljs-meta">SerializeField</span>] BodyOptions bodyOptions;
+    [<span class="hljs-meta">SerializeField</span>] DisplaySettings displaySettings;
+    
+    List&lt;List&lt;AMASSAnimation&gt;&gt; animations;
+    AMASSAnimationPlayer player;
+    
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">OnEnable</span>(<span class="hljs-params"></span>)</span> {
+        AnimationLoader.LoadFromAnimationListAssetAsync(animationListAsset, DoneLoading);
+        player = <span class="hljs-keyword">new</span> AMASSAnimationPlayer(playbackSettings, displaySettings, bodyOptions);
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">DoneLoading</span>(<span class="hljs-params">List&lt;List&lt;AMASSAnimation&gt;&gt; loadedAnimations</span>)</span> {
+        <span class="hljs-keyword">this</span>.animations = loadedAnimations;
+        player.Play(animations[<span class="hljs-number">0</span>]);
+    }
+
+}
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="acknowledgements"></a><a href="#acknowledgements" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Acknowledgements</h2>
+<p>We wish to thank Nima Ghorbani and Naureen Mahmood for their useful comments and providing an early prototype of the Unity Player and the basis for the skinned meshes. This work was supported by CFREF VISTA funding.</p>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/SUP/docs/Publication"><span class="arrow-prev">← </span><span>Publication</span></a><a class="docs-next button" href="/SUP/docs/documentation/Converting"><span>Converting to Unity-Readable Format</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#realistic-body-model-animations---smpl-mosh-and-amass">Realistic body model animations - SMPL, MoSh, and AMASS</a></li><li><a href="#the-biomotionlab-smpl-unity-player">The BioMotionLab SMPL Unity Player</a><ul class="toc-headings"><li><a href="#accessing-and-loading-amass-animations">Accessing and loading AMASS animations:</a></li><li><a href="#playback">Playback</a></li></ul></li><li><a href="#acknowledgements">Acknowledgements</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/SUP/" class="nav-home"><img src="/SUP/img/favicon.ico" alt="bmlSUP" width="66" height="58"/></a><div><h5>bmlSUP</h5><a href="/SUP/docs/en/GettingStarted.html">Documentation</a><a href="/SUP/docs/en/Installation.html">Install</a><a href="https://github.com/BioMotionLab/SUP">GitHub</a></div><div><h5>BioMotionLab</h5><a href="https://www.biomotionlab.ca/">Website</a></div></section><a href="https://opensource.facebook.com/" target="_blank" rel="noreferrer noopener" class="fbOpenSource"><img src="/SUP/img/oss_logo.png" alt="Facebook Open Source" width="170" height="45"/></a><section class="copyright">Copyright © 2021 BioMotionLab (A.O. Bebko, A. Thaler, &amp; N.F. Troje)</section></footer></div></body></html>
