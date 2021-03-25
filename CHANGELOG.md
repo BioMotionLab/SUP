@@ -1,3 +1,11 @@
+## [1.1.1](https://github.com/BioMotionLab/SUP/compare/release/1.1.0...release/1.1.1) (2021-03-25)
+
+
+### Bug Fixes
+
+* sample visibility ([6c9fac3](https://github.com/BioMotionLab/SUP/commit/6c9fac3e430327d9ab83329d1991cdc4df5c0d7d))
+* sample visibility try 2 ([2c7a803](https://github.com/BioMotionLab/SUP/commit/2c7a803486f798aa093554721384ff08a20e1ce5))
+
 # [1.1.0](https://github.com/BioMotionLab/SUP/compare/release/1.0.1...release/1.1.0) (2021-03-25)
 
 
