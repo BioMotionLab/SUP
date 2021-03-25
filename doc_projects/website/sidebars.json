@@ -22,6 +22,14 @@
           "documentation/gui/interface"
         ]
       },
+      {
+        "type": "subcategory",
+        "label": "C# Scripting API",
+        "ids": [
+          "documentation/api/apiloading",
+          "documentation/api/apiplayback"
+        ]
+      },
       "documentation/customsettings"
     ],
     "Help": [

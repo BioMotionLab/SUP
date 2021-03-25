@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 31aae5ad1319432cace605e7774e0c1e, type: 3}
-  m_Name: Playback Settings
+  m_Name: Default Playback Settings
   m_EditorClassIdentifier: 
   PlayBackwards: 0
   FallbackFPS: 60

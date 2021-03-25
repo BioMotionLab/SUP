@@ -12,7 +12,7 @@ namespace Playback {
         public string[] AnimListAsStrings => animListAsStrings;
         public string AnimFolder => animFolder;
 
-        public AnimationFileReference(string animationsListFile, string animFolder) {
+        public AnimationFileReference(string animFolder, string animationsListFile = null) {
             this.animFolder = animFolder;
             
             if (animationsListFile != null) animListAsStrings = LoadFilesInFolderFromList(animationsListFile);

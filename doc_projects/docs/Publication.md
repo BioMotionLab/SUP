@@ -21,9 +21,10 @@ Toronto, Ontario, Canada
 Realistic virtual characters are important for many applications. The [SMPL](https://smpl.is.tue.mpg.de) body model is based on 3D body scans and uses body shape and pose-dependent blendshapes to achieve realistic human animations. Recently, a large database of SMPL animations called [AMASS](https://amass.is.tue.mpg.de) has been released. Here, we present a tool that allows these animations to be viewed and controlled in Unity called the BioMotionLab SMPL Unity Player (bmlSUP). This tool provides an easy interface to load and display AMASS animations in 3D immersive environments and mixed reality. We present the functionality, uses, and possible applications of this new tool.
 
 
-## Poster
+## Downloads
 
-Download [here](assets/bmlSUP_IEEEVR2021_poster.pptx).
+Download Paper [here](assets/bmlSUP_IEEEVR2021_Paper.pdf)
+Download Poster [here](assets/bmlSUP_IEEEVR2021_poster.pptx).
 
 ## Citing
 

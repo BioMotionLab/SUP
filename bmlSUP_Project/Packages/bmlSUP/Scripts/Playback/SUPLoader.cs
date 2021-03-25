@@ -55,21 +55,7 @@ namespace Playback {
             doneLoading.Invoke(loadedSamples);
         }
 
-        static void DisplayPackageImportErrorMessage() {
-            Debug.LogError(Format.Error("Error loading animationListAsset. "));
-            Debug.LogError(Format.Error("\tProbable cause:"));
-            Debug.LogError(Format.Error("\t \tThe \"Addressables\" package was loaded AFTER importing SUP."));
-            Debug.LogError(Format.Error("\t \tThis is a unity editor limitation."));
-            Debug.LogError(Format.Error("\tProbable solution:"));
-            Debug.LogError(
-                Format.Error("\t \t1) Ensure the \"Addressables\" package is installed in your project."));
-            Debug.LogError(
-                Format.Error("\t \t2) Go to Window Menu > Asset Management > Addressables > Groups, Then click the button to generate a settings file."));
-            Debug.LogError(
-                Format.Error("\t \t3) Reimport SUP (Go to Packages/bmlSUP, right click on folder, and click reimport)."));
-        }
-
-        static async Task<AnimationData> LoadDataAsync(AnimationLoadStrategy loadStrategy) {
+       static async Task<AnimationData> LoadDataAsync(AnimationLoadStrategy loadStrategy) {
             AnimationData loadDataFromSampleJson = await loadStrategy.LoadData();
             return loadDataFromSampleJson;
         }
