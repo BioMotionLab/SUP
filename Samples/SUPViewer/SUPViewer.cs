@@ -103,7 +103,7 @@ namespace Samples.SUPViewer {
 		}
 		
 		void LoadAnimations(string listFile, string animationsFolder) {
-			AnimationFileReference fileReference = new AnimationFileReference(listFile, animationsFolder);
+			AnimationFileReference fileReference = new AnimationFileReference(animationsFolder, listFile);
 			SUPLoader.LoadAsync(fileReference, models, RuntimePlaybackSettings, DoneLoading);
 		}
 
