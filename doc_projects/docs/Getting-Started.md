@@ -19,6 +19,10 @@ The bmlSUP player can only be used for non-commercial purposes, and falls under 
 
 Install the package following these [Instructions](Installation.md).
 
+Check out the [Overview](Overview.md).
+
+Open the [GUI Viewer Sample scene](documentation/gui/guiloading.md), and enjoy viewing animations!
+
 ## Getting Help
 
 Check out the [Troubleshooting page](Troubleshooting.md).
