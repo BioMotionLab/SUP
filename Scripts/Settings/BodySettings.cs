@@ -4,8 +4,8 @@ using UnityEngine;
 // ReSharper disable InconsistentNaming
 
 namespace Settings {
-    [CreateAssetMenu(fileName = "New BodyOptions Asset", menuName = Menu.AssetMenu + "New BodyOptions Asset")]
-    public class BodyOptions : ScriptableObject {
+    [CreateAssetMenu(fileName = "New BodySettings Asset", menuName = Menu.AssetMenu + "New BodySettings Asset")]
+    public class BodySettings : ScriptableObject {
         public bool ShowIndividualizedBody;
         public bool UpdateBodyShapeLive;
         public bool UpdatePosesLive;

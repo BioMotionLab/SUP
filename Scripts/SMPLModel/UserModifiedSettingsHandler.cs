@@ -5,7 +5,7 @@ using Settings;
 namespace SMPLModel {
 
     public interface Viewer {
-        BodyOptions RuntimeBodyOptions { get; }
+        BodySettings RuntimeBodySettings { get; }
         DisplaySettings RuntimeDisplaySettings { get; }
         PlaybackSettings RuntimePlaybackSettings { get; }
     }
@@ -46,27 +46,27 @@ namespace SMPLModel {
         }
 
         void SetUpdateYTranslation(bool changeUpdateYTranslation) {
-            viewer.RuntimeBodyOptions.UpdateTranslationLiveY = changeUpdateYTranslation;
+            viewer.RuntimeBodySettings.UpdateTranslationLiveY = changeUpdateYTranslation;
         }
 
         void SetUpdateXzTranslation(bool changeUpdateXzTranslation) {
-            viewer.RuntimeBodyOptions.UpdateTranslationLiveXZ = changeUpdateXzTranslation;
+            viewer.RuntimeBodySettings.UpdateTranslationLiveXZ = changeUpdateXzTranslation;
         }
 
         void SetManualPosing(bool manualPosing) {
-            viewer.RuntimeBodyOptions.AllowPoseManipulation = manualPosing;
+            viewer.RuntimeBodySettings.AllowPoseManipulation = manualPosing;
         }
 
         void SetLiveBodyShape(bool liveBodyShape) {
-            viewer.RuntimeBodyOptions.UpdateBodyShapeLive = liveBodyShape;
+            viewer.RuntimeBodySettings.UpdateBodyShapeLive = liveBodyShape;
         }
 
         void SetLivePoseBlendshapes(bool livePoseBlendshapes) {
-            viewer.RuntimeBodyOptions.UpdatePoseBlendshapesLive = livePoseBlendshapes;
+            viewer.RuntimeBodySettings.UpdatePoseBlendshapesLive = livePoseBlendshapes;
         }
 
         void SetLivePoses(bool livePoses) {
-            viewer.RuntimeBodyOptions.UpdatePosesLive = livePoses;
+            viewer.RuntimeBodySettings.UpdatePosesLive = livePoses;
         }
 
         void PointLightDisplayStateChanged(PointLightDisplayState pointLightDisplayState) {
@@ -82,7 +82,7 @@ namespace SMPLModel {
         }
 
         void SetIndividualizedBodyState(bool newState) {
-            viewer.RuntimeBodyOptions.ShowIndividualizedBody = newState;
+            viewer.RuntimeBodySettings.ShowIndividualizedBody = newState;
         }
 
         void SetLoopState(bool state) {
@@ -90,7 +90,7 @@ namespace SMPLModel {
         }
 
         void SetSnapToGround(GroundSnapType snaptype) {
-            viewer.RuntimeBodyOptions.GroundSnap = snaptype;
+            viewer.RuntimeBodySettings.GroundSnap = snaptype;
         }
     }
 }

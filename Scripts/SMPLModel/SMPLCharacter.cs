@@ -13,7 +13,7 @@ namespace SMPLModel {
         ModelDefinition Model { get; }
         CharacterEvents Events { get; }
 
-        BodyOptions RenderOptions { get; }
+        BodySettings RenderSettings { get; }
         DisplaySettings DisplaySettings { get; }
         MeshCorrection MeshCorrection { get; }
         Gender Gender { get; }
@@ -22,7 +22,7 @@ namespace SMPLModel {
             get;
         }
         
-        void StartAnimation(AMASSAnimation amassAnimation, PlaybackSettings playbackSettings, DisplaySettings characterSettings, BodyOptions renderOptions);
+        void StartAnimation(AMASSAnimation amassAnimation, PlaybackSettings playbackSettings, DisplaySettings characterSettings, BodySettings renderSettings);
         void InterruptAnimation();
 
         void SetIndex(int animationIndex);
