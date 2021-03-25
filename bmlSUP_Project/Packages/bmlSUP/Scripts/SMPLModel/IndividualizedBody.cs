@@ -77,7 +77,7 @@ namespace SMPLModel {
             float[] savedBetas = (float[])bodyShapeBetas.Clone();
             
             //if showing averaged body, set betas to zero;
-            if (!smplCharacter.RenderOptions.ShowIndividualizedBody) {
+            if (!smplCharacter.RenderSettings.ShowIndividualizedBody) {
                 bodyShapeBetas = new float[bodyShapeBetas.Length];
             }
 
@@ -93,7 +93,7 @@ namespace SMPLModel {
             lastFrameBetas = (float[]) bodyShapeBetas.Clone();
             
             //restore Betas to actual values saved above;
-            if (!smplCharacter.RenderOptions.ShowIndividualizedBody) {
+            if (!smplCharacter.RenderSettings.ShowIndividualizedBody) {
                 bodyShapeBetas = savedBetas;
             }
            
@@ -218,7 +218,7 @@ namespace SMPLModel {
         }
 
         public void SetDebugBetas() {
-            smplCharacter.RenderOptions.ShowIndividualizedBody = true;
+            smplCharacter.RenderSettings.ShowIndividualizedBody = true;
             Debug.LogWarning("Mode Enabled.");
             float[] debugBetas = new float[16];
             switch (smplCharacter.Gender) {

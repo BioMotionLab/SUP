@@ -14,9 +14,9 @@ namespace Samples.SUPViewer {
 		[SerializeField]
 		Models models = default;
 		
-		[SerializeField]
-		BodyOptions bodyOptions = default;
-		public BodyOptions RuntimeBodyOptions { get; private set; }
+		[FormerlySerializedAs("bodyOptions")] [SerializeField]
+		BodySettings bodySettings = default;
+		public BodySettings RuntimeBodySettings { get; private set; }
 
 		
 		[SerializeField]
@@ -49,7 +49,7 @@ namespace Samples.SUPViewer {
 		bool notYetNotified = true;
 		UserModifiedSettingsHandler userModifiedSettingsHandler;
 	
-		AMASSAnimationPlayer animationPlayer;
+		SUPPlayer animationPlayer;
 
 		
 
@@ -67,7 +67,7 @@ namespace Samples.SUPViewer {
 
 		void Awake() {
 			CacheRuntimeSettings();
-			animationPlayer = new AMASSAnimationPlayer(RuntimePlaybackSettings, RuntimeDisplaySettings, RuntimeBodyOptions);
+			animationPlayer = new SUPPlayer(RuntimePlaybackSettings, RuntimeDisplaySettings, RuntimeBodySettings);
 		}
 		
 		
@@ -89,7 +89,7 @@ namespace Samples.SUPViewer {
 
 
 		void CacheRuntimeSettings() {
-			RuntimeBodyOptions = Instantiate(bodyOptions);
+			RuntimeBodySettings = Instantiate(bodySettings);
 			RuntimeDisplaySettings = Instantiate(displaySettings);
 			RuntimePlaybackSettings = Instantiate(playbackSettings);
 		}
@@ -99,18 +99,18 @@ namespace Samples.SUPViewer {
 		}
 
 		void LoadSamples() {
-			AnimationLoader.LoadFromAnimationListAssetAsync(samplesListAsset, models, playbackSettings, DoneLoading);
+			SUPLoader.LoadFromListAssetAsync(samplesListAsset, models, playbackSettings, DoneLoading);
 		}
 		
 		void LoadAnimations(string listFile, string animationsFolder) {
 			AnimationFileReference fileReference = new AnimationFileReference(listFile, animationsFolder);
-			AnimationLoader.LoadAsync(fileReference, models, RuntimePlaybackSettings, DoneLoading);
+			SUPLoader.LoadAsync(fileReference, models, RuntimePlaybackSettings, DoneLoading);
 		}
 
 		void LoadSingleAnimation(string singlefile) {
 			AnimationFileReference fileReference = new AnimationFileReference(singlefile);
 			
-			AnimationLoader.LoadAsync(fileReference, models, RuntimePlaybackSettings, DoneLoading);
+			SUPLoader.LoadAsync(fileReference, models, RuntimePlaybackSettings, DoneLoading);
 		}
 
 

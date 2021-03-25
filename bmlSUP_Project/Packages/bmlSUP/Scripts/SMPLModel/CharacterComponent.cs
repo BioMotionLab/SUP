@@ -25,9 +25,9 @@ namespace SMPLModel {
         public Gender Gender => gender;
 
         
-        [SerializeField]
-        BodyOptions bodyOptions = default;
-        public BodyOptions RenderOptions => bodyOptions;
+        [FormerlySerializedAs("bodyOptions")] [SerializeField]
+        BodySettings bodySettings = default;
+        public BodySettings RenderSettings => bodySettings;
         
         [FormerlySerializedAs("characterSetings")]
         [FormerlySerializedAs("characterDisplayOptions")] 
@@ -82,8 +82,8 @@ namespace SMPLModel {
         /// <summary>
         /// Sets up and plays a mosh animation.
         /// </summary>
-        public void StartAnimation(AMASSAnimation animationToStart, PlaybackSettings playbackSettings, DisplaySettings characterSettings, BodyOptions renderOptions) {
-            bodyOptions = renderOptions;
+        public void StartAnimation(AMASSAnimation animationToStart, PlaybackSettings playbackSettings, DisplaySettings characterSettings, BodySettings renderSettings) {
+            bodySettings = renderSettings;
             displaySetings = characterSettings;
             amassAnimation = animationToStart;
             if (model.RotateToUnityCoords) RotateToUnityCoordinates();

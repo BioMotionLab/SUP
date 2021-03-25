@@ -49,7 +49,7 @@ namespace SMPLModel {
             if (firstFrame) ConfigureFirstFrame();
             
 
-            if (!smplCharacter.RenderOptions.UpdatePosesLive) UpdateFootOffset();
+            if (!smplCharacter.RenderSettings.UpdatePosesLive) UpdateFootOffset();
             else if (!firstFrame && bodyChanged) UpdateFootOffset();
         }
 
@@ -93,7 +93,7 @@ namespace SMPLModel {
 
         void UpdateTranslation() {
             if (smplCharacter == null) return;
-            if(smplCharacter.RenderOptions.AllowPoseManipulation) return;
+            if(smplCharacter.RenderSettings.AllowPoseManipulation) return;
             
             Vector3 finalTrans = Vector3.zero;
 
@@ -110,7 +110,7 @@ namespace SMPLModel {
         
         Vector3 UpdateVerticalTranslation(Vector3 finalTrans) {
             //height needs to be dealt with separately because of ground-snapping
-            if (smplCharacter.RenderOptions.UpdateTranslationLiveY && smplCharacter.RenderOptions.UpdatePosesLive)
+            if (smplCharacter.RenderSettings.UpdateTranslationLiveY && smplCharacter.RenderSettings.UpdatePosesLive)
                 finalTrans.y = currentTranslation.y;
             else
                 finalTrans.y = firstFrameTranslation.y;
@@ -120,10 +120,10 @@ namespace SMPLModel {
         }
 
         Vector3 UpdateHorizontalTranslation(Vector3 finalTrans) {
-            if (smplCharacter.RenderOptions.UpdatePosesLive) {
+            if (smplCharacter.RenderSettings.UpdatePosesLive) {
                 //Horizontal plane simple enough
-                finalTrans.x = smplCharacter.RenderOptions.UpdateTranslationLiveXZ ? currentTranslation.x : firstFrameTranslation.x;
-                finalTrans.z = smplCharacter.RenderOptions.UpdateTranslationLiveXZ ? currentTranslation.z : firstFrameTranslation.z;
+                finalTrans.x = smplCharacter.RenderSettings.UpdateTranslationLiveXZ ? currentTranslation.x : firstFrameTranslation.x;
+                finalTrans.z = smplCharacter.RenderSettings.UpdateTranslationLiveXZ ? currentTranslation.z : firstFrameTranslation.z;
             }
 
             return finalTrans;

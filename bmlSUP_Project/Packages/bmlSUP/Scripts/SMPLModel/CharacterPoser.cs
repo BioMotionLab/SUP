@@ -34,20 +34,20 @@ namespace SMPLModel {
 
         void Update() {
             if (smplCharacter == null) return;
-            if (smplCharacter.RenderOptions.UpdateBodyShapeLive) {
+            if (smplCharacter.RenderSettings.UpdateBodyShapeLive) {
                 ResetToTPose();
                 smplCharacter.Body.UpdateBody();
             }
             
-            if (smplCharacter.RenderOptions.AllowPoseManipulation) {
+            if (smplCharacter.RenderSettings.AllowPoseManipulation) {
                 poses = GatherPosesFromBones();
                 UpdatePoses();
             }
-            else if (smplCharacter.RenderOptions.UpdatePosesLive) UpdatePoses();
+            else if (smplCharacter.RenderSettings.UpdatePosesLive) UpdatePoses();
             else ResetPoses();
             
 
-            if (smplCharacter.RenderOptions.UpdatePoseBlendshapesLive) AddPoseDependentBlendShapes(poses);
+            if (smplCharacter.RenderSettings.UpdatePoseBlendshapesLive) AddPoseDependentBlendShapes(poses);
             else ResetPoseDependentBlendShapesToZero();
 
         }
