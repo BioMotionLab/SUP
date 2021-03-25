@@ -1,31 +1,24 @@
 using System;
-using System.IO;
+using System.Threading.Tasks;
 using SMPLModel;
 
 namespace FileLoaders {
     public abstract class AnimationLoadStrategy {
-        
-        protected readonly AnimationData animationData;
-        protected string filePath;
-        public AnimationData Data => animationData;
-
+       
+        AnimationData animationData;
         readonly Models possibleModels;
         
-        protected AnimationLoadStrategy(string filePath, Models possibleModels) {
-            this.filePath = filePath;
+        protected AnimationLoadStrategy( Models possibleModels) {
+            
+            if (possibleModels == null) throw new NullReferenceException("No Models specified");
             this.possibleModels = possibleModels;
-             
-            
-            CheckSetupErrors();
-            
-            animationData = new AnimationData();
-            Init();
         }
 
-        void Init() {
-            LoadData();
+        public async Task<AnimationData> LoadData() {
+            animationData = await LoadDataWithStrategy();
             FindCorrectModel();
             FormatData();
+            return animationData;
         }
 
         void FindCorrectModel() {
@@ -40,42 +33,16 @@ namespace FileLoaders {
                 throw new NullReferenceException("Could not match animation to a model");
             
             if (animationData.Model.ModelName == "SMPL") 
-                throw new DataReadException("Loaded data appears to be from older SMPL. SMPL is currently untested, so I disabled it. If you need this functionality contact me and I can get it working -Adam");
+                throw new DataReadException("Loaded data appears to be from older SMPL model. supporting SMPL was taking up a lot of development time, " +
+                                            "so I disabled it. If you need this functionality, please contact me and I can get it working -Adam");
         }
 
-        protected abstract void LoadData();
+        protected abstract Task<AnimationData> LoadDataWithStrategy();
 
         protected abstract bool IsMatchingModel(ModelDefinition model);
 
         protected abstract void FormatData();
-
-
-        void CheckSetupErrors() {
-            if (possibleModels == null) throw new NullReferenceException("No Models specified");
-            this.filePath =
-                filePath ?? throw new NullReferenceException("Tried to instantiate Animation JSON with null TextAsset");
-            if (!File.Exists(filePath)) throw new FileMissingFromFolderException($"No File at {filePath}");
-        }
-
-        public class FileMissingFromFolderException : Exception {
-
-            public FileMissingFromFolderException() {
-            }
-
-            public FileMissingFromFolderException(string e) : base(e) {
-            }
-
-        }
-
-        public class UnsupportedFileTypeException : Exception {
-
-            public UnsupportedFileTypeException() {
-            }
-
-            public UnsupportedFileTypeException(string e) : base(e) {
-            }
-
-        }
+        
 
         public class DataReadException : Exception {
 

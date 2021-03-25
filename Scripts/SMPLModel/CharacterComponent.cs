@@ -25,9 +25,9 @@ namespace SMPLModel {
         public Gender Gender => gender;
 
         
-        [SerializeField]
-        BodyOptions bodyOptions = default;
-        public BodyOptions RenderOptions => bodyOptions;
+        [FormerlySerializedAs("bodyOptions")] [SerializeField]
+        BodySettings bodySettings = default;
+        public BodySettings RenderSettings => bodySettings;
         
         [FormerlySerializedAs("characterSetings")]
         [FormerlySerializedAs("characterDisplayOptions")] 
@@ -52,6 +52,7 @@ namespace SMPLModel {
 
         CharacterEvents events;
         int animationIndex;
+        Transform origin;
         public CharacterEvents Events => events ?? (events = new CharacterEvents());
 
         void OnEnable() {
@@ -66,6 +67,7 @@ namespace SMPLModel {
 
         void OnDestroy() {
             skinnedMeshRenderer.sharedMesh = originalMesh;
+            if (this.transform.parent != null) Destroy(transform.parent.gameObject);
             //Debug.Log("Resetting mesh to previous state on destroy");
         }
 
@@ -80,8 +82,8 @@ namespace SMPLModel {
         /// <summary>
         /// Sets up and plays a mosh animation.
         /// </summary>
-        public void StartAnimation(AMASSAnimation animationToStart, PlaybackSettings playbackSettings, DisplaySettings characterSettings, BodyOptions renderOptions) {
-            bodyOptions = renderOptions;
+        public void StartAnimation(AMASSAnimation animationToStart, PlaybackSettings playbackSettings, DisplaySettings characterSettings, BodySettings renderSettings) {
+            bodySettings = renderSettings;
             displaySetings = characterSettings;
             amassAnimation = animationToStart;
             if (model.RotateToUnityCoords) RotateToUnityCoordinates();
@@ -114,6 +116,14 @@ namespace SMPLModel {
             }
             
             amassAnimation.PlayCurrentFrame();
+            
+            
+            
+            
+        }
+
+        void LateUpdate() {
+            
         }
 
         void StopAnimation() {
@@ -132,6 +142,16 @@ namespace SMPLModel {
 
         public void SetIndex(int animationIndex) {
             this.animationIndex = animationIndex;
+        }
+
+        public void SetOrigin(Transform newOrigin) {
+            origin = newOrigin;
+            if (origin != null) {
+                this.transform.parent.SetParent(newOrigin);
+                this.transform.parent.localPosition = Vector3.zero;
+                this.transform.parent.localRotation = Quaternion.identity;
+
+            }
         }
 
         void SetMaterialFromIndex(MeshDisplaySettings displayOptions) {

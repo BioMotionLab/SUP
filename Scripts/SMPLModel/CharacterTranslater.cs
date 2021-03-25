@@ -1,5 +1,6 @@
 using System;
 using Playback;
+using Settings;
 using UnityEngine;
 
 namespace SMPLModel {
@@ -9,6 +10,7 @@ namespace SMPLModel {
         Vector3 firstFrameTranslation;
         
         [SerializeField] Grounder grounder;
+        [SerializeField] Transform rigTransform = default;
         
         SMPLCharacter       smplCharacter;
         SkinnedMeshRenderer skinnedMeshRenderer;
@@ -39,15 +41,32 @@ namespace SMPLModel {
         }
 
         void Update() {
+            
+            DealWithRotationOfParentSoThisRotationIsUnchanged();
+
             UpdateTranslation();
             
             if (firstFrame) ConfigureFirstFrame();
             
 
-            if (!smplCharacter.RenderOptions.UpdatePosesLive) UpdateFootOffset();
+            if (!smplCharacter.RenderSettings.UpdatePosesLive) UpdateFootOffset();
             else if (!firstFrame && bodyChanged) UpdateFootOffset();
         }
-        
+
+        /// <summary>
+        /// This function takes the parent rotation and makes it bypass this object, passing the rotation on to the bone rig only.
+        ///
+        /// This is so the SkinnedMeshRenderer doesn't get rotated, since we're rendering the vertexes relative to identity rotation.
+        /// Therefore, the vertex locations will be correctly unrotated, but then will rotate themselves to match the bones they're associated with when needed.
+        /// 
+        /// Therefore, we take the rotation that it *SHOULD* have, and apply it to the rig itself, so it only affects local positions of bones.
+        /// </summary>
+        void DealWithRotationOfParentSoThisRotationIsUnchanged() {
+            Transform thisTransformCached = this.transform;
+            thisTransformCached.rotation = Quaternion.identity;
+            rigTransform.rotation = thisTransformCached.parent.rotation;
+        }
+
         void ConfigureFirstFrame() {
             firstFrameTranslation = currentTranslation;
             grounder.InitGround();
@@ -73,8 +92,8 @@ namespace SMPLModel {
         }
 
         void UpdateTranslation() {
-            
-            if(smplCharacter.RenderOptions.AllowPoseManipulation) return;
+            if (smplCharacter == null) return;
+            if(smplCharacter.RenderSettings.AllowPoseManipulation) return;
             
             Vector3 finalTrans = Vector3.zero;
 
@@ -91,7 +110,7 @@ namespace SMPLModel {
         
         Vector3 UpdateVerticalTranslation(Vector3 finalTrans) {
             //height needs to be dealt with separately because of ground-snapping
-            if (smplCharacter.RenderOptions.UpdateTranslationLiveY && smplCharacter.RenderOptions.UpdatePosesLive)
+            if (smplCharacter.RenderSettings.UpdateTranslationLiveY && smplCharacter.RenderSettings.UpdatePosesLive)
                 finalTrans.y = currentTranslation.y;
             else
                 finalTrans.y = firstFrameTranslation.y;
@@ -101,10 +120,10 @@ namespace SMPLModel {
         }
 
         Vector3 UpdateHorizontalTranslation(Vector3 finalTrans) {
-            if (smplCharacter.RenderOptions.UpdatePosesLive) {
+            if (smplCharacter.RenderSettings.UpdatePosesLive) {
                 //Horizontal plane simple enough
-                finalTrans.x = smplCharacter.RenderOptions.UpdateTranslationLiveXZ ? currentTranslation.x : firstFrameTranslation.x;
-                finalTrans.z = smplCharacter.RenderOptions.UpdateTranslationLiveXZ ? currentTranslation.z : firstFrameTranslation.z;
+                finalTrans.x = smplCharacter.RenderSettings.UpdateTranslationLiveXZ ? currentTranslation.x : firstFrameTranslation.x;
+                finalTrans.z = smplCharacter.RenderSettings.UpdateTranslationLiveXZ ? currentTranslation.z : firstFrameTranslation.z;
             }
 
             return finalTrans;

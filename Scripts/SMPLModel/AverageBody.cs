@@ -60,9 +60,11 @@ namespace SMPLModel {
             skinnedMeshRenderer.sharedMesh.vertices = restoredVerticies;
         }
          
-        void RestoreBones()
-        {
-            Bones.ResetBonesDownwardsThroughHierarchy(skinnedMeshRenderer.bones[model.PelvisIndex], 
+        void RestoreBones() {
+            Transform pelvis = skinnedMeshRenderer.bones[model.PelvisIndex];
+            Vector3 pelvisNewPosition =
+                skinnedMeshRenderer.transform.TransformPoint(originalBonePositions[model.PelvisIndex]);
+            Bones.ResetBonesDownwardsThroughHierarchy(pelvis, pelvisNewPosition,
                                                        skinnedMeshRenderer.transform, 
                                                        originalBonePositions);
         }

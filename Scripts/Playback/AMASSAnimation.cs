@@ -1,4 +1,5 @@
 ﻿using System;
+using Settings;
 using SMPLModel;
 using UnityEngine;
 

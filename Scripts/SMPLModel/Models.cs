@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 
 namespace SMPLModel {
-    [CreateAssetMenu]
+    
     public class Models : ScriptableObject {
         
         [FormerlySerializedAs("ModelParameters")]

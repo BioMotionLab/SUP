@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Display;
+using FileLoaders;
 using Playback;
 using Settings;
 using SMPLModel;
@@ -12,12 +14,12 @@ namespace Samples.SUPViewer {
 		[SerializeField]
 		Models models = default;
 		
-		[SerializeField]
-		BodyOptions bodyOptions = default;
-		public BodyOptions RuntimeBodyOptions { get; private set; }
+		[FormerlySerializedAs("bodyOptions")] [SerializeField]
+		BodySettings bodySettings = default;
+		public BodySettings RuntimeBodySettings { get; private set; }
 
 		
-		[FormerlySerializedAs("characterSettings")] [SerializeField]
+		[SerializeField]
 		DisplaySettings displaySettings = default;
 		public DisplaySettings RuntimeDisplaySettings { get; private set; } 
 
@@ -27,18 +29,29 @@ namespace Samples.SUPViewer {
 		PlaybackSettings playbackSettings = default;
 		public PlaybackSettings RuntimePlaybackSettings { get; private set; }
 		
-		AnimationLoader loader;
+		
+		[SerializeField] AnimationListAsset samplesListAsset = default;
+
 		bool doneLoading = false;
 		
 		List<List<AMASSAnimation>> animationSequence;
-		public bool AllAnimsComplete => currentAnimationIndex >= animationSequence.Count;
+
+		bool AllAnimsComplete {
+			get {
+				if (animationSequence == null) return false;
+				return currentAnimationIndex >= animationSequence.Count;
+			}
+		}
+
 		int currentAnimationIndex = 0;
 		
 		bool started = false;
 		bool notYetNotified = true;
 		UserModifiedSettingsHandler userModifiedSettingsHandler;
 	
-		AMASSAnimationPlayer animationPlayer;
+		SUPPlayer animationPlayer;
+
+		
 
 		void OnEnable() {
 			PlaybackEventSystem.OnNextAnimation += GoToNextAnimation;
@@ -46,6 +59,7 @@ namespace Samples.SUPViewer {
 			PlaybackEventSystem.OnRestartAnimations += RestartAnimations;
 			PlaybackEventSystem.OnLoadAnimations += LoadAnimations;
 			PlaybackEventSystem.OnLoadSingleAnimation += LoadSingleAnimation;
+			PlaybackEventSystem.OnLoadSamples += LoadSamples;
 			PlaybackEventSystem.OnLoadNewAnimations += LoadNewAnimations;
 			
 			userModifiedSettingsHandler = new UserModifiedSettingsHandler(this);
@@ -53,7 +67,7 @@ namespace Samples.SUPViewer {
 
 		void Awake() {
 			CacheRuntimeSettings();
-			animationPlayer = new AMASSAnimationPlayer(RuntimePlaybackSettings, RuntimeDisplaySettings, RuntimeBodyOptions);
+			animationPlayer = new SUPPlayer(RuntimePlaybackSettings, RuntimeDisplaySettings, RuntimeBodySettings);
 		}
 		
 		
@@ -63,41 +77,47 @@ namespace Samples.SUPViewer {
 			PlaybackEventSystem.OnRestartAnimations -= RestartAnimations;
 			PlaybackEventSystem.OnLoadAnimations -= LoadAnimations;
 			PlaybackEventSystem.OnLoadSingleAnimation -= LoadSingleAnimation;
+			PlaybackEventSystem.OnLoadSamples -= LoadSamples;
 			PlaybackEventSystem.OnLoadNewAnimations -= LoadNewAnimations;
+			
+			
 			
 			userModifiedSettingsHandler.Destroy();
 		}
 
+		
+
 
 		void CacheRuntimeSettings() {
-			RuntimeBodyOptions = Instantiate(bodyOptions);
+			RuntimeBodySettings = Instantiate(bodySettings);
 			RuntimeDisplaySettings = Instantiate(displaySettings);
 			RuntimePlaybackSettings = Instantiate(playbackSettings);
 		}
 
 		void LoadNewAnimations() {
 			currentAnimationIndex = 0;
-			loader = null;
 		}
 
+		void LoadSamples() {
+			SUPLoader.LoadFromListAssetAsync(samplesListAsset, models, playbackSettings, DoneLoading);
+		}
+		
 		void LoadAnimations(string listFile, string animationsFolder) {
-			loader = gameObject.AddComponent<AnimationLoader>();
-			AnimationFileReference fileReference = new AnimationFileReference(listFile, animationsFolder);
-			loader.LoadAsync(fileReference, models, RuntimePlaybackSettings, DoneLoading);
+			AnimationFileReference fileReference = new AnimationFileReference(animationsFolder, listFile);
+			SUPLoader.LoadAsync(fileReference, models, RuntimePlaybackSettings, DoneLoading);
 		}
 
 		void LoadSingleAnimation(string singlefile) {
-			loader = gameObject.AddComponent<AnimationLoader>();
 			AnimationFileReference fileReference = new AnimationFileReference(singlefile);
 			
-			loader.LoadAsync(fileReference, models, RuntimePlaybackSettings, DoneLoading);
+			SUPLoader.LoadAsync(fileReference, models, RuntimePlaybackSettings, DoneLoading);
 		}
 
 
 		void DoneLoading(List<List<AMASSAnimation>> loadedAnimationSequence) {
 			animationSequence = loadedAnimationSequence;
+			if (animationSequence == null) return;
 			doneLoading = true;
-			Destroy(loader);
 			if (RuntimePlaybackSettings.OffsetMultipleAnimations) {
 				Debug.LogWarning("Warning, you have selected to offset multiple animations from each other! This could cause unwanted results.", this);;
 			}
@@ -125,22 +145,22 @@ namespace Samples.SUPViewer {
 		}
 
 		/// <summary>
-		/// Play the animation for characters at specified position in sequence of files.
+		/// Play the samplesListAsset for characters at specified position in sequence of files.
 		/// </summary>
 		void StartCurrentAnimationSet() {
 			List<AMASSAnimation> animationSet = animationSequence[currentAnimationIndex];
 			PlaybackEventSystem.PlayingNewAnimationSet(animationSet);
 
-			string updateMessage = $"\tPlaying animation set {currentAnimationIndex+1} of {animationSequence.Count}. " +
-			                       $"({animationSet.Count} chars)";
-			Debug.Log(updateMessage);
+			string updateMessage = $"Playing set {currentAnimationIndex+1} of {animationSequence.Count} from {samplesListAsset.name}. " +
+			                       $"( {animationSet.Count.Pluralize("animation", "animations")} in set)";
+			Debug.Log(Format.Log(updateMessage));
 			PlaybackEventSystem.UpdatePlayerProgress(updateMessage);
-			animationPlayer.PlaySet(animationSet);
+			animationPlayer.Play(animationSet);
 		}
 
 
 		public void StartPlayingAnimations() {
-			StartCurrentAnimationSet(); //play the first animation!
+			StartCurrentAnimationSet(); //play the first samplesListAsset!
 		}
 		
 		void GoToNextAnimation() {
@@ -154,7 +174,7 @@ namespace Samples.SUPViewer {
 				currentAnimationIndex++;
 				if (AllAnimsComplete) {
 					string updateMessage = "All Animations Complete";
-					Debug.Log(updateMessage);
+					Debug.Log(Format.Log(updateMessage));
 					PlaybackEventSystem.UpdatePlayerProgress(updateMessage);
 					return;
 				}
@@ -187,6 +207,13 @@ namespace Samples.SUPViewer {
 				animationPlayer.StopCurrentAnimations();
 				StartCurrentAnimationSet();
 			}
+		}
+	}
+
+	public static class StringExtensions {
+		public static string Pluralize(this int number, string singular, string plural) {
+			string word = Math.Abs(number) <= 1 ? singular : plural;
+			return $"{number} {word}";
 		}
 	}
 }

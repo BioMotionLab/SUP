@@ -1,11 +1,6 @@
 using System;
 
-#if UNITY_STANDALONE_LINUX
-using SFB;
-#endif
-
-
-namespace ThirdParty.StandaloneFileBrowser {
+namespace SFB {
     public struct ExtensionFilter {
         public string Name;
         public string[] Extensions;
