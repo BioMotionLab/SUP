@@ -1,0 +1,45 @@
+{
+  "Documentation": {
+    "Getting Started": [
+      "GettingStarted",
+      "Installation",
+      "Publication",
+      "Overview"
+    ],
+    "Tutorials": [
+      {
+
+      }
+    ],
+    "Documentation": [
+      "documentation/Converting",
+      "documentation/playbackmodes",
+      {
+        "type": "subcategory",
+        "label": "GUI Viewer",
+        "ids": [
+          "documentation/gui/guiloading",
+          "documentation/gui/interface"
+        ]
+      },
+      {
+        "type": "subcategory",
+        "label": "C# Scripting API",
+        "ids": [
+          "documentation/api/apiloading",
+          "documentation/api/apiplayback"
+        ]
+      },
+      "documentation/customsettings"
+    ],
+    "Help": [
+      "Troubleshooting"
+    ],
+    "Advanced": [
+
+    ]
+  },
+  "docs-other": {
+    "Advanced": []
+  }
+}

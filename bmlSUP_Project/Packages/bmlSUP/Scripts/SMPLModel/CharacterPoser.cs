@@ -33,20 +33,21 @@ namespace SMPLModel {
         }
 
         void Update() {
-            if (smplCharacter.RenderOptions.UpdateBodyShapeLive) {
+            if (smplCharacter == null) return;
+            if (smplCharacter.RenderSettings.UpdateBodyShapeLive) {
                 ResetToTPose();
                 smplCharacter.Body.UpdateBody();
             }
             
-            if (smplCharacter.RenderOptions.AllowPoseManipulation) {
+            if (smplCharacter.RenderSettings.AllowPoseManipulation) {
                 poses = GatherPosesFromBones();
                 UpdatePoses();
             }
-            else if (smplCharacter.RenderOptions.UpdatePosesLive) UpdatePoses();
+            else if (smplCharacter.RenderSettings.UpdatePosesLive) UpdatePoses();
             else ResetPoses();
             
 
-            if (smplCharacter.RenderOptions.UpdatePoseBlendshapesLive) AddPoseDependentBlendShapes(poses);
+            if (smplCharacter.RenderSettings.UpdatePoseBlendshapesLive) AddPoseDependentBlendShapes(poses);
             else ResetPoseDependentBlendShapesToZero();
 
         }
@@ -87,7 +88,7 @@ namespace SMPLModel {
                     }
                     
                     int poseIndex = Bones.NameToJointIndex[boneName];
-                    bones[boneIndex].localRotation = bones[boneIndex].localRotation * poses[poseIndex];
+                    bones[boneIndex].localRotation =  bones[boneIndex].localRotation *  poses[poseIndex];
                     
                 }
                 catch (KeyNotFoundException) {
@@ -105,7 +106,7 @@ namespace SMPLModel {
 
         void ResetPoses() {
             foreach (Transform bone in bones) {
-                bone.rotation = Quaternion.identity;
+                bone.localRotation = Quaternion.identity;
             }
         }
         

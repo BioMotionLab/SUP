@@ -8,7 +8,7 @@ using UnityEngine.Serialization;
 
 namespace SMPLModel {
     
-    [CreateAssetMenu]
+    
     public class ModelDefinition : ScriptableObject {
 
         [SerializeField]
@@ -21,22 +21,16 @@ namespace SMPLModel {
         int jointCount = default;
 
         [SerializeField]
-        int poseDependentBlendshapeCount = default;
-
-        [SerializeField]
         JSONModelKeys jsonKeys = new JSONModelKeys();
 
-        [SerializeField]
-        H5ModelKeys h5Keys = new H5ModelKeys();
+        [SerializeField] 
+        GameObject MaleCharacterPrefab = default;
         
         [SerializeField] 
-        CharacterComponent MaleCharacterPrefab = default;
-        
-        [SerializeField] 
-        CharacterComponent FemaleCharacterPrefab = default;
+        GameObject FemaleCharacterPrefab = default;
 
         
-        SMPLCharacter GetCharacterPrefab(Gender gender) {
+        GameObject GetCharacterPrefab(Gender gender) {
             switch (gender) {
                 case Gender.Female: 
                     return FemaleCharacterPrefab;
@@ -51,10 +45,8 @@ namespace SMPLModel {
       
         public int   BodyShapeBetaCount           => bodyShapeBetaCount;
         public int   JointCount                   => jointCount;
-        public int   PoseDependentBlendshapeCount => poseDependentBlendshapeCount;
 
         public JSONModelKeys JsonKeys => jsonKeys;
-        public H5ModelKeys H5Keys => h5Keys;
         public bool RotateToUnityCoords = false;
 
         public int PelvisIndex = 0;
@@ -62,15 +54,17 @@ namespace SMPLModel {
         public SMPLCharacter CreateCharacter(AMASSAnimation amassAnimation, int characterIndex) {
             Gender gender = amassAnimation.Data.Gender;
             
-            SMPLCharacter genderedPrefab = GetCharacterPrefab(gender);
+            GameObject genderedPrefab = GetCharacterPrefab(gender);
             if (genderedPrefab == null) throw new NullReferenceException("Gender Prefab is null");
-            
-            GameObject newCharacter = Instantiate(genderedPrefab.gameObject);
-     
-            newCharacter.name = $"{gender} Character {characterIndex}";
 
-            SMPLCharacter newSMPLCharacter = newCharacter.GetComponent<SMPLCharacter>();
+            GameObject newCharacter;
+           
+            newCharacter = Instantiate(genderedPrefab.gameObject);
+            newCharacter.name = $"SMPL Char {amassAnimation.AnimationName} ({gender})";
+
+            SMPLCharacter newSMPLCharacter = newCharacter.GetComponentInChildren<SMPLCharacter>();
             newSMPLCharacter.SetIndex(characterIndex);
+            
             
             return newSMPLCharacter;
         }

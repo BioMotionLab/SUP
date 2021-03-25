@@ -15,7 +15,8 @@ namespace InGameUI.AnimationReviewer {
         public List<AMASSAnimation> CurrentAnims => currentAnims;
     
         public string ReviewFilePath => reviewFilePath;
-    
+
+        bool keyboardEnabled = true;
 
         void OnEnable() {
             PlaybackEventSystem.OnPlayingNewAnimationSet += AnimationSetChanged;
@@ -29,6 +30,16 @@ namespace InGameUI.AnimationReviewer {
             currentAnims = animations;
         }
 
+        public void ToggleKeyboardState() {
+            keyboardEnabled = !keyboardEnabled;
+
+            if (keyboardEnabled) {
+                KeyboardControlEvents.EnableKeyboardControls();
+            }
+            else {
+                KeyboardControlEvents.DisableKeyboardControls();
+            }
+        }
     
         public void FileSelected(string[] files) {
             if (files.Length == 0) return;

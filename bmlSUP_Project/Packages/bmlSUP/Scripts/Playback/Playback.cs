@@ -1,3 +1,4 @@
+using Settings;
 using SMPLModel;
 using UnityEngine;
 

@@ -249,13 +249,13 @@ namespace SMPLModel {
         /// position will then move the child away from desired location. This function traverses through
         /// a hierarchy to ensure this never happens.
         /// </summary>>
-        public static void SetPositionDownwardsThroughHierarchy(Transform parentBone, Transform rootCoordinateTransform,
+        public static void SetPositionDownwardsThroughHierarchy(Transform thisBone, Vector3 pelvisNewPosition, Transform rootCoordinateTransform,
                                                                 Vector3[] jointPositions) {
-            string boneName = parentBone.name;
+            string boneName = thisBone.name;
             if (NameToJointIndex.TryGetValue(boneName, out int boneJointIndex)) {
-                parentBone.position = rootCoordinateTransform.TransformPoint(jointPositions[boneJointIndex]);
-                foreach (Transform child in parentBone) {
-                    SetPositionDownwardsThroughHierarchy(child, rootCoordinateTransform, jointPositions);
+                thisBone.position = rootCoordinateTransform.TransformPoint(jointPositions[boneJointIndex]);
+                foreach (Transform child in thisBone) {
+                    SetPositionDownwardsThroughHierarchy(child, pelvisNewPosition, rootCoordinateTransform, jointPositions);
                 }
             }
         }
@@ -266,14 +266,14 @@ namespace SMPLModel {
         /// position will then move the child away from desired location. This function traverses through
         /// a hierarchy to ensure this never happens. 
         /// </summary>
-        public static void ResetBonesDownwardsThroughHierarchy(Transform parentBone, Transform rootCoordinateTransform,
+        public static void ResetBonesDownwardsThroughHierarchy(Transform parentBone, Vector3 pelvisNewPosition, Transform rootCoordinateTransform,
                                                                Vector3[] originalPositions) {
             string boneName = parentBone.name;
             if (NameToJointIndex.TryGetValue(boneName, out int boneJointIndex)) {
                 parentBone.position = rootCoordinateTransform.TransformPoint(originalPositions[boneJointIndex]);
                 parentBone.rotation = Quaternion.identity;
                 foreach (Transform child in parentBone) {
-                    SetPositionDownwardsThroughHierarchy(child, rootCoordinateTransform, originalPositions);
+                    SetPositionDownwardsThroughHierarchy(child, pelvisNewPosition, rootCoordinateTransform, originalPositions);
                 }
             }
         }

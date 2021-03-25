@@ -64,7 +64,7 @@ namespace SMPLModel {
             
             float appliedOffset = 0;
             
-            switch (smplCharacter.RenderOptions.GroundSnap) {
+            switch (smplCharacter.RenderSettings.GroundSnap) {
                 case GroundSnapType.None:
                     break;
                 case GroundSnapType.Common:
