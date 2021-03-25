@@ -28,7 +28,7 @@ Animation files can be loaded individually or in batch as a folder with subfolde
 
 ### Playback
 
-There are two ways to play animations. Via a graphical user interface (GUI), or via scripting using a simple c# API.
+There are two ways to play animations. Via a [graphical user interface (GUI)](documentation/gui/guiloading.md), or via scripting using a [simple c# API](documentation/api/apiloading.md).
 
 #### GUI
 
@@ -52,6 +52,8 @@ The interface includes the following controls:
     * Save ```.txt ``` notes about animations while viewing them.
     * Useful for annotating large sets of animations.
 * Many more advance customizations
+
+Learn more [Here](documentation/gui/guiloading.md).
 
 #### C# API
 
@@ -82,6 +84,8 @@ public class AnimationManager : MonoBehaviour {
 
 }
 ```
+
+Learn more [here](documentation/api/apiloading.md).
 
 ## Acknowledgements
 We wish to thank Nima Ghorbani and Naureen Mahmood for their useful comments and providing an early prototype of the Unity Player and the basis for the skinned meshes. This work was supported by CFREF VISTA funding.

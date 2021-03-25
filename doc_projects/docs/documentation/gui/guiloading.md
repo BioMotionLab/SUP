@@ -3,6 +3,16 @@ id: guiloading
 title: Loading using the GUI
 ---
 
+## Open GUI Viewer Sample
+
+To access the GUI Scene, you need to install the sample scene into your project. Go to the Package manager, choose bmlSUP, then click the Samples dropdown, and import the GUI Viewer scene.
+
+![gui sample](../../assets/samples.png)
+
+This will create a new folder in your assets folder with the sample scene in it. Double click the scene to open it.
+
+## Loading WIndow
+
 When running the GUI Viewer Scene, you are immediately presented with a loading window.
 
 ![Loading screen](../../assets/gui/loadingscreen.png)
