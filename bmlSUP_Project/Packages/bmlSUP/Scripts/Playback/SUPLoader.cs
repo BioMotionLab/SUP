@@ -16,7 +16,7 @@ namespace Playback {
            
             string updateMessage = $"Loading {animationsFileReference.Count} animations from files. If there are a lot, this could take a few seconds...";
             Debug.Log(updateMessage);
-            PlaybackEventSystem.UpdatePlayerProgress(updateMessage);
+            //PlaybackEventSystem.UpdatePlayerProgress(updateMessage);
 
             List<List<AMASSAnimation>> loadedSequence = await LoadAnimationsAsync(animationsFileReference, models, playbackSettings);
             
@@ -49,7 +49,7 @@ namespace Playback {
 
 
                 Debug.Log(Format.Log(loadLog));
-                PlaybackEventSystem.UpdatePlayerProgress(loadLog);
+                //PlaybackEventSystem.UpdatePlayerProgress(loadLog);
             }
 
             doneLoading.Invoke(loadedSamples);
@@ -82,11 +82,11 @@ namespace Playback {
 
                 string finalLog = $"\t...{log}";
                 Debug.Log(Format.Log(finalLog));
-                PlaybackEventSystem.UpdatePlayerProgress(log.ToString());
+                //PlaybackEventSystem.UpdatePlayerProgress(log.ToString());
             }
 
             string updateMessage = $"Done Loading All Animations. Successfully loaded {animationSequence.Count} of {animationsFileReference.AnimListAsStrings.Length}.";
-            PlaybackEventSystem.UpdatePlayerProgress(updateMessage);
+            //PlaybackEventSystem.UpdatePlayerProgress(updateMessage);
             Debug.Log(Format.Log(updateMessage));
             return (animationSequence);
             
