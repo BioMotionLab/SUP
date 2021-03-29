@@ -1,3 +1,10 @@
+## [1.1.2](https://github.com/BioMotionLab/SUP/compare/release/1.1.1...release/1.1.2) (2021-03-29)
+
+
+### Bug Fixes
+
+* null ref when not using GUI and trying to update progress ([c4cd0d0](https://github.com/BioMotionLab/SUP/commit/c4cd0d0fc00c45c0350be38928d207d4d3b7d8bd))
+
 ## [1.1.1](https://github.com/BioMotionLab/SUP/compare/release/1.1.0...release/1.1.1) (2021-03-25)
 
 
