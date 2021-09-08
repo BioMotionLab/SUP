@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/BioMotionLab/SUP/compare/release/1.1.2...release/1.2.0) (2021-09-08)
+
+
+### Features
+
+* Prep for standalone notarized build ([1d0a1f1](https://github.com/BioMotionLab/SUP/commit/1d0a1f11d0e1157b75e0a01a007951cd6346e644))
+
 ## [1.1.2](https://github.com/BioMotionLab/SUP/compare/release/1.1.1...release/1.1.2) (2021-03-29)
 
 
